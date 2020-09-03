@@ -9,8 +9,11 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:alpha="0.7"
+        android:contentDescription="TODO"
         android:src="@drawable/bg"
-        android:alpha="0.7"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/start"
@@ -20,12 +23,10 @@
         android:layout_marginTop="532dp"
         android:background="#FFFFFF"
         android:gravity="center"
-        android:text="GET STARTED"
+        android:text="@string/get_started"
         android:textColor="#F6395C"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
