@@ -2,20 +2,31 @@ package com.example.bucketlist;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class loginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button loginButton;
-    EditText emailEditText;
-    EditText passwordEditText;
-    RelativeLayout loginLayout;
+    private static final String TAG = "LOGIN ACTIVITY";
+    private Button loginButton;
+    private EditText emailEditText;
+    private EditText passwordEditText;
+    private RelativeLayout loginLayout;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +43,8 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initializeUi() {
+
+        mAuth = FirebaseAuth.getInstance();
 
         emailEditText = findViewById(R.id.email_text_iew);
         passwordEditText = findViewById(R.id.password_text_view);
@@ -52,6 +65,33 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
         } else {
             String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
+
+            mAuth.createUserWithEmailAndPassword(email,password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()){
+                                Log.d(TAG, "onComplete: ");
+                                Toast.makeText(loginActivity.this, "Successful", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(loginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mAuth != null) {
+            mUser = mAuth.getCurrentUser();
+        }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        mAuth.signOut();
     }
 }
