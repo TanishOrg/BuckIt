@@ -9,9 +9,9 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.9"
-        android:scaleType="fitXY"
+        android:alpha="0.8"
         android:contentDescription="TODO"
+        android:scaleType="fitXY"
         android:src="@drawable/bg"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,10 +31,9 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="76dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginBottom="368dp"
+        android:layout_marginBottom="356dp"
         android:fontFamily="cursive"
         android:gravity="center"
         android:text="BUCKET LIST"
