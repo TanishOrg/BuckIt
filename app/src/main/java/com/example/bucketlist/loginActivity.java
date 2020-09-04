@@ -11,7 +11,7 @@ public class loginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-//        getSupportActionBar().setTitle("BucketList");
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("BucketList");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }
