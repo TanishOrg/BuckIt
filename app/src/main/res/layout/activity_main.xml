@@ -6,44 +6,53 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ImageView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/start_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.9"
-        android:scaleType="fitXY"
-        android:contentDescription="TODO"
-        android:src="@drawable/bg"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/start"
-        android:layout_width="184dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="532dp"
-        android:background="#FFFFFF"
-        android:gravity="center"
-        android:text="@string/get_started"
-        android:textColor="#F6395C"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.9"
+            android:contentDescription="TODO"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="76dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginBottom="368dp"
-        android:fontFamily="cursive"
-        android:gravity="center"
-        android:text="BUCKET LIST"
-        android:textColor="#FFFFFF"
-        android:textSize="55dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/start_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="104dp"
+            android:background="#FFFFFF"
+            android:padding="20dp"
+            android:text="@string/get_started"
+            android:textColor="#F6395C"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
+        <TextView
+            android:id="@+id/title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="260dp"
+            android:fontFamily="cursive"
+            android:text="@string/bucket_list"
+            android:textColor="#FFFFFF"
+            android:textSize="55dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageView5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
