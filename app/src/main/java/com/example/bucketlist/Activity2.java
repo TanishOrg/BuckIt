@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class Activity2 extends AppCompatActivity {
     Button skipButton;
@@ -15,8 +16,12 @@ public class Activity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.second);
 
+        Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         getSupportActionBar().setTitle("BucketList");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         skipButton=(Button) findViewById(R.id.skip1);
 
