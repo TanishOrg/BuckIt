@@ -13,6 +13,12 @@
         <activity android:name=".Activity2"
             android:parentActivityName=".MainActivity">
         </activity>
+        <activity android:name=".Activity3"
+            android:parentActivityName=".Activity2">
+        </activity>
+        <activity android:name=".loginActivity"
+            android:parentActivityName=".Activity3">
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
