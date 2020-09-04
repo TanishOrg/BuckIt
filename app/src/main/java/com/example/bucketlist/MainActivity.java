@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,17 +14,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
-        if (getActionBar() != null) {
-            getActionBar().hide();
-        }
         setContentView(R.layout.activity_main);
 
         getSupportActionBar().setTitle("BucketList");
+        getSupportActionBar().hide();
 
-        startButton=(Button) findViewById(R.id.start);
+        startButton=(Button) findViewById(R.id.start_button);
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override

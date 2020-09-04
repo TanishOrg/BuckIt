@@ -14,7 +14,7 @@ public class Activity2 extends AppCompatActivity { ;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.second);
 
-        getSupportActionBar().setTitle("Second");
+        getSupportActionBar().setTitle("BucketList");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
