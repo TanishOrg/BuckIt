@@ -55,7 +55,7 @@
                 android:src="@drawable/name" />
 
             <EditText
-                android:id="@+id/email_text_view"
+                android:id="@+id/name_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -83,7 +83,7 @@
                 android:src="@drawable/email" />
 
             <EditText
-                android:id="@+id/email_text_iew"
+                android:id="@+id/email_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -118,22 +118,21 @@
                 android:gravity="center"
                 android:hint="Password"
                 android:textAlignment="center" />
-        </LinearLayout>
 
+
+        </LinearLayout>
         <Button
-            android:id="@+id/login_button"
+            android:id="@+id/signup_button"
             android:layout_width="269dp"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/password_layout2"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="100dp"
-            android:layout_marginBottom="-90dp"
             android:background="@drawable/shape"
             android:text="Sign Up"
+            android:layout_marginBottom="-80dp"
+            android:layout_alignBottom="@+id/password_layout2"
             android:textColor="@android:color/white">
 
         </Button>
-
 
     </RelativeLayout>
 

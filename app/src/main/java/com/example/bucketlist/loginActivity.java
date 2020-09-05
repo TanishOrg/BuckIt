@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,6 +30,8 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
     private TextView signUpTexView;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
+    RelativeLayout login_layout;
+    ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,8 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
         passwordEditText = findViewById(R.id.password_text_view);
         loginButton  = findViewById(R.id.login_button);
         signUpTexView = findViewById(R.id.text_sign_up);
+        loginLayout = findViewById(R.id.login1_layout);
+        constraintLayout = findViewById(R.id.constrain_signup);
         signUpTexView.setOnClickListener(this);
         loginButton.setOnClickListener(this);
     }
@@ -61,7 +66,10 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
         if (view.getId() == R.id.login_button) {
             doSignUp();
         } else if (view.getId() == R.id.text_sign_up) {
-            Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
+            View v = getLayoutInflater().inflate(R.layout.signup,constraintLayout);
+            constraintLayout.setVisibility(View.VISIBLE);
+            loginLayout.setVisibility(View.INVISIBLE);
         }
     }
 
