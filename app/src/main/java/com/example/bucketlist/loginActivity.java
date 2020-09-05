@@ -24,8 +24,12 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
 
     private static final String TAG = "LOGIN ACTIVITY";
     private Button loginButton;
+    private  Button signUpButton;
     private EditText emailEditText;
     private EditText passwordEditText;
+    private EditText nameEditText;
+    private EditText signUpemailEditText;
+    private EditText signUppasswordEditText;
     private RelativeLayout loginLayout;
     private TextView signUpTexView;
     private FirebaseAuth mAuth;
@@ -64,21 +68,33 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.login_button) {
-            doSignUp();
+            doLogIn();
         } else if (view.getId() == R.id.text_sign_up) {
 //            Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
             View v = getLayoutInflater().inflate(R.layout.signup,constraintLayout);
             constraintLayout.setVisibility(View.VISIBLE);
             loginLayout.setVisibility(View.INVISIBLE);
+
+            signUpemailEditText = v.findViewById(R.id.email_text_view);
+            nameEditText = v.findViewById(R.id.name_text_view);
+            signUppasswordEditText  = v.findViewById(R.id.password_text_view2);
+            signUpButton = v.findViewById(R.id.signup_button);
+            signUpButton.setOnClickListener(this);
+        } else if (view.getId() == R.id.signup_button) {
+            Toast.makeText(this, "Button Sign Up", Toast.LENGTH_SHORT).show();
+            doSignUp();
         }
     }
 
     private void doSignUp() {
-        if (TextUtils.isEmpty(emailEditText.getText().toString()) || TextUtils.isEmpty(passwordEditText.getText().toString().trim()) || passwordEditText.getText().toString().trim().length() < 8) {
+        if (TextUtils.isEmpty(signUpemailEditText.getText().toString())
+                || TextUtils.isEmpty(signUppasswordEditText.getText().toString().trim())
+                || passwordEditText.getText().toString().trim().length() < 8
+                || TextUtils.isEmpty(nameEditText.getText().toString().trim())) {
             Toast.makeText(getApplicationContext(),"Any item can't be empty and min length of password should be greater than  8",Toast.LENGTH_SHORT).show();
         } else {
-            String email = emailEditText.getText().toString().trim();
-            String password = passwordEditText.getText().toString().trim();
+            String email = signUpemailEditText.getText().toString().trim();
+            String password = signUppasswordEditText.getText().toString().trim();
 
             mAuth.createUserWithEmailAndPassword(email,password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -87,6 +103,30 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
                             if (task.isSuccessful()){
                                 Log.d(TAG, "onComplete: ");
                                 Toast.makeText(loginActivity.this, "Successful", Toast.LENGTH_SHORT).show();
+                                //TODO ADD INTENT HERE
+                            } else {
+                                Toast.makeText(loginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        }
+    }
+
+    private void doLogIn() {
+        if (TextUtils.isEmpty(emailEditText.getText().toString()) || TextUtils.isEmpty(passwordEditText.getText().toString().trim()) || passwordEditText.getText().toString().trim().length() < 8) {
+            Toast.makeText(getApplicationContext(),"Any item can't be empty and min length of password should be greater than  8",Toast.LENGTH_SHORT).show();
+        } else {
+            String email = emailEditText.getText().toString().trim();
+            String password = passwordEditText.getText().toString().trim();
+
+            mAuth.signInWithEmailAndPassword(email,password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()){
+                                Log.d(TAG, "onComplete: ");
+                                Toast.makeText(loginActivity.this, "Successful", Toast.LENGTH_SHORT).show();
+                                //TODO ADD INTENT HERE FOR NEXT ACTIVITY
                             } else {
                                 Toast.makeText(loginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
                             }
