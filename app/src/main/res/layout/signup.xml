@@ -13,7 +13,7 @@
     </include>
 
     <RelativeLayout
-        android:id="@+id/login1_layout"
+        android:id="@+id/login2_layout"
         android:layout_marginTop="60dp"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
@@ -25,26 +25,54 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="104dp"
-            android:layout_marginTop="108dp"
-            android:src="@drawable/logo"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="108dp"
+        android:src="@drawable/logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
-            android:id="@+id/email_layout"
+            android:id="@+id/name_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/imageView"
             android:layout_marginStart="30dp"
             android:layout_marginTop="100dp"
             android:layout_marginEnd="30dp"
-            android:layout_marginBottom="-184dp"
+            android:layout_marginBottom="-150dp"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@android:color/holo_red_dark"
+                android:src="@drawable/name" />
+
+            <EditText
+                android:id="@+id/name_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:gravity="center"
+                android:hint="Your Name"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/emailAdd_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="-230dp"
             android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -55,7 +83,7 @@
                 android:src="@drawable/email" />
 
             <EditText
-                android:id="@+id/email_text_view1"
+                android:id="@+id/email_text_iew"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -65,14 +93,14 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/password_layout1"
+            android:id="@+id/password_layout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/imageView"
             android:layout_marginStart="30dp"
             android:layout_marginTop="100dp"
             android:layout_marginEnd="30dp"
-            android:layout_marginBottom="-260dp"
+            android:layout_marginBottom="-310dp"
             android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -83,7 +111,7 @@
                 android:src="@drawable/vpn_key" />
 
             <EditText
-                android:id="@+id/password_text_view"
+                android:id="@+id/password_text_view2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -96,15 +124,20 @@
             android:id="@+id/login_button"
             android:layout_width="269dp"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/password_layout1"
+            android:layout_alignBottom="@+id/password_layout2"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="100dp"
-            android:layout_marginBottom="-111dp"
+            android:layout_marginBottom="-90dp"
             android:background="@drawable/shape"
-            android:text="Login"
-            android:textColor="@android:color/white" />
+            android:text="Sign Up"
+            android:textColor="@android:color/white">
+
+        </Button>
 
 
     </RelativeLayout>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
