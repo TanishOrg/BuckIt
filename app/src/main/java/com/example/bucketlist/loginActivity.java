@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
     private EditText emailEditText;
     private EditText passwordEditText;
     private RelativeLayout loginLayout;
+    private TextView signUpTexView;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
 
@@ -36,8 +38,8 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
 //        getSupportActionBar().setTitle("BucketList");
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        getSupportActionBar().setTitle("BucketList");
-        getSupportActionBar().hide();
+//        getSupportActionBar().setTitle("BucketList");
+//        getSupportActionBar().hide();
 
         initializeUi();
     }
@@ -45,23 +47,27 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
     private void initializeUi() {
 
         mAuth = FirebaseAuth.getInstance();
-
-        emailEditText = findViewById(R.id.email_text_iew);
+        
+        emailEditText = findViewById(R.id.email_text_view1);
         passwordEditText = findViewById(R.id.password_text_view);
         loginButton  = findViewById(R.id.login_button);
+        signUpTexView = findViewById(R.id.text_sign_up);
+        signUpTexView.setOnClickListener(this);
         loginButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.login_button) {
-            doLogin();
+            doSignUp();
+        } else if (view.getId() == R.id.text_sign_up) {
+            Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void doLogin() {
+    private void doSignUp() {
         if (TextUtils.isEmpty(emailEditText.getText().toString()) || TextUtils.isEmpty(passwordEditText.getText().toString().trim()) || passwordEditText.getText().toString().trim().length() < 8) {
-            Toast.makeText(getApplicationContext(),"Any item can't be epmty and min lebgth of password is 8",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Any item can't be empty and min length of password should be greater than  8",Toast.LENGTH_SHORT).show();
         } else {
             String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
