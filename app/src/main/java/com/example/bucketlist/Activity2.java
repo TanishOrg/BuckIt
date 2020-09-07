@@ -19,6 +19,7 @@ public class Activity2 extends AppCompatActivity {
         Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         getSupportActionBar().setTitle("BucketList");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

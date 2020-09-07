@@ -13,12 +13,13 @@
         android:elevation="4dp">
 
     </include>
+
     <ImageView
         android:id="@+id/imageView6"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="57dp"
         android:contentDescription="TODO"
-        android:layout_marginTop="60dp"
         android:scaleType="fitXY"
         android:src="@drawable/secondbg"
         app:layout_constraintStart_toStartOf="parent"

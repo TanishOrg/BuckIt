@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,11 +42,14 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
+        Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 //
 //        getSupportActionBar().setTitle("BucketList");
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        getSupportActionBar().setTitle("BucketList");
+        getSupportActionBar().setTitle("Login");
 //        getSupportActionBar().hide();
 
         initializeUi();
