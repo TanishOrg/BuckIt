@@ -58,25 +58,12 @@
             android:hint="Password"
             android:textAlignment="center" />
 
-        <LinearLayout
-            android:id="@+id/password_layout1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/imageView"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="100dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="-260dp"
-            android:orientation="horizontal">
-
-        </LinearLayout>
-
         <Button
             android:id="@+id/login_button"
             android:layout_width="200dp"
             android:layout_height="43dp"
             android:layout_marginVertical="380dp"
-            android:layout_marginStart="100dp"
+            android:layout_marginStart="98dp"
             android:background="@drawable/button_pink"
             android:gravity="center"
             android:text="Login"
@@ -87,8 +74,8 @@
             android:id="@+id/text_sign_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="440dp"
-            android:layout_marginStart="160dp"
+            android:layout_marginVertical="540dp"
+            android:layout_marginStart="158dp"
             android:padding="10sp"
             android:text="@string/signUp"
             android:textColor="@color/colorbottomnav"
