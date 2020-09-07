@@ -64,8 +64,6 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         if (view.getId() == R.id.login_button) {
             doLogIn();
-            Intent intent = new Intent(this, HomeActivity.class);
-            startActivity(intent);
         } else if (view.getId() == R.id.text_sign_up) {
 //            Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
             View v = getLayoutInflater().inflate(R.layout.signup,constraintLayout);
@@ -153,6 +151,6 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onRestart() {
         super.onRestart();
-        mAuth.signOut();
+//        mAuth.signOut();
     }
 }

@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
         startButton=(Button) findViewById(R.id.start_button);
 
+        mAuth = FirebaseAuth.getInstance();
+
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if (mAuth != null) {
+        if (mAuth.getCurrentUser() != null) {
             Intent i = new Intent(getApplicationContext(),HomeActivity.class);
             startActivity(i);
             finish();
