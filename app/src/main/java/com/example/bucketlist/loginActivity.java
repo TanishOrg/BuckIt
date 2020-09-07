@@ -29,14 +29,14 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
     private EditText emailEditText;
     private EditText passwordEditText;
     private EditText nameEditText;
-    private EditText signUpemailEditText;
-    private EditText signUppasswordEditText;
+//    private EditText signUpemailEditText;
+//    private EditText signUppasswordEditText;
     private RelativeLayout loginLayout;
     private TextView signUpTexView;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
-    RelativeLayout login_layout;
-    ConstraintLayout constraintLayout;
+//    RelativeLayout login_layout;
+//    ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
         loginButton  = findViewById(R.id.login_button);
         signUpTexView = findViewById(R.id.text_sign_up);
         loginLayout = findViewById(R.id.login1_layout);
-        constraintLayout = findViewById(R.id.constrain_signup);
+//        constraintLayout = findViewById(R.id.constrain_signup);
         signUpTexView.setOnClickListener(this);
         loginButton.setOnClickListener(this);
     }
@@ -65,49 +65,13 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
         if (view.getId() == R.id.login_button) {
             doLogIn();
         } else if (view.getId() == R.id.text_sign_up) {
-//            Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
-            View v = getLayoutInflater().inflate(R.layout.signup,constraintLayout);
-            constraintLayout.setVisibility(View.VISIBLE);
-            loginLayout.setVisibility(View.INVISIBLE);
+            Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(getApplicationContext(),SignupActivity.class);
+            startActivity(i);
 
-            signUpemailEditText = v.findViewById(R.id.email_text_view);
-            nameEditText = v.findViewById(R.id.name_text_view);
-            signUppasswordEditText  = v.findViewById(R.id.password_text_view2);
-            signUpButton = v.findViewById(R.id.signup_button);
-            signUpButton.setOnClickListener(this);
-
-        } else if (view.getId() == R.id.signup_button) {
-            Toast.makeText(this, "Button Sign Up", Toast.LENGTH_SHORT).show();
-            doSignUp();
         }
     }
 
-    private void doSignUp() {
-        if (TextUtils.isEmpty(signUpemailEditText.getText().toString())
-                || TextUtils.isEmpty(signUppasswordEditText.getText().toString().trim())
-                || passwordEditText.getText().toString().trim().length() < 8
-                || TextUtils.isEmpty(nameEditText.getText().toString().trim())) {
-            Toast.makeText(getApplicationContext(),"Any item can't be empty and min length of password should be greater than  8",Toast.LENGTH_SHORT).show();
-        } else {
-            String email = signUpemailEditText.getText().toString().trim();
-            String password = signUppasswordEditText.getText().toString().trim();
-
-            mAuth.createUserWithEmailAndPassword(email,password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()){
-                                Log.d(TAG, "onComplete: ");
-                                Toast.makeText(loginActivity.this, "Successful", Toast.LENGTH_SHORT).show();
-                                //TODO ADD INTENT HERE
-                                startHome();
-                            } else {
-                                Toast.makeText(loginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-        }
-    }
 
     private void startHome() {
         Intent i=new Intent(getApplicationContext(),HomeActivity.class);
