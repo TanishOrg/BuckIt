@@ -4,27 +4,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import org.w3c.dom.Text;
+
 public class Activity3 extends AppCompatActivity {
 
-    Button skipButton2;
+    TextView skipButton2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.third);
 
-        Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-
-        getSupportActionBar().setTitle("BucketList");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        skipButton2=(Button) findViewById(R.id.skip2);
+        skipButton2=(TextView) findViewById(R.id.skip2);
 
         skipButton2.setOnClickListener(new View.OnClickListener() {
             @Override

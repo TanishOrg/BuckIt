@@ -17,13 +17,6 @@ public class Activity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.second);
 
-        Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-
-        getSupportActionBar().setTitle("BucketList");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         skipButton=(TextView) findViewById(R.id.skip1);
 

@@ -4,17 +4,10 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/app_bar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:elevation="4dp">
-    </include>
 
     <RelativeLayout
         android:id="@+id/login1_layout"
-        android:layout_marginTop="60dp"
+
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:outlineAmbientShadowColor="@color/colorAccent"

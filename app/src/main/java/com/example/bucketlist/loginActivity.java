@@ -44,15 +44,6 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-//
-//        getSupportActionBar().setTitle("BucketList");
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        getSupportActionBar().setTitle("Login");
-//        getSupportActionBar().hide();
-
         initializeUi();
     }
 

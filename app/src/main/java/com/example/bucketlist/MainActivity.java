@@ -17,13 +17,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setTitle("BucketList");
-//        getSupportActionBar().hide();
-
-
         startButton=(Button) findViewById(R.id.start_button);
 
         startButton.setOnClickListener(new View.OnClickListener() {
