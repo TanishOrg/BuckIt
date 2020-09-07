@@ -36,33 +36,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:id="@+id/email_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/imageView"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="100dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="-184dp"
-            android:orientation="horizontal">
+        <EditText
+            android:id="@+id/email_text_view1"
+            android:layout_width="285dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="54dp"
+            android:layout_marginTop="255dp"
+            android:background="@drawable/round_border"
+            android:gravity="center"
+            android:hint="Email Address"
+            android:textAlignment="center" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:background="@android:color/holo_red_dark"
-                android:src="@drawable/email" />
-
-            <EditText
-                android:id="@+id/email_text_view1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:gravity="center"
-                android:hint="E-mail Address"
-                android:textAlignment="center" />
-        </LinearLayout>
+        <EditText
+            android:id="@+id/password_text_view"
+            android:layout_width="285dp"
+            android:layout_height="43dp"
+            android:layout_marginVertical="315dp"
+            android:layout_marginStart="54dp"
+            android:background="@drawable/round_border"
+            android:gravity="center"
+            android:hint="Password"
+            android:textAlignment="center" />
 
         <LinearLayout
             android:id="@+id/password_layout1"
@@ -75,50 +69,30 @@
             android:layout_marginBottom="-260dp"
             android:orientation="horizontal">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:background="@android:color/holo_red_dark"
-                android:src="@drawable/vpn_key" />
-
-            <EditText
-                android:id="@+id/password_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:gravity="center"
-                android:hint="Password"
-                android:textAlignment="center" />
         </LinearLayout>
-        <LinearLayout
+
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="200dp"
+            android:layout_height="43dp"
+            android:layout_marginVertical="380dp"
+            android:layout_marginStart="100dp"
+            android:background="@drawable/button_pink"
+            android:gravity="center"
+            android:text="Login"
+            android:textColor="@android:color/white"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/text_sign_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/password_layout1"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="100dp"
-            android:layout_marginBottom="-100dp"
-            >
-
-            <Button
-                android:id="@+id/login_button"
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape"
-                android:text="Login"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:id="@+id/text_sign_up"
-                android:padding="10sp"
-                android:layout_marginStart="20sp"
-                android:text="@string/signUp"
-                android:textColor="@android:color/holo_red_dark" />
-
-        </LinearLayout>
+            android:layout_marginVertical="440dp"
+            android:layout_marginStart="160dp"
+            android:padding="10sp"
+            android:text="@string/signUp"
+            android:textColor="@color/colorbottomnav"
+            android:textSize="16dp" />
 
 
     </RelativeLayout>
