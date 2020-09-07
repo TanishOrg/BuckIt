@@ -8,7 +8,11 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class MainActivity extends AppCompatActivity {
+
+    FirebaseAuth mAuth;
 
     Button startButton;
 
@@ -29,7 +33,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (mAuth != null) {
+            Intent i = new Intent(getApplicationContext(),HomeActivity.class);
+            startActivity(i);
+            finish();
+        }
+    }
 }

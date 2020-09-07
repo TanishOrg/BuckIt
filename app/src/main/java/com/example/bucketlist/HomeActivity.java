@@ -8,14 +8,14 @@ import android.util.Log;
 
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
-public class MainActivity2 extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
-    private static final String TAG =MainActivity2.class.getSimpleName() ;
+    private static final String TAG = HomeActivity.class.getSimpleName() ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_home);
 
         ChipNavigationBar bottomNav = findViewById(R.id.bottom_nav);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();

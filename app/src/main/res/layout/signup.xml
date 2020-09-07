@@ -48,6 +48,7 @@
                 android:layout_marginStart="15dp"
                 android:gravity="center"
                 android:hint="Your Name"
+                android:background="@drawable/round_border"
                 android:textAlignment="center" />
         </LinearLayout>
 
@@ -62,6 +63,7 @@
             android:layout_marginBottom="-230dp"
             android:orientation="horizontal">
 
+
             <EditText
                 android:id="@+id/email_text_view"
                 android:layout_width="285dp"
@@ -75,8 +77,8 @@
 
         <LinearLayout
             android:id="@+id/password_layout2"
-            android:layout_width="285dp"
-            android:layout_height="43dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/imageView"
             android:layout_marginStart="54dp"
             android:layout_marginTop="100dp"

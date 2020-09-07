@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -51,8 +50,8 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
 
         mAuth = FirebaseAuth.getInstance();
         
-        emailEditText = findViewById(R.id.email_text_view1);
-        passwordEditText = findViewById(R.id.password_text_view);
+        emailEditText = findViewById(R.id.login_email_text_view);
+        passwordEditText = findViewById(R.id.login_password_text_view);
         loginButton  = findViewById(R.id.login_button);
         signUpTexView = findViewById(R.id.text_sign_up);
         loginLayout = findViewById(R.id.login1_layout);
@@ -65,7 +64,7 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         if (view.getId() == R.id.login_button) {
             doLogIn();
-            Intent intent = new Intent(this,MainActivity2.class);
+            Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
         } else if (view.getId() == R.id.text_sign_up) {
 //            Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
@@ -103,12 +102,20 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
                                 Log.d(TAG, "onComplete: ");
                                 Toast.makeText(loginActivity.this, "Successful", Toast.LENGTH_SHORT).show();
                                 //TODO ADD INTENT HERE
+                                startHome();
                             } else {
                                 Toast.makeText(loginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
         }
+    }
+
+    private void startHome() {
+        Intent i=new Intent(getApplicationContext(),HomeActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+
     }
 
     private void doLogIn() {
@@ -126,6 +133,7 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
                                 Log.d(TAG, "onComplete: ");
                                 Toast.makeText(loginActivity.this, "Successful", Toast.LENGTH_SHORT).show();
                                 //TODO ADD INTENT HERE FOR NEXT ACTIVITY
+                                startHome();
                             } else {
                                 Toast.makeText(loginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
                             }
