@@ -9,17 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".SignupActivity"></activity>
+        <activity android:name=".layout.SignupActivity"></activity>
         <activity android:name=".HomeActivity" />
         <activity
-            android:name=".Activity2"
+            android:name=".layout.Activity2"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".Activity3"
-            android:parentActivityName=".Activity2" />
+            android:name=".layout.Activity3"
+            android:parentActivityName=".layout.Activity2" />
         <activity
-            android:name=".loginActivity"
-            android:parentActivityName=".Activity3" />
+            android:name=".layout.loginActivity"
+            android:parentActivityName=".layout.Activity3" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

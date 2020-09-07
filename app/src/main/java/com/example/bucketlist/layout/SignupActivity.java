@@ -1,4 +1,4 @@
-package com.example.bucketlist;
+package com.example.bucketlist.layout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bucketlist.HomeActivity;
+import com.example.bucketlist.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -85,7 +87,7 @@ public class SignupActivity extends AppCompatActivity
     }
 
     private void startHome() {
-        Intent i=new Intent(getApplicationContext(),HomeActivity.class);
+        Intent i=new Intent(getApplicationContext(), HomeActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
 

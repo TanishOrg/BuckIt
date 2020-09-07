@@ -1,4 +1,4 @@
-package com.example.bucketlist;
+package com.example.bucketlist.layout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,8 +13,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.example.bucketlist.HomeActivity;
+import com.example.bucketlist.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -25,10 +26,10 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
 
     private static final String TAG = "LOGIN ACTIVITY";
     private Button loginButton;
-    private  Button signUpButton;
+//    private  Button signUpButton;
     private EditText emailEditText;
     private EditText passwordEditText;
-    private EditText nameEditText;
+//    private EditText nameEditText;
 //    private EditText signUpemailEditText;
 //    private EditText signUppasswordEditText;
     private RelativeLayout loginLayout;
@@ -66,7 +67,7 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
             doLogIn();
         } else if (view.getId() == R.id.text_sign_up) {
             Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(getApplicationContext(),SignupActivity.class);
+            Intent i = new Intent(getApplicationContext(), SignupActivity.class);
             startActivity(i);
 
         }
@@ -74,7 +75,7 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
 
 
     private void startHome() {
-        Intent i=new Intent(getApplicationContext(),HomeActivity.class);
+        Intent i=new Intent(getApplicationContext(), HomeActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
 

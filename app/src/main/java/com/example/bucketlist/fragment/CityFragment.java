@@ -1,4 +1,4 @@
-package com.example.bucketlist;
+package com.example.bucketlist.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,10 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class AddFragment extends Fragment {
+import com.example.bucketlist.R;
+
+public class CityFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_add,container,false);
+        return inflater.inflate(R.layout.fragment_city,container,false);
     }
 }

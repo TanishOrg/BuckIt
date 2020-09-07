@@ -1,15 +1,13 @@
-package com.example.bucketlist;
+package com.example.bucketlist.layout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import org.w3c.dom.Text;
+import com.example.bucketlist.R;
 
 public class Activity3 extends AppCompatActivity {
 
@@ -25,7 +23,7 @@ public class Activity3 extends AppCompatActivity {
         skipButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(view.getContext(),loginActivity.class);
+                Intent i=new Intent(view.getContext(), loginActivity.class);
                 startActivity(i);
             }
         });
