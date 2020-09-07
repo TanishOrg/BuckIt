@@ -1,5 +1,6 @@
 package com.example.bucketlist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -69,6 +70,8 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         if (view.getId() == R.id.login_button) {
             doLogIn();
+            Intent intent = new Intent(this,MainActivity2.class);
+            startActivity(intent);
         } else if (view.getId() == R.id.text_sign_up) {
 //            Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
             View v = getLayoutInflater().inflate(R.layout.signup,constraintLayout);
@@ -80,6 +83,7 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
             signUppasswordEditText  = v.findViewById(R.id.password_text_view2);
             signUpButton = v.findViewById(R.id.signup_button);
             signUpButton.setOnClickListener(this);
+
         } else if (view.getId() == R.id.signup_button) {
             Toast.makeText(this, "Button Sign Up", Toast.LENGTH_SHORT).show();
             doSignUp();
