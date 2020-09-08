@@ -7,24 +7,14 @@
     android:layout_height="match_parent">
 
 
-
-
-<!--    <com.google.android.material.tabs.TabLayout-->
-<!--        android:id="@+id/tabBar"-->
-<!--        android:layout_width="409dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        tools:ignore="MissingConstraints"-->
-<!--        tools:layout_editor_absoluteX="1dp"-->
-<!--        tools:layout_editor_absoluteY="146dp">-->
-<!--    </com.google.android.material.tabs.TabLayout>-->
-
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_bar"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="146dp">
+        android:layout_marginTop="146dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tabDreams"
@@ -40,7 +30,7 @@
             android:text="Achieved" />
 
 
-        </com.google.android.material.tabs.TabLayout>
+    </com.google.android.material.tabs.TabLayout>
 
 
         <androidx.viewpager.widget.ViewPager
