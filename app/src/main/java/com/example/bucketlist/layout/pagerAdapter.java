@@ -2,6 +2,7 @@ package com.example.bucketlist.layout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
@@ -9,7 +10,7 @@ public class pagerAdapter extends FragmentPagerAdapter {
 
     private int numOfTabs;
 
-    public pagerAdapter(FragmentManager fm, int numOfTabs) {
+    public pagerAdapter(FragmentActivity activity, FragmentManager fm, int numOfTabs) {
         super(fm);
         this.numOfTabs= numOfTabs;
     }
