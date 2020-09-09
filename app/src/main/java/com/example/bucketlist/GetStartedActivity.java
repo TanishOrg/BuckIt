@@ -37,6 +37,10 @@ public class GetStartedActivity extends AppCompatActivity {
     //TO NEXT SLIDE FUNCTION
     public void toNextSlide(View view){
         Intent intent = new Intent(this, First_content.class);
+        Slide slide = new Slide(Gravity.LEFT);
+        slide.addTarget(R.id.getStartedButton);
+        getWindow().setEnterTransition(slide);
+
 
         Pair[] pairs = new Pair[5];
         pairs[0]= new Pair<View,String>(ea1,"ea1transition1");
@@ -45,9 +49,7 @@ public class GetStartedActivity extends AppCompatActivity {
         pairs[3]= new Pair<View,String>(ea4,"ea4transition1");
         pairs[4]=new Pair<View,String>(logobucketlist,"logotransition1");
 
-        Slide slide = new Slide(Gravity.LEFT);
-        slide.addTarget(R.id.getStartedButton);
-        getWindow().setExitTransition(slide);
+
 
 
         ActivityOptions options =  ActivityOptions.makeSceneTransitionAnimation(this, pairs);

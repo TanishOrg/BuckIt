@@ -20,18 +20,6 @@
         app:srcCompat="@drawable/ea2" />
 
     <ImageView
-        android:id="@+id/ea3"
-        android:layout_width="413dp"
-        android:layout_height="427dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="392dp"
-        android:alpha=".6"
-        android:transitionName="ea3transition1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ea3" />
-
-    <ImageView
         android:id="@+id/ea4"
         android:layout_width="407dp"
         android:layout_height="432dp"
@@ -44,16 +32,16 @@
         app:srcCompat="@drawable/ea4" />
 
     <ImageView
-        android:id="@+id/ea1"
-        android:layout_width="371dp"
-        android:layout_height="390dp"
-        android:layout_marginRight="160dp"
-        android:layout_marginBottom="388dp"
-        android:alpha=".5"
-        android:transitionName="ea1transition1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@drawable/ea1" />
+        android:id="@+id/ea3"
+        android:layout_width="413dp"
+        android:layout_height="427dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="392dp"
+        android:alpha=".6"
+        android:transitionName="ea3transition1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ea3" />
 
     <ImageView
         android:id="@+id/ea5"
@@ -65,6 +53,18 @@
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ea5" />
+
+    <ImageView
+        android:id="@+id/ea1"
+        android:layout_width="371dp"
+        android:layout_height="390dp"
+        android:layout_marginRight="160dp"
+        android:layout_marginBottom="388dp"
+        android:alpha=".5"
+        android:transitionName="ea1transition1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/ea1" />
 
     <ImageView
         android:id="@+id/nextButton"
@@ -80,32 +80,17 @@
 
     <TextView
         android:id="@+id/skipbutton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="360dp"
+        android:layout_marginLeft="60dp"
         android:layout_marginTop="40dp"
         android:onClick="skipToLast"
         android:text="Skip"
         android:textColor="#B7FFFFFF"
         android:textSize="17dp"
         android:transitionName="skiptransition"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/logobucketlist"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/firstslidetext"
-        android:layout_width="366dp"
-        android:layout_height="98dp"
-        android:layout_marginTop="260dp"
-        android:layout_marginRight="22dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Hey there.                                                            this is the platform where you can  make your own bucket list."
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="20dp"
-        android:transitionName="texttransition1"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logobucketlist" />
 
     <ImageView
         android:id="@+id/logobucketlist"
@@ -141,5 +126,20 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/firstslidetext"
         app:srcCompat="@drawable/subslidebar" />
+
+    <TextView
+        android:id="@+id/firstslidetext"
+        android:layout_width="366dp"
+        android:layout_height="98dp"
+        android:layout_marginTop="260dp"
+        android:layout_marginRight="22dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Hey there.                                                            this is the platform where you can  make your own bucket list."
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:transitionName="texttransition1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logobucketlist" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
