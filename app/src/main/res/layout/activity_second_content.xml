@@ -7,7 +7,7 @@
 
     <ImageView
         android:id="@+id/ea1"
-        android:layout_width="937dp"
+        android:layout_width="1000dp"
         android:layout_height="1205dp"
         android:alpha=".5"
         android:transitionName="ea1transition1"
@@ -128,10 +128,10 @@
         android:id="@+id/slideBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="437dp"
+        android:layout_marginTop="78dp"
         android:layout_marginRight="72dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logobucketlist"
+        app:layout_constraintTop_toBottomOf="@id/secondslidetext"
         android:transitionName="mainslidetransition"
         app:srcCompat="@drawable/slidebar" />
 
@@ -139,11 +139,11 @@
         android:id="@+id/subSlideBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="78dp"
         android:layout_marginRight="160dp"
-        android:layout_marginBottom="188dp"
         android:transitionName="slidebartransition1"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/secondslidetext"
         app:srcCompat="@drawable/subslidebar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

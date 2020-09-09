@@ -30,6 +30,17 @@
         app:srcCompat="@drawable/ea2" />
 
     <ImageView
+        android:id="@+id/ea4"
+        android:layout_width="293dp"
+        android:layout_height="282dp"
+        android:layout_marginBottom="35dp"
+        android:alpha="0.8"
+        android:transitionName="ea4transition1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:srcCompat="@drawable/ea4" />
+
+    <ImageView
         android:id="@+id/ea5"
         android:layout_width="257dp"
         android:layout_height="229dp"
@@ -40,17 +51,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ea5" />
-
-    <ImageView
-        android:id="@+id/ea4"
-        android:layout_width="293dp"
-        android:layout_height="282dp"
-        android:layout_marginBottom="35dp"
-        android:alpha="0.8"
-        android:transitionName="ea4transition1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:srcCompat="@drawable/ea4" />
 
     <ImageView
         android:id="@+id/ea3"
