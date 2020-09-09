@@ -215,6 +215,27 @@
 
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="fill"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                app:cardCornerRadius="10sp"
+                android:layout_margin="10sp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Gadgets"
+                    android:textSize="30sp"
+                    android:textColor="#000"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:paddingTop="55sp"/>
+
+            </androidx.cardview.widget.CardView>
+
 
         </GridLayout>
 
