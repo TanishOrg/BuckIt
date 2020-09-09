@@ -3,39 +3,22 @@ package com.example.bucketlist;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import androidx.viewpager.widget.ViewPager;
-
 import android.os.Bundle;
 import android.util.Log;
 
 import com.example.bucketlist.fragment.AddFragment;
 import com.example.bucketlist.fragment.CityFragment;
 import com.example.bucketlist.fragment.ProfileFragment;
-import com.example.bucketlist.layout.pagerAdapter;
-import com.google.android.material.tabs.TabItem;
-import com.google.android.material.tabs.TabLayout;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private static final String TAG = HomeActivity.class.getSimpleName();
+    private static final String TAG = HomeActivity.class.getSimpleName() ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-//        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabBar);
-//        TabItem tabDreams = findViewById(R.id.tabDreams);
-//        TabItem tabAchieved = findViewById(R.id.tabAchieved);
-//        final ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
-//
-//        pagerAdapter pagerAdapter = new pagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
-//
-//        viewPager.setAdapter(pagerAdapter);
-
-
-
 
         ChipNavigationBar bottomNav = findViewById(R.id.bottom_nav);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
@@ -58,8 +41,6 @@ public class HomeActivity extends AppCompatActivity {
                 if(selectedFragment!=null){
 
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment).commit();
-
-
                 }
                 else{
                     Log.e(TAG, "Error in creating fragment" );
@@ -69,5 +50,4 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
-
 }

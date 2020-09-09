@@ -8,26 +8,26 @@
         android:enabled="true"
         android:icon="@drawable/ic_round_add_24"
         android:title="Add"
-        app:cnb_backgroundColor ="@color/colorchip"
-        app:cnb_iconColor="@color/selectediconcolor"
-        app:cnb_textColor="@color/selectediconcolor"
-        app:cnb_unselectedColor ="@color/colorchip"/>
+        app:cnb_backgroundColor ="@color/colorbottomnav"
+        app:cnb_iconColor="@color/white"
+        app:cnb_textColor="@color/white"
+        app:cnb_unselectedColor ="@color/colorbottomnav"/>
     <item
         android:id="@+id/city"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_map_24"
         android:title="City"
-        app:cnb_backgroundColor ="@color/colorchip"
-        app:cnb_iconColor="@color/selectediconcolor"
-        app:cnb_textColor="@color/selectediconcolor"
-        app:cnb_unselectedColor ="@color/colorchip"/>
+        app:cnb_backgroundColor ="@color/colorbottomnav"
+        app:cnb_iconColor="@color/white"
+        app:cnb_textColor="@color/white"
+        app:cnb_unselectedColor ="@color/colorbottomnav"/>
     <item
         android:id="@+id/profile"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_person_24"
         android:title="Profile"
-        app:cnb_backgroundColor ="@color/colorchip"
-        app:cnb_iconColor="@color/selectediconcolor"
-        app:cnb_textColor="@color/selectediconcolor"
-        app:cnb_unselectedColor ="@color/colorchip"/>
+        app:cnb_backgroundColor ="@color/colorbottomnav"
+        app:cnb_iconColor="@color/white"
+        app:cnb_textColor="@color/white"
+        app:cnb_unselectedColor ="@color/colorbottomnav"/>
 </menu>
