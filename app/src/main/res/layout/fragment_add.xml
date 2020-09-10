@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/AppTheme"
-    android:layout_marginBottom="40dp"
+    android:layout_marginBottom="80dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
     
@@ -341,28 +341,17 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
-                app:cardElevation="4dp"
-                app:cardMaxElevation="8dp"
-                app:cardCornerRadius="15dp"
-                app:cardBackgroundColor="@color/colorAccent">
+
+                android:layout_gravity="center">
 
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/addillustration"
-                    android:scaleType="centerCrop"/>
-                <TextView
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/floatingActionButton2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Add Category"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginBottom="7dp"
-                    android:gravity="center"
-                    android:textSize="18dp"
-                    android:layout_gravity="bottom"
-                    style="@style/categories.Text"/>
-
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    app:srcCompat="@drawable/ic_round_add_24" />
             </com.google.android.material.card.MaterialCardView>
 
         </GridLayout>
