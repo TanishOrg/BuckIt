@@ -19,7 +19,6 @@ public class AddFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        BottomNavigationView navBar = getActivity().findViewById(R.id.bottom_nav);
         return inflater.inflate(R.layout.fragment_add,container,false);
 
     }
