@@ -21,9 +21,14 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        ChipNavigationBar bottomNav = findViewById(R.id.bottom_nav);
+        final ChipNavigationBar bottomNav = findViewById(R.id.bottom_nav);
        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
+
+
+        if(savedInstanceState == null) {
+            getSupportFragmentManager().
+                    beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).commit();
+        }
 
         bottomNav.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
@@ -44,6 +49,9 @@ public class HomeActivity extends AppCompatActivity {
                 if(selectedFragment!=null){
 
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment).commit();
+                    bottomNav.setItemSelected(id,true);
+
+
                 }
                 else{
                     Log.e(TAG, "Error in creating fragment" );
