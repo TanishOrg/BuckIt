@@ -18,8 +18,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bucketlist.First_content;
 import com.example.bucketlist.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class GetStartedActivity extends AppCompatActivity {
+
+    FirebaseAuth mAuth;
     Button getstartedButton;
     ImageView ea1,ea2,ea3,ea4,logobucketlist,subSlideBar;
 
@@ -27,12 +30,15 @@ public class GetStartedActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_started);
-        getstartedButton = (Button)findViewById(R.id.getStartedButton);
-        ea1 = (ImageView)findViewById(R.id.ea1);
-        ea2 = (ImageView)findViewById(R.id.ea2);
-        ea3 = (ImageView)findViewById(R.id.ea3);
-        ea4 = (ImageView)findViewById(R.id.ea4);
-        logobucketlist = (ImageView)findViewById(R.id.logobucketlist);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        getstartedButton = findViewById(R.id.getStartedButton);
+        ea1 = findViewById(R.id.ea1);
+        ea2 = findViewById(R.id.ea2);
+        ea3 = findViewById(R.id.ea3);
+        ea4 = findViewById(R.id.ea4);
+        logobucketlist = findViewById(R.id.logobucketlist);
     }
     //TO NEXT SLIDE FUNCTION
     public void toNextSlide(View view){
@@ -56,5 +62,16 @@ public class GetStartedActivity extends AppCompatActivity {
 
         startActivity(intent,options.toBundle());
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (mAuth.getCurrentUser() != null) {
+            Intent i = new Intent(this,HomeActivity.class);
+            finish();
+            startActivity(i);
+        }
     }
 }

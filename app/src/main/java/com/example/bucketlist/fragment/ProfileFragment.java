@@ -19,7 +19,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.bucketlist.R;
 import com.example.bucketlist.layout.AchievedFragment;
 import com.example.bucketlist.layout.DreamsFragment;
-import com.example.bucketlist.layout.pagerAdapter;
+import com.example.bucketlist.adapters.pagerAdapter;
+
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
