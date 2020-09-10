@@ -72,6 +72,7 @@
             android:rowCount="2">
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/travelCardView"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
@@ -79,115 +80,123 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
                 android:padding="2dp"
-                app:cardElevation="4dp"
-                app:cardMaxElevation="8dp"
+                app:cardBackgroundColor="@color/colorAccent"
                 app:cardCornerRadius="15dp"
-                app:cardBackgroundColor="@color/colorAccent">
+                app:cardElevation="4dp"
+                app:cardMaxElevation="8dp">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/travelillustration"/>
+                    android:src="@drawable/travelillustration" />
+
                 <TextView
+                    style="@style/categories.Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Travel"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="5dp"
                     android:gravity="center"
-                    android:layout_gravity="bottom"
-                    style="@style/categories.Text"/>
+                    android:text="Travel" />
 
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/adventureCardView"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
-                app:cardElevation="4dp"
-                app:cardMaxElevation="8dp"
+                app:cardBackgroundColor="@color/colorAccent"
                 app:cardCornerRadius="15dp"
-                app:cardBackgroundColor="@color/colorAccent">
+                app:cardElevation="4dp"
+                app:cardMaxElevation="8dp">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/adventureillustration"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/adventureillustration" />
+
                 <TextView
+                    style="@style/categories.Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Adventure"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="5dp"
                     android:gravity="center"
-                    android:layout_gravity="bottom"
-                    style="@style/categories.Text"/>
+                    android:text="Adventure" />
 
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/foodCardView"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
-                app:cardElevation="4dp"
-                app:cardMaxElevation="8dp"
+                app:cardBackgroundColor="@color/colorAccent"
                 app:cardCornerRadius="15dp"
-                app:cardBackgroundColor="@color/colorAccent">
+                app:cardElevation="4dp"
+                app:cardMaxElevation="8dp">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/foodillustration"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/foodillustration" />
+
                 <TextView
+                    style="@style/categories.Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Food"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="5dp"
                     android:gravity="center"
-                    android:layout_gravity="bottom"
-                    style="@style/categories.Text"/>
+                    android:text="Food" />
 
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/relationCardView"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
-                app:cardElevation="4dp"
-                app:cardMaxElevation="8dp"
+                app:cardBackgroundColor="@color/colorAccent"
                 app:cardCornerRadius="15dp"
-                app:cardBackgroundColor="@color/colorAccent">
+                app:cardElevation="4dp"
+                app:cardMaxElevation="8dp">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/relationillustration"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/relationillustration" />
+
                 <TextView
+                    style="@style/categories.Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Relation"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="5dp"
                     android:gravity="center"
-                    android:layout_gravity="bottom"
-                    style="@style/categories.Text"/>
+                    android:text="Relation" />
 
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/careerCardView"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
@@ -217,6 +226,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/financialCardView"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
@@ -246,6 +256,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/learningCardView"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
@@ -275,6 +286,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/healthCardView"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
@@ -305,6 +317,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/otherCardView"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
@@ -335,6 +348,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/addCategory"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
