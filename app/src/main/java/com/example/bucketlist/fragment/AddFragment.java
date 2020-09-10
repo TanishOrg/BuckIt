@@ -11,10 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.bucketlist.R;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.card.MaterialCardView;
-
-import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
@@ -38,12 +35,12 @@ public class AddFragment extends Fragment  implements View.OnClickListener {
         travelCardVew = view.findViewById(R.id.travelCardView);
         careerCardView = view.findViewById(R.id.careerCardView);
 
-        initalizeCards();
+        initializeCards();
 
         return view;
     }
 
-    private void initalizeCards() {
+    private void initializeCards() {
         healthCardView = view.findViewById(R.id.healthCardView);
         careerCardView = view.findViewById(R.id.careerCardView);
         travelCardVew = view.findViewById(R.id.travelCardView);
