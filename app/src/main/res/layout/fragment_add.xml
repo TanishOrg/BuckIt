@@ -82,6 +82,8 @@
                 app:cardElevation="4dp"
                 app:cardMaxElevation="8dp"
                 app:cardCornerRadius="15dp"
+                android:clickable="true"
+                android:id="@+id/travelCategory"
                 app:cardBackgroundColor="@color/colorAccent">
 
                 <ImageView
@@ -110,6 +112,8 @@
                 app:cardElevation="4dp"
                 app:cardMaxElevation="8dp"
                 app:cardCornerRadius="15dp"
+                android:clickable="true"
+                android:id="@+id/adventureCategory"
                 app:cardBackgroundColor="@color/colorAccent">
 
                 <ImageView
@@ -139,6 +143,8 @@
                 app:cardElevation="4dp"
                 app:cardMaxElevation="8dp"
                 app:cardCornerRadius="15dp"
+                android:clickable="true"
+                android:id="@+id/foodCategory"
                 app:cardBackgroundColor="@color/colorAccent">
 
                 <ImageView
@@ -168,6 +174,8 @@
                 app:cardElevation="4dp"
                 app:cardMaxElevation="8dp"
                 app:cardCornerRadius="15dp"
+                android:clickable="true"
+                android:id="@+id/relationCategory"
                 app:cardBackgroundColor="@color/colorAccent">
 
                 <ImageView
@@ -197,6 +205,8 @@
                 app:cardElevation="4dp"
                 app:cardMaxElevation="8dp"
                 app:cardCornerRadius="15dp"
+                android:clickable="true"
+                android:id="@+id/careerCategory"
                 app:cardBackgroundColor="@color/colorAccent">
 
                 <ImageView
@@ -226,6 +236,8 @@
                 app:cardElevation="4dp"
                 app:cardMaxElevation="8dp"
                 app:cardCornerRadius="15dp"
+                android:clickable="true"
+                android:id="@+id/financialCategory"
                 app:cardBackgroundColor="@color/colorAccent">
 
                 <ImageView
@@ -255,6 +267,8 @@
                 app:cardElevation="4dp"
                 app:cardMaxElevation="8dp"
                 app:cardCornerRadius="15dp"
+                android:clickable="true"
+                android:id="@+id/learningCategory"
                 app:cardBackgroundColor="@color/colorAccent">
 
                 <ImageView
@@ -284,6 +298,8 @@
                 app:cardElevation="4dp"
                 app:cardMaxElevation="8dp"
                 app:cardCornerRadius="15dp"
+                android:clickable="true"
+                android:id="@+id/healthCategory"
                 app:cardBackgroundColor="@color/colorAccent">
 
                 <ImageView
@@ -314,6 +330,8 @@
                 app:cardElevation="4dp"
                 app:cardMaxElevation="8dp"
                 app:cardCornerRadius="15dp"
+                android:clickable="true"
+                android:id="@+id/otherCategory"
                 app:cardBackgroundColor="@color/colorAccent">
 
 
@@ -341,7 +359,8 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
-
+                android:clickable="true"
+                android:id="@+id/addCategory"
                 android:layout_gravity="center">
 
 

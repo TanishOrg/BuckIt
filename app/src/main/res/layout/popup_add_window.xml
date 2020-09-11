@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/layout_id"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:strokeWidth="1dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:src="@color/travelcolor" />
+
+        <ImageView
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_round_clear_24"
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorwhite"
+            android:textSize="24dp"
+            android:text="Add"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="top|left"
+            android:textAlignment="gravity"
+
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="80dp"
+            android:id="@+id/addPopupTitle"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Travel"
+            android:textColor="@color/travelcolor"
+            android:textSize="48dp" />
+
+        <EditText
+            android:id="@+id/nameText"
+            android:layout_width="280dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="170dp"
+            android:background="@drawable/entrybakground"
+            android:elevation="1dp"
+            android:fontFamily="sans-serif"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColorHint="@color/travelcolor"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/desriptionText"
+            android:layout_width="280dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="235dp"
+
+            android:background="@drawable/entrybakground"
+            android:elevation="1dp"
+            android:fontFamily="sans-serif"
+            android:hint="Description"
+            android:inputType="textMultiLine"
+            android:textAlignment="center"
+            android:textColorHint="@color/travelcolor"
+            android:textSize="20dp" />
+
+        <RelativeLayout
+            android:id="@+id/targetdateLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="300dp">
+
+            <ImageView
+                android:layout_width="280dp"
+                android:layout_height="45dp"
+                android:src="@drawable/entrybakground" />
+
+            <TextView
+                android:id="@+id/targetDateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:text="Target Date"
+                android:textColor="@color/travelcolor"
+                android:textSize="20dp" />
+        </RelativeLayout>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="345dp"
+            android:contextClickable="true"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/publicButton"
+                android:layout_width="120dp"
+                android:layout_height="45dp"
+                android:layout_margin="16dp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/radio_selector"
+                android:elevation="2dp"
+                android:text="Public"
+                android:textAlignment="center"
+                android:textColor="@color/travelcolor"
+                android:textSize="20dp" />
+
+            <RadioButton
+                android:id="@+id/privateButton"
+                android:layout_width="120dp"
+                android:layout_height="45dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/radio_selector"
+                android:button="@android:color/transparent"
+                android:elevation="2dp"
+                android:text="Private"
+
+                android:textAlignment="center"
+                android:textColor="@color/travelcolor"
+                android:textSize="20dp" />
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/createButton"
+            android:layout_width="190dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="440dp"
+            android:background="@drawable/entrybackground2"
+            android:elevation="4dp"
+            android:gravity="center"
+            android:text="Create"
+            android:textColor="@color/colorwhite"
+            android:textSize="20dp" />
+
+
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

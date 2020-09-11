@@ -49,7 +49,6 @@ public class HomeActivity extends AppCompatActivity {
                 if(selectedFragment!=null){
 
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment).commit();
-                    bottomNav.setItemSelected(id,true);
 
 
                 }
