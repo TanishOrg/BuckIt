@@ -1,56 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/rectangle">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Light">
 
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_bar"
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="250dp"
-        android:background="@color/white"
-        android:elevation="2dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tabIndicatorColor="@color/pink1"
-        app:tabIndicatorFullWidth="true"
-        app:tabRippleColor="@color/pink1"
-
-        app:tabSelectedTextColor="@color/pink1"
-        app:tabTextColor="@color/pink1">
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabDreams"
-            android:layout_width="wrap_content"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolBar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:contentScrim="#FFFFFF"
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+            android:theme="@style/ThemeOverlay.MaterialComponents.Light">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"
+                android:src="@drawable/background3" />
 
 
-            android:text="Dreams" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:contentInsetStart="0dp"
+                app:layout_collapseMode="parallax"
+                android:fitsSystemWindows="true"
+                android:theme="@style/ThemeOverlay.MaterialComponents.Dark"
+                app:popupTheme="@style/ThemeOverlay.MaterialComponents"
+                app:contentInsetStartWithNavigation="0dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="PROFILE"
+                    android:gravity="center"
+                    android:textSize="22dp"
+                    android:textColor="@color/blackcolor"
+                    android:fontFamily="@font/montserrat_bold"
+                    />
+
+            </androidx.appcompat.widget.Toolbar>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_bar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="bottom"
+                android:background="@color/colorwhite"
+                app:tabIndicatorColor="@color/pink1"
+                app:tabSelectedTextColor="@color/pink1"
+                app:layout_collapseMode="pin"
+                app:tabMode="fixed">
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/tabDreams"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dreams" />
 
 
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabAchieved"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Achieved" />
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/tabAchieved"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Achieved" />
 
+            </com.google.android.material.tabs.TabLayout>
 
-    </com.google.android.material.tabs.TabLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tab_bar"
-        app:layout_constraintTop_toBottomOf="@+id/tab_bar"
-        app:layout_constraintVertical_bias="0.0" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

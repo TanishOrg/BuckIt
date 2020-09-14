@@ -9,7 +9,6 @@ import android.util.Log;
 
 import com.example.bucketlist.fragment.AddFragment;
 import com.example.bucketlist.fragment.CityFragment;
-import com.example.bucketlist.fragment.ProfileFragment;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 public class HomeActivity extends AppCompatActivity {

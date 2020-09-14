@@ -8,7 +8,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="550dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         app:strokeWidth="1dp">
@@ -113,7 +113,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="345dp"
+            android:layout_marginTop="350dp"
             android:contextClickable="true"
             android:orientation="horizontal">
 
@@ -127,7 +127,7 @@
                 android:elevation="2dp"
                 android:text="Public"
                 android:textAlignment="center"
-                android:textColor="@color/travelcolor"
+                android:textColor="@color/blackcolor"
                 android:textSize="20dp" />
 
             <RadioButton
@@ -141,7 +141,7 @@
                 android:text="Private"
 
                 android:textAlignment="center"
-                android:textColor="@color/travelcolor"
+                android:textColor="@color/blackcolor"
                 android:textSize="20dp" />
 
         </RadioGroup>
