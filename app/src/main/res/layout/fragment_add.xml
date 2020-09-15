@@ -91,6 +91,7 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/travelillustration"/>
                 <TextView
+                    android:id="@+id/travel_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Travel"
@@ -122,6 +123,7 @@
                     android:src="@drawable/adventureillustration"
                     android:scaleType="centerCrop"/>
                 <TextView
+                    android:id="@+id/adventure_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Adventure"
@@ -153,6 +155,7 @@
                     android:src="@drawable/foodillustration"
                     android:scaleType="centerCrop"/>
                 <TextView
+                    android:id="@+id/food_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Food"
@@ -184,6 +187,7 @@
                     android:src="@drawable/relationillustration"
                     android:scaleType="centerCrop"/>
                 <TextView
+                    android:id="@+id/relation_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Relation"
@@ -215,6 +219,7 @@
                     android:src="@drawable/careerillustration"
                     android:scaleType="centerCrop"/>
                 <TextView
+                    android:id="@+id/career_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Career"
@@ -246,6 +251,7 @@
                     android:src="@drawable/financialillustration"
                     android:scaleType="centerCrop"/>
                 <TextView
+                    android:id="@+id/financial_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Financial"
@@ -277,6 +283,7 @@
                     android:src="@drawable/learningillustration"
                     android:scaleType="centerCrop"/>
                 <TextView
+                    android:id="@+id/learning_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Learning"
@@ -308,6 +315,7 @@
                     android:src="@drawable/healthillustration"
                     android:scaleType="centerCrop"/>
                 <TextView
+                    android:id="@+id/health_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Health"
@@ -341,6 +349,7 @@
                     android:src="@drawable/otherillustration"
                     android:scaleType="centerCrop"/>
                 <TextView
+                    android:id="@+id/other_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Other"
