@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="CustomTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#C1ED84</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorgreen</item>
+        <item name="colorPrimaryDark">@color/colorgreen</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowActivityTransitions">true</item>
@@ -13,8 +13,8 @@
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
 
-        <item name="colorPrimary">#C1ED84</item>
-        <item name="colorPrimaryDark">@color/colorgreen</item>
+        <item name="colorPrimary">#D81C0012</item>
+        <item name="colorPrimaryDark">#D81C0012</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!-- Customize your theme here. -->
 

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/travel_card_background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/building1"
+                android:scaleType="centerCrop"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="220dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/cardTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+
+                    android:fontFamily="@font/montserrat_bold"
+                    android:gravity="center"
+                    android:text="Title Name of card"
+                    android:textColor="@color/colorwhite"
+                    android:textSize="24dp" />
+
+                <TextView
+                    android:id="@+id/cardDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/cardTitle"
+
+                    android:fontFamily="@font/montserrat"
+                    android:text="describe this item of your bucket list"
+                    android:inputType="textMultiLine"
+                    android:textColor="@color/colorwhite"
+
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+            <Button
+                android:layout_width="180dp"
+                android:layout_height="48dp"
+                android:text="ACCOMPLISH"
+                android:textSize="16dp"
+                android:gravity="center"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/getstartedbuttonshape"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="115dp">
+
+               <LinearLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="10dp"
+                   android:layout_marginRight="20dp"
+                   android:orientation="vertical">
+                   <ImageView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:src="@drawable/ic_baseline_flight_24"
+                       android:layout_gravity="center" />
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="Category"
+                       android:textColor="@color/colorwhite"
+                       android:fontFamily="@font/montserrat"
+                       android:textSize="18dp"/>
+               </LinearLayout>
+
+             <LinearLayout
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="20dp"
+                 android:layout_marginRight="20dp"
+                 android:orientation="vertical">
+                 <ImageView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:scaleType="centerCrop"
+                     android:src="@drawable/ic_baseline_calendar_today_24"
+                     android:layout_gravity="center" />
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Target Date"
+
+                     android:textColor="@color/colorwhite"
+                     android:fontFamily="@font/montserrat"
+                     android:textSize="18dp"/>
+
+
+             </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_baseline_public_24"
+                        android:layout_gravity="center" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Privacy"
+
+                        android:textColor="@color/colorwhite"
+                        android:fontFamily="@font/montserrat"
+                        android:textSize="18dp"/>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

@@ -10,11 +10,20 @@
         android:layout_width="360dp"
         android:layout_height="150dp"
         android:elevation="2dp"
+        app:cardMaxElevation="8dp"
         app:cardBackgroundColor="#0ACC95"
-        app:cardCornerRadius="15dp">
+        app:cardCornerRadius="15dp"
+        android:clickable="true">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:id="@+id/card_item">
+            
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/building1"
+                android:scaleType="centerCrop"/>
 
             <TextView
                 android:id="@+id/cardTitle"
