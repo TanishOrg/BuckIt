@@ -17,7 +17,7 @@ public class BucketItems {
     private String dateItemAdded;
     private String deadline;
 
-    private BucketItems() {}
+    public BucketItems() {}
 
     public BucketItems(int id, String category, String title, boolean isPrivate, boolean achieved, String dateItemAdded, String deadline) {
         this.id = id;
@@ -83,5 +83,18 @@ public class BucketItems {
 
     public void setDeadline(String deadline) {
         this.deadline = deadline;
+    }
+
+    @Override
+    public String toString() {
+        return "BucketItems{" +
+                "id=" + id +
+                ", category='" + category + '\'' +
+                ", title='" + title + '\'' +
+                ", isPrivate=" + isPrivate +
+                ", achieved=" + achieved +
+                ", dateItemAdded='" + dateItemAdded + '\'' +
+                ", deadline='" + deadline + '\'' +
+                '}';
     }
 }

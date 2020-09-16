@@ -3,6 +3,7 @@ package com.example.bucketlist.fragment;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +22,16 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.example.bucketlist.R;
+import com.example.bucketlist.data.DatabaseHandler;
+import com.example.bucketlist.model.BucketItems;
 
 import java.util.Calendar;
 
 public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetListener, View.OnClickListener {
 
     TextView targetDateText;
+    private boolean flag = false;
+    private DatabaseHandler db;
     @Nullable
     @Override
 
@@ -53,7 +58,7 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
         learningCategory.setOnClickListener(this);
         healthCategory.setOnClickListener(this);
         otherCategory.setOnClickListener(this);
-
+        db = new DatabaseHandler(getContext());
 
         return view;
 
@@ -127,7 +132,21 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
             public void onClick(View view) {
                 showDatePickerDialog();
 
+            }
+        });
 
+        privateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                flag = true;
+                Log.d("Button", "onClick: " + flag);
+            }
+        });
+
+        publicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                flag  =false;
             }
         });
 
@@ -140,8 +159,21 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
 
                 if(name.isEmpty()&& description.isEmpty())
                     Toast.makeText(getContext(), "Field is still empty", Toast.LENGTH_SHORT).show();
-                else
+                else {
+                    BucketItems item =  new BucketItems();
+                    item.setTitle(nameText.getText().toString().trim());
+                    item.setCategory(addPopupTitle.getText().toString().trim());
+                    item.setDeadline(targetDateText.getText().toString().trim());
+                    item.setPrivate(flag);
+                    item.setAchieved(true);
+                    db.addItem(item);
+                    Log.d("flag", "onClick: " + flag);
+                    Log.d("Database", "onClick: " + db.getItemsCount() );
+                    Log.d("Database", "onClick: " + db.getAllItems().toString());
                     Toast.makeText(getContext(), "Added to your bucket list", Toast.LENGTH_SHORT).show();
+                }
+                Log.d("Database", "onClick: " + db.getItemsCount() );
+                Log.d("Database", "onClick: " + db.getAllItems().toString());
 
 
             }

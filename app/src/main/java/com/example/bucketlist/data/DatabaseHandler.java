@@ -36,9 +36,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + Constants.KEY_ITEM_TITLE + " TEXT,"
                 + Constants.KEY_ITEM_CATEGORY + " TEXT,"
                 + Constants.KEY_ITEM_ACHIEVED + " BOOLEAN,"
-                + Constants.KEY_DATE_NAME + " LONG"
-                + Constants.KEY_ITEM_VISIBILITY + "BOOLEAN"
-                + Constants.KEY_DATA_DEADLINE + "STRING"
+                + Constants.KEY_DATE_NAME + " LONG,"
+                + Constants.KEY_ITEM_VISIBILITY + " BOOLEAN,"
+                + Constants.KEY_DATA_DEADLINE + " STRING"
                 + ")";
 
         sqLiteDatabase.execSQL(CREATE_TABLE);
@@ -49,6 +49,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+Constants.TABLE_NAME);
+        Log.d(TAG, "onUpgrade: ");
 
         onCreate(sqLiteDatabase);
 
@@ -65,10 +66,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(Constants.KEY_DATE_NAME, System.currentTimeMillis());
         values.put(Constants.KEY_ITEM_VISIBILITY,items.isPrivate());
         values.put(Constants.KEY_DATA_DEADLINE,items.getDeadline());
-
-        //insert
+//
+//        //insert
         db.insert(Constants.TABLE_NAME,null,values);
+        Log.d(TAG, "addItem: "
+        + items.toString());
         Log.d(TAG, "addItems: ");
+        Log.d(TAG, "addItem: "  + items.isPrivate());
     }
 
     public List<BucketItems> getAllItems() {
@@ -83,8 +87,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         Constants.KEY_ITEM_ACHIEVED,
                         Constants.KEY_ITEM_CATEGORY,
                         Constants.KEY_DATE_NAME,
-                Constants.KEY_DATA_DEADLINE,
-                Constants.KEY_ITEM_VISIBILITY},
+                        Constants.KEY_DATA_DEADLINE,
+                        Constants.KEY_ITEM_VISIBILITY,
+                },
                 null,
                 null,
                 null,
