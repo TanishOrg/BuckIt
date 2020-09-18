@@ -165,7 +165,8 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
                     item.setCategory(addPopupTitle.getText().toString().trim());
                     item.setDeadline(targetDateText.getText().toString().trim());
                     item.setPrivate(flag);
-                    item.setAchieved(true);
+                    item.setAchieved(false);
+                    item.setInfo(description);
                     db.addItem(item);
                     Log.d("flag", "onClick: " + flag);
                     Log.d("Database", "onClick: " + db.getItemsCount() );

@@ -34,6 +34,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String CREATE_TABLE = "CREATE TABLE " + Constants.TABLE_NAME + "("
                 + Constants.KEY_ID + " INTEGER PRIMARY KEY,"
                 + Constants.KEY_ITEM_TITLE + " TEXT,"
+                + Constants.KEY_ITEM_INFO + " TEXT,"
                 + Constants.KEY_ITEM_CATEGORY + " TEXT,"
                 + Constants.KEY_ITEM_ACHIEVED + " BOOLEAN,"
                 + Constants.KEY_DATE_NAME + " LONG,"
@@ -62,10 +63,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(Constants.KEY_ITEM_TITLE, items.getTitle());
         values.put(Constants.KEY_ITEM_CATEGORY, items.getCategory());
+        values.put(Constants.KEY_ITEM_INFO,items.getInfo());
         values.put(Constants.KEY_ITEM_ACHIEVED, items.isAchieved());
         values.put(Constants.KEY_DATE_NAME, System.currentTimeMillis());
         values.put(Constants.KEY_ITEM_VISIBILITY,items.isPrivate());
         values.put(Constants.KEY_DATA_DEADLINE,items.getDeadline());
+
+        Log.d(TAG, "addItem: " + items.getInfo());
 //
 //        //insert
         db.insert(Constants.TABLE_NAME,null,values);
@@ -85,6 +89,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 new String[] {Constants.KEY_ID,
                         Constants.KEY_ITEM_TITLE,
                         Constants.KEY_ITEM_ACHIEVED,
+                        Constants.KEY_ITEM_INFO,
                         Constants.KEY_ITEM_CATEGORY,
                         Constants.KEY_DATE_NAME,
                         Constants.KEY_DATA_DEADLINE,
@@ -114,12 +119,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         DateFormat dateFormat = DateFormat.getDateInstance();
         String formattedDate = dateFormat.format(new Date(cursor.getLong(cursor.getColumnIndex(Constants.KEY_DATE_NAME))).getTime());
 
+        Log.d(TAG, "getNewItem: " + formattedDate);
         return new BucketItems(
                 Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.KEY_ID))),
                 cursor.getString(cursor.getColumnIndex(Constants.KEY_ITEM_CATEGORY)),
+                cursor.getString(cursor.getColumnIndex(Constants.KEY_ITEM_INFO)),
                 cursor.getString(cursor.getColumnIndex(Constants.KEY_ITEM_TITLE)),
-                Boolean.valueOf(cursor.getString(cursor.getColumnIndex(Constants.KEY_ITEM_VISIBILITY))),
-                Boolean.valueOf(cursor.getString(cursor.getColumnIndex(Constants.KEY_ITEM_ACHIEVED))),
+                Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(Constants.KEY_ITEM_VISIBILITY))),
+                Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(Constants.KEY_ITEM_ACHIEVED))),
                 formattedDate,
                 cursor.getString(cursor.getColumnIndex(Constants.KEY_DATA_DEADLINE))
         );
@@ -153,6 +160,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(Constants.KEY_ITEM_TITLE, item.getTitle());
+        values.put(Constants.KEY_ITEM_INFO,item.getInfo());
         values.put(Constants.KEY_ITEM_CATEGORY, item.getCategory());
         values.put(Constants.KEY_ITEM_ACHIEVED, item.isAchieved());
         values.put(Constants.KEY_DATE_NAME, System.currentTimeMillis());
