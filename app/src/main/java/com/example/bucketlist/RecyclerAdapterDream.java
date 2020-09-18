@@ -21,8 +21,7 @@ import java.util.List;
 
 public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDream.ViewHolder>{
 
-    @NonNull
-    Dialog myDialog;
+
     Context context;
     List<BucketItems> itemsList;
     private AlertDialog dialog;
@@ -70,6 +69,25 @@ public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDr
         holder.id = items.getId();
         holder.cardTitle.setText(items.getTitle());
         holder.cardTargetDate.setText(items.getDeadline());
+
+
+        TextView titleOfCard = holder.myDialog.findViewById(R.id.cardTitle);
+        TextView infoOfCard = holder.myDialog.findViewById(R.id.cardDescription);
+        TextView targetOfCard = holder.myDialog.findViewById(R.id.card_target_date);
+
+        titleOfCard.setText(items.getTitle());
+        if (items.getInfo() != null) {
+            infoOfCard.setText(items.getInfo());
+        }
+        targetOfCard.setText(items.getDeadline());
+        holder.card_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "test click" + String.valueOf(holder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
+                holder.myDialog.show();
+            }
+        });
+
     }
 
     @Override
@@ -79,6 +97,8 @@ public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDr
 
     class ViewHolder extends RecyclerView.ViewHolder{
 
+        @NonNull
+        Dialog myDialog;
         RelativeLayout card_item;
         ImageView imageView;
         TextView cardTitle , cardTargetDate;
@@ -94,14 +114,6 @@ public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDr
             //inflating
             myDialog = new Dialog(context,android.R.style.Theme_Translucent_NoTitleBar);
             myDialog.setContentView(R.layout.popup_show_window);
-
-            card_item.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, "test click" + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
-                    myDialog.show();
-                }
-            });
 
 
 

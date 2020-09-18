@@ -119,6 +119,7 @@
                      android:src="@drawable/ic_baseline_calendar_today_24"
                      android:layout_gravity="center" />
                  <TextView
+                     android:id="@+id/card_target_date"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:text="Target Date"
