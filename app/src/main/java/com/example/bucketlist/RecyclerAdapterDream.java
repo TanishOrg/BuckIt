@@ -92,7 +92,7 @@ public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDr
 
     @Override
     public int getItemCount() {
-        return itemsList.size();
+        return itemsList != null ? itemsList.size() : 0;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
