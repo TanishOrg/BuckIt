@@ -69,13 +69,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(Constants.KEY_ITEM_VISIBILITY,items.isPrivate());
         values.put(Constants.KEY_DATA_DEADLINE,items.getDeadline());
 
-        Log.d(TAG, "addItem: " + items.getInfo());
-//
-//        //insert
+
         db.insert(Constants.TABLE_NAME,null,values);
         Log.d(TAG, "addItem: "
         + items.toString());
-        Log.d(TAG, "addItems: ");
         Log.d(TAG, "addItem: "  + items.isPrivate());
     }
 
@@ -119,17 +116,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         DateFormat dateFormat = DateFormat.getDateInstance();
         String formattedDate = dateFormat.format(new Date(cursor.getLong(cursor.getColumnIndex(Constants.KEY_DATE_NAME))).getTime());
 
-        Log.d(TAG, "getNewItem: " + formattedDate);
+        Log.d(TAG, "getNewItem: "+ cursor.getString(cursor.getColumnIndex(Constants.KEY_ITEM_VISIBILITY)));
         return new BucketItems(
                 Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.KEY_ID))),
                 cursor.getString(cursor.getColumnIndex(Constants.KEY_ITEM_CATEGORY)),
                 cursor.getString(cursor.getColumnIndex(Constants.KEY_ITEM_INFO)),
                 cursor.getString(cursor.getColumnIndex(Constants.KEY_ITEM_TITLE)),
-                Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(Constants.KEY_ITEM_VISIBILITY))),
-                Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(Constants.KEY_ITEM_ACHIEVED))),
+                (Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.KEY_ITEM_VISIBILITY)))) == 0 ? false: true,
+                Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.KEY_ITEM_ACHIEVED))) == 0? false: true,
                 formattedDate,
                 cursor.getString(cursor.getColumnIndex(Constants.KEY_DATA_DEADLINE))
         );
+
     }
 
     //TODO Add update items
