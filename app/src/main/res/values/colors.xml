@@ -7,15 +7,17 @@
     <color name="selectediconcolor">#F6274d</color>
     <color name="colorchip">#FFFFFF</color>
     <color name="statuscolor">#00FFFFFF</color>
-    <color name="pink1">#F6274d</color>
+    <color name="pink1">#F44F70</color>
     <color name="pink2">#A3073C</color>
     <color name="pink3">#FF4786</color>
     <color name="white">#FFFFFF</color>
     <color name="colorcream">#FAB3B3</color>
     <color name="colorgreen">#C6F46F</color>
     <color name="colorwhite">#ffffff</color>
-    <color name="travelcolor">#038869</color>
+    <color name="travelcolor">#F44F70</color>
     <color name="blackcolor">#000000</color>
+    <color name="lightgray">#EAE9E9</color>
+    <color name="disableColor">#818181</color>
 
 
 </resources>

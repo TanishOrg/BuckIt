@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.bucketlist.layout.SignupActivity;
-import com.example.bucketlist.layout.loginActivity;
 
 public class Third_Content extends AppCompatActivity {
     Button loginbutton,signupbutton;
@@ -30,12 +29,12 @@ public class Third_Content extends AppCompatActivity {
 
     }
     public void toLoginPage(View view){
-        Intent i=new Intent(view.getContext(), loginActivity.class);
+        Intent i=new Intent(view.getContext(), LoginByEmailActivity.class);
         startActivity(i);
     }
 
     public void toSignupPage(View view){
-        Intent i=new Intent(view.getContext(), SignupActivity.class);
+        Intent i=new Intent(view.getContext(),SignupActivity.class);
         startActivity(i);
     }
 }

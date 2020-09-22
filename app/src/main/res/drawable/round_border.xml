@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <stroke android:color="@color/colorbottomnav"
-        android:width="2dp">
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <solid
+                android:color="@color/lightgray"/>
+            <corners android:radius="8dp"/>
+        </shape>
 
-    </stroke>
-    <corners android:topLeftRadius="20dp"
-        android:topRightRadius="20dp"
-        android:bottomLeftRadius="20dp"
-        android:bottomRightRadius="20dp">
-
-    </corners>
-</shape>
+    </item>
+</selector>

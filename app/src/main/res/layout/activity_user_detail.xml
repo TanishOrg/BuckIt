@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+
+    tools:context=".UserDetail">
+
+    <TextView
+        android:id="@+id/titlepage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="80dp"
+        android:layout_centerHorizontal="true"
+        android:text="Profile Setup"
+        android:fontFamily="@font/montserrat_bold"
+        android:textSize="32dp"
+        android:textColor="#00283E" />
+
+
+    <RelativeLayout
+        android:id="@+id/profileLayout"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_alignBottom="@id/titlepage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="-200dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profileImage"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+
+            app:civ_border_width="4dp"
+            app:civ_border_color="#002143"
+
+
+            android:src="@drawable/profile_general_image"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/addImageButton"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_round_add_24"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="3dp"
+            app:civ_border_color="#002143"
+            app:civ_circle_background_color="@color/white"
+            app:civ_border_width="4dp"/>
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/displayNameText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="50dp"
+        android:layout_alignBottom="@id/profileLayout"
+        android:layout_marginBottom="-130dp"
+        android:padding="16dp"
+        android:hint="Display name"
+        android:background="@drawable/round_border"/>
+    <Button
+        android:id="@+id/completeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@id/displayNameText"
+        android:layout_marginBottom="-80dp"
+        android:padding="16dp"
+        android:layout_marginHorizontal="50dp"
+        android:text="COMPLETED"
+        android:textColor="@color/white"
+        android:background="@drawable/otpbuttonbackground"/>
+
+
+</RelativeLayout>

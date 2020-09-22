@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.bucketlist">
+    
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE"/>
 
     <supports-screens
         android:largeScreens="true"
         android:normalScreens="true"
         android:smallScreens="true"
-        android:xlargeScreens="true"/>
+        android:xlargeScreens="true" />
 
     <application
         android:allowBackup="true"
@@ -15,11 +18,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CustomTheme">
+        
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Theme.AppCompat">
 
+
+        </activity>
+        
+        <activity android:name=".OtpActivityLogin"></activity>
+        <activity android:name=".UserDetail" />
+        <activity android:name=".OtpActivityRegister" />
+        <activity android:name=".ContactEntry" />
         <activity android:name=".HomeActivity" />
         <activity
             android:name=".Third_Content"
-            android:parentActivityName=".SecondContent"/>
+            android:parentActivityName=".SecondContent" />
         <activity
             android:name=".First_content"
             android:parentActivityName=".GetStartedActivity" />
@@ -27,22 +40,22 @@
             android:name=".SecondContent"
             android:parentActivityName=".First_content" />
         <activity
-            android:name=".layout.loginActivity"
+            android:name=".LoginByEmailActivity"
             android:parentActivityName=".Third_Content" />
         <activity
             android:name=".layout.SignupActivity"
-            android:parentActivityName=".Third_Content"/>
-<activity android:name=".GetStartedActivity">
-<intent-filter>
-    <action android:name="android.intent.action.MAIN" />
+            android:parentActivityName=".Third_Content" />
+        <activity android:name=".GetStartedActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-    <category android:name="android.intent.category.LAUNCHER" />
-</intent-filter>
-</activity>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
 
-    </manifest>
+</manifest>

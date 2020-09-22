@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#C4000000"
+    android:focusable="false"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="350dp"
+        android:layout_height="250dp"
+        android:layout_centerInParent="true"
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="@color/white">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                android:text="Verified!"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="30dp"
+                android:textColor="#00283E" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your Phone Number has been verified successfully"
+                android:layout_centerHorizontal="true"
+                android:layout_marginHorizontal="55dp"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:layout_marginTop="105dp"
+                android:textColor="#00283E"
+                android:fontFamily="@font/montserrat"/>
+
+            <Button
+                android:id="@+id/continueButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="183dp"
+                android:background="@drawable/otpbuttonbackground"
+                android:text="CONTINUE"
+                android:padding="16dp"
+                android:textSize="16dp"
+                android:textColor="@color/white" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

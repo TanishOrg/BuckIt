@@ -1,4 +1,4 @@
-package com.example.bucketlist.layout;
+package com.example.bucketlist;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,19 +14,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bucketlist.HomeActivity;
-import com.example.bucketlist.R;
+import com.example.bucketlist.layout.SignupActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class loginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginByEmailActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "LOGIN ACTIVITY";
     private Button loginButton;
-//    private  Button signUpButton;
     private EditText emailEditText;
     private EditText passwordEditText;
 //    private EditText nameEditText;
@@ -42,7 +40,7 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.login_by_email);
 
         initializeUi();
     }
@@ -56,7 +54,6 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
         loginButton  = findViewById(R.id.login_button);
         signUpTexView = findViewById(R.id.text_sign_up);
         loginLayout = findViewById(R.id.login1_layout);
-//        constraintLayout = findViewById(R.id.constrain_signup);
         signUpTexView.setOnClickListener(this);
         loginButton.setOnClickListener(this);
     }
@@ -65,12 +62,14 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         if (view.getId() == R.id.login_button) {
             doLogIn();
-        } else if (view.getId() == R.id.text_sign_up) {
+        }
+        else if (view.getId() == R.id.text_sign_up) {
             Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(getApplicationContext(), SignupActivity.class);
+            Intent i = new Intent(getApplicationContext(), ContactEntry.class);
             startActivity(i);
 
         }
+
     }
 
 
@@ -94,11 +93,11 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()){
                                 Log.d(TAG, "onComplete: ");
-                                Toast.makeText(loginActivity.this, "Successful", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginByEmailActivity.this, "Successful", Toast.LENGTH_SHORT).show();
                                 //TODO ADD INTENT HERE FOR NEXT ACTIVITY
                                 startHome();
                             } else {
-                                Toast.makeText(loginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginByEmailActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

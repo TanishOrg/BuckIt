@@ -54,110 +54,121 @@
 
         <EditText
             android:id="@+id/nameText"
-            android:layout_width="280dp"
-            android:layout_height="45dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="170dp"
-            android:background="@drawable/entrybakground"
+            android:layout_marginHorizontal="40dp"
+            android:background="@drawable/round_border"
             android:elevation="1dp"
             android:fontFamily="sans-serif"
             android:hint="Name"
             android:inputType="textPersonName"
-            android:textAlignment="center"
+            android:padding="16dp"
+
             android:textAllCaps="false"
             android:textColorHint="@color/travelcolor"
-            android:textSize="20dp" />
+            android:textSize="16dp" />
 
         <EditText
             android:id="@+id/desriptionText"
-            android:layout_width="280dp"
-            android:layout_height="45dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+
             android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="40dp"
             android:layout_marginTop="235dp"
 
-            android:background="@drawable/entrybakground"
+            android:background="@drawable/round_border"
             android:elevation="1dp"
             android:fontFamily="sans-serif"
             android:hint="Description"
             android:inputType="textMultiLine"
-            android:textAlignment="center"
             android:textColorHint="@color/travelcolor"
-            android:textSize="20dp" />
+            android:textSize="16dp" />
 
-        <RelativeLayout
-            android:id="@+id/targetdateLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="300dp">
 
-            <ImageView
-                android:layout_width="280dp"
-                android:layout_height="45dp"
-                android:src="@drawable/entrybakground" />
 
-            <TextView
-                android:id="@+id/targetDateText"
+
+
+            <RelativeLayout
+                android:id="@+id/targetdateLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_marginTop="300dp">
 
-                android:fontFamily="sans-serif"
-                android:gravity="center"
-                android:text="Target Date"
-                android:textColor="@color/travelcolor"
-                android:textSize="20dp" />
-        </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/targetDateText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginHorizontal="40dp"
+
+                    android:background="@drawable/round_border"
+                    android:fontFamily="sans-serif"
+                    android:padding="16dp"
+                    android:text="Target Date"
+                    android:textColor="@color/travelcolor"
+                    android:textSize="16dp" />
+            </RelativeLayout>
+
 
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="350dp"
+            android:layout_marginHorizontal="60dp"
+            android:layout_marginTop="370dp"
             android:contextClickable="true"
             android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/publicButton"
-                android:layout_width="120dp"
-                android:layout_height="45dp"
-                android:layout_margin="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:padding="16dp"
                 android:button="@android:color/transparent"
                 android:background="@drawable/radio_selector"
                 android:elevation="2dp"
                 android:text="Public"
                 android:textAlignment="center"
                 android:textColor="@color/blackcolor"
-                android:textSize="20dp" />
+                android:textSize="16dp" />
 
             <RadioButton
                 android:id="@+id/privateButton"
-                android:layout_width="120dp"
-                android:layout_height="45dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                android:padding="16dp"
                 android:background="@drawable/radio_selector"
                 android:button="@android:color/transparent"
                 android:elevation="2dp"
                 android:text="Private"
-
                 android:textAlignment="center"
                 android:textColor="@color/blackcolor"
-                android:textSize="20dp" />
+                android:textSize="16dp" />
 
         </RadioGroup>
 
         <Button
             android:id="@+id/createButton"
-            android:layout_width="190dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="480dp"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="470dp"
             android:background="@drawable/entrybackground2"
             android:elevation="4dp"
             android:gravity="center"
             android:text="Create"
             android:textColor="@color/colorwhite"
-            android:textSize="20dp" />
+            android:textSize="16dp" />
 
 
 

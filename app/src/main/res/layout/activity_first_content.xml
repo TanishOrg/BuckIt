@@ -134,10 +134,10 @@
         android:layout_marginTop="260dp"
         android:layout_marginRight="22dp"
         android:fontFamily="sans-serif-medium"
-        android:text="Hey there.                                                            this is the platform where you can  make your own bucket list."
+        android:text="Hey there.\nthis is the platform where\nyou can  make your own bucket list."
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="16dp"
         android:transitionName="texttransition1"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logobucketlist" />

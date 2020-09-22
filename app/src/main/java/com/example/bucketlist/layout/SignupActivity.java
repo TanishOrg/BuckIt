@@ -13,8 +13,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bucketlist.ContactEntry;
 import com.example.bucketlist.HomeActivity;
 import com.example.bucketlist.R;
+import com.example.bucketlist.data.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -26,9 +28,11 @@ public class SignupActivity extends AppCompatActivity
 
     private static final String TAG = "SIGN UP ACTIVITY" ;
     private EditText signUpemailEditText;
-    private EditText nameEditText;
-    private TextView signUpPasswordEditText;
+    private EditText signUpConfirmPasswordEditText;
+    private EditText signUpPasswordEditText;
     private Button signUpButton;
+    String email,password;
+
     FirebaseAuth mAuth;
     FirebaseUser mUser;
 
@@ -44,7 +48,7 @@ public class SignupActivity extends AppCompatActivity
     private void initializeUi() {
             signUpemailEditText = findViewById(R.id.email_text_view);
             mAuth = FirebaseAuth.getInstance();
-            nameEditText = findViewById(R.id.name_text_view);
+            signUpConfirmPasswordEditText = findViewById(R.id.confirm_password_text_view2);
             signUpPasswordEditText  = findViewById(R.id.password_text_view2);
             signUpButton = findViewById(R.id.signup_button);
             signUpButton.setOnClickListener(this);
@@ -54,7 +58,6 @@ public class SignupActivity extends AppCompatActivity
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.signup_button) {
-            Toast.makeText(this, "Button Sign Up", Toast.LENGTH_SHORT).show();
             doSignUp();
         }
     }
@@ -62,12 +65,34 @@ public class SignupActivity extends AppCompatActivity
     private void doSignUp() {
         if (TextUtils.isEmpty(signUpemailEditText.getText().toString())
                 || TextUtils.isEmpty(signUpPasswordEditText.getText().toString().trim())
-                || signUpPasswordEditText.getText().toString().trim().length() < 8
-                || TextUtils.isEmpty(nameEditText.getText().toString().trim())) {
-            Toast.makeText(getApplicationContext(),"Any item can't be empty and min length of password should be greater than  8",Toast.LENGTH_SHORT).show();
-        } else {
-            String email = signUpemailEditText.getText().toString().trim();
-            String password = signUpPasswordEditText.getText().toString().trim();
+                || TextUtils.isEmpty(signUpConfirmPasswordEditText.getText().toString().trim())) {
+
+            if(TextUtils.isEmpty(signUpemailEditText.getText().toString()))
+                signUpemailEditText.setError("Enter the email");
+
+            if(TextUtils.isEmpty(signUpPasswordEditText.getText().toString().trim()))
+                 signUpPasswordEditText.setError("Enter the password ");
+
+            if(TextUtils.isEmpty(signUpConfirmPasswordEditText.getText().toString().trim()))
+                signUpConfirmPasswordEditText.setError("Enter confirm password");
+
+
+        }
+
+        else if ( signUpPasswordEditText.getText().toString().trim().length() < 8){
+            signUpPasswordEditText.setError("password length should be equal or more than 8 character");
+        }
+
+        else if(!signUpPasswordEditText.getText().toString().trim().equals(signUpConfirmPasswordEditText.getText().toString().trim())){
+
+
+            signUpConfirmPasswordEditText.setError("password does not match");
+            signUpPasswordEditText.setError("password does not match");
+        }
+
+        else {
+             email = signUpemailEditText.getText().toString().trim();
+             password = signUpPasswordEditText.getText().toString().trim();
 
             mAuth.createUserWithEmailAndPassword(email,password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -87,7 +112,7 @@ public class SignupActivity extends AppCompatActivity
     }
 
     private void startHome() {
-        Intent i=new Intent(getApplicationContext(), HomeActivity.class);
+        Intent i=new Intent(getApplicationContext(), ContactEntry.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
 
