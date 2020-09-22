@@ -2,6 +2,7 @@ package com.example.bucketlist.fragment;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,10 +21,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
+import com.example.bucketlist.ProfileFragment;
 import com.example.bucketlist.R;
 import com.example.bucketlist.data.DatabaseHandler;
 import com.example.bucketlist.model.BucketItems;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.Calendar;
 
@@ -105,14 +109,14 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
         }
 
 
-        final EditText nameText = (EditText)view1.findViewById(R.id.nameText);
-        final EditText describeText = (EditText)view1.findViewById(R.id.nameText);
-        final RelativeLayout targetDateLayout = (RelativeLayout)view1.findViewById(R.id.targetdateLayout);
-        targetDateText = (TextView)view1.findViewById(R.id.targetDateText);
-        final RadioButton publicButton = (RadioButton)view1.findViewById(R.id.publicButton);
-        final RadioButton privateButton = (RadioButton)view1.findViewById(R.id.privateButton);
-        final Button createButton = (Button)view1.findViewById(R.id.createButton);
-        final ImageView cancelButton = (ImageView)view1.findViewById(R.id.cancelButton);
+        final EditText nameText = view1.findViewById(R.id.nameText);
+        final EditText describeText = view1.findViewById(R.id.desriptionText);
+        final RelativeLayout targetDateLayout = view1.findViewById(R.id.targetdateLayout);
+        targetDateText = view1.findViewById(R.id.targetDateText);
+        final RadioButton publicButton = view1.findViewById(R.id.publicButton);
+        final RadioButton privateButton = view1.findViewById(R.id.privateButton);
+        final Button createButton = view1.findViewById(R.id.createButton);
+        final ImageView cancelButton = view1.findViewById(R.id.cancelButton);
 
         alert.setView(view1);
 
@@ -139,7 +143,7 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
             @Override
             public void onClick(View view) {
                 flag = true;
-                Log.d("Button", "onClick: " + flag);
+//                Log.d("Button", "onClick: " + flag);
             }
         });
 
@@ -165,15 +169,21 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
                     item.setCategory(addPopupTitle.getText().toString().trim());
                     item.setDeadline(targetDateText.getText().toString().trim());
                     item.setPrivate(flag);
-                    item.setAchieved(true);
+                    item.setAchieved(false);
+                    item.setInfo(description);
                     db.addItem(item);
-                    Log.d("flag", "onClick: " + flag);
-                    Log.d("Database", "onClick: " + db.getItemsCount() );
-                    Log.d("Database", "onClick: " + db.getAllItems().toString());
+
+                    getParentFragmentManager().
+                                beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).commit();
+
                     Toast.makeText(getContext(), "Added to your bucket list", Toast.LENGTH_SHORT).show();
+                    alertDialog.dismiss();
+
+                    final ChipNavigationBar bottomNav = getActivity().findViewById(R.id.bottom_nav);
+                    bottomNav.setItemSelected(R.id.profile,true);;
                 }
-                Log.d("Database", "onClick: " + db.getItemsCount() );
-                Log.d("Database", "onClick: " + db.getAllItems().toString());
+//                Log.d("Database", "onClick: " + db.getItemsCount() );
+//                Log.d("Database", "onClick: " + db.getAllItems().toString());
 
 
             }
@@ -197,48 +207,7 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-        String monthName ;
-        switch (month){
-            case 0:
-                monthName = "January";
-                break;
-            case 1:
-                monthName = "February";
-                break;
-            case 2:
-                monthName = "March";
-                break;
-            case 3:
-                monthName = "April";
-                break;
-            case 4:
-                monthName = "May";
-                break;
-            case 5:
-                monthName = "June";
-                break;
-            case 6:
-                monthName = "July";
-                break;
-            case 7:
-                monthName = "August";
-                break;
-            case 8:
-                monthName = "September";
-                break;
-            case 9:
-                monthName = "October";
-                break;
-            case 10:
-                monthName = "November";
-                break;
-            case 11:
-                monthName = "December";
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + month);
-        }
-        String date = monthName + " " + dayOfMonth + ", " + year;
+        String date = dayOfMonth + "/" + month + "/" + year ;
         targetDateText.setText(date);
         targetDateText.setTextColor(getResources().getColor(R.color.blackcolor));
 

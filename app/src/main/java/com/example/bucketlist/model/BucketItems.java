@@ -11,6 +11,7 @@ public class BucketItems {
 
     private int id;
     private String category;
+    private String info;
     private String title;
     private boolean isPrivate;
     private boolean achieved;
@@ -27,6 +28,25 @@ public class BucketItems {
         this.achieved = achieved;
         this.dateItemAdded = dateItemAdded;
         this.deadline = deadline;
+    }
+
+    public BucketItems(int id, String category, String info, String title, boolean isPrivate, boolean achieved, String dateItemAdded, String deadline) {
+        this.id = id;
+        this.category = category;
+        this.info = info;
+        this.title = title;
+        this.isPrivate = isPrivate;
+        this.achieved = achieved;
+        this.dateItemAdded = dateItemAdded;
+        this.deadline = deadline;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     public int getId() {
@@ -90,6 +110,7 @@ public class BucketItems {
         return "BucketItems{" +
                 "id=" + id +
                 ", category='" + category + '\'' +
+                ", info='" + info + '\'' +
                 ", title='" + title + '\'' +
                 ", isPrivate=" + isPrivate +
                 ", achieved=" + achieved +
