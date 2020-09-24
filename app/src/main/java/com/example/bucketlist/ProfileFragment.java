@@ -94,8 +94,7 @@ public class ProfileFragment extends Fragment {
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 profileName.setText(value.getString("Display Name"));
                 stringImageUri = value.getString("Image Uri");
-                 bm =  getImageBitmap(stringImageUri);
-                 profilePageImage.setImageBitmap(bm);
+                 profilePageImage.setImageURI(Uri.parse(stringImageUri));
             }
         });
 
@@ -137,21 +136,6 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    private Bitmap getImageBitmap(String url) {
-        Bitmap bm = null;
-        try {
-            URL aURL = new URL(url);
-            URLConnection conn = aURL.openConnection();
-            conn.connect();
-            InputStream is = conn.getInputStream();
-            BufferedInputStream bis = new BufferedInputStream(is);
-            bm = BitmapFactory.decodeStream(bis);
-            bis.close();
-            is.close();
-        } catch (IOException e) {
-            Log.e(TAG, "Error getting bitmap", e);
-        }
-        return bm;
-    }
+
 
 }

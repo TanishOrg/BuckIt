@@ -112,9 +112,5 @@ public class    LoginByEmailActivity extends AppCompatActivity implements View.O
         }
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-//        mAuth.signOut();
-    }
+
 }

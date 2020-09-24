@@ -103,10 +103,26 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
             }
             else{
 
-                if(imageUri!=null){
-                    uploadImageToFirebase(imageUri);
-                }
-                uploadImageToFirebase(imageUri);
+
+                String StringImageUri = imageUri.toString();
+                DocumentReference documentReference = firebaseFirestore.collection("Users").document(user_id);
+                Map<String,Object> user = new HashMap<>();
+                user.put("Display Name",name);
+                user.put("Phone Number",phoneNumber);
+                user.put("Email Address",email);
+                user.put("Image Uri",StringImageUri);
+                documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(UserDetail.this, "firestore Updated", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(UserDetail.this, "firestore Updated failed", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
                 progressDialog.setMessage("Completing setup...");
                 progressDialog.show();
                 Intent intent =new Intent(UserDetail.this,HomeActivity.class);
@@ -134,7 +150,7 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == Activity.RESULT_OK) {
                  imageUri = result.getUri();
-                Picasso.get().load(imageUri).into(profileImage);
+                profileImage.setImageURI(imageUri);
                addButton.setVisibility(View.INVISIBLE);
 
 
@@ -146,62 +162,15 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
         }
     }//end of onActivityResult
 
-    private String getFileExt(Uri uri){
-        ContentResolver contentResolver = getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
-    }
 
-    private void uploadImageToFirebase(Uri imageUri) {
-                    //upload image to firebase storage
-        final StorageReference fileRef  = storageReference.child(getFileExt(imageUri));
 
-               uploadTask = fileRef.putFile(imageUri);
-        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if (!task.isSuccessful())
-                    throw task.getException();
-
-                return fileRef.getDownloadUrl();
-            }
-
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                uploadToFirestore(task);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        });
-    }//uploadImageToFirebase
-
-    public void uploadToFirestore(Task<Uri> task){
-        if (task.isSuccessful()){
-            Uri downloadUri = task.getResult();
-            DocumentReference documentReference = firebaseFirestore.collection("Users").document(user_id);
-            Map<String,Object> user = new HashMap<>();
-            user.put("Display Name",name);
-            user.put("Phone Number",phoneNumber);
-            user.put("Email Address",email);
-            user.put("Image Uri",downloadUri.toString());
-            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Toast.makeText(UserDetail.this, "firestore Updated", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(UserDetail.this, "firestore Updated failed", Toast.LENGTH_SHORT).show();
-
-                }
-            });
-        }
-    }
+//    private void uploadImageToFirebase(Uri imageUri) {
+//                    //upload image to firebase storage
+//        final StorageReference fileRef  = storageReference.child("profileImage.jpeg");
+//
+//
+//
+//    }//uploadImageToFirebase
 
 
 
