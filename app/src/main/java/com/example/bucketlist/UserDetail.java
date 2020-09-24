@@ -11,6 +11,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -103,8 +104,8 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
             }
             else{
 
-
-                String StringImageUri = imageUri.toString();
+                final StorageReference fileRef  = storageReference.child("profileImage.jpeg");
+                String StringImageUri = fileRef.toString();
                 DocumentReference documentReference = firebaseFirestore.collection("Users").document(user_id);
                 Map<String,Object> user = new HashMap<>();
                 user.put("Display Name",name);
@@ -150,9 +151,9 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == Activity.RESULT_OK) {
                  imageUri = result.getUri();
-                profileImage.setImageURI(imageUri);
-               addButton.setVisibility(View.INVISIBLE);
-
+                 profileImage.setImageURI(imageUri);
+                 uploadImageToFirebase(imageUri);
+                 addButton.setVisibility(View.INVISIBLE);
 
             }
             else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
@@ -164,13 +165,25 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
 
 
 
-//    private void uploadImageToFirebase(Uri imageUri) {
-//                    //upload image to firebase storage
-//        final StorageReference fileRef  = storageReference.child("profileImage.jpeg");
-//
-//
-//
-//    }//uploadImageToFirebase
+    private void uploadImageToFirebase(Uri imageUri) {
+                    //upload image to firebase storage
+        final StorageReference fileRef  = storageReference.child("profileImage.jpeg");
+
+        fileRef.putFile(imageUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("Sucess", "onSuccess: ");
+                    }
+                })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("Sucess", "onFailure: ");
+            }
+        });
+
+    }//uploadImageToFirebase
 
 
 
