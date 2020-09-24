@@ -23,6 +23,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -30,6 +33,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -53,9 +58,9 @@ public class ProfileFragment extends Fragment {
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
 
-    String user_id,stringImageUri;
-    Uri imageUri;
-    Bitmap bm;
+    String user_id;
+    String stringImageUri;
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -95,6 +100,19 @@ public class ProfileFragment extends Fragment {
                 if (value != null ) {
                     profileName.setText(value.getString("Display Name"));
                     stringImageUri = value.getString("Image Uri");
+                    final StorageReference fileRef  = FirebaseStorage.getInstance().getReference().child(user_id).child("profileImage.jpeg");
+                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            stringImageUri = uri.toString();
+                            Glide.with(getContext().getApplicationContext()).load(stringImageUri).into(profilePageImage);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle any errors
+                        }
+                    });
 //                    profilePageImage.setImageURI(Uri.parse(stringImageUri));
                 }
             }
