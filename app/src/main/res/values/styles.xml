@@ -21,16 +21,15 @@
     </style>
 
     <style name="Toolbar.collapseTitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">22sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">#001429</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#000000</item>
         <item name="fontFamily">@font/montserrat_bold</item>
         <item name="android:gravity">center</item>
     </style>
     <style name="Toolbar.expandedTitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">32sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">#0A3A02</item>
+        <item name="android:textSize">20dp</item>
+
+        <item name="android:textColor">#05001429</item>
         <item name="fontFamily">@font/montserrat_bold</item>
 
     </style>

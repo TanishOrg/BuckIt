@@ -46,7 +46,7 @@
         app:ccp_contentColor="#777777"/>
 
     <EditText
-        android:id="@+id/phoneNumber"
+        android:id="@+id/phoneNumberLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/codeNumber"
@@ -89,16 +89,7 @@
 
 </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/backtologinButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="16dp"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Light"
-        app:srcCompat="@drawable/ic_round_arrow_back_24" />
+
 
     <TextView
         android:id="@+id/errorText"

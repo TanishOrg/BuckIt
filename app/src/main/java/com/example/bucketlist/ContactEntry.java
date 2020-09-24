@@ -29,9 +29,9 @@ public class ContactEntry extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_entry);
 
-        phoneNumber = findViewById(R.id.phoneNumber);
+        phoneNumber = findViewById(R.id.phoneNumberLayout);
         codeNumber = findViewById(R.id.codeNumber);
-        backButton = findViewById(R.id.backtologinButton);
+
         generateotpButton = findViewById(R.id.generateotpButton);
         errorText = findViewById(R.id.errorText);
         generateProgressBar = findViewById(R.id.generateProgressBar);

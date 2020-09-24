@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
 
-    android:background="#DC000000"
+    android:background="#C4000000"
     style="@android:style/Theme.Translucent.NoTitleBar"
 
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -15,8 +15,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
-
         app:cardElevation="100dp"
+        app:cardCornerRadius="9dp"
         android:layout_marginRight="20dp">
 
         <RelativeLayout
@@ -32,128 +32,128 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="220dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="200dp"
                 android:orientation="vertical">
                 <TextView
                     android:id="@+id/cardTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-
+                    android:inputType="textMultiLine"
                     android:fontFamily="@font/montserrat_bold"
-                    android:gravity="center"
                     android:text="Title Name of card"
                     android:textColor="@color/colorwhite"
-                    android:textSize="24dp" />
+                    android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/cardDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/cardTitle"
-
                     android:fontFamily="@font/montserrat"
                     android:text="describe this item of your bucket list"
                     android:inputType="textMultiLine"
                     android:textColor="@color/colorwhite"
-
                     android:textSize="16dp" />
             </LinearLayout>
 
             <Button
-                android:layout_width="180dp"
-                android:layout_height="48dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="COMPLETED"
                 android:textSize="16dp"
                 android:gravity="center"
+                android:padding="16dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="20dp"
                 android:clickable="true"
                 android:elevation="10dp"
                 android:background="@drawable/getstartedbuttonshape"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/horizontalInfoLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+               android:layout_marginHorizontal="20dp"
                 android:orientation="horizontal"
                 android:layout_marginBottom="115dp">
 
-               <LinearLayout
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginLeft="10dp"
-                   android:layout_marginRight="20dp"
-                   android:orientation="vertical">
-                   <ImageView
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent">
+                   <LinearLayout
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:src="@drawable/ic_baseline_flight_24"
-                       android:layout_gravity="center" />
-                   <TextView
+                       android:layout_alignParentLeft="true"
+                       android:orientation="vertical">
+                       <ImageView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:src="@drawable/ic_baseline_flight_24"
+                           android:layout_gravity="center" />
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:text="Category"
+                           android:textAlignment="center"
+                           android:textColor="@color/colorwhite"
+                           android:fontFamily="@font/montserrat"
+                           android:textSize="16dp"/>
+                   </LinearLayout>
+
+                   <LinearLayout
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:text="Category"
-                       android:textColor="@color/colorwhite"
-                       android:fontFamily="@font/montserrat"
-                       android:textSize="18dp"/>
-               </LinearLayout>
-
-             <LinearLayout
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_marginLeft="20dp"
-                 android:layout_marginRight="20dp"
-                 android:orientation="vertical">
-                 <ImageView
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:scaleType="centerCrop"
-                     android:src="@drawable/ic_baseline_calendar_today_24"
-                     android:layout_gravity="center" />
-                 <TextView
-                     android:id="@+id/card_target_date"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:text="Target Date"
-
-                     android:textColor="@color/colorwhite"
-                     android:fontFamily="@font/montserrat"
-                     android:textSize="18dp"/>
+                       android:layout_centerInParent="true"
+                       android:orientation="vertical">
+                       <ImageView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:scaleType="centerCrop"
+                           android:src="@drawable/ic_baseline_calendar_today_24"
+                           android:layout_gravity="center" />
+                       <TextView
+                           android:id="@+id/card_target_date"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:text="Target Date"
+                           android:textAlignment="center"
+                           android:textColor="@color/colorwhite"
+                           android:fontFamily="@font/montserrat"
+                           android:textSize="16dp"/>
 
 
-             </LinearLayout>
+                   </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="10dp"
-                    android:orientation="vertical">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_baseline_public_24"
-                        android:layout_gravity="center" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Privacy"
+                   <LinearLayout
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_alignParentRight="true"
+                       android:orientation="vertical">
+                       <ImageView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:src="@drawable/ic_baseline_public_24"
+                           android:layout_gravity="center" />
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:text="Privacy"
+                           android:textAlignment="center"
+                           android:textColor="@color/colorwhite"
+                           android:fontFamily="@font/montserrat"
+                           android:textSize="16dp"/>
 
-                        android:textColor="@color/colorwhite"
-                        android:fontFamily="@font/montserrat"
-                        android:textSize="18dp"/>
 
+                   </LinearLayout>
 
-                </LinearLayout>
-
+               </RelativeLayout>
             </LinearLayout>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

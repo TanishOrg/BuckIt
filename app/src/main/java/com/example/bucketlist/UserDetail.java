@@ -7,27 +7,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.HashMap;
@@ -40,11 +43,13 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
     ImageView profileImage,addButton;
     Button completeButton;
     EditText displayNameText;
-    String name,user_id,StringImageUri;
-    Uri imageUri;
+    String name,user_id;
+    Uri imageUri ;
+
     ProgressDialog progressDialog;
     Dialog dialog;
 
+    UploadTask uploadTask;
     StorageReference storageReference;
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
@@ -54,7 +59,7 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_detail);
 
-        storageReference = FirebaseStorage.getInstance().getReference();
+
 
         firebaseAuth= FirebaseAuth.getInstance();
         user_id = firebaseAuth.getCurrentUser().getUid();
@@ -64,6 +69,7 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
+        storageReference = FirebaseStorage.getInstance().getReference().child(user_id);
 
        
 
@@ -96,28 +102,13 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
                 displayNameText.setError("Please enter name");
             }
             else{
-                StringImageUri = imageUri.toString();
-                DocumentReference documentReference = firebaseFirestore.collection("Users").document(user_id);
-                Map<String,Object> user = new HashMap<>();
-                user.put("Display Name",name);
-                user.put("Phone Number",phoneNumber);
-                user.put("Email Address",email);
-                user.put("Image Uri",StringImageUri);
 
-                documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        progressDialog.setMessage("Completing setup...");
-                        progressDialog.show();
-
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(UserDetail.this, "ERROR: Not able to set profile", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                if(imageUri!=null){
+                    uploadImageToFirebase(imageUri);
+                }
+                uploadImageToFirebase(imageUri);
+                progressDialog.setMessage("Completing setup...");
+                progressDialog.show();
                 Intent intent =new Intent(UserDetail.this,HomeActivity.class);
                 startActivity(intent);
 
@@ -143,8 +134,10 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == Activity.RESULT_OK) {
                  imageUri = result.getUri();
-                profileImage.setImageURI(imageUri);
+                Picasso.get().load(imageUri).into(profileImage);
                addButton.setVisibility(View.INVISIBLE);
+
+
             }
             else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
                 Exception e = result.getError();
@@ -153,16 +146,62 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
         }
     }//end of onActivityResult
 
-//    private void uploadImageToFirebase(Uri imageUri) {
-//        //upload image to firebase storage
-//        StorageReference fileRef  = storageReference.child("profile.jpg");
-//        fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                Toast.makeText(UserDetail.this, "Profile pic set", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }//uploadImageToFirebase
+    private String getFileExt(Uri uri){
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    private void uploadImageToFirebase(Uri imageUri) {
+                    //upload image to firebase storage
+        final StorageReference fileRef  = storageReference.child(getFileExt(imageUri));
+
+               uploadTask = fileRef.putFile(imageUri);
+        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful())
+                    throw task.getException();
+
+                return fileRef.getDownloadUrl();
+            }
+
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                uploadToFirestore(task);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }//uploadImageToFirebase
+
+    public void uploadToFirestore(Task<Uri> task){
+        if (task.isSuccessful()){
+            Uri downloadUri = task.getResult();
+            DocumentReference documentReference = firebaseFirestore.collection("Users").document(user_id);
+            Map<String,Object> user = new HashMap<>();
+            user.put("Display Name",name);
+            user.put("Phone Number",phoneNumber);
+            user.put("Email Address",email);
+            user.put("Image Uri",downloadUri.toString());
+            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(UserDetail.this, "firestore Updated", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(UserDetail.this, "firestore Updated failed", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+        }
+    }
 
 
 

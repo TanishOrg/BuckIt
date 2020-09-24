@@ -21,7 +21,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class LoginByEmailActivity extends AppCompatActivity implements View.OnClickListener {
+public class    LoginByEmailActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "LOGIN ACTIVITY";
     private Button loginButton;

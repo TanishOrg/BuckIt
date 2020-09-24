@@ -110,7 +110,7 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
 
 
         final EditText nameText = view1.findViewById(R.id.nameText);
-        final EditText describeText = view1.findViewById(R.id.desriptionText);
+        final EditText describeText = view1.findViewById(R.id.descriptionText);
         final RelativeLayout targetDateLayout = view1.findViewById(R.id.targetdateLayout);
         targetDateText = view1.findViewById(R.id.targetDateText);
         final RadioButton publicButton = view1.findViewById(R.id.publicButton);
@@ -207,7 +207,48 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-        String date = dayOfMonth + "/" + month + "/" + year ;
+        String monthName;
+        switch (month){
+            case 0:
+                monthName ="Jan";
+                break;
+            case 1:
+                monthName ="Feb";
+                break;
+            case 2:
+                monthName ="Mar";
+                break;
+            case 3:
+                monthName ="Apr";
+                break;
+            case 4:
+                monthName ="May";
+                break;
+            case 5:
+                monthName ="June";
+                break;
+            case 6:
+                monthName ="July";
+                break;
+            case 7:
+                monthName ="Aug";
+                break;
+            case 8:
+                monthName ="Sept";
+                break;
+            case 9:
+                monthName ="Oct";
+                break;
+            case 10:
+                monthName ="Nov";
+                break;
+            case 11:
+                monthName ="Dec";
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + month);
+        }
+        String date = monthName + " " + dayOfMonth + ", " + year;
         targetDateText.setText(date);
         targetDateText.setTextColor(getResources().getColor(R.color.blackcolor));
 

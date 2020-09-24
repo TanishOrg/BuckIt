@@ -200,6 +200,7 @@ public class OtpActivityRegister extends AppCompatActivity {
                             intent.putExtra("phonenumber",phoneNumber);
                             intent.putExtra("email",email);
                             startActivity(intent);
+                            finish();
                         }
                     });
                     alertDialog.show();
