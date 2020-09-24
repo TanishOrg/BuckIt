@@ -4,15 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class DetailProfile extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG ="Detail Profile" ;
     private Button signoutButton;
     EditText displayName,emailAddress,phoneNumber;
     private ImageView profileImage;
@@ -20,6 +23,7 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        firebaseAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_detail_profile);
 
         //casting
@@ -31,16 +35,26 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
 
         signoutButton.setOnClickListener(this);
 
-        firebaseAuth = FirebaseAuth.getInstance();
 
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser mUser = firebaseAuth.getCurrentUser();
+        Log.d(TAG, "onStart: " + firebaseAuth.getCurrentUser().getDisplayName());
     }
 
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.signoutButton){
-            firebaseAuth.signOut();
-            Intent i = new Intent(DetailProfile.this,LoginByEmailActivity.class);
-            startActivity(i);
+            if (firebaseAuth != null) {
+                firebaseAuth.signOut();
+                Intent i = new Intent(DetailProfile.this,LoginByEmailActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            }
         }
     }
 }

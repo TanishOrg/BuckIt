@@ -92,9 +92,11 @@ public class ProfileFragment extends Fragment {
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                profileName.setText(value.getString("Display Name"));
-                stringImageUri = value.getString("Image Uri");
-                 profilePageImage.setImageURI(Uri.parse(stringImageUri));
+                if (value != null ) {
+                    profileName.setText(value.getString("Display Name"));
+                    stringImageUri = value.getString("Image Uri");
+//                    profilePageImage.setImageURI(Uri.parse(stringImageUri));
+                }
             }
         });
 
