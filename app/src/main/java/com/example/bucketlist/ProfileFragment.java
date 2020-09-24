@@ -99,7 +99,6 @@ public class ProfileFragment extends Fragment {
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (value != null ) {
                     profileName.setText(value.getString("Display Name"));
-                    stringImageUri = value.getString("Image Uri");
                     final StorageReference fileRef  = FirebaseStorage.getInstance().getReference().child(user_id).child("profileImage.jpeg");
                     fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
