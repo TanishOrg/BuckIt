@@ -91,8 +91,8 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profilePageImage"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_centerHorizontal="true"
                     app:layout_collapseMode="parallax" />
 
@@ -104,9 +104,9 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:fontFamily="sans-serif-thin"
-
+                    app:layout_collapseMode="parallax"
                     android:textColor="@color/white"
-                    android:textSize="24dp" />
+                    android:textSize="19dp" />
 
             </RelativeLayout>
 

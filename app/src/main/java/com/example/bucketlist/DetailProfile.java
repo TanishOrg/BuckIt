@@ -37,6 +37,7 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
     private ImageView profileImage;
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
+    String StringImageUri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,35 +66,28 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                displayName.setText(value.getString("Display Name"));
+
+                if (error!=null){
+                    Log.d(TAG,"Error:"+error.getMessage());
+                }
+                else {
+                    displayName.setText(value.getString("Display Name"));
+                    emailAddress.setText(value.getString("Email Address"));
+                    phoneNumber.setText(value.getString("Phone Number"));
+                    StringImageUri = value.getString("Image Uri");
+                    Glide.with(getApplicationContext()).load(StringImageUri).into(profileImage);
+                    Log.i(TAG, "String: "+StringImageUri);
+                }
+
             }
         });
 
-        emailAddress.setText(mUser.getEmail().toString());
-        phoneNumber.setText(mUser.getPhoneNumber());
-        loadImage(mUser);
+
     }
 
 
-    /*
-    This function is use to load the image to image view
-     */
 
-    private void loadImage(FirebaseUser mUser) {
-        final StorageReference fileRef  = FirebaseStorage.getInstance().getReference().child(mUser.getUid()).child("profileImage.jpeg");
-        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                String stringImageUri = uri.toString();
-                Glide.with(getApplicationContext()).load(stringImageUri).into(profileImage);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
-    }
+
 
     @Override
     public void onClick(View v) {

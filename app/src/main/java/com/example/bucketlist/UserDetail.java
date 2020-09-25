@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -44,7 +45,7 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
     ImageView profileImage,addButton;
     Button completeButton;
     EditText displayNameText;
-    String name,user_id;
+    String name,user_id, StringImageUri;
     Uri imageUri ;
 
     ProgressDialog progressDialog;
@@ -103,9 +104,8 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
                 displayNameText.setError("Please enter name");
             }
             else{
-
-                final StorageReference fileRef  = storageReference.child("profileImage.jpeg");
-                String StringImageUri = fileRef.toString();
+                progressDialog.setMessage("Completing setup...");
+                progressDialog.show();
                 DocumentReference documentReference = firebaseFirestore.collection("Users").document(user_id);
                 Map<String,Object> user = new HashMap<>();
                 user.put("Display Name",name);
@@ -121,11 +121,9 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(UserDetail.this, "firestore Updated failed", Toast.LENGTH_SHORT).show();
-
                     }
                 });
-                progressDialog.setMessage("Completing setup...");
-                progressDialog.show();
+                progressDialog.dismiss();
                 Intent intent =new Intent(UserDetail.this,HomeActivity.class);
                 startActivity(intent);
 
@@ -174,6 +172,19 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         Log.d("Sucess", "onSuccess: ");
+                        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                StringImageUri = uri.toString();
+                                Log.i("fieref", "onEvent: "+fileRef.toString());
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle any errors
+                            }
+                        });
+
                     }
                 })
         .addOnFailureListener(new OnFailureListener() {

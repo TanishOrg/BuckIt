@@ -1,16 +1,13 @@
 package com.example.bucketlist;
 
-import android.app.Activity;
+
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
+
 import android.os.Bundle;
+
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -24,8 +21,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -33,16 +29,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
-
-import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
 public class ProfileFragment extends Fragment {
 
@@ -97,26 +84,16 @@ public class ProfileFragment extends Fragment {
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (value != null ) {
-                    profileName.setText(value.getString("Display Name"));
-                    final StorageReference fileRef  = FirebaseStorage.getInstance().getReference().child(user_id).child("profileImage.jpeg");
-                    /*
-                    Downloading the image from its url (stored in firebase storage using glide 
-                     */
-                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            stringImageUri = uri.toString();
-                            Glide.with(getContext().getApplicationContext()).load(stringImageUri).into(profilePageImage);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            // Handle any errors
-                        }
-                    });
-//                    profilePageImage.setImageURI(Uri.parse(stringImageUri));
+                if (error!=null){
+                    Log.d("Profile Fragment error","Error:"+error.getMessage());
                 }
+                else {
+                    profileName.setText(value.getString("Display Name"));
+                    stringImageUri = value.getString("Image Uri");
+                    Glide.with(getContext().getApplicationContext()).load(stringImageUri).into(profilePageImage);
+                }
+
+
             }
         });
 
@@ -127,7 +104,7 @@ public class ProfileFragment extends Fragment {
 
     class MyPagerAdapter extends FragmentPagerAdapter {
 
-        String[] tabName = {"DREAMS", "ACHIEVED"};
+        String[] tabName = {"ACTIVE", "ACHIEVED"};
 
         public MyPagerAdapter(@NonNull FragmentManager fm) {
             super(fm);
@@ -157,7 +134,6 @@ public class ProfileFragment extends Fragment {
             return tabName[position];
         }
     }
-
 
 
 }
