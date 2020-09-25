@@ -100,6 +100,9 @@ public class ProfileFragment extends Fragment {
                 if (value != null ) {
                     profileName.setText(value.getString("Display Name"));
                     final StorageReference fileRef  = FirebaseStorage.getInstance().getReference().child(user_id).child("profileImage.jpeg");
+                    /*
+                    Downloading the image from its url (stored in firebase storage using glide 
+                     */
                     fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
