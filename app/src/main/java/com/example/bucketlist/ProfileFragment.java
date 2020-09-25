@@ -1,6 +1,7 @@
 package com.example.bucketlist;
 
 
+import android.content.Context;
 import android.content.Intent;
 
 import android.os.Bundle;
@@ -37,21 +38,21 @@ public class ProfileFragment extends Fragment {
     ViewPager viewPager;
     AchievedFragment achievedFragment;
     DreamFragment dreamFragment;
-
-
     ImageView profilePageImage,profileBackground;
     TextView profileName;
-
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
-
     String user_id;
     String stringImageUri;
+    Context context;
 
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_profile,container,false);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        context = getActivity().getApplicationContext();
 
         tabLayout =(TabLayout) view.findViewById(R.id.tab_bar);
         viewPager = view.findViewById(R.id.viewPager);
@@ -75,9 +76,19 @@ public class ProfileFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setAdapter(myPagerAdapter);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        user_id = firebaseAuth.getCurrentUser().getUid();
 
+
+
+
+
+
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        user_id = firebaseAuth.getCurrentUser().getUid();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         DocumentReference documentReference = firebaseFirestore.collection("Users").document(user_id);
@@ -90,16 +101,12 @@ public class ProfileFragment extends Fragment {
                 else {
                     profileName.setText(value.getString("Display Name"));
                     stringImageUri = value.getString("Image Uri");
-                    Glide.with(getContext().getApplicationContext()).load(stringImageUri).into(profilePageImage);
+                    Glide.with(context).load(stringImageUri).into(profilePageImage);
                 }
 
 
             }
         });
-
-
-
-        return view;
     }
 
     class MyPagerAdapter extends FragmentPagerAdapter {
