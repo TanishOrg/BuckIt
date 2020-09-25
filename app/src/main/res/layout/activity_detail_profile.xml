@@ -24,85 +24,188 @@
         app:civ_border_color="@color/pink1"
         android:layout_marginTop="100dp"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/displayNameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/profileImage"
-        android:layout_centerHorizontal="true"
-        android:layout_marginHorizontal="30dp"
-        app:hintTextColor="@color/blackcolor"
-        android:hint="Display Name"
-        android:layout_marginTop="50dp">
-    <EditText
-        android:id="@+id/displayName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:background="@null"
-        android:focusable="false"
-        android:cursorVisible="false"
 
-        />
+        <RelativeLayout
+            android:id="@+id/displayNameLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profileImage"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="50dp">
+            <com.google.android.material.textfield.TextInputLayout
 
-    </com.google.android.material.textfield.TextInputLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
 
-    <com.google.android.material.textfield.TextInputLayout
+                app:hintTextColor="@color/blackcolor"
+                android:hint="Display Name"
+                >
+                <EditText
+                    android:id="@+id/displayName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:textSize="16dp"
+                    android:background="@null"
+                    android:inputType="textPersonName"
+
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/displayNamedoneButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="25dp"
+                android:src="@drawable/done_icon_black"
+                android:padding="6dp"
+                android:visibility="invisible"/>
+            <ProgressBar
+                android:id="@+id/nameProgress"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="25dp"
+                android:padding="6dp"
+                android:indeterminateTint="@color/blackcolor"
+                android:visibility="invisible"/>
+        </RelativeLayout>
+
+
+
+    <RelativeLayout
         android:id="@+id/emailAddressLayout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/displayNameLayout"
-        app:hintTextColor="@color/blackcolor"
         android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="15dp"
-        android:hint="Email Address">
-
-        <EditText
-            android:id="@+id/emailAddress"
+        android:layout_below="@+id/displayNameLayout">
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:focusable="false"
-            android:cursorVisible="false"
-            android:padding="16dp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            app:hintTextColor="@color/blackcolor"
+            android:hint="Email Address">
 
-    <com.google.android.material.textfield.TextInputLayout
+            <EditText
+                android:id="@+id/emailAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:textSize="16dp"
+                android:padding="16dp"
+                android:inputType="textEmailAddress"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/emaildoneButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="25dp"
+            android:padding="6dp"
+            android:src="@drawable/done_icon_black"
+            android:visibility="invisible"/>
+
+        <ProgressBar
+            android:id="@+id/emailProgress"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="25dp"
+            android:padding="6dp"
+            android:indeterminateTint="@color/blackcolor"
+            android:visibility="invisible"/>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/phoneNumberLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/emailAddressLayout"
-        app:hintTextColor="@color/blackcolor"
-        android:layout_centerHorizontal="true"
-        android:layout_marginHorizontal="30dp"
-        android:hint="Phone Number"
-        android:layout_marginTop="15dp">
-
-        <EditText
-            android:id="@+id/phoneNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:focusable="false"
-            android:cursorVisible="false"
-            android:padding="16dp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_edit_24"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="37dp"
-        android:layout_marginRight="16dp"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="30dp"
+        android:layout_below="@+id/emailAddressLayout"
+        android:layout_marginTop="15dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintTextColor="@color/blackcolor"
+            android:hint="Phone Number"
+            >
+
+            <EditText
+                android:id="@+id/phoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:textSize="16dp"
+                android:inputType="phone"
+                android:padding="16dp" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <ImageView
+            android:id="@+id/phonedoneButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="25dp"
+            android:padding="6dp"
+            android:src="@drawable/done_icon_black"
+            android:visibility="invisible"/>
+
+        <ProgressBar
+            android:id="@+id/phoneProgress"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="25dp"
+            android:padding="6dp"
+            android:indeterminateTint="@color/blackcolor"
+            android:visibility="invisible"/>
+
+    </RelativeLayout>
 
     <ImageView
+        android:id="@+id/editButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="21dp"
+        android:padding="10dp"
+        android:src="@drawable/ic_baseline_edit_24" />
+    <ImageView
+        android:id="@+id/doneButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="21dp"
+        android:padding="10dp"
+        android:src="@drawable/done_icon"
+        android:visibility="invisible"/>
+
+    <ImageView
+        android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_round_arrow_back_24"
-        android:layout_marginTop="37dp"
-        android:layout_marginLeft="16dp"/>
+        android:layout_marginTop="21dp"
+        android:padding="10dp"
+        />
+
+    <ImageView
+        android:id="@+id/clearButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/clear_icon"
+        android:layout_marginTop="21dp"
+        android:padding="10dp"
+
+        android:visibility="invisible"/>
 
     <Button
         android:id="@+id/signoutButton"

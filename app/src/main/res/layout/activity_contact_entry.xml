@@ -85,7 +85,8 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="16dp"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        android:indeterminateTint="@color/white"/>
 
 </RelativeLayout>
 

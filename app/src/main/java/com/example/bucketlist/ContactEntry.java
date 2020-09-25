@@ -51,6 +51,7 @@ public class ContactEntry extends AppCompatActivity {
 
                 }
                 else {
+                    generateProgressBar.setVisibility(View.VISIBLE);
                     Intent i = new Intent(ContactEntry.this, OtpActivityRegister.class);
                     i.putExtra("phonenumber",codeNumber.getFullNumberWithPlus().replace(" ",""));
                     startActivity(i);
