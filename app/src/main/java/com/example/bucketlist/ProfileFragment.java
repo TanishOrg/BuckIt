@@ -67,20 +67,12 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-
-
         achievedFragment = new AchievedFragment();
         dreamFragment = new DreamFragment();
 
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setAdapter(myPagerAdapter);
-
-
-
-
-
-
 
         return view;
     }

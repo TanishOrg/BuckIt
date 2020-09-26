@@ -6,6 +6,9 @@ import androidx.room.Entity;
 
 import com.example.bucketlist.constants.Constants;
 
+import java.util.Map;
+import java.util.Objects;
+
 
 public class BucketItems {
 
@@ -105,6 +108,7 @@ public class BucketItems {
         this.deadline = deadline;
     }
 
+
     @Override
     public String toString() {
         return "BucketItems{" +
@@ -117,5 +121,18 @@ public class BucketItems {
                 ", dateItemAdded='" + dateItemAdded + '\'' +
                 ", deadline='" + deadline + '\'' +
                 '}';
+    }
+
+    public static  BucketItems hashToObject(Map map) {
+        BucketItems item =new BucketItems();
+        item.setAchieved((Boolean) map.get("achieved"));
+        item.setDateItemAdded((String) map.get("dateItemAdded"));
+        item.setCategory((String) map.get("category"));
+        item.setTitle((String) map.get("title"));
+        item.setInfo((String) map.get("info"));
+        item.setPrivate((Boolean) map.get("private"));
+        item.setDeadline((String) map.get("deadline"));
+        item.setDateItemAdded((String) map.get("dateItemAdded"));
+        return item;
     }
 }

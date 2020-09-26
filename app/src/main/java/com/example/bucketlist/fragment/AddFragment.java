@@ -27,22 +27,35 @@ import com.example.bucketlist.ProfileFragment;
 import com.example.bucketlist.R;
 import com.example.bucketlist.data.DatabaseHandler;
 import com.example.bucketlist.model.BucketItems;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.Calendar;
 
 public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetListener, View.OnClickListener {
 
+    private static final String TAG = "AddFragment";
     TextView targetDateText;
     private boolean flag = false;
     private DatabaseHandler db;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
+    private FirebaseFirestore mFireStore;
+    private View view;
+
     @Nullable
     @Override
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_add, container, false);
+        mAuth = FirebaseAuth.getInstance();
 
+        view = inflater.inflate(R.layout.fragment_add, container, false);
         CardView travelCategory = (CardView) view.findViewById(R.id.travelCategory);
         CardView adventureCategory = (CardView) view.findViewById(R.id.adventureCategory);
         CardView foodcategory = (CardView) view.findViewById(R.id.foodCategory);
@@ -63,10 +76,15 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
         healthCategory.setOnClickListener(this);
         otherCategory.setOnClickListener(this);
         db = new DatabaseHandler(getContext());
-
         return view;
+    }
 
-
+    @Override
+    public void onStart() {
+        super.onStart();
+         if (mAuth.getCurrentUser() != null) {
+             mUser = mAuth.getCurrentUser();
+         }
     }
 
     @Override
@@ -76,11 +94,9 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
         View view1 = getLayoutInflater().inflate(R.layout.popup_add_window,null);
         final TextView addPopupTitle = (TextView)view1.findViewById(R.id.addPopupTitle);
 
-
         switch (v.getId()){
             case R.id.travelCategory :
                 addPopupTitle.setText("Travel");
-
                 break;
             case R.id.adventureCategory :
                 addPopupTitle.setText("Adventure");
@@ -164,7 +180,7 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
                 if(name.isEmpty()&& description.isEmpty())
                     Toast.makeText(getContext(), "Field is still empty", Toast.LENGTH_SHORT).show();
                 else {
-                    BucketItems item =  new BucketItems();
+                    final BucketItems item =  new BucketItems();
                     item.setTitle(nameText.getText().toString().trim());
                     item.setCategory(addPopupTitle.getText().toString().trim());
                     item.setDeadline(targetDateText.getText().toString().trim());
@@ -173,19 +189,38 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
                     item.setInfo(description);
                     db.addItem(item);
 
-                    getParentFragmentManager().
-                                beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).commit();
+                    try {
+                        FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
+                        DocumentReference documentReference = fireStore.collection("Users").document(mUser.getUid())
+                                .collection("items").document();
 
-                    Toast.makeText(getContext(), "Added to your bucket list", Toast.LENGTH_SHORT).show();
-                    alertDialog.dismiss();
+                        item.setDateItemAdded(Long.toString(System.currentTimeMillis()));
 
-                    final ChipNavigationBar bottomNav = getActivity().findViewById(R.id.bottom_nav);
-                    bottomNav.setItemSelected(R.id.profile,true);;
+                        documentReference.set(item).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "onSuccess: added successfully");
+                                getParentFragmentManager().
+                                        beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).commit();
+                                Toast.makeText(getContext(), "Added to your bucket list", Toast.LENGTH_SHORT).show();
+                                alertDialog.dismiss();
+                                final ChipNavigationBar bottomNav = getActivity().findViewById(R.id.bottom_nav);
+                                bottomNav.setItemSelected(R.id.profile,true);;
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(getContext(), "Failed to add : " + e.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 }
 //                Log.d("Database", "onClick: " + db.getItemsCount() );
 //                Log.d("Database", "onClick: " + db.getAllItems().toString());
-
-
             }
         });
 
@@ -201,8 +236,6 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
     }
-
-
 
 
     @Override

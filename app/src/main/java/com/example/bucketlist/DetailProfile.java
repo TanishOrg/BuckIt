@@ -82,7 +82,6 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
                 else {
                     name = value.getString("Display Name");
                     displayName.setText(name);
-
                     email =  value.getString("Email Address");
                     emailAddress.setText(email);
 
@@ -145,82 +144,6 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
        phoneNumber.addTextChangedListener(getTextWatcher(phoneNumber , phonedoneButton , phone));
     }
 
-
-
-//    public void onChangingNameText() {
-//        displayName.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if(!name.equals(displayName.getText().toString())){
-//                    displayNamedoneButton.setVisibility(View.VISIBLE);
-//                    displayNamedoneButton.setOnClickListener(DetailProfile.this);
-//                }
-//                else
-//                    displayNamedoneButton.setVisibility(View.INVISIBLE);
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
-//
-//    }
-//
-//    public void onChangingEmailText() {
-//        emailAddress.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if(!email.equals(emailAddress.getText().toString())){
-//                    emaildoneButton.setVisibility(View.VISIBLE);
-//                    emaildoneButton.setOnClickListener(DetailProfile.this);
-//                }
-//                else
-//                    emaildoneButton.setVisibility(View.INVISIBLE);
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
-//
-//    }
-//
-//    public void onChangingPhoneText() {
-//        phoneNumber.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if(!phone.equals(phoneNumber.getText().toString())){
-//                    phonedoneButton.setVisibility(View.VISIBLE);
-//                    phonedoneButton.setOnClickListener(DetailProfile.this);
-//                }
-//                else
-//                    phonedoneButton.setVisibility(View.INVISIBLE);
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
-//
-//    }
 
     private TextWatcher getTextWatcher(final EditText editText ,final ImageView generalDoneButton ,final String string) {
         return new TextWatcher() {
