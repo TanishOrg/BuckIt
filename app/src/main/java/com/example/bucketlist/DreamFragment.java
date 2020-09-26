@@ -38,7 +38,7 @@ public class DreamFragment extends Fragment {
     RecyclerView recyclerView;
     RecyclerAdapterDream recyclerAdapterDream;
     List<BucketItems> bucketItems = new ArrayList<>();
-    List<BucketItems> items;
+//    List<BucketItems> items;
     private View view;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
