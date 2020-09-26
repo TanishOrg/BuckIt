@@ -60,6 +60,7 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/completeButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="COMPLETED"
@@ -93,6 +94,7 @@
                        android:layout_alignParentLeft="true"
                        android:orientation="vertical">
                        <ImageView
+                           android:id="@+id/categoryId"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:src="@drawable/ic_baseline_flight_24"
@@ -137,11 +139,13 @@
                        android:layout_alignParentRight="true"
                        android:orientation="vertical">
                        <ImageView
+                           android:id="@+id/privacyImageView"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:src="@drawable/ic_baseline_public_24"
                            android:layout_gravity="center" />
                        <TextView
+                           android:id="@+id/privacyTextView"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:text="Privacy"

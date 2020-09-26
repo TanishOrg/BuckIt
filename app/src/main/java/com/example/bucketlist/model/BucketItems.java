@@ -6,6 +6,7 @@ import androidx.room.Entity;
 
 import com.example.bucketlist.constants.Constants;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -13,6 +14,7 @@ import java.util.Objects;
 public class BucketItems {
 
     private int id;
+    private String stringID;
     private String category;
     private String info;
     private String title;
@@ -108,6 +110,13 @@ public class BucketItems {
         this.deadline = deadline;
     }
 
+    public String getStringID() {
+        return stringID;
+    }
+
+    public void setStringID(String stringID) {
+        this.stringID = stringID;
+    }
 
     @Override
     public String toString() {
@@ -123,8 +132,9 @@ public class BucketItems {
                 '}';
     }
 
-    public static  BucketItems hashToObject(Map map) {
+    public static  BucketItems hashToObject(Map map,String id) {
         BucketItems item =new BucketItems();
+        item.setStringID(id);
         item.setAchieved((Boolean) map.get("achieved"));
         item.setDateItemAdded((String) map.get("dateItemAdded"));
         item.setCategory((String) map.get("category"));
@@ -134,5 +144,11 @@ public class BucketItems {
         item.setDeadline((String) map.get("deadline"));
         item.setDateItemAdded((String) map.get("dateItemAdded"));
         return item;
+    }
+
+    public Map<String, Object> toHashMap() {
+        Map<String,Object> map = new HashMap<>();
+        map.put("achieved",this.achieved);
+        return map;
     }
 }
