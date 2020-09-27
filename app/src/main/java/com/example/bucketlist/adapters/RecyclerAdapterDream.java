@@ -70,7 +70,31 @@ public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDr
         holder.cardTitle.setText(items.getTitle());
         holder.cardTargetDate.setText(items.getDeadline());
 
+        bindHolder(holder,items,position);
+    }
 
+    private void updateData(BucketItems items, final ViewHolder holder, final int position) {
+        FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = fireStore.collection("Users").document(mUser.getUid())
+                .collection("items").document(items.getStringID());
+        documentReference.update(items.toHashMap()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "onSuccess: Sucess" );
+                itemsList.remove(position);
+                itemModify.onItemDeleted();
+                notifyDataSetChanged();
+                holder.myDialog.dismiss();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: " + e.getMessage());
+            }
+        });
+    }
+
+    private void bindHolder(final ViewHolder holder, final BucketItems items, final int position) {
         TextView titleOfCard = holder.myDialog.findViewById(R.id.cardTitle);
         TextView infoOfCard = holder.myDialog.findViewById(R.id.cardDescription);
         TextView targetOfCard = holder.myDialog.findViewById(R.id.card_target_date);
@@ -95,31 +119,16 @@ public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDr
         completedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                   //todo add this to achieved list
-                   items.setAchieved(items.isAchieved() ? false:true);
-                   FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
-                   DocumentReference documentReference = fireStore.collection("Users").document(mUser.getUid())
-                           .collection("items").document(items.getStringID());
-                   documentReference.update(items.toHashMap()).addOnSuccessListener(new OnSuccessListener<Void>() {
-                       @Override
-                       public void onSuccess(Void aVoid) {
-                           Log.d(TAG, "onSuccess: Sucess" );
-                           itemsList.remove(position);
-                           itemModify.onItemDeleted();
-                           notifyDataSetChanged();
-                           holder.myDialog.dismiss();
-                       }
-                   }).addOnFailureListener(new OnFailureListener() {
-                       @Override
-                       public void onFailure(@NonNull Exception e) {
-                           Log.d(TAG, "onFailure: " + e.getMessage());
-                       }
-                   });
 
+                //todo add this to achieved list
+                items.setAchieved(items.isAchieved() ? false:true);
+                updateData(items,holder,position);
             }
         });
 
     }
+
+
 
     @Override
     public int getItemCount() {
