@@ -1,4 +1,4 @@
-package com.example.bucketlist;
+package com.example.bucketlist.fragments.homePageFragment;
 
 
 import android.content.Context;
@@ -21,6 +21,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 
+import com.example.bucketlist.layout.userLayout.DetailProfile;
+import com.example.bucketlist.R;
 import com.example.bucketlist.adapters.MyPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -61,7 +63,7 @@ public class ProfileFragment extends Fragment {
         profileBackground.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity().getApplication(),DetailProfile.class);
+                Intent intent = new Intent(getActivity().getApplication(), DetailProfile.class);
                 startActivity(intent);
             }
         });

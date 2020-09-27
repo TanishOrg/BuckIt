@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/ThemeOverlay.MaterialComponents.Light"
-    tools:context=".ContactEntry">
+    tools:context=".layout.userLayout.ContactEntry">
 
     <TextView
     android:layout_width="wrap_content"

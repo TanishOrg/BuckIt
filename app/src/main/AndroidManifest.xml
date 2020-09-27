@@ -18,32 +18,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CustomTheme">
-        <activity android:name=".EditProfileActivity"></activity>
-        <activity android:name=".DetailProfile" />
+        <activity android:name=".layout.userLayout.EditProfileActivity"></activity>
+        <activity android:name=".layout.userLayout.DetailProfile" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Theme.AppCompat" />
-        <activity android:name=".OtpActivityLogin" />
-        <activity android:name=".UserDetail" />
-        <activity android:name=".OtpActivityRegister" />
-        <activity android:name=".ContactEntry" />
+        <activity android:name=".layout.loginLayouts.OtpActivityLogin" />
+        <activity android:name=".layout.userLayout.UserDetail" />
+        <activity android:name=".layout.loginLayouts.OtpActivityRegister" />
+        <activity android:name=".layout.userLayout.ContactEntry" />
         <activity android:name=".HomeActivity" />
         <activity
-            android:name=".Third_Content"
-            android:parentActivityName=".SecondContent" />
+            android:name=".layout.openingScreen.Third_Content"
+            android:parentActivityName=".layout.openingScreen.SecondContent" />
         <activity
-            android:name=".First_content"
-            android:parentActivityName=".GetStartedActivity" />
+            android:name=".layout.openingScreen.First_content"
+            android:parentActivityName=".layout.openingScreen.GetStartedActivity" />
         <activity
-            android:name=".SecondContent"
-            android:parentActivityName=".First_content" />
+            android:name=".layout.openingScreen.SecondContent"
+            android:parentActivityName=".layout.openingScreen.First_content" />
         <activity
-            android:name=".LoginByEmailActivity"
-            android:parentActivityName=".Third_Content" />
+            android:name=".layout.loginLayouts.LoginByEmailActivity"
+            android:parentActivityName=".layout.openingScreen.Third_Content" />
         <activity
-            android:name=".layout.SignupActivity"
-            android:parentActivityName=".Third_Content" />
-        <activity android:name=".GetStartedActivity">
+            android:name=".layout.loginLayouts.SignupActivity"
+            android:parentActivityName=".layout.openingScreen.Third_Content" />
+        <activity android:name=".layout.openingScreen.GetStartedActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

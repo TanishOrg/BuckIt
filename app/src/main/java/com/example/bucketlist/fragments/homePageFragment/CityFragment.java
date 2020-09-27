@@ -1,4 +1,4 @@
-package com.example.bucketlist.fragment;
+package com.example.bucketlist.fragments.homePageFragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

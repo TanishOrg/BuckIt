@@ -1,4 +1,4 @@
-package com.example.bucketlist.layout;
+package com.example.bucketlist.layout.loginLayouts;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,13 +10,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.bucketlist.ContactEntry;
-import com.example.bucketlist.HomeActivity;
+import com.example.bucketlist.layout.userLayout.ContactEntry;
 import com.example.bucketlist.R;
-import com.example.bucketlist.data.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

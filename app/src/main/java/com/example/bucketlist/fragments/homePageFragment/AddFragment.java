@@ -1,8 +1,7 @@
-package com.example.bucketlist.fragment;
+package com.example.bucketlist.fragments.homePageFragment;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,9 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import com.example.bucketlist.ProfileFragment;
 import com.example.bucketlist.R;
 import com.example.bucketlist.data.DatabaseHandler;
 import com.example.bucketlist.model.BucketItems;

@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.bucketlist.AchievedFragment;
-import com.example.bucketlist.DreamFragment;
+import com.example.bucketlist.fragments.profileFragments.AchievedFragment;
+import com.example.bucketlist.fragments.profileFragments.DreamFragment;
 
 public class MyPagerAdapter extends FragmentPagerAdapter {
 
