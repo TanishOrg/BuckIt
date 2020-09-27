@@ -2,6 +2,7 @@ package com.example.bucketlist.fragment;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,6 +49,8 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
     private FirebaseFirestore mFireStore;
     private View view;
 
+//    Dialog myDialog;
+
     @Nullable
     @Override
 
@@ -76,6 +79,11 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
         healthCategory.setOnClickListener(this);
         otherCategory.setOnClickListener(this);
         db = new DatabaseHandler(getContext());
+
+
+
+//        myDialog.setContentView(R.layout.popup_show_window);
+
         return view;
     }
 
@@ -173,6 +181,9 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+//                Toast.makeText(getContext().toString(), "test click" + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
+//                myDialog.show();
 
                 String name = nameText.getText().toString();
                 String description = describeText.getText().toString();
