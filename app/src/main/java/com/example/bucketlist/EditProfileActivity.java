@@ -71,8 +71,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
         editProfileImage.setOnClickListener(this);
 
-
-
     }
 
     @Override

@@ -94,7 +94,7 @@ public class AchievedFragment extends Fragment {
                 .beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).commit();
         final ViewPager viewPager = getParentFragment().getView().findViewById(R.id.viewPager);
         viewPager.setCurrentItem(1);
-//        tabLayout.getTabAt(1).select();
+
     }
 
     @Override
