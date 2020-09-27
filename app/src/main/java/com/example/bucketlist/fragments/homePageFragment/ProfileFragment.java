@@ -68,6 +68,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+
 //        achievedFragment = new AchievedFragment();
 //        dreamFragment = new DreamFragment();
 

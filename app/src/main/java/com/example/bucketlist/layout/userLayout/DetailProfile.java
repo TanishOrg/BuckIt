@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -46,10 +47,6 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
         signoutButton.setOnClickListener(this);
         editButton.setOnClickListener(this);
         backButton.setOnClickListener(this);
-
-
-
-
     }
 
     @Override
@@ -85,14 +82,7 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
 
             }
         });
-
-
     }
-
-
-
-
-
    private void initialization(){
         signoutButton = findViewById(R.id.signoutButton);
         displayName = findViewById(R.id.displayName);
