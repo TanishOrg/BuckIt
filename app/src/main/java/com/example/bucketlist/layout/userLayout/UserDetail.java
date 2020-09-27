@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -83,11 +84,6 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
 
         completeButton.setOnClickListener(this);
         profileLayout.setOnClickListener(this);
-
-
-
-
-
 
     }//end of on create
 
@@ -159,8 +155,6 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
         }
     }//end of onActivityResult
 
-
-
     private void uploadImageToFirebase(Uri imageUri) {
                     //upload image to firebase storage
         final StorageReference fileRef  = storageReference.child("profileImage.jpeg");
@@ -193,8 +187,5 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
         });
 
     }//uploadImageToFirebase
-
-
-
 
 }//end of class

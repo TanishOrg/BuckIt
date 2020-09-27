@@ -234,7 +234,9 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
                                         myDialog.dismiss();
                                     }
                                 });
+
                                 myDialog.show();
+
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
