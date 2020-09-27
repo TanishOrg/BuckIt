@@ -1,4 +1,4 @@
-package com.example.bucketlist;
+package com.example.bucketlist.layout.openingScreen;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.bucketlist.R;
 
 public class SecondContent extends AppCompatActivity {
 

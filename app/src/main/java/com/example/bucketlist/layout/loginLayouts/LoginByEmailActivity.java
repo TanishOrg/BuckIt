@@ -1,4 +1,4 @@
-package com.example.bucketlist;
+package com.example.bucketlist.layout.loginLayouts;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +14,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bucketlist.layout.SignupActivity;
+import com.example.bucketlist.layout.userLayout.ContactEntry;
+import com.example.bucketlist.HomeActivity;
+import com.example.bucketlist.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

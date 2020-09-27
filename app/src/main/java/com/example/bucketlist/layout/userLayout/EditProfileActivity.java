@@ -1,4 +1,4 @@
-package com.example.bucketlist;
+package com.example.bucketlist.layout.userLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.bucketlist.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -70,8 +71,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         initialization();
 
         editProfileImage.setOnClickListener(this);
-
-
 
     }
 

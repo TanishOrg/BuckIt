@@ -1,21 +1,20 @@
-package com.example.bucketlist;
+package com.example.bucketlist.layout.userLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.bucketlist.HomeActivity;
+import com.example.bucketlist.R;
+import com.example.bucketlist.layout.loginLayouts.LoginByEmailActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -23,9 +22,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class DetailProfile extends AppCompatActivity implements View.OnClickListener {
 
@@ -112,7 +108,7 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
    public void onClickSignoutButton(){
        if (firebaseAuth != null) {
            firebaseAuth.signOut();
-           Intent i = new Intent(DetailProfile.this,LoginByEmailActivity.class);
+           Intent i = new Intent(DetailProfile.this, LoginByEmailActivity.class);
            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
            startActivity(i);
        }
@@ -126,7 +122,7 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
 
 
     public void onClickBackButton(){
-        Intent i = new Intent(DetailProfile.this,HomeActivity.class);
+        Intent i = new Intent(DetailProfile.this, HomeActivity.class);
         startActivity(i);
 
     }

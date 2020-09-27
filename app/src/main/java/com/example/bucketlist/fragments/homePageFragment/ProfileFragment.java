@@ -1,4 +1,4 @@
-package com.example.bucketlist;
+package com.example.bucketlist.fragments.homePageFragment;
 
 
 import android.content.Context;
@@ -21,6 +21,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 
+import com.example.bucketlist.layout.userLayout.DetailProfile;
+import com.example.bucketlist.R;
 import com.example.bucketlist.adapters.MyPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -61,7 +63,7 @@ public class ProfileFragment extends Fragment {
         profileBackground.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity().getApplication(),DetailProfile.class);
+                Intent intent = new Intent(getActivity().getApplication(), DetailProfile.class);
                 startActivity(intent);
             }
         });
@@ -82,6 +84,11 @@ public class ProfileFragment extends Fragment {
         user_id = firebaseAuth.getCurrentUser().getUid();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
+        loadData(user_id);
+
+    }
+
+    private void loadData(String user_id) {
         DocumentReference documentReference = firebaseFirestore.collection("Users").document(user_id);
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -94,44 +101,8 @@ public class ProfileFragment extends Fragment {
                     stringImageUri = value.getString("Image Uri");
                     Glide.with(context).load(stringImageUri).into(profilePageImage);
                 }
-
-
             }
         });
     }
-
-//    class MyPagerAdapter extends FragmentPagerAdapter {
-//
-//        String[] tabName = {"ACTIVE", "ACHIEVED"};
-//
-//        public MyPagerAdapter(@NonNull FragmentManager fm) {
-//            super(fm);
-//        }
-//
-//        @NonNull
-//        @Override
-//        public Fragment getItem(int position) {
-//
-//            switch (position){
-//                case 0:
-//                    return dreamFragment;
-//                case 1:
-//                    return achievedFragment;
-//            }
-//            return null;
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return tabName.length;
-//        }
-//
-//        @Nullable
-//        @Override
-//        public CharSequence getPageTitle(int position) {
-//            return tabName[position];
-//        }
-//    }
-
 
 }

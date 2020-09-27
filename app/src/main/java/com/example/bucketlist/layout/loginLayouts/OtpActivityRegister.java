@@ -1,4 +1,4 @@
-package com.example.bucketlist;
+package com.example.bucketlist.layout.loginLayouts;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bucketlist.R;
+import com.example.bucketlist.layout.userLayout.UserDetail;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;

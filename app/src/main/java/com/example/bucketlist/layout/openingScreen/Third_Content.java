@@ -1,4 +1,4 @@
-package com.example.bucketlist;
+package com.example.bucketlist.layout.openingScreen;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,7 +9,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.bucketlist.layout.SignupActivity;
+import com.example.bucketlist.R;
+import com.example.bucketlist.layout.loginLayouts.SignupActivity;
+import com.example.bucketlist.layout.loginLayouts.LoginByEmailActivity;
 
 public class Third_Content extends AppCompatActivity {
     Button loginbutton,signupbutton;

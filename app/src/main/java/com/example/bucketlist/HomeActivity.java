@@ -7,8 +7,9 @@ import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.bucketlist.fragment.AddFragment;
-import com.example.bucketlist.fragment.CityFragment;
+import com.example.bucketlist.fragments.homePageFragment.AddFragment;
+import com.example.bucketlist.fragments.homePageFragment.CityFragment;
+import com.example.bucketlist.fragments.homePageFragment.ProfileFragment;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 public class HomeActivity extends AppCompatActivity {

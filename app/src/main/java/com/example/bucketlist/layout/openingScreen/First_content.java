@@ -1,4 +1,4 @@
-package com.example.bucketlist;
+package com.example.bucketlist.layout.openingScreen;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.bucketlist.R;
+import com.example.bucketlist.layout.openingScreen.SecondContent;
+import com.example.bucketlist.layout.openingScreen.Third_Content;
 
 public class First_content extends AppCompatActivity {
 
@@ -37,7 +41,7 @@ public class First_content extends AppCompatActivity {
     }
 
     public void toSecondSlide(View view){
-        Intent i = new Intent(this,SecondContent.class);
+        Intent i = new Intent(this, SecondContent.class);
         Pair[] pair = new Pair[11];
         pair[0]= new Pair<View,String>(ea1,"ea1transition1");
         pair[1]= new Pair<View,String>(ea2,"ea2transition1");
@@ -56,7 +60,7 @@ public class First_content extends AppCompatActivity {
     }
 
     public void skipToLast(View view){
-        Intent i = new Intent(this,Third_Content.class);
+        Intent i = new Intent(this, Third_Content.class);
         Pair[] pair = new Pair[9];
         pair[0]= new Pair<View,String>(ea1,"ea1transition1");
         pair[1]= new Pair<View,String>(ea2,"ea2transition1");

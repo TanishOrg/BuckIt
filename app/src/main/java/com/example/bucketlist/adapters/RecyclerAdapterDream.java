@@ -30,13 +30,12 @@ import java.util.List;
 
 public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDream.ViewHolder>{
 
-
-    Context context;
-    List<BucketItems> itemsList;
-    FirebaseAuth mAuth;
-    FirebaseUser mUser;
+    private static final String TAG = "RECYCLERadapter";
+    private Context context;
+    private List<BucketItems> itemsList;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
     private BucketItemModify itemModify;
-
 
     public RecyclerAdapterDream(Context context, List<BucketItems> items, BucketItemModify modify) {
         this.context = context;
@@ -53,14 +52,11 @@ public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDr
         }
     }
 
-    private static final String TAG = "RECYCLERadapter";
-    int count = 0;
+    @Override
     public ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
-
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item_dream,parent,false);
         return new ViewHolder(view);
-//        return viewHolder;
     }
 
     @Override
@@ -70,55 +66,7 @@ public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDr
         holder.cardTitle.setText(items.getTitle());
         holder.cardTargetDate.setText(items.getDeadline());
 
-
-        TextView titleOfCard = holder.myDialog.findViewById(R.id.cardTitle);
-        TextView infoOfCard = holder.myDialog.findViewById(R.id.cardDescription);
-        TextView targetOfCard = holder.myDialog.findViewById(R.id.card_target_date);
-        Button completedButton = holder.myDialog.findViewById(R.id.completeButton);
-        ImageView privacyImageView = holder.myDialog.findViewById(R.id.privacyImageView);
-
-        titleOfCard.setText(items.getTitle());
-        if (items.getInfo() != null) {
-            infoOfCard.setText(items.getInfo());
-        }
-        completedButton.setText(items.isAchieved() ? "Completed": "Not Completed");
-        privacyImageView.setImageResource(items.isPrivate()? R.drawable.ic_baseline_person_24: R.drawable.ic_baseline_public_24);
-        targetOfCard.setText(items.getDeadline());
-        holder.card_item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "test click" + String.valueOf(holder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
-                holder.myDialog.show();
-            }
-        });
-
-        completedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                   //todo add this to achieved list
-                   items.setAchieved(items.isAchieved() ? false:true);
-                   FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
-                   DocumentReference documentReference = fireStore.collection("Users").document(mUser.getUid())
-                           .collection("items").document(items.getStringID());
-                   documentReference.update(items.toHashMap()).addOnSuccessListener(new OnSuccessListener<Void>() {
-                       @Override
-                       public void onSuccess(Void aVoid) {
-                           Log.d(TAG, "onSuccess: Sucess" );
-                           itemsList.remove(position);
-                           itemModify.onItemDeleted();
-                           notifyDataSetChanged();
-                           holder.myDialog.dismiss();
-                       }
-                   }).addOnFailureListener(new OnFailureListener() {
-                       @Override
-                       public void onFailure(@NonNull Exception e) {
-                           Log.d(TAG, "onFailure: " + e.getMessage());
-                       }
-                   });
-
-            }
-        });
-
+        bindHolder(holder,items,position);
     }
 
     @Override
@@ -148,4 +96,61 @@ public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDr
 
         }
     }
+
+    private void updateData(BucketItems items, final ViewHolder holder, final int position) {
+        FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = fireStore.collection("Users").document(mUser.getUid())
+                .collection("items").document(items.getStringID());
+        documentReference.update(items.toHashMap()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "onSuccess: Sucess" );
+                itemsList.remove(position);
+                itemModify.onItemDeleted();
+                notifyDataSetChanged();
+                holder.myDialog.dismiss();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: " + e.getMessage());
+            }
+        });
+    }
+
+    private void bindHolder(final ViewHolder holder, final BucketItems items, final int position) {
+        TextView titleOfCard = holder.myDialog.findViewById(R.id.cardTitle);
+        TextView infoOfCard = holder.myDialog.findViewById(R.id.cardDescription);
+        TextView targetOfCard = holder.myDialog.findViewById(R.id.card_target_date);
+        Button completedButton = holder.myDialog.findViewById(R.id.completeButton);
+        ImageView privacyImageView = holder.myDialog.findViewById(R.id.privacyImageView);
+
+        titleOfCard.setText(items.getTitle());
+        if (items.getInfo() != null) {
+            infoOfCard.setText(items.getInfo());
+        }
+        completedButton.setText(items.isAchieved() ? "Completed": "Not Completed");
+        privacyImageView.setImageResource(items.isPrivate()? R.drawable.ic_baseline_person_24: R.drawable.ic_baseline_public_24);
+        targetOfCard.setText(items.getDeadline());
+        holder.card_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "test click" + String.valueOf(holder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
+                holder.myDialog.show();
+            }
+        });
+
+        completedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //todo add this to achieved list
+                items.setAchieved(items.isAchieved() ? false:true);
+                updateData(items,holder,position);
+            }
+        });
+
+    }
+
+
 }

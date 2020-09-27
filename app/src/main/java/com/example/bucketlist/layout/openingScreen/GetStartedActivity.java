@@ -1,4 +1,4 @@
-package com.example.bucketlist;
+package com.example.bucketlist.layout.openingScreen;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -8,15 +8,13 @@ import android.transition.Slide;
 import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bucketlist.First_content;
+import com.example.bucketlist.HomeActivity;
 import com.example.bucketlist.R;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -69,7 +67,7 @@ public class GetStartedActivity extends AppCompatActivity {
         super.onStart();
 
         if (mAuth.getCurrentUser() != null) {
-            Intent i = new Intent(this,HomeActivity.class);
+            Intent i = new Intent(this, HomeActivity.class);
             finish();
             startActivity(i);
         }

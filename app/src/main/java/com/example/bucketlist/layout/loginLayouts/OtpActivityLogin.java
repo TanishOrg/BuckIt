@@ -1,8 +1,10 @@
-package com.example.bucketlist;
+package com.example.bucketlist.layout.loginLayouts;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.bucketlist.R;
 
 public class OtpActivityLogin extends AppCompatActivity {
 
