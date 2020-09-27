@@ -2,6 +2,7 @@ package com.example.bucketlist.fragments.homePageFragment;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,6 +45,9 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
     private FirebaseUser mUser;
     private FirebaseFirestore mFireStore;
     private View view;
+
+    Dialog myDialog;
+
 
     @Nullable
     @Override
@@ -186,6 +190,7 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
                     item.setInfo(description);
                     db.addItem(item);
 
+
                     try {
                         FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
                         DocumentReference documentReference = fireStore.collection("Users").document(mUser.getUid())
@@ -197,12 +202,39 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Log.d(TAG, "onSuccess: added successfully");
-                                getParentFragmentManager().
-                                        beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).commit();
-                                Toast.makeText(getContext(), "Added to your bucket list", Toast.LENGTH_SHORT).show();
+//                                getParentFragmentManager().
+//                                        beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).commit();
+//                                Toast.makeText(getContext(), "Added to your bucket list", Toast.LENGTH_SHORT).show();
                                 alertDialog.dismiss();
-                                final ChipNavigationBar bottomNav = getActivity().findViewById(R.id.bottom_nav);
-                                bottomNav.setItemSelected(R.id.profile,true);;
+//                                final ChipNavigationBar bottomNav = getActivity().findViewById(R.id.bottom_nav);
+//                                bottomNav.setItemSelected(R.id.profile,true);;
+
+                                myDialog = new Dialog(getContext(),android.R.style.Theme_Translucent_NoTitleBar);
+                                myDialog.setContentView(R.layout.popup_show_window);
+                                myDialog.show();
+
+                                TextView titleOfCard = myDialog.findViewById(R.id.cardTitle);
+                                TextView infoOfCard = myDialog.findViewById(R.id.cardDescription);
+                                TextView targetOfCard = myDialog.findViewById(R.id.card_target_date);
+                                Button completedButton = myDialog.findViewById(R.id.completeButton);
+                                ImageView privacyImageView = myDialog.findViewById(R.id.privacyImageView);
+
+                                titleOfCard.setText(item.getTitle());
+                                if (item.getInfo() != null) {
+                                    infoOfCard.setText(item.getInfo());
+                                }
+                                completedButton.setText(item.isAchieved() ? "Completed": "Not Completed");
+                                privacyImageView.setImageResource(item.isPrivate()? R.drawable.ic_baseline_person_24: R.drawable.ic_baseline_public_24);
+                                targetOfCard.setText(item.getDeadline());
+
+                                ImageView cancelButton2 = myDialog.findViewById(R.id.cancelButton2);
+                                cancelButton2.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        myDialog.dismiss();
+                                    }
+                                });
+                                myDialog.show();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override

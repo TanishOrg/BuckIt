@@ -15,14 +15,14 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileImage"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@drawable/profile_general_image"
-        app:civ_border_width="2dp"
+        android:layout_width="156dp"
+        android:layout_height="156dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
         android:contextClickable="true"
+        android:src="@drawable/profile_general_image"
         app:civ_border_color="@color/pink1"
-        android:layout_marginTop="100dp"/>
+        app:civ_border_width="2dp" />
 
 
         <RelativeLayout

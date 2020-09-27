@@ -1,5 +1,6 @@
 package com.example.bucketlist.adapters;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
@@ -125,6 +126,8 @@ public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDr
         Button completedButton = holder.myDialog.findViewById(R.id.completeButton);
         ImageView privacyImageView = holder.myDialog.findViewById(R.id.privacyImageView);
 
+        ImageView cancelButton2 = holder.myDialog.findViewById(R.id.cancelButton2);
+
         titleOfCard.setText(items.getTitle());
         if (items.getInfo() != null) {
             infoOfCard.setText(items.getInfo());
@@ -132,11 +135,20 @@ public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDr
         completedButton.setText(items.isAchieved() ? "Completed": "Not Completed");
         privacyImageView.setImageResource(items.isPrivate()? R.drawable.ic_baseline_person_24: R.drawable.ic_baseline_public_24);
         targetOfCard.setText(items.getDeadline());
+
         holder.card_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "test click" + String.valueOf(holder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "test click" + String.valueOf(holder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
                 holder.myDialog.show();
+            }
+        });
+
+
+        cancelButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.myDialog.dismiss();
             }
         });
 
