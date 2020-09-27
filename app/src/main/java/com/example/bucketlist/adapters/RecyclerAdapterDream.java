@@ -30,13 +30,12 @@ import java.util.List;
 
 public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDream.ViewHolder>{
 
-
-    Context context;
-    List<BucketItems> itemsList;
-    FirebaseAuth mAuth;
-    FirebaseUser mUser;
+    private static final String TAG = "RECYCLERadapter";
+    private Context context;
+    private List<BucketItems> itemsList;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
     private BucketItemModify itemModify;
-
 
     public RecyclerAdapterDream(Context context, List<BucketItems> items, BucketItemModify modify) {
         this.context = context;
@@ -53,14 +52,11 @@ public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDr
         }
     }
 
-    private static final String TAG = "RECYCLERadapter";
-    int count = 0;
+    @Override
     public ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
-
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item_dream,parent,false);
         return new ViewHolder(view);
-//        return viewHolder;
     }
 
     @Override
@@ -71,6 +67,34 @@ public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDr
         holder.cardTargetDate.setText(items.getDeadline());
 
         bindHolder(holder,items,position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return itemsList != null ? itemsList.size() : 0;
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder{
+
+        @NonNull
+        Dialog myDialog;
+        RelativeLayout card_item;
+        ImageView imageView;
+        TextView cardTitle , cardTargetDate;
+        int id;
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            imageView = itemView.findViewById(R.id.cardCategoryIcon);
+            cardTitle = itemView.findViewById(R.id.cardTitle);
+            cardTargetDate = itemView.findViewById(R.id.cardTargetDate);
+            card_item = itemView.findViewById(R.id.card_item);
+
+            //inflating
+            myDialog = new Dialog(context,android.R.style.Theme_Translucent_NoTitleBar);
+            myDialog.setContentView(R.layout.popup_show_window);
+
+        }
     }
 
     private void updateData(BucketItems items, final ViewHolder holder, final int position) {
@@ -129,32 +153,4 @@ public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDr
     }
 
 
-
-    @Override
-    public int getItemCount() {
-        return itemsList != null ? itemsList.size() : 0;
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder{
-
-        @NonNull
-        Dialog myDialog;
-        RelativeLayout card_item;
-        ImageView imageView;
-        TextView cardTitle , cardTargetDate;
-        int id;
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            imageView = itemView.findViewById(R.id.cardCategoryIcon);
-            cardTitle = itemView.findViewById(R.id.cardTitle);
-            cardTargetDate = itemView.findViewById(R.id.cardTargetDate);
-            card_item = itemView.findViewById(R.id.card_item);
-
-            //inflating
-            myDialog = new Dialog(context,android.R.style.Theme_Translucent_NoTitleBar);
-            myDialog.setContentView(R.layout.popup_show_window);
-
-        }
-    }
 }
