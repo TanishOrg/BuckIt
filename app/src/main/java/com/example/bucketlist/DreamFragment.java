@@ -1,6 +1,8 @@
 package com.example.bucketlist;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +12,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bucketlist.adapters.MyPagerAdapter;
 import com.example.bucketlist.adapters.RecyclerAdapterAchieved;
 import com.example.bucketlist.adapters.RecyclerAdapterDream;
+import com.example.bucketlist.model.BucketItemModify;
 import com.example.bucketlist.model.BucketItems;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -25,10 +30,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
+
 public class DreamFragment extends Fragment {
     @Nullable
 
     RecyclerView recyclerView;
+
     RecyclerAdapterDream recyclerAdapterDream;
     List<BucketItems> bucketItems = new ArrayList<>();
 //    List<BucketItems> items;
@@ -38,12 +46,25 @@ public class DreamFragment extends Fragment {
     private FirebaseFirestore fireStore;
 
 
-
-
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
          view = inflater.inflate(R.layout.fragment_dream,container,false);
+        recyclerView = view.findViewById(R.id.recyclerViewDream);
 
         mAuth = FirebaseAuth.getInstance();
+
+        recyclerAdapterDream =new RecyclerAdapterDream(getContext(), bucketItems, new BucketItemModify() {
+            @Override
+            public void onItemDeleted() {
+                Log.d(TAG, "onItemDeleted: called");
+                Log.d(TAG, "onItemDeleted: " + getActivity().getClass());
+//                        Intent intent = new Intent(getContext(),HomeActivity.class);
+//                        startActivity(intent);
+//                        getActivity().finish();
+                refreshFragment();
+            }
+        });
+
+        recyclerView.setAdapter(recyclerAdapterDream);
 
 
         return view;
@@ -66,9 +87,8 @@ public class DreamFragment extends Fragment {
                     bucketItems.add(item);
                 }
 
-                recyclerView = view.findViewById(R.id.recyclerViewDream);
-                recyclerAdapterDream =new RecyclerAdapterDream(getContext(),bucketItems);
-                recyclerView.setAdapter(recyclerAdapterDream);
+                recyclerAdapterDream.notifyDataSetChanged();
+
             }
         });
 
@@ -80,9 +100,17 @@ public class DreamFragment extends Fragment {
 
     }
 
+    private void refreshFragment() {
+        getParentFragment().getParentFragmentManager()
+                .beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).commit();
+        final TabLayout tabLayout = getParentFragment().getView().findViewById(R.id.tab_bar);
+//        tabLayout.getTabAt(1).select();
+    }
+
     @Override
-    public void onResume() {
-        super.onResume();
-        if (recyclerAdapterDream != null) recyclerAdapterDream.notifyDataSetChanged();
+    public void onPause() {
+        super.onPause();
+        bucketItems.clear();
+        recyclerAdapterDream.notifyDataSetChanged();
     }
 }

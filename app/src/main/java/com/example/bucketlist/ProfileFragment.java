@@ -17,12 +17,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 
+import com.example.bucketlist.adapters.MyPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -36,8 +35,8 @@ public class ProfileFragment extends Fragment {
 
     TabLayout tabLayout;
     ViewPager viewPager;
-    AchievedFragment achievedFragment;
-    DreamFragment dreamFragment;
+//    AchievedFragment achievedFragment;
+//    DreamFragment dreamFragment;
     ImageView profilePageImage,profileBackground;
     TextView profileName;
     FirebaseFirestore firebaseFirestore;
@@ -67,8 +66,8 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        achievedFragment = new AchievedFragment();
-        dreamFragment = new DreamFragment();
+//        achievedFragment = new AchievedFragment();
+//        dreamFragment = new DreamFragment();
 
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
         tabLayout.setupWithViewPager(viewPager);
@@ -101,38 +100,38 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-    class MyPagerAdapter extends FragmentPagerAdapter {
-
-        String[] tabName = {"ACTIVE", "ACHIEVED"};
-
-        public MyPagerAdapter(@NonNull FragmentManager fm) {
-            super(fm);
-        }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-
-            switch (position){
-                case 0:
-                    return dreamFragment;
-                case 1:
-                    return achievedFragment;
-            }
-            return null;
-        }
-
-        @Override
-        public int getCount() {
-            return tabName.length;
-        }
-
-        @Nullable
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return tabName[position];
-        }
-    }
+//    class MyPagerAdapter extends FragmentPagerAdapter {
+//
+//        String[] tabName = {"ACTIVE", "ACHIEVED"};
+//
+//        public MyPagerAdapter(@NonNull FragmentManager fm) {
+//            super(fm);
+//        }
+//
+//        @NonNull
+//        @Override
+//        public Fragment getItem(int position) {
+//
+//            switch (position){
+//                case 0:
+//                    return dreamFragment;
+//                case 1:
+//                    return achievedFragment;
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return tabName.length;
+//        }
+//
+//        @Nullable
+//        @Override
+//        public CharSequence getPageTitle(int position) {
+//            return tabName[position];
+//        }
+//    }
 
 
 }

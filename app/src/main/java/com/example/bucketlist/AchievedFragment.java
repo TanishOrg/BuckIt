@@ -10,11 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.bucketlist.adapters.RecyclerAdapterAchieved;
 import com.example.bucketlist.adapters.RecyclerAdapterDream;
+import com.example.bucketlist.model.BucketItemModify;
 import com.example.bucketlist.model.BucketItems;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -43,6 +46,16 @@ public class AchievedFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_achieved,container,false);
         mAuth = FirebaseAuth.getInstance();
+
+        recyclerView = view.findViewById(R.id.recyclerViewAchieved);
+        recyclerAdapterAchieved =new RecyclerAdapterAchieved(getContext(),bucketItems, new BucketItemModify() {
+            @Override
+            public void onItemDeleted() {
+                refreshFragment();
+            }
+        });
+        recyclerView.setAdapter(recyclerAdapterAchieved);
+
         return view;
     }
 
@@ -61,11 +74,9 @@ public class AchievedFragment extends Fragment {
 //                    Log.d(TAG, "onSuccess: document id " + snapshot.getId());
                     BucketItems item = BucketItems.hashToObject( snapshot.getData(),snapshot.getId());
                     bucketItems.add(item);
+                    recyclerAdapterAchieved.notifyDataSetChanged();
                 }
 
-                recyclerView = view.findViewById(R.id.recyclerViewAchieved);
-                recyclerAdapterAchieved =new RecyclerAdapterAchieved(getContext(),bucketItems);
-                recyclerView.setAdapter(recyclerAdapterAchieved);
             }
         });
 
@@ -76,5 +87,22 @@ public class AchievedFragment extends Fragment {
         super.onResume();
         if (recyclerAdapterAchieved != null)recyclerAdapterAchieved.notifyDataSetChanged();
     }
+
+
+    private void refreshFragment() {
+        getParentFragment().getParentFragmentManager()
+                .beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).commit();
+        final ViewPager viewPager = getParentFragment().getView().findViewById(R.id.viewPager);
+        viewPager.setCurrentItem(1);
+//        tabLayout.getTabAt(1).select();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        bucketItems.clear();
+        recyclerAdapterAchieved.notifyDataSetChanged();
+    }
 }
+
 
