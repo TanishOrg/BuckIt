@@ -32,14 +32,11 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
     private static final String TAG ="Detail Profile" ;
     private Button signoutButton;
     EditText displayName,emailAddress,phoneNumber;
-    private ImageView profileImage , editButton , backButton ,doneButton , clearButton,displayNamedoneButton;
-           ImageView phonedoneButton, emaildoneButton ;
+    private ImageView profileImage , editButton , backButton ;
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
     String StringImageUri,name,email,phone;
-    ProgressBar emailProgress,phoneProgress,nameProgress;
-    int count =0;
-    Timer timer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,17 +47,12 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
         //initializing view
         initialization();
 
-        displayName.setFocusable(false);
-        emailAddress.setFocusable(false);
-        phoneNumber.setFocusable(false);
-
-
-
         signoutButton.setOnClickListener(this);
         editButton.setOnClickListener(this);
         backButton.setOnClickListener(this);
-        doneButton.setOnClickListener(this);
-        clearButton.setOnClickListener(this);
+
+
+
 
     }
 
@@ -82,6 +74,7 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
                 else {
                     name = value.getString("Display Name");
                     displayName.setText(name);
+
                     email =  value.getString("Email Address");
                     emailAddress.setText(email);
 
@@ -112,11 +105,8 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
         phoneNumber = findViewById(R.id.phoneNumber);
         editButton = findViewById(R.id.editButton);
         backButton = findViewById(R.id.backButton);
-        doneButton = findViewById(R.id.doneButton);
-        clearButton = findViewById(R.id.clearButton);
-       displayNamedoneButton = findViewById(R.id.displayNamedoneButton);
-       phonedoneButton = findViewById(R.id.phonedoneButton);
-       emaildoneButton = findViewById(R.id.emaildoneButton);
+
+
 }
 
    public void onClickSignoutButton(){
@@ -129,45 +119,20 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
    }
 
    public void onClickEditButton(){
-       editButton.setVisibility(View.INVISIBLE);
-       backButton.setVisibility(View.INVISIBLE);
+        Intent i = new Intent(DetailProfile.this,EditProfileActivity.class);
+        startActivity(i);
 
-       doneButton.setVisibility(View.VISIBLE);
-       clearButton.setVisibility(View.VISIBLE);
-
-       displayName.setFocusableInTouchMode(true);
-       emailAddress.setFocusableInTouchMode(true);
-       phoneNumber.setFocusableInTouchMode(true);
-
-       displayName.addTextChangedListener(getTextWatcher(displayName , displayNamedoneButton , name));
-       emailAddress.addTextChangedListener(getTextWatcher(emailAddress , emaildoneButton, email));
-       phoneNumber.addTextChangedListener(getTextWatcher(phoneNumber , phonedoneButton , phone));
     }
 
 
-    private TextWatcher getTextWatcher(final EditText editText ,final ImageView generalDoneButton ,final String string) {
-        return new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    public void onClickBackButton(){
+        Intent i = new Intent(DetailProfile.this,HomeActivity.class);
+        startActivity(i);
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                 if(!string.equals(editText.getText().toString())){
-                     generalDoneButton.setVisibility(View.VISIBLE);
-                     generalDoneButton.setOnClickListener(DetailProfile.this);
-                 }
-                 else
-                     generalDoneButton.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        };
     }
+
+
+
 
     @Override
     public void onClick(View v) {
@@ -178,20 +143,10 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
         else if (v.getId() == R.id.editButton){
             onClickEditButton();
         }
-        else if (v.getId() == R.id.displayNamedoneButton){
-            Toast.makeText(this, "Press to save name", Toast.LENGTH_SHORT).show();
-
-
+        else if (v.getId() == R.id.backButton){
+            onClickBackButton();
         }
-        else if (v.getId() == R.id.emaildoneButton){
-            Toast.makeText(this, "Press to save email", Toast.LENGTH_SHORT).show();
 
-        }
-        else if (v.getId() == R.id.phonedoneButton){
-            Toast.makeText(this, "Press to save email", Toast.LENGTH_SHORT).show();
-
-
-        }
 
     }
 

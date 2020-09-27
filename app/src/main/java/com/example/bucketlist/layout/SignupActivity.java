@@ -92,7 +92,7 @@ public class SignupActivity extends AppCompatActivity
 
         else {
              email = signUpemailEditText.getText().toString().trim();
-             password = signUpPasswordEditText.getText().toString().trim();
+             password = signUpConfirmPasswordEditText.getText().toString().trim();
 
             mAuth.createUserWithEmailAndPassword(email,password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -114,6 +114,7 @@ public class SignupActivity extends AppCompatActivity
     private void startHome() {
         Intent i=new Intent(getApplicationContext(), ContactEntry.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.putExtra("password",password);
         startActivity(i);
 
     }

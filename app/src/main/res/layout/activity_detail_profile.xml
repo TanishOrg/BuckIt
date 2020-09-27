@@ -37,7 +37,6 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 app:hintTextColor="@color/blackcolor"
                 android:hint="Display Name"
                 >
@@ -49,29 +48,10 @@
                     android:textSize="16dp"
                     android:background="@null"
                     android:inputType="textPersonName"
-
-                    />
+                    android:focusable="false" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageView
-                android:id="@+id/displayNamedoneButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="25dp"
-                android:src="@drawable/done_icon_black"
-                android:padding="6dp"
-                android:visibility="invisible"/>
-            <ProgressBar
-                android:id="@+id/nameProgress"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="25dp"
-                android:padding="6dp"
-                android:indeterminateTint="@color/blackcolor"
-                android:visibility="invisible"/>
         </RelativeLayout>
 
 
@@ -97,28 +77,11 @@
                 android:background="@null"
                 android:textSize="16dp"
                 android:padding="16dp"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textEmailAddress"
+                android:focusable="false"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <ImageView
-            android:id="@+id/emaildoneButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="25dp"
-            android:padding="6dp"
-            android:src="@drawable/done_icon_black"
-            android:visibility="invisible"/>
 
-        <ProgressBar
-            android:id="@+id/emailProgress"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="25dp"
-            android:padding="6dp"
-            android:indeterminateTint="@color/blackcolor"
-            android:visibility="invisible"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -144,29 +107,12 @@
                 android:background="@null"
                 android:textSize="16dp"
                 android:inputType="phone"
-                android:padding="16dp" />
+                android:padding="16dp"
+                android:focusable="false"/>
 
 
         </com.google.android.material.textfield.TextInputLayout>
-        <ImageView
-            android:id="@+id/phonedoneButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="25dp"
-            android:padding="6dp"
-            android:src="@drawable/done_icon_black"
-            android:visibility="invisible"/>
 
-        <ProgressBar
-            android:id="@+id/phoneProgress"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="25dp"
-            android:padding="6dp"
-            android:indeterminateTint="@color/blackcolor"
-            android:visibility="invisible"/>
 
     </RelativeLayout>
 
@@ -178,15 +124,7 @@
         android:layout_marginTop="21dp"
         android:padding="10dp"
         android:src="@drawable/ic_baseline_edit_24" />
-    <ImageView
-        android:id="@+id/doneButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="21dp"
-        android:padding="10dp"
-        android:src="@drawable/done_icon"
-        android:visibility="invisible"/>
+
 
     <ImageView
         android:id="@+id/backButton"
@@ -197,15 +135,6 @@
         android:padding="10dp"
         />
 
-    <ImageView
-        android:id="@+id/clearButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/clear_icon"
-        android:layout_marginTop="21dp"
-        android:padding="10dp"
-
-        android:visibility="invisible"/>
 
     <Button
         android:id="@+id/signoutButton"
@@ -216,7 +145,6 @@
         android:background="@color/colorwhite"
         android:textColor="@color/pink1"
         android:textAlignment="textEnd"
-        android:drawableStart="@drawable/ic_baseline_edit_24"
         android:layout_alignParentBottom="true"/>
 
 

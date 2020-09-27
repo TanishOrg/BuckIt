@@ -55,6 +55,7 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
     StorageReference storageReference;
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
+    String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
         user_id = firebaseAuth.getCurrentUser().getUid();
         email = firebaseAuth.getCurrentUser().getEmail();
         phoneNumber = firebaseAuth.getCurrentUser().getPhoneNumber();
+        password = getIntent().getStringExtra("password");
         Toast.makeText(this, email+ "\n"+ phoneNumber, Toast.LENGTH_SHORT).show();
 
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -112,6 +114,7 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
                 user.put("Phone Number",phoneNumber);
                 user.put("Email Address",email);
                 user.put("Image Uri",StringImageUri);
+                user.put("User password",password);
                 documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

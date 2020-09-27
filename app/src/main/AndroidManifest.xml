@@ -18,10 +18,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CustomTheme">
-        <activity android:name=".DetailProfile"></activity>
+        <activity android:name=".EditProfileActivity"></activity>
+        <activity android:name=".DetailProfile" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Theme.AppCompat"></activity>
+            android:theme="@style/Theme.AppCompat" />
         <activity android:name=".OtpActivityLogin" />
         <activity android:name=".UserDetail" />
         <activity android:name=".OtpActivityRegister" />

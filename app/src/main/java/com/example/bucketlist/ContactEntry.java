@@ -20,8 +20,8 @@ public class ContactEntry extends AppCompatActivity {
     EditText phoneNumber;
     CountryCodePicker codeNumber;
     TextView errorText;
+    String password;
     Button generateotpButton;
-    ImageView backButton;
     ProgressBar generateProgressBar;
     private  PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks;
     @Override
@@ -29,6 +29,7 @@ public class ContactEntry extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_entry);
 
+        password = getIntent().getStringExtra("password");
         phoneNumber = findViewById(R.id.phoneNumberLayout);
         codeNumber = findViewById(R.id.codeNumber);
 
@@ -54,6 +55,7 @@ public class ContactEntry extends AppCompatActivity {
                     generateProgressBar.setVisibility(View.VISIBLE);
                     Intent i = new Intent(ContactEntry.this, OtpActivityRegister.class);
                     i.putExtra("phonenumber",codeNumber.getFullNumberWithPlus().replace(" ",""));
+                    i.putExtra("password",password);
                     startActivity(i);
                 }
 

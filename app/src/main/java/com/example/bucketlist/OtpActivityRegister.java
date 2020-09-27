@@ -34,7 +34,7 @@ public class OtpActivityRegister extends AppCompatActivity {
     EditText otp;
     Button verifyButton;
     TextView resend;
-    String email,password;
+    String password;
     PhoneAuthProvider.ForceResendingToken token;
     String phoneNumber, id;
 
@@ -47,7 +47,7 @@ public class OtpActivityRegister extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp_register);
 
-        email = getIntent().getStringExtra("email");
+
         password = getIntent().getStringExtra("password");
         phoneNumber = getIntent().getStringExtra("phonenumber");
 
@@ -197,8 +197,7 @@ public class OtpActivityRegister extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(OtpActivityRegister.this, UserDetail.class);
-                            intent.putExtra("phonenumber",phoneNumber);
-                            intent.putExtra("email",email);
+                            intent.putExtra("password",password);
                             startActivity(intent);
                             finish();
                         }
