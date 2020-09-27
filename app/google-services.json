@@ -15,14 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "702290742035-9dre81aj52ses75fgsrg0qqii87a9u3d.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.bucketlist",
-            "certificate_hash": "48f2acd84133f22750734e88ba7579aada2bbda3"
-          }
-        },
-        {
           "client_id": "702290742035-f7f700dp4qe10b32osdb197i4vqd4bm3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
