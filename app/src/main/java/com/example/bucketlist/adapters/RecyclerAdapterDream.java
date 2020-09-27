@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bucketlist.R;
+import com.example.bucketlist.model.BucketItemModify;
 import com.example.bucketlist.model.BucketItems;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,11 +35,13 @@ public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDr
     List<BucketItems> itemsList;
     FirebaseAuth mAuth;
     FirebaseUser mUser;
+    private BucketItemModify itemModify;
 
 
-    public RecyclerAdapterDream(Context context,List<BucketItems> items) {
+    public RecyclerAdapterDream(Context context, List<BucketItems> items, BucketItemModify modify) {
         this.context = context;
         this.itemsList = items;
+        this.itemModify = modify;
     }
 
     @Override
@@ -56,9 +59,6 @@ public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDr
 
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item_dream,parent,false);
-
-
-
         return new ViewHolder(view);
 //        return viewHolder;
     }
@@ -105,7 +105,7 @@ public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDr
                        public void onSuccess(Void aVoid) {
                            Log.d(TAG, "onSuccess: Sucess" );
                            itemsList.remove(position);
-                           notifyDataSetChanged();
+                           itemModify.onItemDeleted();
                            notifyDataSetChanged();
                            holder.myDialog.dismiss();
                        }

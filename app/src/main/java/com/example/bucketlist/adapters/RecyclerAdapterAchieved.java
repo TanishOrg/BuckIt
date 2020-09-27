@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bucketlist.R;
+import com.example.bucketlist.model.BucketItemModify;
 import com.example.bucketlist.model.BucketItems;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,14 +32,16 @@ public class RecyclerAdapterAchieved extends RecyclerView.Adapter<RecyclerAdapte
 
 
     Context context;
+    private BucketItemModify bucketItemModify;
     List<BucketItems> itemsList;
     FirebaseAuth mAuth;
     FirebaseUser mUser;
 
 
-    public RecyclerAdapterAchieved(Context context, List<BucketItems> items) {
+    public RecyclerAdapterAchieved(Context context, List<BucketItems> items, BucketItemModify modify) {
         this.context = context;
         this.itemsList = items;
+        this.bucketItemModify = modify;
     }
 
     @Override
@@ -56,10 +59,7 @@ public class RecyclerAdapterAchieved extends RecyclerView.Adapter<RecyclerAdapte
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item_dream,parent,false);
 
-
-
         return new ViewHolder(view);
-//        return viewHolder;
     }
 
     @Override
@@ -104,6 +104,7 @@ public class RecyclerAdapterAchieved extends RecyclerView.Adapter<RecyclerAdapte
                        public void onSuccess(Void aVoid) {
                            Log.d(TAG, "onSuccess: Sucess");
                            itemsList.remove(position);
+                           bucketItemModify.onItemDeleted();
                            notifyDataSetChanged();
                            holder.myDialog.dismiss();
                            //todo add refresh
