@@ -92,24 +92,26 @@ public class OtpActivityRegister extends AppCompatActivity {
                 sendVerificationCode();
             }
         });
+
+
     }
 
     private void sendVerificationCode() {
-        new CountDownTimer(60000,1000){
+            new CountDownTimer(60000,1000){
 
-            @Override
-            public void onTick(long millisUntilFinished) {
-             resend.setText("Regenerate OTP in " + millisUntilFinished/1000 + " seconds");
-             resend.setEnabled(false);
-            }
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    resend.setText("Regenerate OTP in " + millisUntilFinished/1000 + " seconds");
+                    resend.setEnabled(false);
+                }
 
-            @Override
-            public void onFinish() {
-                resend.setText("Resend OTP");
-                resend.setEnabled(true);
+                @Override
+                public void onFinish() {
+                    resend.setText("Resend OTP");
+                    resend.setEnabled(true);
 
-            }
-        }.start();
+                }
+            }.start();
 
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 phoneNumber,        // Phone number to verify
@@ -151,29 +153,7 @@ public class OtpActivityRegister extends AppCompatActivity {
                 });
     }
 
-//    public void signInWithPhoneAuthCredential(final PhoneAuthCredential credential) {
-//        mAuth.signInWithCredential(credential)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()) {
-//
-//                            FirebaseUser user = task.getResult().getUser();
-//                            final AlertDialog.Builder alert;
-//                            alert = new AlertDialog.Builder(OtpActivity.this);
-//                            View view1 = getLayoutInflater().inflate(R.layout.verify_popup_window,null);
-//
-//                            alert.setView(view1);
-//
-//                            final AlertDialog alertDialog = alert.create();
-//                            alertDialog.setCanceledOnTouchOutside(false);
-//
-//                        } else {
-//                            Toast.makeText(OtpActivity.this, "Verification failed", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
-//    }
+
 
     private void linkCredential(final AuthCredential credential) {
         mAuth.getCurrentUser().linkWithCredential(credential)
@@ -189,6 +169,7 @@ public class OtpActivityRegister extends AppCompatActivity {
                     final AlertDialog.Builder alert;
                     alert = new AlertDialog.Builder(OtpActivityRegister.this);
                     View view1 = getLayoutInflater().inflate(R.layout.verify_popup_window,null);
+
                     final Button continueButton = view1.findViewById(R.id.continueButton);
                     alert.setView(view1);
 

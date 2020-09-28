@@ -10,27 +10,37 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.bucketlist.R;
+import com.example.bucketlist.layout.loginLayouts.OtpActivityRegister;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -41,6 +51,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,6 +68,16 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     String newStringImageUri,StringImageUri, name, email, phone ,password;
     Uri imageUri;
     String passwordEntry;
+    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+",
+            phonePattern = "^[+][0-9]{9,14}$" ;
+    String id;
+    TextView feedbackMessage;
+    Button verifyButton;
+    PhoneAuthProvider.ForceResendingToken token;
+    EditText otpEntry;
+    AlertDialog alertDialog;
+    ImageView popupClearButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,7 +205,13 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
     }
 
-
+    public void changePhoneNumberFirestore(){
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = firebaseFirestore.collection("Users").document(mAuth.getCurrentUser().getUid());
+        documentReference.update("Phone Number",editPhoneNumber.getText().toString());
+        phoneDoneButton.setVisibility(View.INVISIBLE);
+        alertDialog.dismiss();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -273,6 +300,131 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         builder.show();
     }
 
+    public void alertForEntryOtp(){
+        final AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(EditProfileActivity.this);
+        View view1 = getLayoutInflater().inflate(R.layout.edit_phone_otp_popup,null);
+         verifyButton = view1.findViewById(R.id.verifyButton);
+        feedbackMessage = view1.findViewById(R.id.feedbackMessage);
+        otpEntry = view1.findViewById(R.id.otpEntry);
+        popupClearButton = view1.findViewById(R.id.clearButton);
+
+        builder.setView(view1);
+         alertDialog = builder.create();
+         alertDialog.setCanceledOnTouchOutside(false);
+
+        verifyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(TextUtils.isEmpty(otpEntry.getText().toString())){
+                    otpEntry.setError("Enter the OTP");
+                }
+
+                else  if(otpEntry.getText().toString().replace(" ","").length()!=6){
+                    otpEntry.setError("Enter the valid OTP");
+                }
+
+                else{
+                    PhoneAuthCredential credential = PhoneAuthProvider.getCredential(id,otpEntry.getText().toString().replace(" ",""));
+                    updatingPhoneNumber(credential);
+
+                }
+            }
+        });
+
+        feedbackMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendVerificationCode();
+            }
+        });
+
+        popupClearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        alertDialog.show();
+
+
+
+    }
+
+    private void sendVerificationCode() {
+        new CountDownTimer(60000,1000){
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                feedbackMessage.setText("Regenerate OTP in " + millisUntilFinished/1000 + " seconds");
+                feedbackMessage.setEnabled(false);
+            }
+
+            @Override
+            public void onFinish() {
+                feedbackMessage.setText("Resend OTP");
+                feedbackMessage.setEnabled(true);
+
+            }
+        }.start();
+
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                editPhoneNumber.getText().toString(),        // Phone number to verify
+                60,                 // Timeout duration
+                TimeUnit.SECONDS,   // Unit of timeout
+                this,               // Activity (for callback binding)
+                new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                    @Override
+                    public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+
+                        id = s;
+                        token = forceResendingToken;
+                    }
+
+                    @Override
+                    public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                        Log.d("message", "onVerificationCompleted:" + phoneAuthCredential);
+                       updatingPhoneNumber(phoneAuthCredential);
+                        feedbackMessage.setVisibility(View.INVISIBLE);
+
+
+                    }
+
+                    @Override
+                    public void onVerificationFailed(@NonNull FirebaseException e) {
+                        Toast.makeText(EditProfileActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                        if (e instanceof FirebaseAuthInvalidCredentialsException){
+                            Toast.makeText(EditProfileActivity.this, "Invalid Number", Toast.LENGTH_SHORT).show();
+
+                        }else if (e instanceof FirebaseTooManyRequestsException){
+                            Toast.makeText(EditProfileActivity.this, "Too many Request", Toast.LENGTH_SHORT).show();
+                            feedbackMessage.setVisibility(View.INVISIBLE);
+                        }
+                        verifyButton.setEnabled(false);
+                        feedbackMessage.setVisibility(View.INVISIBLE);
+
+                    }
+
+
+                });
+    }
+
+    public void updatingPhoneNumber (PhoneAuthCredential credential){
+        FirebaseUser mUser = mAuth.getCurrentUser();
+        mUser.updatePhoneNumber(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    Toast.makeText(EditProfileActivity.this, "Phone number Updated", Toast.LENGTH_SHORT).show();
+                    changePhoneNumberFirestore();
+                }
+                else
+                    Toast.makeText(EditProfileActivity.this, "Not Upgraded", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void reAuthenticateEmail(final String email, final String password){
 
         FirebaseUser mUser = mAuth.getCurrentUser();
@@ -297,7 +449,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         });
     }
 
-
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.nameDoneButton){
@@ -319,14 +470,41 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
         else if (v.getId() == R.id.emailDoneButton){
 
-            alertforEntryPassword();
+            if(!editEmailAddress.getText().toString().matches(emailPattern)){
+                editEmailAddress.setError("Invalid Email address");
+                emailDoneButton.setVisibility(View.INVISIBLE);
+            }
+            else {
+                emailDoneButton.setVisibility(View.VISIBLE);
+                alertforEntryPassword();
 
-
+            }
         }
 
         else if (v.getId() == R.id.editProfileImage){
             CropImage.activity().start(EditProfileActivity.this);
         }
+
+        else if (v.getId() == R.id.phoneDoneButton){
+            if(!editPhoneNumber.getText().toString().matches(phonePattern)){
+                if(!editPhoneNumber.getText().toString().contains("+")){
+                    editPhoneNumber.setError("Invalid Phone number. Please include + ");
+                    phoneDoneButton.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    editPhoneNumber.setError("Invalid Phone number.");
+                    phoneDoneButton.setVisibility(View.INVISIBLE);
+                }
+            }
+            else{
+                Toast.makeText(this, "Valid", Toast.LENGTH_SHORT).show();
+                alertForEntryOtp();
+                sendVerificationCode();
+            }
+
+        }
+
+
 
 
 
