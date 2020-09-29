@@ -23,7 +23,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:textSize="20dp"
-        android:fontFamily="@font/montserrat_bold"
+        android:fontFamily="@font/montserrat"
         android:textColor="@color/white"/>
     <EditText
         android:id="@+id/nameText"
@@ -42,12 +42,12 @@
         android:id="@+id/discriptionTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Target Date"
+        android:text="Description"
         android:layout_above="@+id/discriptionText"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:textSize="20dp"
-        android:fontFamily="@font/montserrat_bold"
+        android:fontFamily="@font/montserrat"
         android:textColor="@color/white"/>
     <EditText
         android:id="@+id/discriptionText"
@@ -71,7 +71,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:textSize="20dp"
-        android:fontFamily="@font/montserrat_bold"
+        android:fontFamily="@font/montserrat"
         android:textColor="@color/white"/>
     <EditText
         android:id="@+id/targetDate"
@@ -91,12 +91,12 @@
         android:id="@+id/privacyTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Choose Category"
+        android:text="Privacy"
         android:layout_above="@+id/radioGroup"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:textSize="20dp"
-        android:fontFamily="@font/montserrat_bold"
+        android:fontFamily="@font/montserrat"
         android:textColor="@color/white"/>
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -148,12 +148,12 @@
         android:id="@+id/categoryCardTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Choose Category"
+        android:text="Category"
         android:layout_above="@+id/scrollView"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:textSize="20dp"
-        android:fontFamily="@font/montserrat_bold"
+        android:fontFamily="@font/montserrat"
         android:textColor="@color/white">
     </TextView>
     <HorizontalScrollView
