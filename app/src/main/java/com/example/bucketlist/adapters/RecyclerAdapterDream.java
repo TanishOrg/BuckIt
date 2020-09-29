@@ -1,5 +1,6 @@
 package com.example.bucketlist.adapters;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -9,14 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bucketlist.HomeActivity;
 import com.example.bucketlist.R;
+import com.example.bucketlist.fragments.homePageFragment.ProfileFragment;
+import com.example.bucketlist.layout.userLayout.EditProfileActivity;
 import com.example.bucketlist.model.BucketItemModify;
 import com.example.bucketlist.model.BucketItems;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -28,6 +34,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+
 
 public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDream.ViewHolder>{
 
@@ -37,6 +45,7 @@ public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDr
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private BucketItemModify itemModify;
+    Dialog categoryDialog;
 
     public RecyclerAdapterDream(Context context, List<BucketItems> items, BucketItemModify modify) {
         this.context = context;
@@ -116,6 +125,7 @@ public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDr
 
     class ViewHolder extends RecyclerView.ViewHolder{
 
+
         @NonNull
         Dialog myDialog;
         RelativeLayout card_item;
@@ -134,6 +144,8 @@ public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDr
             //inflating
             myDialog = new Dialog(context,android.R.style.Theme_Translucent_NoTitleBar);
             myDialog.setContentView(R.layout.popup_show_window);
+
+
 
         }
     }
@@ -169,7 +181,9 @@ public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDr
         ImageView categoryImageView = holder.myDialog.findViewById(R.id.categoryImageView);
         TextView privacyTextView = holder.myDialog.findViewById(R.id.privacyTextView);
         ImageView cancelButton2 = holder.myDialog.findViewById(R.id.cancelButton2);
+        ImageView editButton = holder.myDialog.findViewById(R.id.editButton);
         ImageView card_background = holder.myDialog.findViewById(R.id.card_background);
+        final LinearLayout categoryLayout = holder.myDialog.findViewById(R.id.categoryLayout);
 
         titleOfCard.setText(items.getTitle());
         if (items.getInfo() != null) {
@@ -248,6 +262,33 @@ public class RecyclerAdapterDream extends RecyclerView.Adapter<RecyclerAdapterDr
                 updateData(items,holder,position);
             }
         });
+
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                categoryLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        categoryDialog = new Dialog(context,android.R.style.Theme_Translucent_NoTitleBar);
+                        categoryDialog.setContentView(R.layout.category_horizontal_slide_floating);
+                        categoryDialog.show();
+//                         CardView travelCard = categoryDialog.findViewById(R.id.travelCard);
+//                         CardView otherCard = categoryDialog.findViewById(R.id.otherCard);
+//                         CardView foodCard = categoryDialog.findViewById(R.id.foodCard);
+//                         CardView adventureCard = categoryDialog.findViewById(R.id.adventureCard);
+//                         CardView careerCard = categoryDialog.findViewById(R.id.careerCard);
+//                         CardView relationCard = categoryDialog.findViewById(R.id.relationCard);
+//                         CardView healthCard = categoryDialog.findViewById(R.id.healthCard);
+//                         CardView financialCard = categoryDialog.findViewById(R.id.financialCard);
+
+
+                    }
+                });
+
+            }
+        });
+
 
     }
 
