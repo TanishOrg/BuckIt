@@ -37,7 +37,7 @@
     <style name="categories.Text" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
     <item name="android:textSize">20dp</item>
 
-    <item name="android:textColor">#042C42</item>
+    <item name="android:textColor">#FFFFFF</item>
     <item name="fontFamily">@font/montserrat_bold</item>
     <item name="android:gravity">center</item>
     </style>

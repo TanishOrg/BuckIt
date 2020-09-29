@@ -72,35 +72,35 @@ public class RecyclerAdapterAchieved extends RecyclerView.Adapter<RecyclerAdapte
         switch (category){
             case "Travel":
                 holder.categoryImageView.setImageResource(R.drawable.ic_baseline_flight_24);
-                holder.cardBackground.setImageResource(R.drawable.travelbackground);
+                holder.cardBackground.setImageResource(R.mipmap.travelbackground);
                 break;
             case "Adventure":
                 holder.categoryImageView.setImageResource(R.drawable.ic_backpack);
-                holder.cardBackground.setImageResource(R.drawable.adventurebackground);
+                holder.cardBackground.setImageResource(R.mipmap.adventurebackground);
                 break;
             case "Food":
                 holder.categoryImageView.setImageResource(R.drawable.ic_hamburger);
-                holder.cardBackground.setImageResource(R.drawable.foodbackground);
+                holder.cardBackground.setImageResource(R.mipmap.foodbackground);
                 break;
             case "Relation":
                 holder.categoryImageView.setImageResource(R.drawable.ic_heart);
-                holder.cardBackground.setImageResource(R.drawable.relationbackground);
+                holder.cardBackground.setImageResource(R.mipmap.relationbackground);
                 break;
             case "Career":
                 holder.categoryImageView.setImageResource(R.drawable.ic_portfolio);
-                holder.cardBackground.setImageResource(R.drawable.careerbackground);
+                holder.cardBackground.setImageResource(R.mipmap.careerbackground);
                 break;
             case "Financial":
                 holder.categoryImageView.setImageResource(R.drawable.ic_financial);
-                holder.cardBackground.setImageResource(R.drawable.financialbackground);
+                holder.cardBackground.setImageResource(R.mipmap.financialbackground);
                 break;
             case "Learning":
                 holder.categoryImageView.setImageResource(R.drawable.ic_reading_book);
-                holder.cardBackground.setImageResource(R.drawable.learningbackground);
+                holder.cardBackground.setImageResource(R.mipmap.learningbackground);
                 break;
             case "Health":
                 holder.categoryImageView.setImageResource(R.drawable.ic_health);
-                holder.cardBackground.setImageResource(R.drawable.healthbackground);
+                holder.cardBackground.setImageResource(R.mipmap.healthbackground);
                 break;
             case "Other":
                 holder.categoryImageView.setImageResource(R.drawable.ic_menu);
@@ -163,35 +163,35 @@ public class RecyclerAdapterAchieved extends RecyclerView.Adapter<RecyclerAdapte
         switch (categoryTextView.getText().toString()){
             case "Travel":
                 categoryImageView.setImageResource(R.drawable.ic_baseline_flight_24);
-                card_background.setImageResource(R.drawable.travelbackground);
+                card_background.setImageResource(R.mipmap.travelbackground);
                 break;
             case "Adventure":
                 categoryImageView.setImageResource(R.drawable.ic_backpack);
-                card_background.setImageResource(R.drawable.adventurebackground);
+                card_background.setImageResource(R.mipmap.adventurebackground);
                 break;
             case "Food":
                 categoryImageView.setImageResource(R.drawable.ic_hamburger);
-                card_background.setImageResource(R.drawable.foodbackground);
+                card_background.setImageResource(R.mipmap.foodbackground);
                 break;
             case "Relation":
                 categoryImageView.setImageResource(R.drawable.ic_heart);
-                card_background.setImageResource(R.drawable.relationbackground);
+                card_background.setImageResource(R.mipmap.relationbackground);
                 break;
             case "Career":
                 categoryImageView.setImageResource(R.drawable.ic_portfolio);
-                card_background.setImageResource(R.drawable.careerbackground);
+                card_background.setImageResource(R.mipmap.careerbackground);
                 break;
             case "Financial":
                 categoryImageView.setImageResource(R.drawable.ic_financial);
-                card_background.setImageResource(R.drawable.financialbackground);
+                card_background.setImageResource(R.mipmap.financialbackground);
                 break;
             case "Learning":
                 categoryImageView.setImageResource(R.drawable.ic_reading_book);
-                card_background.setImageResource(R.drawable.learningbackground);
+                card_background.setImageResource(R.mipmap.learningbackground);
                 break;
             case "Health":
                 categoryImageView.setImageResource(R.drawable.ic_health);
-                card_background.setImageResource(R.drawable.healthbackground);
+                card_background.setImageResource(R.mipmap.healthbackground);
                 break;
             case "Other":
                 categoryImageView.setImageResource(R.drawable.ic_menu);

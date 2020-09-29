@@ -28,6 +28,7 @@ public class HomeActivity extends AppCompatActivity {
         if(savedInstanceState == null) {
             getSupportFragmentManager().
                     beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).commit();
+            bottomNav.setItemSelected(R.id.profile,true);
         }
 
         bottomNav.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
