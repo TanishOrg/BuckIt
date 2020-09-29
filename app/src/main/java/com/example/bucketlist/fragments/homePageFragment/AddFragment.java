@@ -237,35 +237,35 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
                                 switch (categoryTextView.getText().toString()){
                                     case "Travel":
                                         categoryImageView.setImageResource(R.drawable.ic_baseline_flight_24);
-                                        card_background.setImageResource(R.drawable.travelbackground);
+                                        card_background.setImageResource(R.mipmap.travelbackground);
                                         break;
                                     case "Adventure":
                                         categoryImageView.setImageResource(R.drawable.ic_backpack);
-                                        card_background.setImageResource(R.drawable.adventurebackground);
+                                        card_background.setImageResource(R.mipmap.adventurebackground);
                                         break;
                                     case "Food":
                                         categoryImageView.setImageResource(R.drawable.ic_hamburger);
-                                        card_background.setImageResource(R.drawable.foodbackground);
+                                        card_background.setImageResource(R.mipmap.foodbackground);
                                         break;
                                     case "Relation":
                                         categoryImageView.setImageResource(R.drawable.ic_heart);
-                                        card_background.setImageResource(R.drawable.relationbackground);
+                                        card_background.setImageResource(R.mipmap.relationbackground);
                                         break;
                                     case "Career":
                                         categoryImageView.setImageResource(R.drawable.ic_portfolio);
-                                        card_background.setImageResource(R.drawable.careerbackground);
+                                        card_background.setImageResource(R.mipmap.careerbackground);
                                         break;
                                     case "Financial":
                                         categoryImageView.setImageResource(R.drawable.ic_financial);
-                                        card_background.setImageResource(R.drawable.financialbackground);
+                                        card_background.setImageResource(R.mipmap.financialbackground);
                                         break;
                                     case "Learning":
                                         categoryImageView.setImageResource(R.drawable.ic_reading_book);
-                                        card_background.setImageResource(R.drawable.learningbackground);
+                                        card_background.setImageResource(R.mipmap.learningbackground);
                                         break;
                                     case "Health":
                                         categoryImageView.setImageResource(R.drawable.ic_health);
-                                        card_background.setImageResource(R.drawable.healthbackground);
+                                        card_background.setImageResource(R.mipmap.healthbackground);
                                         break;
                                     case "Other":
                                         categoryImageView.setImageResource(R.drawable.ic_menu);
