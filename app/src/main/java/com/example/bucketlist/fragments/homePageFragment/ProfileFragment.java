@@ -21,6 +21,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.bucketlist.BlurImage;
 import com.example.bucketlist.layout.userLayout.DetailProfile;
 import com.example.bucketlist.R;
 import com.example.bucketlist.adapters.MyPagerAdapter;
@@ -60,6 +62,7 @@ public class ProfileFragment extends Fragment {
         profilePageImage = view.findViewById(R.id.profilePageImage);
         profileName = view.findViewById(R.id.profileName);
         profileBackground = view.findViewById(R.id.profileBackground);
+
         profileBackground.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,6 +104,11 @@ public class ProfileFragment extends Fragment {
                     profileName.setText(value.getString("Display Name"));
                     stringImageUri = value.getString("Image Uri");
                     Glide.with(context).load(stringImageUri).into(profilePageImage);
+                    Glide.with(context)
+                            .load(stringImageUri)
+                            .transform(new BlurImage(getContext()))
+                            .centerCrop()
+                            .into(profileBackground);
                 }
             }
         });

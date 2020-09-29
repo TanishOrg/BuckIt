@@ -119,7 +119,9 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
                 });
                 progressDialog.dismiss();
                 Intent intent =new Intent(UserDetail.this, HomeActivity.class);
+                finish();
                 startActivity(intent);
+
 
 
             }

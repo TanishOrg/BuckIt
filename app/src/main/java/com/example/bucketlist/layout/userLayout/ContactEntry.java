@@ -47,7 +47,7 @@ public class ContactEntry extends AppCompatActivity {
                     errorText.setVisibility(View.VISIBLE);
                     errorText.setText("Please enter your phone number");
                 }
-                else if(phoneNumber.getText().toString().replace(" ","").length()!=10){
+                else if(phoneNumber.getText().toString().replace(" ","").length()>15 && phoneNumber.getText().toString().replace(" ","").length()<9){
                     errorText.setText("Invalid Phone number");
                     errorText.setVisibility(View.VISIBLE);
 

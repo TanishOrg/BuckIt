@@ -73,6 +73,7 @@ dependencies {
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
 
     implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.eightbitlab:supportrenderscriptblur:1.0.2'
 
     //glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'

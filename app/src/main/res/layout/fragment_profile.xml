@@ -73,7 +73,7 @@
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
                 android:src="@drawable/profile_gradient_background"
-                android:alpha=".6"/>
+                android:alpha=".4"/>
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
