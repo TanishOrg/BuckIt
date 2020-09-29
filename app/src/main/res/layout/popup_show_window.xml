@@ -39,7 +39,7 @@
                 />
 
             <ImageView
-                android:id="@+id/editButton2"
+                android:id="@+id/editButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -107,6 +107,7 @@
                    android:layout_width="match_parent"
                    android:layout_height="match_parent">
                    <LinearLayout
+                       android:id="@+id/categoryLayout"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_alignParentLeft="true"
