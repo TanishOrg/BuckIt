@@ -85,6 +85,7 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
         completeButton.setOnClickListener(this);
         profileLayout.setOnClickListener(this);
 
+
     }//end of on create
 
     @Override
