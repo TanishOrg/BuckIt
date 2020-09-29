@@ -68,6 +68,45 @@ public class RecyclerAdapterAchieved extends RecyclerView.Adapter<RecyclerAdapte
         holder.id = items.getId();
         holder.cardTitle.setText(items.getTitle());
         holder.cardTargetDate.setText(items.getDeadline());
+        String category = items.getCategory();
+        switch (category){
+            case "Travel":
+                holder.categoryImageView.setImageResource(R.drawable.ic_baseline_flight_24);
+                holder.cardBackground.setImageResource(R.drawable.travelbackground);
+                break;
+            case "Adventure":
+                holder.categoryImageView.setImageResource(R.drawable.ic_backpack);
+                holder.cardBackground.setImageResource(R.drawable.adventurebackground);
+                break;
+            case "Food":
+                holder.categoryImageView.setImageResource(R.drawable.ic_hamburger);
+                holder.cardBackground.setImageResource(R.drawable.foodbackground);
+                break;
+            case "Relation":
+                holder.categoryImageView.setImageResource(R.drawable.ic_heart);
+                holder.cardBackground.setImageResource(R.drawable.relationbackground);
+                break;
+            case "Career":
+                holder.categoryImageView.setImageResource(R.drawable.ic_portfolio);
+                holder.cardBackground.setImageResource(R.drawable.careerbackground);
+                break;
+            case "Financial":
+                holder.categoryImageView.setImageResource(R.drawable.ic_financial);
+                holder.cardBackground.setImageResource(R.drawable.financialbackground);
+                break;
+            case "Learning":
+                holder.categoryImageView.setImageResource(R.drawable.ic_reading_book);
+                holder.cardBackground.setImageResource(R.drawable.learningbackground);
+                break;
+            case "Health":
+                holder.categoryImageView.setImageResource(R.drawable.ic_health);
+                holder.cardBackground.setImageResource(R.drawable.healthbackground);
+                break;
+            case "Other":
+                holder.categoryImageView.setImageResource(R.drawable.ic_menu);
+                break;
+
+        }
 
         bindHolder(holder,items,position);
     }
@@ -82,16 +121,17 @@ public class RecyclerAdapterAchieved extends RecyclerView.Adapter<RecyclerAdapte
         @NonNull
         Dialog myDialog;
         RelativeLayout card_item;
-        ImageView imageView;
+        ImageView categoryImageView,cardBackground;
         TextView cardTitle , cardTargetDate;
         int id;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imageView = itemView.findViewById(R.id.cardCategoryIcon);
+            categoryImageView = itemView.findViewById(R.id.cardCategoryIcon);
             cardTitle = itemView.findViewById(R.id.cardTitle);
             cardTargetDate = itemView.findViewById(R.id.cardTargetDate);
             card_item = itemView.findViewById(R.id.card_item);
+            cardBackground = itemView.findViewById(R.id.cardBackground);
 
             //inflating
             myDialog = new Dialog(context,android.R.style.Theme_Translucent_NoTitleBar);
@@ -107,13 +147,57 @@ public class RecyclerAdapterAchieved extends RecyclerView.Adapter<RecyclerAdapte
         TextView targetOfCard = holder.myDialog.findViewById(R.id.card_target_date);
         Button completedButton = holder.myDialog.findViewById(R.id.completeButton);
         ImageView privacyImageView = holder.myDialog.findViewById(R.id.privacyImageView);
+        TextView privacyTextView = holder.myDialog.findViewById(R.id.privacyTextView);
+        TextView categoryTextView = holder.myDialog.findViewById(R.id.categoryTextView);
+        ImageView categoryImageView = holder.myDialog.findViewById(R.id.categoryImageView);
+        ImageView card_background = holder.myDialog.findViewById(R.id.card_background);
         titleOfCard.setText(items.getTitle());
         if (items.getInfo() != null) {
             infoOfCard.setText(items.getInfo());
         }
-        completedButton.setText(items.isAchieved() ? "Completed": "Not Completed");
+        completedButton.setText(items.isAchieved() ? "RE ACTIVATE": "ACCOMPLISH");
         privacyImageView.setImageResource(items.isPrivate()? R.drawable.ic_baseline_person_24: R.drawable.ic_baseline_public_24);
+        privacyTextView.setText(items.isPrivate()? "Private" : "Public");
         targetOfCard.setText(items.getDeadline());
+        categoryTextView.setText(items.getCategory());
+        switch (categoryTextView.getText().toString()){
+            case "Travel":
+                categoryImageView.setImageResource(R.drawable.ic_baseline_flight_24);
+                card_background.setImageResource(R.drawable.travelbackground);
+                break;
+            case "Adventure":
+                categoryImageView.setImageResource(R.drawable.ic_backpack);
+                card_background.setImageResource(R.drawable.adventurebackground);
+                break;
+            case "Food":
+                categoryImageView.setImageResource(R.drawable.ic_hamburger);
+                card_background.setImageResource(R.drawable.foodbackground);
+                break;
+            case "Relation":
+                categoryImageView.setImageResource(R.drawable.ic_heart);
+                card_background.setImageResource(R.drawable.relationbackground);
+                break;
+            case "Career":
+                categoryImageView.setImageResource(R.drawable.ic_portfolio);
+                card_background.setImageResource(R.drawable.careerbackground);
+                break;
+            case "Financial":
+                categoryImageView.setImageResource(R.drawable.ic_financial);
+                card_background.setImageResource(R.drawable.financialbackground);
+                break;
+            case "Learning":
+                categoryImageView.setImageResource(R.drawable.ic_reading_book);
+                card_background.setImageResource(R.drawable.learningbackground);
+                break;
+            case "Health":
+                categoryImageView.setImageResource(R.drawable.ic_health);
+                card_background.setImageResource(R.drawable.healthbackground);
+                break;
+            case "Other":
+                categoryImageView.setImageResource(R.drawable.ic_menu);
+                break;
+
+        }
         holder.card_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
