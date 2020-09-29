@@ -48,7 +48,7 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
     Dialog dialog;
 
     UploadTask uploadTask;
-    StorageReference storageReference;
+    StorageReference storageReference , defaultProfileStorageReference;
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
     String password;
@@ -70,7 +70,15 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         storageReference = FirebaseStorage.getInstance().getReference().child(user_id);
+        defaultProfileStorageReference = FirebaseStorage.getInstance().getReference();
+        StorageReference defaultFileRefernce  = defaultProfileStorageReference.child("default_profile.png");
+        defaultFileRefernce.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                StringImageUri = uri.toString();
 
+            }
+        });
        
 
         displayNameText = findViewById(R.id.displayNameText);

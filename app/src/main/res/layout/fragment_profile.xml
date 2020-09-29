@@ -95,7 +95,7 @@
                     android:layout_height="100dp"
                     android:layout_centerHorizontal="true"
                     app:layout_collapseMode="parallax"
-                    android:src="@drawable/profile_general_image"/>
+                    android:src="@drawable/default_profile"/>
 
                 <TextView
                     android:id="@+id/profileName"
