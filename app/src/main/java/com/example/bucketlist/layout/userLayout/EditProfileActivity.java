@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.bucketlist.HomeActivity;
 import com.example.bucketlist.R;
 import com.example.bucketlist.layout.loginLayouts.OtpActivityRegister;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -92,6 +93,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         initialization();
 
         editProfileImage.setOnClickListener(this);
+
+        clearButton.setOnClickListener(this);
 
     }
 
@@ -449,6 +452,12 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         });
     }
 
+    public void onClickClearButton(){
+        Intent i = new Intent(EditProfileActivity.this, DetailProfile.class);
+        startActivity(i);
+
+    }
+
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.nameDoneButton){
@@ -483,6 +492,10 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
         else if (v.getId() == R.id.editProfileImage){
             CropImage.activity().start(EditProfileActivity.this);
+        }
+
+        else if (v.getId() == R.id.clearButton){
+            onClickClearButton();
         }
 
         else if (v.getId() == R.id.phoneDoneButton){

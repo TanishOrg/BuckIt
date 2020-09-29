@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.bucketlist.HomeActivity;
+import com.example.bucketlist.PhotoFullPopupWindow;
 import com.example.bucketlist.R;
 import com.example.bucketlist.layout.loginLayouts.LoginByEmailActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,15 +25,19 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.net.URL;
+
 public class DetailProfile extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG ="Detail Profile" ;
     private Button signoutButton;
     EditText displayName,emailAddress,phoneNumber;
-    private ImageView profileImage , editButton , backButton ;
+    ImageView profileImage , editButton , backButton ;
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
     String StringImageUri,name,email,phone;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +45,24 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
         firebaseAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_detail_profile);
 
-
         //initializing view
         initialization();
 
         signoutButton.setOnClickListener(this);
         editButton.setOnClickListener(this);
         backButton.setOnClickListener(this);
+
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new PhotoFullPopupWindow(getApplicationContext(), R.layout.popup_photo_full, v, StringImageUri, null);
+            }
+        });
+
     }
+
+
+
 
     @Override
     protected void onStart() {
@@ -117,9 +132,6 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
 
     }
 
-
-
-
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.signoutButton){
@@ -132,9 +144,9 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
         else if (v.getId() == R.id.backButton){
             onClickBackButton();
         }
-
-
     }
+
+
 
 
 }
