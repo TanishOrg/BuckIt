@@ -218,14 +218,60 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
                                 TextView targetOfCard = myDialog.findViewById(R.id.card_target_date);
                                 Button completedButton = myDialog.findViewById(R.id.completeButton);
                                 ImageView privacyImageView = myDialog.findViewById(R.id.privacyImageView);
+                                ImageView card_background = myDialog.findViewById(R.id.card_background);
+                                TextView categoryTextView = myDialog.findViewById(R.id.categoryTextView);
+                                ImageView categoryImageView = myDialog.findViewById(R.id.categoryImageView);
+                                TextView privacyTextView = myDialog.findViewById(R.id.privacyTextView);
 
                                 titleOfCard.setText(item.getTitle());
                                 if (item.getInfo() != null) {
                                     infoOfCard.setText(item.getInfo());
                                 }
-                                completedButton.setText(item.isAchieved() ? "Completed": "Not Completed");
+                                completedButton.setText(item.isAchieved() ? "RE ACTIVATE": "ACCOMPLISHED");
                                 privacyImageView.setImageResource(item.isPrivate()? R.drawable.ic_baseline_person_24: R.drawable.ic_baseline_public_24);
+                                privacyTextView.setText(item.isPrivate()? "Private" : "Public");
+
                                 targetOfCard.setText(item.getDeadline());
+
+                                categoryTextView.setText(item.getCategory());
+                                switch (categoryTextView.getText().toString()){
+                                    case "Travel":
+                                        categoryImageView.setImageResource(R.drawable.ic_baseline_flight_24);
+                                        card_background.setImageResource(R.drawable.travelbackground);
+                                        break;
+                                    case "Adventure":
+                                        categoryImageView.setImageResource(R.drawable.ic_backpack);
+                                        card_background.setImageResource(R.drawable.adventurebackground);
+                                        break;
+                                    case "Food":
+                                        categoryImageView.setImageResource(R.drawable.ic_hamburger);
+                                        card_background.setImageResource(R.drawable.foodbackground);
+                                        break;
+                                    case "Relation":
+                                        categoryImageView.setImageResource(R.drawable.ic_heart);
+                                        card_background.setImageResource(R.drawable.relationbackground);
+                                        break;
+                                    case "Career":
+                                        categoryImageView.setImageResource(R.drawable.ic_portfolio);
+                                        card_background.setImageResource(R.drawable.careerbackground);
+                                        break;
+                                    case "Financial":
+                                        categoryImageView.setImageResource(R.drawable.ic_financial);
+                                        card_background.setImageResource(R.drawable.financialbackground);
+                                        break;
+                                    case "Learning":
+                                        categoryImageView.setImageResource(R.drawable.ic_reading_book);
+                                        card_background.setImageResource(R.drawable.learningbackground);
+                                        break;
+                                    case "Health":
+                                        categoryImageView.setImageResource(R.drawable.ic_health);
+                                        card_background.setImageResource(R.drawable.healthbackground);
+                                        break;
+                                    case "Other":
+                                        categoryImageView.setImageResource(R.drawable.ic_menu);
+                                        break;
+
+                                }
 
                                 ImageView cancelButton2 = myDialog.findViewById(R.id.cancelButton2);
                                 cancelButton2.setOnClickListener(new View.OnClickListener() {
