@@ -8,13 +8,17 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bucketlist.R;
 import com.example.bucketlist.adapters.RecyclerAdapterDream;
+import com.example.bucketlist.adapters.SwipeToDeleteCallBack;
 import com.example.bucketlist.fragments.homePageFragment.ProfileFragment;
 import com.example.bucketlist.model.BucketItemModify;
 import com.example.bucketlist.model.BucketItems;
+import com.example.bucketlist.model.OnItemDelete;
+import com.example.bucketlist.model.OnItemDeleteFireBase;
 import com.example.bucketlist.model.ProfileFragmentPart;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,6 +43,7 @@ implements ProfileFragmentPart {
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private FirebaseFirestore fireStore;
+    private ItemTouchHelper itemTouchHelper;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -82,6 +87,16 @@ implements ProfileFragmentPart {
         });
 
         recyclerView.setAdapter(recyclerAdapterDream);
+
+        //itemTouch helper
+        itemTouchHelper = new
+                ItemTouchHelper(new SwipeToDeleteCallBack(recyclerAdapterDream, new OnItemDeleteFireBase() {
+            @Override
+            public void onItemDelete() {
+
+            }
+        }));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     @Override

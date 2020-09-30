@@ -1,7 +1,9 @@
 package com.example.bucketlist.adapters;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +20,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bucketlist.R;
 import com.example.bucketlist.model.BucketItemModify;
 import com.example.bucketlist.model.BucketItems;
+import com.example.bucketlist.model.ItemAdapter;
+import com.example.bucketlist.model.OnItemDelete;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -28,7 +33,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.List;
 
 
-public class RecyclerAdapterAchieved extends RecyclerView.Adapter<RecyclerAdapterAchieved.ViewHolder>{
+public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved.ViewHolder> {
+//        extends RecyclerView.Adapter<RecyclerAdapterAchieved.ViewHolder>{
 
 
     Context context;
@@ -140,7 +146,8 @@ public class RecyclerAdapterAchieved extends RecyclerView.Adapter<RecyclerAdapte
         }
     }
 
-    private void bindHolder(final ViewHolder holder, final BucketItems items, final int position) {
+    @Override
+    protected void bindHolder(final ViewHolder holder, final BucketItems items, final int position) {
 
         TextView titleOfCard = holder.myDialog.findViewById(R.id.cardTitle);
         TextView infoOfCard = holder.myDialog.findViewById(R.id.cardDescription);
@@ -217,7 +224,59 @@ public class RecyclerAdapterAchieved extends RecyclerView.Adapter<RecyclerAdapte
         });
     }
 
-    private void updateData(BucketItems items, final ViewHolder holder, final int position) {
+    @Override
+    public void deleteItem(final int position, final ViewHolder viewHolder, final OnItemDelete onItemDelete) {
+        Log.d(TAG, "deleteItem: ");
+        new AlertDialog.Builder(context).setTitle("Are You Sure")
+                .setCancelable(true)
+                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        notifyDataSetChanged();
+                    }
+                })
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Snackbar.make(viewHolder.itemView,"Deleted",100).show();
+                        deleteFromFireBase(position,viewHolder,onItemDelete);
+                        notifyDataSetChanged();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Snackbar.make(viewHolder.itemView,"Cancelled",300).show();
+                        notifyDataSetChanged();
+                    }
+                })
+                .create()
+                .show();
+    }
+
+    private void deleteFromFireBase(final int position, final RecyclerAdapterAchieved.ViewHolder viewHolder, final OnItemDelete onItemDelete) {
+        final BucketItems item = itemsList.get(position);
+        FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = fireStore.collection("Users").document(mUser.getUid())
+                .collection("items").document(item.getStringID());
+        documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Snackbar.make(viewHolder.itemView,"Sucess",300).show();
+                itemsList.remove(position);
+                onItemDelete.refreshFragment();
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Snackbar.make(viewHolder.itemView,e.toString(),300).show();
+                    }
+                });
+    }
+
+    @Override
+    protected void updateData(BucketItems items, final ViewHolder holder, final int position) {
         FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
         DocumentReference documentReference = fireStore.collection("Users").document(mUser.getUid())
                 .collection("items").document(items.getStringID());
