@@ -45,6 +45,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="0dp"
                 android:padding="10dp"
+                android:clickable="true"
                 android:src="@drawable/profil_edit_icon" />
 
             <LinearLayout
