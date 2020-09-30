@@ -212,6 +212,7 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
                                 myDialog = new Dialog(getContext(),android.R.style.Theme_Translucent_NoTitleBar);
                                 myDialog.setContentView(R.layout.popup_show_window);
                                 myDialog.show();
+                                myDialog.show();
 
                                 TextView titleOfCard = myDialog.findViewById(R.id.cardTitle);
                                 TextView infoOfCard = myDialog.findViewById(R.id.cardDescription);
