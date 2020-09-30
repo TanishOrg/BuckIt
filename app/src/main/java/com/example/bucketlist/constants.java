@@ -8,7 +8,7 @@ class Constants {
     private static final float BITMAP_SCALE = 0.4f;
     private static final int BLUR_RADIUS = 8;
 
-    public static Bitmap fastblur(Bitmap sentBitmap) {
+    public static Bitmap fastBlur (Bitmap sentBitmap) {
         float scale = BITMAP_SCALE;
         int radius = BLUR_RADIUS;
         int width = Math.round(sentBitmap.getWidth() * scale);

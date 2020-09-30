@@ -67,7 +67,7 @@ public class    LoginByEmailActivity extends AppCompatActivity implements View.O
         }
         else if (view.getId() == R.id.text_sign_up) {
             Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(getApplicationContext(), ContactEntry.class);
+            Intent i = new Intent(getApplicationContext(), SignupActivity.class);
             startActivity(i);
 
         }

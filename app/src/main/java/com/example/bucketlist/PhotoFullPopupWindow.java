@@ -70,7 +70,7 @@ public class  PhotoFullPopupWindow extends PopupWindow {
         if (bitmap != null) {
             loading.setVisibility(View.GONE);
             if (Build.VERSION.SDK_INT >= 16) {
-//                parent.setBackground(new BitmapDrawable(mContext.getResources(), Constants.fastblur(Bitmap.createScaledBitmap(bitmap, 50, 50, true))));// ));
+//                parent.setBackground(new BitmapDrawable(mContext.getResources(), Constants.fastBlur(Bitmap.createScaledBitmap(bitmap, 50, 50, true))));
                 parent.setBackgroundColor(Color.BLACK);
             } else {
                 Palette p= (Palette.from(bitmap).generate());

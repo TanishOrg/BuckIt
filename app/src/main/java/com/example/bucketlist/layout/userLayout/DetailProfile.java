@@ -1,8 +1,11 @@
 package com.example.bucketlist.layout.userLayout;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,12 +14,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.bucketlist.HomeActivity;
 import com.example.bucketlist.PhotoFullPopupWindow;
 import com.example.bucketlist.R;
 import com.example.bucketlist.layout.loginLayouts.LoginByEmailActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -30,12 +37,14 @@ import java.net.URL;
 public class DetailProfile extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG ="Detail Profile" ;
-    private Button signoutButton;
+    private Button signoutButton,deleteButton;
     EditText displayName,emailAddress,phoneNumber;
     ImageView profileImage , editButton , backButton ;
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
     String StringImageUri,name,email,phone;
+    ProgressBar progressBar2;
 
 
 
@@ -43,7 +52,10 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
         setContentView(R.layout.activity_detail_profile);
+
+        progressBar2=findViewById(R.id.progressBar2);
 
         //initializing view
         initialization();
@@ -59,6 +71,44 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
             }
         });
 
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(DetailProfile.this);
+                dialog.setTitle("Are you sure?");
+                dialog.setMessage("Deleting this account will result in completely removing your account fro  the system");
+                dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        progressBar2.setVisibility(View.VISIBLE);
+                        firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                progressBar2.setVisibility(View.GONE);
+                                if(task.isSuccessful()){
+                                    Toast.makeText(DetailProfile.this,"Account Deleted",Toast.LENGTH_LONG).show();
+
+                                    Intent i = new Intent(DetailProfile.this, LoginByEmailActivity.class);
+                                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(i);
+                                }else{
+                                    Toast.makeText(DetailProfile.this,task.getException().getMessage(),Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+                    }
+                });
+                dialog.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog alertDialog= dialog.create();
+                alertDialog.show();
+            }
+        });
     }
 
 
@@ -106,6 +156,7 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
         phoneNumber = findViewById(R.id.phoneNumber);
         editButton = findViewById(R.id.editButton);
         backButton = findViewById(R.id.backButton);
+        deleteButton=findViewById(R.id.deleteButton);
 
 
 }
@@ -131,6 +182,7 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
         startActivity(i);
 
     }
+
 
     @Override
     public void onClick(View v) {
