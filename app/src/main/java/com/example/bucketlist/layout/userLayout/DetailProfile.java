@@ -48,6 +48,10 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
 
 
 
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,21 +85,32 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         progressBar2.setVisibility(View.VISIBLE);
-                        firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                progressBar2.setVisibility(View.GONE);
-                                if(task.isSuccessful()){
-                                    Toast.makeText(DetailProfile.this,"Account Deleted",Toast.LENGTH_LONG).show();
+                        firebaseFirestore = FirebaseFirestore.getInstance();
+                        DocumentReference documentReference = firebaseFirestore.collection("Users").document(firebaseUser.getUid());
+                                    documentReference.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()){
+                                                firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if(task.isSuccessful()){
+                                                            progressBar2.setVisibility(View.GONE);
+                                                            Toast.makeText(DetailProfile.this,"Account Deleted",Toast.LENGTH_LONG).show();
 
-                                    Intent i = new Intent(DetailProfile.this, LoginByEmailActivity.class);
-                                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(i);
-                                }else{
-                                    Toast.makeText(DetailProfile.this,task.getException().getMessage(),Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
+                                                            Intent i = new Intent(DetailProfile.this, LoginByEmailActivity.class);
+                                                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                            startActivity(i);
+                                                        }else{
+                                                            Toast.makeText(DetailProfile.this,task.getException().getMessage(),Toast.LENGTH_LONG).show();
+                                                        }
+                                                    }
+                                                });
+                                            }else{
+                                                Toast.makeText(DetailProfile.this,task.getException().getMessage(),Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    });
                     }
                 });
                 dialog.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
@@ -104,9 +119,9 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
                         dialog.dismiss();
                     }
                 });
-
                 AlertDialog alertDialog= dialog.create();
                 alertDialog.show();
+
             }
         });
     }
@@ -118,9 +133,10 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
     protected void onStart() {
         super.onStart();
 
-        FirebaseUser mUser = firebaseAuth.getCurrentUser();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = firebaseFirestore.collection("Users").document(mUser.getUid());
+        DocumentReference documentReference = firebaseFirestore.collection("Users").document(firebaseUser.getUid());
+
 
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
