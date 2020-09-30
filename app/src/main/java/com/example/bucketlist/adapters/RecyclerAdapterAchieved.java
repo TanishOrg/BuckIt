@@ -205,10 +205,18 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
                 break;
 
         }
+        ImageView cancelButton2 = holder.myDialog.findViewById(R.id.cancelButton2);
+        cancelButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.myDialog.dismiss();
+            }
+        });
+
         holder.card_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "test click" + String.valueOf(holder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "test click" + String.valueOf(holder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
                 holder.myDialog.show();
             }
         });
