@@ -9,10 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +27,7 @@ import com.example.bucketlist.model.ItemAdapter;
 import com.example.bucketlist.model.OnItemDelete;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -266,24 +270,45 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
             @Override
             public void onClick(View v) {
 
-                categoryLayout.setOnClickListener(new View.OnClickListener() {
+
+                final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context,R.style.BottomSheetDialogTheme);
+                bottomSheetDialog.setContentView(R.layout.edit_item_bottom_sheet);
+
+                ImageView cancelEditButton = bottomSheetDialog.findViewById(R.id.cancelEditButton);
+                ImageView doneEditButton = bottomSheetDialog.findViewById(R.id.doneEditButton);
+
+                EditText nameEditText = bottomSheetDialog.findViewById(R.id.nameEditText);
+                EditText discriptionEditText = bottomSheetDialog.findViewById(R.id.discriptionEditText);
+                EditText targetEditText = bottomSheetDialog.findViewById(R.id.targetEditText);
+
+                RadioButton publicEditButton = bottomSheetDialog.findViewById(R.id.publicEditButton);
+                RadioButton privateEditButton = bottomSheetDialog.findViewById(R.id.privateEditButton);
+
+                RadioButton travelCard = bottomSheetDialog.findViewById(R.id.travelCard);
+                RadioButton foodCard = bottomSheetDialog.findViewById(R.id.foodCard);
+                RadioButton adventureCard = bottomSheetDialog.findViewById(R.id.adventureCard);
+                RadioButton careerCard = bottomSheetDialog.findViewById(R.id.careerCard);
+                RadioButton financialCard = bottomSheetDialog.findViewById(R.id.financialCard);
+                RadioButton learningCard = bottomSheetDialog.findViewById(R.id.learningCard);
+                RadioButton healthCard = bottomSheetDialog.findViewById(R.id.healthCard);
+                RadioButton otherCard = bottomSheetDialog.findViewById(R.id.otherCard);
+                RadioButton relationCard = bottomSheetDialog.findViewById(R.id.relationCard);
+
+                nameEditText.setText(items.getTitle());
+                discriptionEditText.setText(items.getInfo());
+                targetEditText.setText(items.getDeadline());
+
+                cancelEditButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        categoryDialog = new Dialog(context,android.R.style.Theme_Translucent_NoTitleBar);
-                        categoryDialog.setContentView(R.layout.category_horizontal_slide_floating);
-                        categoryDialog.show();
-//                         CardView travelCard = categoryDialog.findViewById(R.id.travelCard);
-//                         CardView otherCard = categoryDialog.findViewById(R.id.otherCard);
-//                         CardView foodCard = categoryDialog.findViewById(R.id.foodCard);
-//                         CardView adventureCard = categoryDialog.findViewById(R.id.adventureCard);
-//                         CardView careerCard = categoryDialog.findViewById(R.id.careerCard);
-//                         CardView relationCard = categoryDialog.findViewById(R.id.relationCard);
-//                         CardView healthCard = categoryDialog.findViewById(R.id.healthCard);
-//                         CardView financialCard = categoryDialog.findViewById(R.id.financialCard);
-
-
+                        bottomSheetDialog.dismiss();
+                        Toast.makeText(context, "Change is not updated", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+                bottomSheetDialog.show();
+                bottomSheetDialog.setCanceledOnTouchOutside(false);
+
 
             }
         });
