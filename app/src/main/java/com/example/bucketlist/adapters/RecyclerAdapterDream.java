@@ -109,43 +109,45 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
         holder.cardTitle.setText(items.getTitle());
         holder.cardTargetDate.setText(items.getDeadline());
         String category = items.getCategory();
-        switch (category){
-            case "Travel":
-                holder.categoryImageView.setImageResource(R.drawable.ic_baseline_flight_24);
-                holder.cardBackground.setImageResource(R.mipmap.travelbackground);
-                break;
-            case "Adventure":
-                holder.categoryImageView.setImageResource(R.drawable.ic_backpack);
-                holder.cardBackground.setImageResource(R.mipmap.adventurebackground);
-                break;
-            case "Food":
-                holder.categoryImageView.setImageResource(R.drawable.ic_hamburger);
-                holder.cardBackground.setImageResource(R.mipmap.foodbackground);
-                break;
-            case "Relation":
-                holder.categoryImageView.setImageResource(R.drawable.ic_heart);
-                holder.cardBackground.setImageResource(R.mipmap.relationbackground);
-                break;
-            case "Career":
-                holder.categoryImageView.setImageResource(R.drawable.ic_portfolio);
-                holder.cardBackground.setImageResource(R.mipmap.careerbackground);
-                break;
-            case "Financial":
-                holder.categoryImageView.setImageResource(R.drawable.ic_financial);
-                holder.cardBackground.setImageResource(R.mipmap.financialbackground);
-                break;
-            case "Learning":
-                holder.categoryImageView.setImageResource(R.drawable.ic_reading_book);
-                holder.cardBackground.setImageResource(R.mipmap.learningbackground);
-                break;
-            case "Health":
-                holder.categoryImageView.setImageResource(R.drawable.ic_health);
-                holder.cardBackground.setImageResource(R.mipmap.healthbackground);
-                break;
-            case "Other":
-                holder.categoryImageView.setImageResource(R.drawable.ic_menu);
-                break;
+        if (category != null) {
+            switch (category) {
+                case "Travel":
+                    holder.categoryImageView.setImageResource(R.drawable.ic_baseline_flight_24);
+                    holder.cardBackground.setImageResource(R.mipmap.travelbackground);
+                    break;
+                case "Adventure":
+                    holder.categoryImageView.setImageResource(R.drawable.ic_backpack);
+                    holder.cardBackground.setImageResource(R.mipmap.adventurebackground);
+                    break;
+                case "Food":
+                    holder.categoryImageView.setImageResource(R.drawable.ic_hamburger);
+                    holder.cardBackground.setImageResource(R.mipmap.foodbackground);
+                    break;
+                case "Relation":
+                    holder.categoryImageView.setImageResource(R.drawable.ic_heart);
+                    holder.cardBackground.setImageResource(R.mipmap.relationbackground);
+                    break;
+                case "Career":
+                    holder.categoryImageView.setImageResource(R.drawable.ic_portfolio);
+                    holder.cardBackground.setImageResource(R.mipmap.careerbackground);
+                    break;
+                case "Financial":
+                    holder.categoryImageView.setImageResource(R.drawable.ic_financial);
+                    holder.cardBackground.setImageResource(R.mipmap.financialbackground);
+                    break;
+                case "Learning":
+                    holder.categoryImageView.setImageResource(R.drawable.ic_reading_book);
+                    holder.cardBackground.setImageResource(R.mipmap.learningbackground);
+                    break;
+                case "Health":
+                    holder.categoryImageView.setImageResource(R.drawable.ic_health);
+                    holder.cardBackground.setImageResource(R.mipmap.healthbackground);
+                    break;
+                case "Other":
+                    holder.categoryImageView.setImageResource(R.drawable.ic_menu);
+                    break;
 
+            }
         }
 
         bindHolder(holder,items,position);
