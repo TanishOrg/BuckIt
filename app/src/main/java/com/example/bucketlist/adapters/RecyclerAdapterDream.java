@@ -25,6 +25,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bucketlist.EditItem;
 import com.example.bucketlist.R;
 import com.example.bucketlist.model.BucketItemModify;
 import com.example.bucketlist.model.BucketItems;
@@ -43,7 +44,7 @@ import java.util.Calendar;
 import java.util.List;
 
 
-public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewHolder> implements DatePickerDialog.OnDateSetListener {
+public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewHolder>  {
 //        extends RecyclerView.Adapter<RecyclerAdapterDream.ViewHolder>{
 
     private static final String TAG = "RECYCLERadapter";
@@ -305,226 +306,10 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
-                final DocumentReference documentReference = fireStore.collection("Users").document(mUser.getUid())
-                        .collection("items").document(items.getStringID());
+
 
                 final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context,R.style.BottomSheetDialogTheme);
-                bottomSheetDialog.setContentView(R.layout.edit_item_bottom_sheet);
-
-                 cancelEditButton = bottomSheetDialog.findViewById(R.id.cancelEditButton);
-                 doneEditButton = bottomSheetDialog.findViewById(R.id.doneEditButton);
-
-                nameEditText = bottomSheetDialog.findViewById(R.id.nameEditText);
-                 discriptionEditText = bottomSheetDialog.findViewById(R.id.discriptionEditText);
-                targetEditText = bottomSheetDialog.findViewById(R.id.targetEditText);
-
-                radioGroup = bottomSheetDialog.findViewById(R.id.radioGroup);
-                publicEditButton = bottomSheetDialog.findViewById(R.id.publicEditButton);
-                privateEditButton = bottomSheetDialog.findViewById(R.id.privateEditButton);
-
-                categoryRadioGroup = bottomSheetDialog.findViewById(R.id.categoryRadioGroup);
-                travelCard = bottomSheetDialog.findViewById(R.id.travelCard);
-                foodCard = bottomSheetDialog.findViewById(R.id.foodCard);
-                adventureCard = bottomSheetDialog.findViewById(R.id.adventureCard);
-                careerCard = bottomSheetDialog.findViewById(R.id.careerCard);
-                financialCard = bottomSheetDialog.findViewById(R.id.financialCard);
-                learningCard = bottomSheetDialog.findViewById(R.id.learningCard);
-                healthCard = bottomSheetDialog.findViewById(R.id.healthCard);
-                otherCard = bottomSheetDialog.findViewById(R.id.otherCard);
-                relationCard = bottomSheetDialog.findViewById(R.id.relationCard);
-
-                 name = items.getTitle();
-                nameEditText.setText(name);
-
-                 discription = items.getInfo();
-                discriptionEditText.setText(discription);
-
-                 targetDate = items.getDeadline();
-                targetEditText.setText(targetDate);
-                privacy = items.isPrivate();
-                if (!privacy){
-                    publicEditButton.setChecked(true);
-                    stringPrivacy = publicEditButton.getText().toString();
-                }
-                else{
-                    privateEditButton.setChecked(true);
-                    stringPrivacy = privateEditButton.getText().toString();
-                }
-
-
-                 category = items.getCategory();
-                switch (category){
-                    case "Travel":
-                        travelCard.setChecked(true);
-                        break;
-                    case "Adventure":
-                        adventureCard.setChecked(true);
-                        break;
-                    case "Food":
-                        foodCard.setChecked(true);
-                        break;
-                    case "Career":
-                        careerCard.setChecked(true);
-                        break;
-                    case "Financial":
-                        financialCard.setChecked(true);
-                        break;
-                    case "Health":
-                        healthCard.setChecked(true);
-                        break;
-                    case "Relation":
-                        relationCard.setChecked(true);
-                        break;
-                    case "Learning":
-                        learningCard.setChecked(true);
-                        break;
-                    case "Other":
-                        otherCard.setChecked(true);
-                        break;
-                }
-
-
-                cancelEditButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        bottomSheetDialog.dismiss();
-                        Toast.makeText(context, "Change is not updated", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                targetEditText.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showDatePickerDialog();
-                    }
-                });
-
-                nameEditText.addTextChangedListener(EditActivityWatcher);
-
-
-                publicEditButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) { afterEditPrivacy = false; }
-                });
-
-                privateEditButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) { afterEditPrivacy = true; }
-                });
-
-
-
-                travelCard.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) { afterEditCategory = travelCard.getText().toString();
-                    }
-                });
-                adventureCard.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) { afterEditCategory = adventureCard.getText().toString();
-                    }
-                });
-                foodCard.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) { afterEditCategory = foodCard.getText().toString();
-                    }
-                });
-                careerCard.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) { afterEditCategory = careerCard.getText().toString();
-                    }
-                });
-                relationCard.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) { afterEditCategory = relationCard.getText().toString();
-                    }
-                });
-                financialCard.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) { afterEditCategory = financialCard.getText().toString();
-                    }
-                });
-                learningCard.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) { afterEditCategory = learningCard.getText().toString();
-                    }
-                });
-                healthCard.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) { afterEditCategory = healthCard.getText().toString();
-                    }
-                });
-                otherCard.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) { afterEditCategory = otherCard.getText().toString();
-                    }
-                });
-
-                categoryRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        RadioButton radioButton = bottomSheetDialog.findViewById(checkedId);
-                        if(!category.equals(radioButton.getText().toString()))
-                        doneEditButton.setVisibility(View.VISIBLE);
-
-                        else
-                            doneEditButton.setVisibility(View.INVISIBLE);
-                    }
-                });
-
-                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        RadioButton radioButton = bottomSheetDialog.findViewById(checkedId);
-                        if(!stringPrivacy.equals(radioButton.getText().toString()) )
-                            doneEditButton.setVisibility(View.VISIBLE);
-
-                        else
-                            doneEditButton.setVisibility(View.INVISIBLE);
-                    }
-                });
-
-                doneEditButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        if (!name.toLowerCase().equals(nameEditText.getText().toString().toLowerCase())){
-                            documentReference.update("title",nameEditText.getText().toString());
-                            items.setTitle(nameEditText.getText().toString());
-
-                        }
-
-                        if(!discription.toLowerCase().equals(discriptionEditText.getText().toString().toLowerCase())){
-                            documentReference.update("info",discriptionEditText.getText().toString());
-                            items.setInfo(discriptionEditText.getText().toString());
-
-                        }
-                        if(!targetDate.equals(targetEditText.getText().toString())){
-                            documentReference.update("deadline",targetEditText.getText().toString());
-                            items.setDeadline(targetEditText.getText().toString());
-
-                        }
-
-                        if(!category.equals(afterEditCategory)){
-                            documentReference.update("category",afterEditCategory);
-                            items.setCategory(afterEditCategory);
-
-                        }
-
-                        if (privacy != afterEditPrivacy){
-                            documentReference.update("private",afterEditPrivacy);
-                            items.setPrivate(afterEditPrivacy);
-
-                        }
-                        notifyDataSetChanged();
-                        bottomSheetDialog.dismiss();
-                        Toast.makeText(context, "Activity Updated", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                bottomSheetDialog.show();
-                bottomSheetDialog.setCanceledOnTouchOutside(false);
+                EditItem editItem = new EditItem(context,items,mUser,bottomSheetDialog);
 
 
             }
@@ -535,30 +320,6 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
 
     }
 
-    private TextWatcher EditActivityWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            if (!name.toLowerCase().equals(nameEditText.getText().toString().toLowerCase()) ||
-                    !discription.toLowerCase().equals(discriptionEditText.getText().toString().toLowerCase()) ||
-                    !targetDate.equals(targetEditText.getText().toString())){
-                doneEditButton.setVisibility(View.VISIBLE);
-            }
-            else
-                doneEditButton.setVisibility(View.INVISIBLE);
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
 
     @Override
     public void deleteItem(final int position, final ViewHolder viewHolder, final OnItemDelete onItemDelete) {
@@ -612,65 +373,5 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
             }
         });
     }
-
-
-
-
-    private void showDatePickerDialog() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(context,this ,
-                Calendar.getInstance().get(Calendar.YEAR),
-                Calendar.getInstance().get(Calendar.MONTH),
-                Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.show();
-    }
-
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
-        String monthName;
-        switch (month){
-            case 0:
-                monthName ="Jan";
-                break;
-            case 1:
-                monthName ="Feb";
-                break;
-            case 2:
-                monthName ="Mar";
-                break;
-            case 3:
-                monthName ="Apr";
-                break;
-            case 4:
-                monthName ="May";
-                break;
-            case 5:
-                monthName ="June";
-                break;
-            case 6:
-                monthName ="July";
-                break;
-            case 7:
-                monthName ="Aug";
-                break;
-            case 8:
-                monthName ="Sept";
-                break;
-            case 9:
-                monthName ="Oct";
-                break;
-            case 10:
-                monthName ="Nov";
-                break;
-            case 11:
-                monthName ="Dec";
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + month);
-        }
-        String date = monthName + " " + dayOfMonth + ", " + year;
-        targetEditText.setText(date);
-    }
-
 
 }
