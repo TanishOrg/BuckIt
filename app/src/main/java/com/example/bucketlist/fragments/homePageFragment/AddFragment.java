@@ -168,13 +168,13 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
 
         alert.setView(view1);
 
-        final AlertDialog alertDialog = alert.create();
-        alertDialog.setCanceledOnTouchOutside(false);
+        final AlertDialog addItemAlertDialog = alert.create();
+        addItemAlertDialog.setCanceledOnTouchOutside(false);
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertDialog.dismiss();
+                addItemAlertDialog.dismiss();
 
             }
         });
@@ -236,7 +236,7 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
 //                                getParentFragmentManager().
 //                                        beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).commit();
 //                                Toast.makeText(getContext(), "Added to your bucket list", Toast.LENGTH_SHORT).show();
-                                alertDialog.dismiss();
+                                addItemAlertDialog.dismiss();
 //                                final ChipNavigationBar bottomNav = getActivity().findViewById(R.id.bottom_nav);
 //                                bottomNav.setItemSelected(R.id.profile,true);;
 
@@ -560,7 +560,7 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
             }
         });
 
-        alertDialog.show();
+        addItemAlertDialog.show();
 
     }
 
