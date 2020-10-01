@@ -212,16 +212,16 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
                                 myDialog = new Dialog(getContext(),android.R.style.Theme_Translucent_NoTitleBar);
                                 myDialog.setContentView(R.layout.popup_show_window);
 
-                                TextView titleOfCard = myDialog.findViewById(R.id.cardTitle);
-                                TextView infoOfCard = myDialog.findViewById(R.id.cardDescription);
-                                TextView targetOfCard = myDialog.findViewById(R.id.card_target_date);
-                                Button completedButton = myDialog.findViewById(R.id.completeButton);
+                                final TextView titleOfCard = myDialog.findViewById(R.id.cardTitle);
+                                final TextView infoOfCard = myDialog.findViewById(R.id.cardDescription);
+                                final TextView targetOfCard = myDialog.findViewById(R.id.card_target_date);
+                                final Button completedButton = myDialog.findViewById(R.id.completeButton);
                                 ImageView editButton = myDialog.findViewById(R.id.editButton);
-                                ImageView privacyImageView = myDialog.findViewById(R.id.privacyImageView);
-                                ImageView card_background = myDialog.findViewById(R.id.card_background);
-                                TextView categoryTextView = myDialog.findViewById(R.id.categoryTextView);
-                                ImageView categoryImageView = myDialog.findViewById(R.id.categoryImageView);
-                                TextView privacyTextView = myDialog.findViewById(R.id.privacyTextView);
+                                final ImageView privacyImageView = myDialog.findViewById(R.id.privacyImageView);
+                                final ImageView card_background = myDialog.findViewById(R.id.card_background);
+                                final TextView categoryTextView = myDialog.findViewById(R.id.categoryTextView);
+                                final ImageView categoryImageView = myDialog.findViewById(R.id.categoryImageView);
+                                final TextView privacyTextView = myDialog.findViewById(R.id.privacyTextView);
 
                                 myDialog.show();
 
@@ -235,7 +235,6 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
                                 privacyTextView.setText(item.isPrivate()? "Private" : "Public");
 
                                 targetOfCard.setText(item.getDeadline());
-
                                 categoryTextView.setText(item.getCategory());
                                 switch (categoryTextView.getText().toString()){
                                     case "Travel":
@@ -276,6 +275,7 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
 
                                 }
 
+
                                 ImageView cancelButton2 = myDialog.findViewById(R.id.cancelButton2);
                                 cancelButton2.setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -293,13 +293,66 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
                                         new EditItem(getContext(), item, mUser, bottomSheetDialog) {
                                             @Override
                                             protected void onEditComplete() {
-
+                                               myDialog.dismiss();
+                                                refreshMyDialog();
+                                               myDialog.show();
                                             }
                                         };
 
                                     }
-                                });
 
+                                    private void refreshMyDialog() {
+                                        titleOfCard.setText(item.getTitle());
+                                        if (item.getInfo() != null) {
+                                            infoOfCard.setText(item.getInfo());
+                                        }
+                                        completedButton.setText(item.isAchieved() ? "RE ACTIVATE": "ACCOMPLISHED");
+                                        privacyImageView.setImageResource(item.isPrivate()? R.drawable.ic_baseline_person_24: R.drawable.ic_baseline_public_24);
+                                        privacyTextView.setText(item.isPrivate()? "Private" : "Public");
+
+                                        targetOfCard.setText(item.getDeadline());
+
+                                        categoryTextView.setText(item.getCategory());
+                                        switch (categoryTextView.getText().toString()){
+                                            case "Travel":
+                                                categoryImageView.setImageResource(R.drawable.ic_baseline_flight_24);
+                                                card_background.setImageResource(R.mipmap.travelbackground);
+                                                break;
+                                            case "Adventure":
+                                                categoryImageView.setImageResource(R.drawable.ic_backpack);
+                                                card_background.setImageResource(R.mipmap.adventurebackground);
+                                                break;
+                                            case "Food":
+                                                categoryImageView.setImageResource(R.drawable.ic_hamburger);
+                                                card_background.setImageResource(R.mipmap.foodbackground);
+                                                break;
+                                            case "Relation":
+                                                categoryImageView.setImageResource(R.drawable.ic_heart);
+                                                card_background.setImageResource(R.mipmap.relationbackground);
+                                                break;
+                                            case "Career":
+                                                categoryImageView.setImageResource(R.drawable.ic_portfolio);
+                                                card_background.setImageResource(R.mipmap.careerbackground);
+                                                break;
+                                            case "Financial":
+                                                categoryImageView.setImageResource(R.drawable.ic_financial);
+                                                card_background.setImageResource(R.mipmap.financialbackground);
+                                                break;
+                                            case "Learning":
+                                                categoryImageView.setImageResource(R.drawable.ic_reading_book);
+                                                card_background.setImageResource(R.mipmap.learningbackground);
+                                                break;
+                                            case "Health":
+                                                categoryImageView.setImageResource(R.drawable.ic_health);
+                                                card_background.setImageResource(R.mipmap.healthbackground);
+                                                break;
+                                            case "Other":
+                                                categoryImageView.setImageResource(R.drawable.ic_menu);
+                                                break;
+
+                                        }
+                                    }
+                                });
                                 myDialog.show();
 
                             }
