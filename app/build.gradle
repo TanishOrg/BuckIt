@@ -13,6 +13,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        renderscriptTargetApi 19
+        renderscriptSupportModeEnabled true
     }
 
     buildTypes {
@@ -20,6 +23,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    packagingOptions {
+        exclude "lib/mips/libRSSupport.so"
+        exclude "lib/mips/librsjni.so"
     }
 }
 
@@ -85,6 +93,10 @@ dependencies {
     compile 'com.github.chrisbanes:PhotoView:2.1.4'
 
     implementation 'com.android.support:palette-v7:28.0.0'
+
+    compile 'com.github.jgabrielfreitas:BlurImageView:1.0.1'
+
+    compile 'com.github.jrvansuita:GaussianBlur:+'
 
 
 

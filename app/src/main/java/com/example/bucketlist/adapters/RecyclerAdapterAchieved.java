@@ -29,6 +29,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.vansuita.gaussianblur.GaussianBlur;
 
 import java.util.List;
 
@@ -79,6 +80,7 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
             case "Travel":
                 holder.categoryImageView.setImageResource(R.drawable.ic_baseline_flight_24);
                 holder.cardBackground.setImageResource(R.mipmap.travelbackground);
+//                GaussianBlur.with(context).put(R.mipmap.travelbackground,holder.cardBackground);
                 break;
             case "Adventure":
                 holder.categoryImageView.setImageResource(R.drawable.ic_backpack);
@@ -191,10 +193,12 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
             case "Financial":
                 categoryImageView.setImageResource(R.drawable.ic_financial);
                 card_background.setImageResource(R.mipmap.financialbackground);
+                GaussianBlur.with(context).radius(6).put(R.mipmap.financialbackground,card_background);
                 break;
             case "Learning":
                 categoryImageView.setImageResource(R.drawable.ic_reading_book);
                 card_background.setImageResource(R.mipmap.learningbackground);
+                GaussianBlur.with(context).radius(6).put(R.mipmap.learningbackground,card_background);
                 break;
             case "Health":
                 categoryImageView.setImageResource(R.drawable.ic_health);
