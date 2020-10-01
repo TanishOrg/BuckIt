@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -26,8 +27,9 @@ import java.util.Calendar;
 
 public class EditItem
         implements View.OnClickListener , RadioGroup.OnCheckedChangeListener , TextWatcher, DatePickerDialog.OnDateSetListener {
+    private static final String TAG = "EditItem";
     private FirebaseFirestore firebaseFirestore;
-    private BottomSheetDialog bottomSheetDialog;
+    public BottomSheetDialog bottomSheetDialog;
     private Context context;
     private FirebaseUser mUser;
 
@@ -46,15 +48,15 @@ public class EditItem
     private RadioGroup categoryRadioGroup;
     private String afterEditCategory ;
     boolean afterEditPrivacy ;
-//    RadioButton travelCard;
-//    RadioButton foodCard;
-//    RadioButton adventureCard;
-//    RadioButton careerCard ;
-//    RadioButton financialCard;
-//    RadioButton learningCard;
-//    RadioButton healthCard;
-//    RadioButton otherCard;
-//    RadioButton relationCard;
+    RadioButton travelCard;
+    RadioButton foodCard;
+    RadioButton adventureCard;
+    RadioButton careerCard ;
+    RadioButton financialCard;
+    RadioButton learningCard;
+    RadioButton healthCard;
+    RadioButton otherCard;
+    RadioButton relationCard;
     boolean privacy;
 
     //variables
@@ -68,28 +70,29 @@ public class EditItem
 
 
 
-    EditItem(Context context, BucketItems item,FirebaseUser user) {
+    public EditItem(Context context, BucketItems item, FirebaseUser user, BottomSheetDialog bottomSheetDialog) {
         firebaseFirestore = FirebaseFirestore.getInstance();
         this.context = context;
         this.mUser = user;
-        bottomSheetDialog = new BottomSheetDialog(context,R.style.BottomSheetDialogTheme);
+        this.bottomSheetDialog = bottomSheetDialog;
         this.item = item;
         initializeUi();
-        setVar();
-        setOnclick();
 
         nameEditText.addTextChangedListener(this);
         discriptionEditText.addTextChangedListener(this);
         targetEditText.addTextChangedListener(this);
 
-
+        bottomSheetDialog.show();
+        bottomSheetDialog.setCanceledOnTouchOutside(false);
     }
 
    private void initializeUi() {
+       bottomSheetDialog.setContentView(R.layout.edit_item_bottom_sheet);
        cancelEditButton = bottomSheetDialog.findViewById(R.id.cancelEditButton);
        doneEditButton = bottomSheetDialog.findViewById(R.id.doneEditButton);
 
        nameEditText = bottomSheetDialog.findViewById(R.id.nameEditText);
+//       Log.d(TAG, "initializeUi: " + nameEditText != null ? nameEditText.toString():"Error");
        discriptionEditText = bottomSheetDialog.findViewById(R.id.discriptionEditText);
        targetEditText = bottomSheetDialog.findViewById(R.id.targetEditText);
 
@@ -98,15 +101,18 @@ public class EditItem
        privateEditButton = bottomSheetDialog.findViewById(R.id.privateEditButton);
 
        categoryRadioGroup = bottomSheetDialog.findViewById(R.id.categoryRadioGroup);
-//       travelCard = bottomSheetDialog.findViewById(R.id.travelCard);
-//       foodCard = bottomSheetDialog.findViewById(R.id.foodCard);
-//       adventureCard = bottomSheetDialog.findViewById(R.id.adventureCard);
-//       careerCard = bottomSheetDialog.findViewById(R.id.careerCard);
-//       financialCard = bottomSheetDialog.findViewById(R.id.financialCard);
-//       learningCard = bottomSheetDialog.findViewById(R.id.learningCard);
-//       healthCard = bottomSheetDialog.findViewById(R.id.healthCard);
-//       otherCard = bottomSheetDialog.findViewById(R.id.otherCard);
-//       relationCard = bottomSheetDialog.findViewById(R.id.relationCard);
+
+       Log.d(TAG, "initializeUi: " + item.toString());
+       travelCard = bottomSheetDialog.findViewById(R.id.travelCard);
+       foodCard = bottomSheetDialog.findViewById(R.id.foodCard);
+       adventureCard = bottomSheetDialog.findViewById(R.id.adventureCard);
+       careerCard = bottomSheetDialog.findViewById(R.id.careerCard);
+       financialCard = bottomSheetDialog.findViewById(R.id.financialCard);
+       learningCard = bottomSheetDialog.findViewById(R.id.learningCard);
+       healthCard = bottomSheetDialog.findViewById(R.id.healthCard);
+       otherCard = bottomSheetDialog.findViewById(R.id.otherCard);
+       relationCard = bottomSheetDialog.findViewById(R.id.relationCard);
+       setVar();
    }
 
    private void setVar() {
@@ -115,6 +121,8 @@ public class EditItem
 
        description = item.getInfo();
        discriptionEditText.setText(description);
+//       category = item.getCategory();
+       afterEditPrivacy = item.isPrivate();
 
        targetDate = item.getDeadline();
        targetEditText.setText(targetDate);
@@ -130,6 +138,8 @@ public class EditItem
        }
 
        setCategory();
+
+       setOnclick();
    }
 
    private void setCategory() {
@@ -138,41 +148,42 @@ public class EditItem
        switch (category){
            case "Travel":
                index = 0;
+               travelCard.setChecked(true);
                break;
            case "Adventure":
                index = 1;
-//               adventureCard.setChecked(true);
+               adventureCard.setChecked(true);
                break;
            case "Food":
                index = 2;
-//               foodCard.setChecked(true);
+               foodCard.setChecked(true);
                break;
            case "Career":
                index = 3;
-//               careerCard.setChecked(true);
+               careerCard.setChecked(true);
                break;
            case "Financial":
                index = 4;
-//               financialCard.setChecked(true);
+               financialCard.setChecked(true);
                break;
            case "Relation":
                index = 5;
-//               relationCard.setChecked(true);
+               relationCard.setChecked(true);
                break;
            case "Learning":
                index = 6;
-//               learningCard.setChecked(true);
+               learningCard.setChecked(true);
                break;
            case "Health":
                index = 7;
-//               healthCard.setChecked(true);
+               healthCard.setChecked(true);
                break;
            case "Other":
                index = 8;
-//               otherCard.setChecked(true);
+               otherCard.setChecked(true);
                break;
        }
-       ((RadioButton)radioGroup.getChildAt(index)).setChecked(true);
+//       ((RadioButton)radioGroup.getChildAt(index)).setChecked(true);
    }
 
     private void setOnclick() {
@@ -182,17 +193,19 @@ public class EditItem
         publicEditButton.setOnClickListener(this);
         privateEditButton.setOnClickListener(this);
         doneEditButton.setOnClickListener(this);
+
         discriptionEditText.setOnClickListener(this);
-//        travelCard.setOnClickListener(this);
-//        travelCard.setOnClickListener(this);
-//        foodCard.setOnClickListener(this);
-//        adventureCard.setOnClickListener(this);
-//        careerCard.setOnClickListener(this);
-//        financialCard.setOnClickListener(this);
-//        healthCard.setOnClickListener(this);
-//        relationCard.setOnClickListener(this);
-//        learningCard.setOnClickListener(this);
-//        otherCard.setOnClickListener(this);
+        travelCard.setOnClickListener(this);
+        travelCard.setOnClickListener(this);
+        foodCard.setOnClickListener(this);
+        adventureCard.setOnClickListener(this);
+        careerCard.setOnClickListener(this);
+        financialCard.setOnClickListener(this);
+        healthCard.setOnClickListener(this);
+        relationCard.setOnClickListener(this);
+        learningCard.setOnClickListener(this);
+        otherCard.setOnClickListener(this);
+
         categoryRadioGroup.setOnCheckedChangeListener(this);
         radioGroup.setOnCheckedChangeListener(this);
 
@@ -213,28 +226,39 @@ public class EditItem
             case R.id.targetEditText:
                 showDatePickerDialog();
                 break;
-//            case R.id.publicEditButton:
-//                break;
-//            case R.id.privateEditButton:
-//                break;
-//            case R.id.travelCard:
-//                break;
-//            case R.id.foodCard:
-//                break;
-//            case R.id.adventureCard:
-//                break;
-//            case R.id.careerCard:
-//                break;
-//            case R.id.financialCard:
-//                break;
-//            case R.id.healthCard:
-//                break;
-//            case R.id.learningCard:
-//                break;
-//            case R.id.relationCard:
-//                break;
-//            case R.id.otherCard:
-//                break;
+            case R.id.publicEditButton:
+                afterEditPrivacy = false;
+                break;
+            case R.id.privateEditButton:
+                afterEditPrivacy = true;
+                break;
+            case R.id.travelCard:
+                afterEditCategory = travelCard.getText().toString();
+                break;
+            case R.id.foodCard:
+                afterEditCategory = foodCard.getText().toString();
+                break;
+            case R.id.adventureCard:
+                afterEditCategory = adventureCard.getText().toString();
+                break;
+            case R.id.careerCard:
+                afterEditCategory = careerCard.getText().toString();
+                break;
+            case R.id.financialCard:
+                afterEditCategory = financialCard.getText().toString();
+                break;
+            case R.id.healthCard:
+                afterEditCategory = healthCard.getText().toString();
+                break;
+            case R.id.learningCard:
+                afterEditCategory = learningCard.getText().toString();
+                break;
+            case R.id.relationCard:
+                afterEditCategory = relationCard.getText().toString();
+                break;
+            case R.id.otherCard:
+                afterEditCategory = otherCard.getText().toString();
+                break;
         }
 
     }
@@ -256,13 +280,13 @@ public class EditItem
 
         }
 
-        if(!category.equals(afterEditCategory)){
+        if(!category.equals(afterEditCategory) && afterEditCategory != null){
             documentReference.update("category",afterEditCategory);
             item.setCategory(afterEditCategory);
 
         }
 
-        if (privacy != afterEditPrivacy){
+        if (privacy != afterEditPrivacy ){
             documentReference.update("private",afterEditPrivacy);
             item.setPrivate(afterEditPrivacy);
 
@@ -284,22 +308,19 @@ public class EditItem
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+        RadioButton radioButton;
         switch (radioGroup.getId()) {
             case R.id.categoryRadioGroup :
-                RadioButton categoryRadioButton = bottomSheetDialog.findViewById(checkedId);
-                if(!category.equals(categoryRadioButton.getText().toString())) {
-                    afterEditCategory = categoryRadioButton.getText().toString().trim();
+                radioButton = bottomSheetDialog.findViewById(checkedId);
+                if(!category.equals(radioButton.getText().toString()))
                     doneEditButton.setVisibility(View.VISIBLE);
-                }
                 else
                     doneEditButton.setVisibility(View.INVISIBLE);
                 break;
             case R.id.radioGroup :
-                RadioButton radioButton = bottomSheetDialog.findViewById(checkedId);
-                if(!stringPrivacy.equals(radioButton.getText().toString()) ) {
-                    afterEditPrivacy = radioButton.getText().toString().trim() == "Private" ? true:false;
+                radioButton = bottomSheetDialog.findViewById(checkedId);
+                if(!stringPrivacy.equals(radioButton.getText().toString()) )
                     doneEditButton.setVisibility(View.VISIBLE);
-                }
                 else
                     doneEditButton.setVisibility(View.INVISIBLE);
                 break;

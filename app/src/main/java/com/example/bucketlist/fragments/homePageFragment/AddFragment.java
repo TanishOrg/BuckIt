@@ -25,6 +25,7 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import com.example.bucketlist.EditItem;
 import com.example.bucketlist.R;
 import com.example.bucketlist.data.DatabaseHandler;
 import com.example.bucketlist.model.BucketItems;
@@ -318,228 +319,229 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
                                 editButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
-                                        final DocumentReference documentReference = fireStore.collection("Users").document(mUser.getUid())
-                                                .collection("items").document(item.getStringID());
+//                                        FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
+//                                        final DocumentReference documentReference = fireStore.collection("Users").document(mUser.getUid())
+//                                                .collection("items").document(item.getStringID());
+//
+//                                        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext(),R.style.BottomSheetDialogTheme);
+//
+//                                        bottomSheetDialog.setContentView(R.layout.edit_item_bottom_sheet);
+//
+//                                        cancelEditButton = bottomSheetDialog.findViewById(R.id.cancelEditButton);
+//                                        doneEditButton = bottomSheetDialog.findViewById(R.id.doneEditButton);
+//
+//                                        nameEditText = bottomSheetDialog.findViewById(R.id.nameEditText);
+//                                        discriptionEditText = bottomSheetDialog.findViewById(R.id.discriptionEditText);
+//                                        targetEditText = bottomSheetDialog.findViewById(R.id.targetEditText);
+//
+//                                        radioGroup = bottomSheetDialog.findViewById(R.id.radioGroup);
+//                                        publicEditButton = bottomSheetDialog.findViewById(R.id.publicEditButton);
+//                                        privateEditButton = bottomSheetDialog.findViewById(R.id.privateEditButton);
+//
+//                                        categoryRadioGroup = bottomSheetDialog.findViewById(R.id.categoryRadioGroup);
+//                                        travelCard = bottomSheetDialog.findViewById(R.id.travelCard);
+//                                        foodCard = bottomSheetDialog.findViewById(R.id.foodCard);
+//                                        adventureCard = bottomSheetDialog.findViewById(R.id.adventureCard);
+//                                        careerCard = bottomSheetDialog.findViewById(R.id.careerCard);
+//                                        financialCard = bottomSheetDialog.findViewById(R.id.financialCard);
+//                                        learningCard = bottomSheetDialog.findViewById(R.id.learningCard);
+//                                        healthCard = bottomSheetDialog.findViewById(R.id.healthCard);
+//                                        otherCard = bottomSheetDialog.findViewById(R.id.otherCard);
+//                                        relationCard = bottomSheetDialog.findViewById(R.id.relationCard);
+//
+//                                        tname = item.getTitle();
+//                                        nameEditText.setText(tname);
+//
+//                                        discription = item.getInfo();
+//                                        discriptionEditText.setText(discription);
+//
+//                                        targetDate = item.getDeadline();
+//                                        targetEditText.setText(targetDate);
+//                                        privacy = item.isPrivate();
+//                                        if (!privacy){
+//                                            publicEditButton.setChecked(true);
+//                                            stringPrivacy = publicEditButton.getText().toString();
+//                                        }
+//                                        else{
+//                                            privateEditButton.setChecked(true);
+//                                            stringPrivacy = privateEditButton.getText().toString();
+//                                        }
+//
+//
+//                                        category = item.getCategory();
+//                                        switch (category){
+//                                            case "Travel":
+//                                                travelCard.setChecked(true);
+//                                                break;
+//                                            case "Adventure":
+//                                                adventureCard.setChecked(true);
+//                                                break;
+//                                            case "Food":
+//                                                foodCard.setChecked(true);
+//                                                break;
+//                                            case "Career":
+//                                                careerCard.setChecked(true);
+//                                                break;
+//                                            case "Financial":
+//                                                financialCard.setChecked(true);
+//                                                break;
+//                                            case "Health":
+//                                                healthCard.setChecked(true);
+//                                                break;
+//                                            case "Relation":
+//                                                relationCard.setChecked(true);
+//                                                break;
+//                                            case "Learning":
+//                                                learningCard.setChecked(true);
+//                                                break;
+//                                            case "Other":
+//                                                otherCard.setChecked(true);
+//                                                break;
+//                                        }
+//
+//
+//                                        cancelEditButton.setOnClickListener(new View.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(View v) {
+//                                                bottomSheetDialog.dismiss();
+//                                                Toast.makeText(getContext(), "Change is not updated", Toast.LENGTH_SHORT).show();
+//                                            }
+//                                        });
+//
+////                                        targetEditText.setOnClickListener(new View.OnClickListener() {
+////                                            @Override
+////                                            public void onClick(View v) {
+////                                                showDatePickerDialog();
+////                                            }
+////                                        });
+////
+////                                        nameEditText.addTextChangedListener(EditActivityWatcher);
+//
+//
+//                                        publicEditButton.setOnClickListener(new View.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(View v) { afterEditPrivacy = false; }
+//                                        });
+//
+//                                        privateEditButton.setOnClickListener(new View.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(View v) { afterEditPrivacy = true; }
+//                                        });
+//
+//
+//
+//                                        travelCard.setOnClickListener(new View.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(View v) { afterEditCategory = travelCard.getText().toString();
+//                                            }
+//                                        });
+//                                        adventureCard.setOnClickListener(new View.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(View v) { afterEditCategory = adventureCard.getText().toString();
+//                                            }
+//                                        });
+//                                        foodCard.setOnClickListener(new View.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(View v) { afterEditCategory = foodCard.getText().toString();
+//                                            }
+//                                        });
+//                                        careerCard.setOnClickListener(new View.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(View v) { afterEditCategory = careerCard.getText().toString();
+//                                            }
+//                                        });
+//                                        relationCard.setOnClickListener(new View.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(View v) { afterEditCategory = relationCard.getText().toString();
+//                                            }
+//                                        });
+//                                        financialCard.setOnClickListener(new View.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(View v) { afterEditCategory = financialCard.getText().toString();
+//                                            }
+//                                        });
+//                                        learningCard.setOnClickListener(new View.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(View v) { afterEditCategory = learningCard.getText().toString();
+//                                            }
+//                                        });
+//                                        healthCard.setOnClickListener(new View.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(View v) { afterEditCategory = healthCard.getText().toString();
+//                                            }
+//                                        });
+//                                        otherCard.setOnClickListener(new View.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(View v) { afterEditCategory = otherCard.getText().toString();
+//                                            }
+//                                        });
+//
+//                                        categoryRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//                                            @Override
+//                                            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                                                RadioButton radioButton = bottomSheetDialog.findViewById(checkedId);
+//                                                if(!category.equals(radioButton.getText().toString()))
+//                                                    doneEditButton.setVisibility(View.VISIBLE);
+//
+//                                                else
+//                                                    doneEditButton.setVisibility(View.INVISIBLE);
+//                                            }
+//                                        });
+//
+//                                        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//                                            @Override
+//                                            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                                                RadioButton radioButton = bottomSheetDialog.findViewById(checkedId);
+//                                                if(!stringPrivacy.equals(radioButton.getText().toString()) )
+//                                                    doneEditButton.setVisibility(View.VISIBLE);
+//
+//                                                else
+//                                                    doneEditButton.setVisibility(View.INVISIBLE);
+//                                            }
+//                                        });
+//
+//                                        doneEditButton.setOnClickListener(new View.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(View v) {
+//
+//                                                if (!tname.toLowerCase().equals(nameEditText.getText().toString().toLowerCase())){
+//                                                    documentReference.update("title",nameEditText.getText().toString());
+//                                                    item.setTitle(nameEditText.getText().toString());
+//
+//                                                }
+//
+//                                                if(!discription.toLowerCase().equals(discriptionEditText.getText().toString().toLowerCase())){
+//                                                    documentReference.update("info",discriptionEditText.getText().toString());
+//                                                    item.setInfo(discriptionEditText.getText().toString());
+//
+//                                                }
+//                                                if(!targetDate.equals(targetEditText.getText().toString())){
+//                                                    documentReference.update("deadline",targetEditText.getText().toString());
+//                                                    item.setDeadline(targetEditText.getText().toString());
+//
+//                                                }
+//
+//                                                if(!category.equals(afterEditCategory)){
+//                                                    documentReference.update("category",afterEditCategory);
+//                                                    item.setCategory(afterEditCategory);
+//
+//                                                }
+//
+//                                                if (privacy != afterEditPrivacy){
+//                                                    documentReference.update("private",afterEditPrivacy);
+//                                                    item.setPrivate(afterEditPrivacy);
+//
+//                                                }
+////                                                notifyDataSetChanged();
+//                                                myDialog.dismiss();
+//                                                bottomSheetDialog.dismiss();
+//                                                Toast.makeText(getContext(), "Activity Updated", Toast.LENGTH_SHORT).show();
+//                                            }
+//                                        });
 
                                         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext(),R.style.BottomSheetDialogTheme);
+                                        EditItem editItem = new EditItem(getContext(),item,mUser,bottomSheetDialog);
 
-                                        bottomSheetDialog.setContentView(R.layout.edit_item_bottom_sheet);
-
-                                        cancelEditButton = bottomSheetDialog.findViewById(R.id.cancelEditButton);
-                                        doneEditButton = bottomSheetDialog.findViewById(R.id.doneEditButton);
-
-                                        nameEditText = bottomSheetDialog.findViewById(R.id.nameEditText);
-                                        discriptionEditText = bottomSheetDialog.findViewById(R.id.discriptionEditText);
-                                        targetEditText = bottomSheetDialog.findViewById(R.id.targetEditText);
-
-                                        radioGroup = bottomSheetDialog.findViewById(R.id.radioGroup);
-                                        publicEditButton = bottomSheetDialog.findViewById(R.id.publicEditButton);
-                                        privateEditButton = bottomSheetDialog.findViewById(R.id.privateEditButton);
-
-                                        categoryRadioGroup = bottomSheetDialog.findViewById(R.id.categoryRadioGroup);
-                                        travelCard = bottomSheetDialog.findViewById(R.id.travelCard);
-                                        foodCard = bottomSheetDialog.findViewById(R.id.foodCard);
-                                        adventureCard = bottomSheetDialog.findViewById(R.id.adventureCard);
-                                        careerCard = bottomSheetDialog.findViewById(R.id.careerCard);
-                                        financialCard = bottomSheetDialog.findViewById(R.id.financialCard);
-                                        learningCard = bottomSheetDialog.findViewById(R.id.learningCard);
-                                        healthCard = bottomSheetDialog.findViewById(R.id.healthCard);
-                                        otherCard = bottomSheetDialog.findViewById(R.id.otherCard);
-                                        relationCard = bottomSheetDialog.findViewById(R.id.relationCard);
-
-                                        tname = item.getTitle();
-                                        nameEditText.setText(tname);
-
-                                        discription = item.getInfo();
-                                        discriptionEditText.setText(discription);
-
-                                        targetDate = item.getDeadline();
-                                        targetEditText.setText(targetDate);
-                                        privacy = item.isPrivate();
-                                        if (!privacy){
-                                            publicEditButton.setChecked(true);
-                                            stringPrivacy = publicEditButton.getText().toString();
-                                        }
-                                        else{
-                                            privateEditButton.setChecked(true);
-                                            stringPrivacy = privateEditButton.getText().toString();
-                                        }
-
-
-                                        category = item.getCategory();
-                                        switch (category){
-                                            case "Travel":
-                                                travelCard.setChecked(true);
-                                                break;
-                                            case "Adventure":
-                                                adventureCard.setChecked(true);
-                                                break;
-                                            case "Food":
-                                                foodCard.setChecked(true);
-                                                break;
-                                            case "Career":
-                                                careerCard.setChecked(true);
-                                                break;
-                                            case "Financial":
-                                                financialCard.setChecked(true);
-                                                break;
-                                            case "Health":
-                                                healthCard.setChecked(true);
-                                                break;
-                                            case "Relation":
-                                                relationCard.setChecked(true);
-                                                break;
-                                            case "Learning":
-                                                learningCard.setChecked(true);
-                                                break;
-                                            case "Other":
-                                                otherCard.setChecked(true);
-                                                break;
-                                        }
-
-
-                                        cancelEditButton.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                bottomSheetDialog.dismiss();
-                                                Toast.makeText(getContext(), "Change is not updated", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-
-                                        targetEditText.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                showDatePickerDialog();
-                                            }
-                                        });
-
-                                        nameEditText.addTextChangedListener(EditActivityWatcher);
-
-
-                                        publicEditButton.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) { afterEditPrivacy = false; }
-                                        });
-
-                                        privateEditButton.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) { afterEditPrivacy = true; }
-                                        });
-
-
-
-                                        travelCard.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) { afterEditCategory = travelCard.getText().toString();
-                                            }
-                                        });
-                                        adventureCard.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) { afterEditCategory = adventureCard.getText().toString();
-                                            }
-                                        });
-                                        foodCard.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) { afterEditCategory = foodCard.getText().toString();
-                                            }
-                                        });
-                                        careerCard.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) { afterEditCategory = careerCard.getText().toString();
-                                            }
-                                        });
-                                        relationCard.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) { afterEditCategory = relationCard.getText().toString();
-                                            }
-                                        });
-                                        financialCard.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) { afterEditCategory = financialCard.getText().toString();
-                                            }
-                                        });
-                                        learningCard.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) { afterEditCategory = learningCard.getText().toString();
-                                            }
-                                        });
-                                        healthCard.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) { afterEditCategory = healthCard.getText().toString();
-                                            }
-                                        });
-                                        otherCard.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) { afterEditCategory = otherCard.getText().toString();
-                                            }
-                                        });
-
-                                        categoryRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                                            @Override
-                                            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                                                RadioButton radioButton = bottomSheetDialog.findViewById(checkedId);
-                                                if(!category.equals(radioButton.getText().toString()))
-                                                    doneEditButton.setVisibility(View.VISIBLE);
-
-                                                else
-                                                    doneEditButton.setVisibility(View.INVISIBLE);
-                                            }
-                                        });
-
-                                        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                                            @Override
-                                            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                                                RadioButton radioButton = bottomSheetDialog.findViewById(checkedId);
-                                                if(!stringPrivacy.equals(radioButton.getText().toString()) )
-                                                    doneEditButton.setVisibility(View.VISIBLE);
-
-                                                else
-                                                    doneEditButton.setVisibility(View.INVISIBLE);
-                                            }
-                                        });
-
-                                        doneEditButton.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-
-                                                if (!tname.toLowerCase().equals(nameEditText.getText().toString().toLowerCase())){
-                                                    documentReference.update("title",nameEditText.getText().toString());
-                                                    item.setTitle(nameEditText.getText().toString());
-
-                                                }
-
-                                                if(!discription.toLowerCase().equals(discriptionEditText.getText().toString().toLowerCase())){
-                                                    documentReference.update("info",discriptionEditText.getText().toString());
-                                                    item.setInfo(discriptionEditText.getText().toString());
-
-                                                }
-                                                if(!targetDate.equals(targetEditText.getText().toString())){
-                                                    documentReference.update("deadline",targetEditText.getText().toString());
-                                                    item.setDeadline(targetEditText.getText().toString());
-
-                                                }
-
-                                                if(!category.equals(afterEditCategory)){
-                                                    documentReference.update("category",afterEditCategory);
-                                                    item.setCategory(afterEditCategory);
-
-                                                }
-
-                                                if (privacy != afterEditPrivacy){
-                                                    documentReference.update("private",afterEditPrivacy);
-                                                    item.setPrivate(afterEditPrivacy);
-
-                                                }
-//                                                notifyDataSetChanged();
-                                                myDialog.dismiss();
-                                                bottomSheetDialog.dismiss();
-                                                Toast.makeText(getContext(), "Activity Updated", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-
-                                        bottomSheetDialog.show();
-                                        bottomSheetDialog.setCanceledOnTouchOutside(false);
                                     }
                                 });
 
@@ -623,33 +625,32 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
         String date = monthName + " " + dayOfMonth + ", " + year;
         targetDateText.setText(date);
         targetDateText.setTextColor(getResources().getColor(R.color.blackcolor));
-
     }
 
-    private TextWatcher EditActivityWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            if (!tname.toLowerCase().equals(nameEditText.getText().toString().toLowerCase()) ||
-                    !discription.toLowerCase().equals(discriptionEditText.getText().toString().toLowerCase()) ||
-                    !targetDate.equals(targetEditText.getText().toString())){
-                doneEditButton.setVisibility(View.VISIBLE);
-            }
-            else
-                doneEditButton.setVisibility(View.INVISIBLE);
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
+//    private TextWatcher EditActivityWatcher = new TextWatcher() {
+//        @Override
+//        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//        }
+//
+//        @Override
+//        public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            if (!tname.toLowerCase().equals(nameEditText.getText().toString().toLowerCase()) ||
+//                    !discription.toLowerCase().equals(discriptionEditText.getText().toString().toLowerCase()) ||
+//                    !targetDate.equals(targetEditText.getText().toString())){
+//                doneEditButton.setVisibility(View.VISIBLE);
+//            }
+//            else
+//                doneEditButton.setVisibility(View.INVISIBLE);
+//
+//        }
+//
+//        @Override
+//        public void afterTextChanged(Editable s) {
+//
+//        }
+//    };
 
 
 }
