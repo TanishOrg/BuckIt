@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +30,7 @@ import com.example.bucketlist.data.DatabaseHandler;
 import com.example.bucketlist.model.BucketItems;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -45,6 +49,33 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
     private FirebaseUser mUser;
     private FirebaseFirestore mFireStore;
     private View view;
+
+    String tname,discription,targetDate,category;
+    ImageView cancelEditButton;
+    ImageView doneEditButton;
+
+    EditText nameEditText;
+    EditText discriptionEditText;
+    EditText targetEditText;
+
+    RadioGroup radioGroup ;
+    String stringPrivacy;
+    RadioButton publicEditButton;
+    RadioButton privateEditButton;
+
+    RadioGroup categoryRadioGroup;
+    String afterEditCategory ;
+    boolean afterEditPrivacy ;
+    RadioButton travelCard;
+    RadioButton foodCard;
+    RadioButton adventureCard;
+    RadioButton careerCard ;
+    RadioButton financialCard;
+    RadioButton learningCard;
+    RadioButton healthCard;
+    RadioButton otherCard;
+    RadioButton relationCard;
+    boolean privacy;
 
     Dialog myDialog;
 
@@ -218,6 +249,7 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
                                 TextView infoOfCard = myDialog.findViewById(R.id.cardDescription);
                                 TextView targetOfCard = myDialog.findViewById(R.id.card_target_date);
                                 Button completedButton = myDialog.findViewById(R.id.completeButton);
+                                ImageView editButton = myDialog.findViewById(R.id.editButton);
                                 ImageView privacyImageView = myDialog.findViewById(R.id.privacyImageView);
                                 ImageView card_background = myDialog.findViewById(R.id.card_background);
                                 TextView categoryTextView = myDialog.findViewById(R.id.categoryTextView);
@@ -279,6 +311,232 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
                                     @Override
                                     public void onClick(View view) {
                                         myDialog.dismiss();
+                                    }
+                                });
+
+                                editButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
+                                        final DocumentReference documentReference = fireStore.collection("Users").document(mUser.getUid())
+                                                .collection("items").document(item.getStringID());
+
+                                        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext(),R.style.BottomSheetDialogTheme);
+                                        bottomSheetDialog.setContentView(R.layout.edit_item_bottom_sheet);
+
+                                        cancelEditButton = bottomSheetDialog.findViewById(R.id.cancelEditButton);
+                                        doneEditButton = bottomSheetDialog.findViewById(R.id.doneEditButton);
+
+                                        nameEditText = bottomSheetDialog.findViewById(R.id.nameEditText);
+                                        discriptionEditText = bottomSheetDialog.findViewById(R.id.discriptionEditText);
+                                        targetEditText = bottomSheetDialog.findViewById(R.id.targetEditText);
+
+                                        radioGroup = bottomSheetDialog.findViewById(R.id.radioGroup);
+                                        publicEditButton = bottomSheetDialog.findViewById(R.id.publicEditButton);
+                                        privateEditButton = bottomSheetDialog.findViewById(R.id.privateEditButton);
+
+                                        categoryRadioGroup = bottomSheetDialog.findViewById(R.id.categoryRadioGroup);
+                                        travelCard = bottomSheetDialog.findViewById(R.id.travelCard);
+                                        foodCard = bottomSheetDialog.findViewById(R.id.foodCard);
+                                        adventureCard = bottomSheetDialog.findViewById(R.id.adventureCard);
+                                        careerCard = bottomSheetDialog.findViewById(R.id.careerCard);
+                                        financialCard = bottomSheetDialog.findViewById(R.id.financialCard);
+                                        learningCard = bottomSheetDialog.findViewById(R.id.learningCard);
+                                        healthCard = bottomSheetDialog.findViewById(R.id.healthCard);
+                                        otherCard = bottomSheetDialog.findViewById(R.id.otherCard);
+                                        relationCard = bottomSheetDialog.findViewById(R.id.relationCard);
+
+                                        tname = item.getTitle();
+                                        nameEditText.setText(tname);
+
+                                        discription = item.getInfo();
+                                        discriptionEditText.setText(discription);
+
+                                        targetDate = item.getDeadline();
+                                        targetEditText.setText(targetDate);
+                                        privacy = item.isPrivate();
+                                        if (!privacy){
+                                            publicEditButton.setChecked(true);
+                                            stringPrivacy = publicEditButton.getText().toString();
+                                        }
+                                        else{
+                                            privateEditButton.setChecked(true);
+                                            stringPrivacy = privateEditButton.getText().toString();
+                                        }
+
+
+                                        category = item.getCategory();
+                                        switch (category){
+                                            case "Travel":
+                                                travelCard.setChecked(true);
+                                                break;
+                                            case "Adventure":
+                                                adventureCard.setChecked(true);
+                                                break;
+                                            case "Food":
+                                                foodCard.setChecked(true);
+                                                break;
+                                            case "Career":
+                                                careerCard.setChecked(true);
+                                                break;
+                                            case "Financial":
+                                                financialCard.setChecked(true);
+                                                break;
+                                            case "Health":
+                                                healthCard.setChecked(true);
+                                                break;
+                                            case "Relation":
+                                                relationCard.setChecked(true);
+                                                break;
+                                            case "Learning":
+                                                learningCard.setChecked(true);
+                                                break;
+                                            case "Other":
+                                                otherCard.setChecked(true);
+                                                break;
+                                        }
+
+
+                                        cancelEditButton.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                bottomSheetDialog.dismiss();
+                                                Toast.makeText(getContext(), "Change is not updated", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+                                        targetEditText.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                showDatePickerDialog();
+                                            }
+                                        });
+
+                                        nameEditText.addTextChangedListener(EditActivityWatcher);
+
+
+                                        publicEditButton.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) { afterEditPrivacy = false; }
+                                        });
+
+                                        privateEditButton.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) { afterEditPrivacy = true; }
+                                        });
+
+
+
+                                        travelCard.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) { afterEditCategory = travelCard.getText().toString();
+                                            }
+                                        });
+                                        adventureCard.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) { afterEditCategory = adventureCard.getText().toString();
+                                            }
+                                        });
+                                        foodCard.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) { afterEditCategory = foodCard.getText().toString();
+                                            }
+                                        });
+                                        careerCard.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) { afterEditCategory = careerCard.getText().toString();
+                                            }
+                                        });
+                                        relationCard.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) { afterEditCategory = relationCard.getText().toString();
+                                            }
+                                        });
+                                        financialCard.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) { afterEditCategory = financialCard.getText().toString();
+                                            }
+                                        });
+                                        learningCard.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) { afterEditCategory = learningCard.getText().toString();
+                                            }
+                                        });
+                                        healthCard.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) { afterEditCategory = healthCard.getText().toString();
+                                            }
+                                        });
+                                        otherCard.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) { afterEditCategory = otherCard.getText().toString();
+                                            }
+                                        });
+
+                                        categoryRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                                            @Override
+                                            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                                RadioButton radioButton = bottomSheetDialog.findViewById(checkedId);
+                                                if(!category.equals(radioButton.getText().toString()))
+                                                    doneEditButton.setVisibility(View.VISIBLE);
+
+                                                else
+                                                    doneEditButton.setVisibility(View.INVISIBLE);
+                                            }
+                                        });
+
+                                        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                                            @Override
+                                            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                                RadioButton radioButton = bottomSheetDialog.findViewById(checkedId);
+                                                if(!stringPrivacy.equals(radioButton.getText().toString()) )
+                                                    doneEditButton.setVisibility(View.VISIBLE);
+
+                                                else
+                                                    doneEditButton.setVisibility(View.INVISIBLE);
+                                            }
+                                        });
+
+                                        doneEditButton.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+
+                                                if (!tname.toLowerCase().equals(nameEditText.getText().toString().toLowerCase())){
+                                                    documentReference.update("title",nameEditText.getText().toString());
+                                                    item.setTitle(nameEditText.getText().toString());
+
+                                                }
+
+                                                if(!discription.toLowerCase().equals(discriptionEditText.getText().toString().toLowerCase())){
+                                                    documentReference.update("info",discriptionEditText.getText().toString());
+                                                    item.setInfo(discriptionEditText.getText().toString());
+
+                                                }
+                                                if(!targetDate.equals(targetEditText.getText().toString())){
+                                                    documentReference.update("deadline",targetEditText.getText().toString());
+                                                    item.setDeadline(targetEditText.getText().toString());
+
+                                                }
+
+                                                if(!category.equals(afterEditCategory)){
+                                                    documentReference.update("category",afterEditCategory);
+                                                    item.setCategory(afterEditCategory);
+
+                                                }
+
+                                                if (privacy != afterEditPrivacy){
+                                                    documentReference.update("private",afterEditPrivacy);
+                                                    item.setPrivate(afterEditPrivacy);
+
+                                                }
+//                                                notifyDataSetChanged();
+                                                bottomSheetDialog.dismiss();
+                                                Toast.makeText(getContext(), "Activity Updated", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+                                        bottomSheetDialog.show();
+                                        bottomSheetDialog.setCanceledOnTouchOutside(false);
                                     }
                                 });
 
@@ -364,6 +622,31 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
         targetDateText.setTextColor(getResources().getColor(R.color.blackcolor));
 
     }
+
+    private TextWatcher EditActivityWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            if (!tname.toLowerCase().equals(nameEditText.getText().toString().toLowerCase()) ||
+                    !discription.toLowerCase().equals(discriptionEditText.getText().toString().toLowerCase()) ||
+                    !targetDate.equals(targetEditText.getText().toString())){
+                doneEditButton.setVisibility(View.VISIBLE);
+            }
+            else
+                doneEditButton.setVisibility(View.INVISIBLE);
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 
 
 }
