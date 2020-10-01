@@ -242,8 +242,6 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
 
                                 myDialog = new Dialog(getContext(),android.R.style.Theme_Translucent_NoTitleBar);
                                 myDialog.setContentView(R.layout.popup_show_window);
-                                myDialog.show();
-                                myDialog.show();
 
                                 TextView titleOfCard = myDialog.findViewById(R.id.cardTitle);
                                 TextView infoOfCard = myDialog.findViewById(R.id.cardDescription);
@@ -255,6 +253,9 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
                                 TextView categoryTextView = myDialog.findViewById(R.id.categoryTextView);
                                 ImageView categoryImageView = myDialog.findViewById(R.id.categoryImageView);
                                 TextView privacyTextView = myDialog.findViewById(R.id.privacyTextView);
+
+                                myDialog.show();
+
 
                                 titleOfCard.setText(item.getTitle());
                                 if (item.getInfo() != null) {
@@ -322,6 +323,7 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
                                                 .collection("items").document(item.getStringID());
 
                                         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext(),R.style.BottomSheetDialogTheme);
+
                                         bottomSheetDialog.setContentView(R.layout.edit_item_bottom_sheet);
 
                                         cancelEditButton = bottomSheetDialog.findViewById(R.id.cancelEditButton);
@@ -530,6 +532,7 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
 
                                                 }
 //                                                notifyDataSetChanged();
+                                                myDialog.dismiss();
                                                 bottomSheetDialog.dismiss();
                                                 Toast.makeText(getContext(), "Activity Updated", Toast.LENGTH_SHORT).show();
                                             }
