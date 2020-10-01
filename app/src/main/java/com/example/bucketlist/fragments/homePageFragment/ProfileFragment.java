@@ -61,6 +61,7 @@ public class ProfileFragment extends Fragment {
         profileName = view.findViewById(R.id.profileName);
         profileBackground = view.findViewById(R.id.profileBackground);
 
+
         profileBackground.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +87,8 @@ public class ProfileFragment extends Fragment {
         user_id = firebaseAuth.getCurrentUser().getUid();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
+
+
         loadData(user_id);
 
     }
@@ -102,6 +105,7 @@ public class ProfileFragment extends Fragment {
                     profileName.setText(value.getString("Display Name"));
                     stringImageUri = value.getString("Image Uri");
                     Glide.with(context).load(stringImageUri).into(profilePageImage);
+//                    Glide.with(context).load(stringImageUri).into(profileBackground);
 
                 }
             }
