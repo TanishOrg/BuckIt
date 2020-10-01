@@ -309,9 +309,12 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
 
 
                 final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context,R.style.BottomSheetDialogTheme);
-                EditItem editItem = new EditItem(context,items,mUser,bottomSheetDialog);
-
-
+                 new EditItem(context, items, mUser, bottomSheetDialog) {
+                    @Override
+                    protected void onEditComplete() {
+                        notifyDataSetChanged();
+                    }
+                };
             }
         });
 
