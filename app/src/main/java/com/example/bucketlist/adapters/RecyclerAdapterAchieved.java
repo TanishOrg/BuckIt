@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,7 +28,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.vansuita.gaussianblur.GaussianBlur;
+//import com.vansuita.gaussianblur.GaussianBlur;
 
 import java.util.List;
 
@@ -193,12 +192,12 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
             case "Financial":
                 categoryImageView.setImageResource(R.drawable.ic_financial);
                 card_background.setImageResource(R.mipmap.financialbackground);
-                GaussianBlur.with(context).radius(6).put(R.mipmap.financialbackground,card_background);
+               // GaussianBlur.with(context).radius(6).put(R.mipmap.financialbackground,card_background);
                 break;
             case "Learning":
                 categoryImageView.setImageResource(R.drawable.ic_reading_book);
                 card_background.setImageResource(R.mipmap.learningbackground);
-                GaussianBlur.with(context).radius(6).put(R.mipmap.learningbackground,card_background);
+               // GaussianBlur.with(context).radius(6).put(R.mipmap.learningbackground,card_background);
                 break;
             case "Health":
                 categoryImageView.setImageResource(R.drawable.ic_health);
