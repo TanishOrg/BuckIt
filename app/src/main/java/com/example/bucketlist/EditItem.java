@@ -25,7 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
 
-public class EditItem
+public abstract class EditItem
         implements View.OnClickListener , RadioGroup.OnCheckedChangeListener , TextWatcher, DatePickerDialog.OnDateSetListener {
     private static final String TAG = "EditItem";
     private FirebaseFirestore firebaseFirestore;
@@ -267,7 +267,6 @@ public class EditItem
         if (!name.toLowerCase().equals(nameEditText.getText().toString().toLowerCase())){
             documentReference.update("title",nameEditText.getText().toString());
             item.setTitle(nameEditText.getText().toString());
-
         }
         if(!description.toLowerCase().equals(discriptionEditText.getText().toString().toLowerCase())){
             documentReference.update("info",discriptionEditText.getText().toString());
@@ -294,6 +293,7 @@ public class EditItem
 //                                                notifyDataSetChanged();
 //        myDialog.dismiss();
         bottomSheetDialog.dismiss();
+        onEditComplete();
         Toast.makeText(context, "Activity Updated", Toast.LENGTH_SHORT).show();
 
     }
@@ -399,4 +399,6 @@ public class EditItem
         targetEditText.setText(date);
 
     }
+
+    protected abstract void onEditComplete();
 }

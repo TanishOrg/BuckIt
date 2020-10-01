@@ -290,7 +290,12 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
 
 
                                         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext(),R.style.BottomSheetDialogTheme);
-                                        EditItem editItem = new EditItem(getContext(),item,mUser,bottomSheetDialog);
+                                        new EditItem(getContext(), item, mUser, bottomSheetDialog) {
+                                            @Override
+                                            protected void onEditComplete() {
+
+                                            }
+                                        };
 
                                     }
                                 });
