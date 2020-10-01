@@ -223,7 +223,6 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
         ImageView cancelButton2 = holder.myDialog.findViewById(R.id.cancelButton2);
         ImageView editButton = holder.myDialog.findViewById(R.id.editButton);
         ImageView card_background = holder.myDialog.findViewById(R.id.card_background);
-        final LinearLayout categoryLayout = holder.myDialog.findViewById(R.id.categoryLayout);
 
         titleOfCard.setText(items.getTitle());
         if (items.getInfo() != null) {

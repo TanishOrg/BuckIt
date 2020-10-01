@@ -133,6 +133,7 @@ public abstract class PopUpShowItem implements View.OnClickListener {
                myDialog.dismiss();
                break;
            case R.id.completeButton:
+
                break;
            case R.id.editButton:
                 onEditButtonClick();

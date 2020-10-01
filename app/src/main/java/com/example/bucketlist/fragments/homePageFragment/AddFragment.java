@@ -211,7 +211,7 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
 
 
                                 final Dialog myDialog = new Dialog(getContext(), android.R.style.Theme_Translucent_NoTitleBar);
-                                PopUpShowItem popUpShowItem = new PopUpShowItem(getContext(), item, mUser, myDialog) {
+                                new PopUpShowItem(getContext(), item, mUser, myDialog) {
 
                                     @Override
                                     protected void onEditButtonClick() {
