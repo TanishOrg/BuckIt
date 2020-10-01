@@ -197,7 +197,7 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
                                 .collection("items").document();
 
                         item.setDateItemAdded(Long.toString(System.currentTimeMillis()));
-
+                        item.setStringID(documentReference.getId());
                         documentReference.set(item).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
