@@ -266,7 +266,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     }//uploadImageToFirebase
 
     public void alertforEntryPassword(){
-        final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this,R.style.AlertDialog));
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.AlertDialog);
         builder.setTitle("Password");
         builder.setMessage("Enter password to change email");
 

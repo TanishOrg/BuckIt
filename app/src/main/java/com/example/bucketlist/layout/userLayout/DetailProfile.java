@@ -78,9 +78,9 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(DetailProfile.this);
+                AlertDialog.Builder dialog = new AlertDialog.Builder(DetailProfile.this,R.style.AlertDialogTheme);
                 dialog.setTitle("Are you sure?");
-                dialog.setMessage("Deleting this account will result in completely removing your account fro  the system");
+                dialog.setMessage("Deleting this account will result in completely removing your account from  the system");
                 dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
