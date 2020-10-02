@@ -142,6 +142,10 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
         RelativeLayout card_item;
         ImageView categoryImageView,cardBackground;
         TextView cardTitle , cardTargetDate;
+
+        public View viewBackground;
+        public View viewForeground;
+
         int id;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -151,6 +155,10 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
             cardTargetDate = itemView.findViewById(R.id.cardTargetDate);
             card_item = itemView.findViewById(R.id.card_item);
             cardBackground = itemView.findViewById(R.id.cardBackground);
+
+            //swipe
+            viewBackground = itemView.findViewById(R.id.view_background);
+            viewForeground = itemView.findViewById(R.id.card_item);
 
             //inflating
             myDialog = new Dialog(context,android.R.style.Theme_Translucent_NoTitleBar);
