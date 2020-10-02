@@ -117,7 +117,7 @@ public class ProfileFragment extends Fragment {
                             .into(new CustomTarget<Drawable>() {
                                 @Override
                                 public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                                    GaussianBlur.with(context).radius(6).put(resource,profileBackground);
+                                    GaussianBlur.with(context).radius(20).put(resource,profileBackground);
                                 }
 
                                 @Override
