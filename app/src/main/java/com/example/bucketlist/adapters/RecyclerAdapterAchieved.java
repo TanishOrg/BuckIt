@@ -225,7 +225,7 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
     @Override
     public void deleteItem(final int position, final ViewHolder viewHolder, final OnItemDelete onItemDelete) {
         Log.d(TAG, "deleteItem: ");
-        new AlertDialog.Builder(context).setTitle("Are You Sure")
+        new AlertDialog.Builder(context,R.style.AlertDialog).setTitle("Are You Sure").setMessage("After confirming deletion, you cannot retrieve the activity")
                 .setCancelable(true)
                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override
