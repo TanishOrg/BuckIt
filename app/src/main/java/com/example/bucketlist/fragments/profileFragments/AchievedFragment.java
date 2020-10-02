@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AchievedFragment extends Fragment
-implements ProfileFragmentPart {
+implements ProfileFragmentPart  {
 
     RecyclerView recyclerView;
     RecyclerAdapterAchieved recyclerAdapterAchieved;

@@ -126,30 +126,6 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
         return itemsList != null ? itemsList.size() : 0;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
-
-        @NonNull
-        Dialog myDialog;
-        RelativeLayout card_item;
-        ImageView categoryImageView,cardBackground;
-        TextView cardTitle , cardTargetDate;
-        int id;
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            categoryImageView = itemView.findViewById(R.id.cardCategoryIcon);
-            cardTitle = itemView.findViewById(R.id.cardTitle);
-            cardTargetDate = itemView.findViewById(R.id.cardTargetDate);
-            card_item = itemView.findViewById(R.id.card_item);
-            cardBackground = itemView.findViewById(R.id.cardBackground);
-
-            //inflating
-            myDialog = new Dialog(context,android.R.style.Theme_Translucent_NoTitleBar);
-            myDialog.setContentView(R.layout.popup_show_window);
-
-        }
-    }
-
     @Override
     protected void bindHolder(final ViewHolder holder, final BucketItems items, final int position) {
 
@@ -259,4 +235,34 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
 
     }
 
+
+    class ViewHolder extends RecyclerView.ViewHolder{
+
+        public View viewBackground;
+        public View viewForeground;
+        @NonNull
+        Dialog myDialog;
+        RelativeLayout card_item;
+        ImageView categoryImageView,cardBackground;
+        TextView cardTitle , cardTargetDate;
+        int id;
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            categoryImageView = itemView.findViewById(R.id.cardCategoryIcon);
+            cardTitle = itemView.findViewById(R.id.cardTitle);
+            cardTargetDate = itemView.findViewById(R.id.cardTargetDate);
+            card_item = itemView.findViewById(R.id.card_item);
+            cardBackground = itemView.findViewById(R.id.cardBackground);
+
+            //swipe
+            viewBackground = itemView.findViewById(R.id.view_background);
+            viewForeground = itemView.findViewById(R.id.card_item);
+
+            //inflating
+            myDialog = new Dialog(context,android.R.style.Theme_Translucent_NoTitleBar);
+            myDialog.setContentView(R.layout.popup_show_window);
+
+        }
+    }
 }
