@@ -4,8 +4,6 @@ package com.example.bucketlist.fragments.homePageFragment;
 import android.content.Context;
 import android.content.Intent;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -23,9 +21,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.bucketlist.layout.userLayout.DetailProfile;
 import com.example.bucketlist.R;
 import com.example.bucketlist.adapters.MyPagerAdapter;
@@ -111,20 +107,9 @@ public class ProfileFragment extends Fragment {
                     profileName.setText(value.getString("Display Name"));
                     stringImageUri = value.getString("Image Uri");
                     Glide.with(context).load(stringImageUri).into(profilePageImage);
+                    Glide.with(context).load(stringImageUri).into(profileBackground);
+//                    GaussianBlur.with(context).radius(6).put(R.drawable.adventureillustration,profileBackground);
 
-                    Glide.with(context)
-                            .load(stringImageUri)
-                            .into(new CustomTarget<Drawable>() {
-                                @Override
-                                public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                                    GaussianBlur.with(context).radius(6).put(resource,profileBackground);
-                                }
-
-                                @Override
-                                public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                                }
-                            });
 
                 }
             }
