@@ -19,7 +19,7 @@
             app:contentScrim="@color/colorwhite"
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-            app:title="Add dreams"
+            app:title="ADD DREAMS"
             app:expandedTitleTextAppearance="@style/Toolbar.expandedTitleText"
             app:collapsedTitleTextAppearance="@style/Toolbar.collapseTitleText"
 
@@ -53,7 +53,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center"
-        android:layout_marginBottom="110dp"
 
 
         android:clipToPadding="false"
@@ -332,7 +331,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="150dp"
                 app:cardElevation="4dp"
                 app:cardMaxElevation="8dp"
                 app:cardCornerRadius="15dp"
@@ -344,7 +343,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/otherillustration"
+                    android:src="@mipmap/otherbackground"
                     android:scaleType="centerCrop"/>
                 <TextView
                     android:id="@+id/other_text"
