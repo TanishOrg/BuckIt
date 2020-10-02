@@ -60,28 +60,28 @@
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             app:title="PROFILE">
 
-            <com.jgabrielfreitas.core.BlurImageView
+            <ImageView
                 android:id="@+id/profileBackground"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"
-            android:src="@drawable/profile_background"/>
+                app:layout_collapseMode="parallax"/>
+<!--            android:src="@drawable/profile_background"/>-->
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
-                android:src="@drawable/profile_gradient_background"
-                android:alpha=".4"/>
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"
-                android:src="@drawable/profile_black_background"
+                android:background="@color/blackcolor"
                 android:alpha=".6"/>
+<!--            <ImageView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:scaleType="centerCrop"-->
+<!--                app:layout_collapseMode="parallax"-->
+<!--                android:src="@drawable/profile_black_background"-->
+<!--                android:alpha=".6"/>-->
 
             <RelativeLayout
                 android:layout_width="match_parent"
