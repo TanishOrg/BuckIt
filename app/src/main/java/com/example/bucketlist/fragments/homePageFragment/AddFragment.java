@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -88,6 +90,7 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         mAuth = FirebaseAuth.getInstance();
+
 
         view = inflater.inflate(R.layout.fragment_add, container, false);
         CardView travelCategory = (CardView) view.findViewById(R.id.travelCategory);
