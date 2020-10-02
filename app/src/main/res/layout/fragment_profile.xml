@@ -57,7 +57,7 @@
             app:collapsedTitleTextAppearance="@style/Toolbar.collapseTitleText"
             android:fitsSystemWindows="true"
             app:contentScrim="#FFFFFF"
-            app:expandedTitleTextAppearance="@style/Toolbar.expandedTitleText"
+            app:expandedTitleTextAppearance="@style/Toolbar.ProfileExpandedTitleText"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             app:title="PROFILE">
 
@@ -88,16 +88,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|top"
-                android:layout_marginTop="90dp"
-                app:layout_collapseMode="parallax">
+                android:layout_marginTop="90dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profilePageImage"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/default_profile"
-                    app:layout_collapseMode="parallax" />
+                    android:src="@drawable/default_profile" />
 
                 <TextView
                     android:id="@+id/profileName"
@@ -109,8 +107,7 @@
                     android:fontFamily="sans-serif-thin"
                     android:textColor="@color/white"
                     android:textSize="19dp"
-                    android:textStyle="bold"
-                    app:layout_collapseMode="parallax" />
+                    android:textStyle="bold" />
 
             </RelativeLayout>
 
