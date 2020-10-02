@@ -211,7 +211,12 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
 
 
                                 final Dialog myDialog = new Dialog(getContext(), android.R.style.Theme_Translucent_NoTitleBar);
-                                new PopUpShowItem(getContext(), item, mUser, myDialog) {
+                                new PopUpShowItem(getContext(), item, mUser, myDialog,true) {
+
+                                    @Override
+                                    protected void onCompleteButtonClicked() {
+
+                                    }
 
                                     @Override
                                     protected void onEditButtonClick() {
@@ -306,8 +311,4 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
         targetDateText.setText(date);
         targetDateText.setTextColor(getResources().getColor(R.color.blackcolor));
     }
-
-
-
-
 }
