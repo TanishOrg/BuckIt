@@ -21,6 +21,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 
+import com.bumptech.glide.request.RequestOptions;
 import com.example.bucketlist.layout.userLayout.DetailProfile;
 import com.example.bucketlist.R;
 import com.example.bucketlist.adapters.MyPagerAdapter;
@@ -31,6 +32,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.vansuita.gaussianblur.GaussianBlur;
 
 
 public class ProfileFragment extends Fragment {
@@ -105,7 +107,9 @@ public class ProfileFragment extends Fragment {
                     profileName.setText(value.getString("Display Name"));
                     stringImageUri = value.getString("Image Uri");
                     Glide.with(context).load(stringImageUri).into(profilePageImage);
-//                    Glide.with(context).load(stringImageUri).into(profileBackground);
+                    Glide.with(context).load(stringImageUri).into(profileBackground);
+//                    GaussianBlur.with(context).radius(6).put(R.drawable.adventureillustration,profileBackground);
+
 
                 }
             }
