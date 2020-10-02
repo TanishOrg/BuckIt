@@ -23,4 +23,5 @@ public abstract class ItemAdapter<ViewHolder extends RecyclerView.ViewHolder> ex
 
     public abstract void deleteItem(int position, ViewHolder viewHolder, OnItemDelete onItemDelete);
 
+    public abstract void moveItem(int position, ViewHolder viewHolder);
 }
