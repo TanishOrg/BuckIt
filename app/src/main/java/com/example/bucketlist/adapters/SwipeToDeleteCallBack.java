@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Path;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -48,6 +49,7 @@ public class SwipeToDeleteCallBack extends ItemTouchHelper.SimpleCallback {
                 itemDeleteFireBase.onItemDelete();
             }
         });
+        else  itemAdapter.moveItem(position,viewHolder);
 
     }
 
@@ -97,7 +99,7 @@ public class SwipeToDeleteCallBack extends ItemTouchHelper.SimpleCallback {
         Log.d(TAG, "onChildDraw: " + dX);
 
 
-        if (dX > -500) {
+        if (dX < 400 && dX > -400) {
             if (viewHolder instanceof RecyclerAdapterAchieved.ViewHolder) {
                 final View foregroundView = ((RecyclerAdapterAchieved.ViewHolder) viewHolder).viewForeground;
                 getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY,

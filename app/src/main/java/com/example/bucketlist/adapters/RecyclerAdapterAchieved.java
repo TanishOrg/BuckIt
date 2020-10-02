@@ -78,6 +78,7 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
         holder.cardTitle.setText(items.getTitle());
         holder.cardTargetDate.setText(items.getDeadline());
         String category = items.getCategory();
+        holder.backgroundAchieved.setText("Re-Activate");
         switch (category){
             case "Travel":
                 holder.categoryImageView.setImageResource(R.drawable.ic_baseline_flight_24);
@@ -189,6 +190,13 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
                 .show();
     }
 
+    @Override
+    public void moveItem(int position, ViewHolder viewHolder) {
+        BucketItems items = itemsList.get(position);
+        items.setAchieved(items.isAchieved() ? false:true);
+        updateData(items,viewHolder,position);
+    }
+
     private void deleteFromFireBase(final int position, final RecyclerAdapterAchieved.ViewHolder viewHolder, final OnItemDelete onItemDelete) {
         final BucketItems item = itemsList.get(position);
         FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
@@ -245,6 +253,7 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
         RelativeLayout card_item;
         ImageView categoryImageView,cardBackground;
         TextView cardTitle , cardTargetDate;
+        TextView backgroundAchieved;
         int id;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -254,6 +263,7 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
             cardTargetDate = itemView.findViewById(R.id.cardTargetDate);
             card_item = itemView.findViewById(R.id.card_item);
             cardBackground = itemView.findViewById(R.id.cardBackground);
+            backgroundAchieved = itemView.findViewById(R.id.achieved_text_bg);
 
             //swipe
             viewBackground = itemView.findViewById(R.id.view_background);

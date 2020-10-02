@@ -258,6 +258,13 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
 
     }
 
+    @Override
+    public void moveItem(int position, ViewHolder viewHolder) {
+        BucketItems items = itemsList.get(position);
+        items.setAchieved(items.isAchieved() ? false:true);
+        updateData(items,viewHolder,position);
+    }
+
     private void deleteFromFireBase(final int position, final ViewHolder viewHolder, final OnItemDelete onItemDelete) {
         final BucketItems item = itemsList.get(position);
         FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
