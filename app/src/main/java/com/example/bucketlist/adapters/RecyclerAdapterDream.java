@@ -147,6 +147,7 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
                     break;
                 case "Other":
                     holder.categoryImageView.setImageResource(R.drawable.ic_menu);
+                    holder.cardBackground.setImageResource(R.mipmap.healthbackground);
                     break;
 
             }
@@ -288,6 +289,8 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
                 break;
             case "Other":
                 categoryImageView.setImageResource(R.drawable.ic_menu);
+                card_background.setImageResource(R.mipmap.otherbackground);
+                GaussianBlur.with(context).radius(6).put(R.mipmap.otherbackground,card_background);
                 break;
 
         }

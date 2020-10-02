@@ -11,6 +11,7 @@ import com.example.bucketlist.model.BucketItems;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.vansuita.gaussianblur.GaussianBlur;
 
 import kotlin.OptionalExpectation;
 
@@ -81,37 +82,47 @@ public abstract class PopUpShowItem implements View.OnClickListener {
            case "Travel":
                categoryImageView.setImageResource(R.drawable.ic_baseline_flight_24);
                card_background.setImageResource(R.mipmap.travelbackground);
+               GaussianBlur.with(context).radius(6).put(R.mipmap.travelbackground,card_background);
                break;
            case "Adventure":
                categoryImageView.setImageResource(R.drawable.ic_backpack);
                card_background.setImageResource(R.mipmap.adventurebackground);
+               GaussianBlur.with(context).radius(6).put(R.mipmap.adventurebackground,card_background);
                break;
            case "Food":
                categoryImageView.setImageResource(R.drawable.ic_hamburger);
                card_background.setImageResource(R.mipmap.foodbackground);
+               GaussianBlur.with(context).radius(6).put(R.mipmap.foodbackground,card_background);
                break;
            case "Relation":
                categoryImageView.setImageResource(R.drawable.ic_heart);
                card_background.setImageResource(R.mipmap.relationbackground);
+               GaussianBlur.with(context).radius(6).put(R.mipmap.relationbackground,card_background);
                break;
            case "Career":
                categoryImageView.setImageResource(R.drawable.ic_portfolio);
                card_background.setImageResource(R.mipmap.careerbackground);
+               GaussianBlur.with(context).radius(6).put(R.mipmap.careerbackground,card_background);
                break;
            case "Financial":
                categoryImageView.setImageResource(R.drawable.ic_financial);
                card_background.setImageResource(R.mipmap.financialbackground);
+               GaussianBlur.with(context).radius(6).put(R.mipmap.financialbackground,card_background);
                break;
            case "Learning":
                categoryImageView.setImageResource(R.drawable.ic_reading_book);
                card_background.setImageResource(R.mipmap.learningbackground);
+               GaussianBlur.with(context).radius(6).put(R.mipmap.learningbackground,card_background);
                break;
            case "Health":
                categoryImageView.setImageResource(R.drawable.ic_health);
                card_background.setImageResource(R.mipmap.healthbackground);
+               GaussianBlur.with(context).radius(6).put(R.mipmap.healthbackground,card_background);
                break;
            case "Other":
                categoryImageView.setImageResource(R.drawable.ic_menu);
+               card_background.setImageResource(R.mipmap.otherbackground);
+               GaussianBlur.with(context).radius(6).put(R.mipmap.otherbackground,card_background);
                break;
 
        }

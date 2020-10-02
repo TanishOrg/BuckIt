@@ -6,6 +6,9 @@ import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.example.bucketlist.fragments.homePageFragment.AddFragment;
 import com.example.bucketlist.fragments.homePageFragment.CityFragment;
@@ -20,6 +23,9 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+      //  getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 
         final ChipNavigationBar bottomNav = findViewById(R.id.bottom_nav);
        FragmentManager fragmentManager = getSupportFragmentManager();

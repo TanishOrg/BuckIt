@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/colorgreen</item>
         <item name="colorPrimaryDark">@color/colorgreen</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowContentTransitions">true</item>
@@ -16,6 +17,8 @@
         <item name="colorPrimary">#D81C0012</item>
         <item name="colorPrimaryDark">#D81C0012</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+
         <!-- Customize your theme here. -->
 
     </style>
