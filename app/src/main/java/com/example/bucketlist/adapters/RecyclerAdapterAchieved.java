@@ -76,7 +76,7 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
         holder.cardTitle.setText(items.getTitle());
         holder.cardTargetDate.setText(items.getDeadline());
         String category = items.getCategory();
-        holder.backgroundAchieved.setText("Re-Activate");
+        holder.backgroundAchievedIcon.setImageResource(R.drawable.ic_back_to_active);
         switch (category){
             case "Travel":
                 holder.categoryImageView.setImageResource(R.drawable.ic_baseline_flight_24);
@@ -315,7 +315,7 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
         RelativeLayout card_item;
         ImageView categoryImageView,cardBackground;
         TextView cardTitle , cardTargetDate;
-        TextView backgroundAchieved;
+        ImageView backgroundAchievedIcon;
         int id;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -325,7 +325,7 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
             cardTargetDate = itemView.findViewById(R.id.cardTargetDate);
             card_item = itemView.findViewById(R.id.card_item);
             cardBackground = itemView.findViewById(R.id.cardBackground);
-            backgroundAchieved = itemView.findViewById(R.id.achieved_text_bg);
+            backgroundAchievedIcon = itemView.findViewById(R.id.achieved_icon);
 
             //swipe
             viewBackground = itemView.findViewById(R.id.view_background);
