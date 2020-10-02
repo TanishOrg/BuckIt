@@ -12,6 +12,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import kotlin.OptionalExpectation;
+
 public abstract class PopUpShowItem implements View.OnClickListener {
     public Dialog myDialog;
     private FirebaseFirestore firebaseFirestore;
@@ -30,7 +32,7 @@ public abstract class PopUpShowItem implements View.OnClickListener {
     TextView privacyTextView;
     ImageView cancelButton2;
 
-   public PopUpShowItem(Context context , BucketItems item ,FirebaseUser user, Dialog myDialog){
+   public PopUpShowItem(Context context , BucketItems item ,FirebaseUser user, Dialog myDialog,Boolean isDialogShow){
 
        firebaseFirestore = FirebaseFirestore.getInstance();
        this.context = context;
@@ -40,7 +42,7 @@ public abstract class PopUpShowItem implements View.OnClickListener {
         initializeUi();
 
 
-        myDialog.show();
+        if (isDialogShow) myDialog.show();
         myDialog.setCanceledOnTouchOutside(false);
    }
 
@@ -133,7 +135,7 @@ public abstract class PopUpShowItem implements View.OnClickListener {
                myDialog.dismiss();
                break;
            case R.id.completeButton:
-
+               onCompleteButtonClicked();
                break;
            case R.id.editButton:
                 onEditButtonClick();
@@ -141,6 +143,16 @@ public abstract class PopUpShowItem implements View.OnClickListener {
        }
 
     }
+
+    public void showDialog() {
+       myDialog.show();
+    }
+
+    public void hideEditButton() {
+        editButton.setVisibility(View.INVISIBLE);
+    }
+
+    protected abstract void onCompleteButtonClicked();
 
     protected abstract void onEditButtonClick();
 }
