@@ -72,20 +72,21 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/card_item"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:layout_marginHorizontal="20dp"
             android:layout_gravity="center"
-            android:id="@+id/card_item">
+            android:layout_marginHorizontal="20dp"
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/cardBackground"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:elevation="10dp"
-                android:src="@drawable/building1"
+                android:scaleType="centerCrop"
 
-                android:scaleType="centerCrop"/>
+                android:src="@drawable/building1" />
 
             <TextView
                 android:id="@+id/cardTitle"
@@ -93,9 +94,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
-                android:elevation="10dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginRight="20dp"
+                android:elevation="10dp"
                 android:fontFamily="@font/montserrat"
 
                 android:inputType="textMultiLine"
@@ -122,10 +123,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:elevation="10dp"
                 android:layout_alignParentBottom="true"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
+                android:elevation="10dp"
                 app:srcCompat="@drawable/ic_baseline_flight_24" />
 
 
