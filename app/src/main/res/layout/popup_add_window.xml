@@ -10,7 +10,8 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="550dp"
+        android:layout_height="490dp"
+        app:cardCornerRadius="9dp"
         android:layout_centerInParent="true"
         android:scrollbars="vertical"
 
@@ -34,8 +35,8 @@
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="80dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="60dp"
                     android:id="@+id/addPopupTitle"
                     android:fontFamily="@font/montserrat_bold"
                     android:text="Travel"
@@ -48,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@id/addPopupTitle"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="10dp"
 
                     android:layout_marginHorizontal="30dp"
                     android:background="@drawable/round_border"
@@ -172,29 +173,31 @@
                 android:layout_height="56dp"
                 android:src="@color/travelcolor" />
 
-            <ImageView
-                android:id="@+id/cancelButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="10dp"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp">
+                <ImageView
+                    android:id="@+id/cancelButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
 
-                android:src="@drawable/ic_round_clear_24"
-                android:theme="@style/ThemeOverlay.MaterialComponents.Dark" />
+                    android:src="@drawable/clear_icon_white" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorwhite"
-                android:textSize="24dp"
-                android:text="Add"
-                android:fontFamily="@font/montserrat_bold"
-                android:gravity="top|left"
-                android:textAlignment="gravity"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorwhite"
+                    android:textSize="20dp"
+                    android:text="Add"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:textAlignment="gravity"
 
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"/>
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"/>
+            </RelativeLayout>
 
             <Button
                 android:id="@+id/createButton"
