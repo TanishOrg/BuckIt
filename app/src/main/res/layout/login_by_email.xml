@@ -36,10 +36,10 @@
             android:id="@+id/login_email_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:layout_alignParentBottom="true"
             android:layout_marginHorizontal="30dp"
-           android:layout_below="@id/imageView"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="255dp"
+            android:layout_marginBottom="370dp"
             android:background="@drawable/round_border"
             android:maxLines="1"
             android:inputType="textEmailAddress"
@@ -59,10 +59,11 @@
             android:padding="16dp"
             android:textSize="16dp"
             android:textColorHint="@android:color/darker_gray"
-            android:layout_below="@id/login_email_text_view"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="255dp"
+            android:layout_alignBottom="@id/login_email_text_view"
             android:layout_centerHorizontal="true"
-
+            android:layout_marginBottom="300dp"
+            android:layout_alignParentBottom="true"
             android:background="@drawable/round_border"
             android:hint="Password"
              />
@@ -73,25 +74,32 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
             android:padding="10dp"
-            android:layout_below="@id/login_password_text_view"
+            android:layout_marginBottom="230dp"
+            android:layout_alignParentBottom="true"
             android:background="@drawable/button_pink"
-            android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="Login"
             android:textColor="@android:color/white"
             android:textSize="20dp" />
 
-        <TextView
-            android:id="@+id/forgotPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/login_button"
-            android:text="Forgot password?"
-            android:textColor="@color/colorbottomnav"
-            android:textAlignment="textEnd"
-            android:layout_marginTop="10dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginHorizontal="30dp"/>
+<!--        <EditText-->
+<!--            android:id="@+id/login_phone_text_view"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginHorizontal="30dp"-->
+<!--            android:inputType="textPhone"-->
+<!--            android:maxLines="1"-->
+<!--            android:padding="16dp"-->
+<!--            android:textSize="16dp"-->
+<!--            android:textColorHint="@android:color/darker_gray"-->
+<!--            android:layout_marginTop="255dp"-->
+<!--            android:layout_alignBottom="@id/login_email_text_view"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:layout_marginBottom="140dp"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:background="@drawable/round_border"-->
+<!--            android:hint="Contact Number"-->
+<!--            />-->
 
 
         <TextView
