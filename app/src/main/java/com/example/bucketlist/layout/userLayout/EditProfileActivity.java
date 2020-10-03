@@ -39,6 +39,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -186,7 +187,15 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         FirebaseUser mUser = mAuth.getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
         DocumentReference documentReference = firebaseFirestore.collection("Users").document(mUser.getUid());
-        documentReference.update("Display Name",editDisplayName.getText().toString());
+
+
+        documentReference.update("Display Name",editDisplayName.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                nameDoneButton.setVisibility(View.GONE);
+                Toast.makeText(getApplicationContext(), "Name updated"+name, Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }  //updating Name
@@ -194,26 +203,41 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private   void updateImage(String newStringImageUri){
         firebaseFirestore = FirebaseFirestore.getInstance();
         DocumentReference documentReference = firebaseFirestore.collection("Users").document(mAuth.getCurrentUser().getUid());
-        documentReference.update("Image Uri",newStringImageUri);
-        Toast.makeText(this, "Name Updated", Toast.LENGTH_SHORT).show();
+        documentReference.update("Image Uri",newStringImageUri).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(getApplicationContext(), "Profile photo Updated", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }   //updating profile Image
 
     private void updateEmail(String updatedEmail){
         firebaseFirestore = FirebaseFirestore.getInstance();
         DocumentReference documentReference = firebaseFirestore.collection("Users").document(mAuth.getCurrentUser().getUid());
-        documentReference.update("Email Address",updatedEmail);
-        emailDoneButton.setVisibility(View.INVISIBLE);
-        Toast.makeText(this, "Email Updated", Toast.LENGTH_SHORT).show();
+        documentReference.update("Email Address",updatedEmail).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                emailDoneButton.setVisibility(View.GONE);
+                Toast.makeText(getApplicationContext(), "Email Updated", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
 
     public void changePhoneNumberFirestore(){
         firebaseFirestore = FirebaseFirestore.getInstance();
         DocumentReference documentReference = firebaseFirestore.collection("Users").document(mAuth.getCurrentUser().getUid());
-        documentReference.update("Phone Number",editPhoneNumber.getText().toString());
-        phoneDoneButton.setVisibility(View.INVISIBLE);
-        alertDialog.dismiss();
+        documentReference.update("Phone Number",editPhoneNumber.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                phoneDoneButton.setVisibility(View.GONE);
+                alertDialog.dismiss();
+            }
+        });
+
     }
 
     @Override
@@ -331,6 +355,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                     PhoneAuthCredential credential = PhoneAuthProvider.getCredential(id,otpEntry.getText().toString().replace(" ",""));
                     updatingPhoneNumber(credential);
 
+
                 }
             }
         });
@@ -350,6 +375,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         });
 
         alertDialog.show();
+
 
 
 
@@ -422,8 +448,11 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                     Toast.makeText(EditProfileActivity.this, "Phone number Updated", Toast.LENGTH_SHORT).show();
                     changePhoneNumberFirestore();
                 }
-                else
-                    Toast.makeText(EditProfileActivity.this, "Not Upgraded", Toast.LENGTH_SHORT).show();
+                else {
+
+                    Toast.makeText(EditProfileActivity.this, "Phone number already in use", Toast.LENGTH_SHORT).show();
+                    alertDialog.dismiss();
+                }
             }
         });
     }
@@ -474,7 +503,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
             }
 
-            nameDoneButton.setVisibility(View.INVISIBLE);
+
         }
 
         else if (v.getId() == R.id.emailDoneButton){
@@ -516,10 +545,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             }
 
         }
-
-
-
-
-
     }
+
+
 }
