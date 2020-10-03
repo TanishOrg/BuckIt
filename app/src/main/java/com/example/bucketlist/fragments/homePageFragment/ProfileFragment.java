@@ -38,11 +38,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.vansuita.gaussianblur.GaussianBlur;
 
+import static android.content.ContentValues.TAG;
+
 
 public class ProfileFragment extends Fragment {
+//        implements OnTabRefresh {
 
     TabLayout tabLayout;
-    ViewPager viewPager;
+    public ViewPager viewPager;
 //    AchievedFragment achievedFragment;
 //    DreamFragment dreamFragment;
     ImageView profilePageImage,profileBackground;
@@ -52,7 +55,8 @@ public class ProfileFragment extends Fragment {
     String user_id;
     String stringImageUri;
     Context context;
-
+    MyPagerAdapter myPagerAdapter;
+    private static int lastPosition = 0;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -77,12 +81,13 @@ public class ProfileFragment extends Fragment {
         });
 
 
-//        achievedFragment = new AchievedFragment();
-//        dreamFragment = new DreamFragment();
 
-        MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
+
+        myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setAdapter(myPagerAdapter);
+
+
 
         return view;
     }
@@ -90,10 +95,9 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        viewPager.setCurrentItem(lastPosition);
         user_id = firebaseAuth.getCurrentUser().getUid();
         firebaseFirestore = FirebaseFirestore.getInstance();
-
-
 
         loadData(user_id);
 
@@ -130,5 +134,14 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        lastPosition = viewPager.getCurrentItem();
+
+    }
+
+
 
 }

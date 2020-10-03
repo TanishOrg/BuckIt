@@ -18,6 +18,7 @@ import com.example.bucketlist.fragments.homePageFragment.ProfileFragment;
 import com.example.bucketlist.model.BucketItemModify;
 import com.example.bucketlist.model.BucketItems;
 import com.example.bucketlist.model.OnItemDeleteFireBase;
+
 import com.example.bucketlist.model.ProfileFragmentPart;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -63,6 +64,7 @@ implements ProfileFragmentPart  {
             @Override
             public void onItemDeleted() {
                 refreshFragment();
+
             }
         });
         recyclerView.setAdapter(recyclerAdapterAchieved);
@@ -105,8 +107,8 @@ implements ProfileFragmentPart  {
     @Override
     public void refreshFragment() {
         getParentFragment().getParentFragmentManager()
-                .beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).commit();
-
+                .beginTransaction()
+                .replace(R.id.fragment_container,new ProfileFragment()).commit();
 
     }
 

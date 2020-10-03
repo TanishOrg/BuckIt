@@ -261,6 +261,7 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
     @Override
     public void moveItem(int position, ViewHolder viewHolder) {
         BucketItems items = itemsList.get(position);
+        items.setAchieved(items.isAchieved() ? false:true);
         updateData(items,viewHolder,position);
     }
 
