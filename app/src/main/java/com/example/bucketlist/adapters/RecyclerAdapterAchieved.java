@@ -16,6 +16,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bucketlist.EditItem;
+import com.example.bucketlist.PopUpShowItem;
 import com.example.bucketlist.R;
 import com.example.bucketlist.model.BucketItemModify;
 import com.example.bucketlist.model.BucketItems;
@@ -23,12 +25,12 @@ import com.example.bucketlist.model.ItemAdapter;
 import com.example.bucketlist.model.OnItemDelete;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.vansuita.gaussianblur.GaussianBlur;
 //import com.vansuita.gaussianblur.GaussianBlur;
 
 import java.util.List;
@@ -76,6 +78,7 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
         holder.cardTitle.setText(items.getTitle());
         holder.cardTargetDate.setText(items.getDeadline());
         String category = items.getCategory();
+        holder.backgroundAchieved.setText("Re-Activate");
         switch (category){
             case "Travel":
                 holder.categoryImageView.setImageResource(R.drawable.ic_baseline_flight_24);
@@ -124,104 +127,28 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
         return itemsList != null ? itemsList.size() : 0;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
-
-        @NonNull
-        Dialog myDialog;
-        RelativeLayout card_item;
-        ImageView categoryImageView,cardBackground;
-        TextView cardTitle , cardTargetDate;
-        int id;
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            categoryImageView = itemView.findViewById(R.id.cardCategoryIcon);
-            cardTitle = itemView.findViewById(R.id.cardTitle);
-            cardTargetDate = itemView.findViewById(R.id.cardTargetDate);
-            card_item = itemView.findViewById(R.id.card_item);
-            cardBackground = itemView.findViewById(R.id.cardBackground);
-
-            //inflating
-            myDialog = new Dialog(context,android.R.style.Theme_Translucent_NoTitleBar);
-            myDialog.setContentView(R.layout.popup_show_window);
-
-        }
-    }
-
     @Override
     protected void bindHolder(final ViewHolder holder, final BucketItems items, final int position) {
 
-        TextView titleOfCard = holder.myDialog.findViewById(R.id.cardTitle);
-        TextView infoOfCard = holder.myDialog.findViewById(R.id.cardDescription);
-        TextView targetOfCard = holder.myDialog.findViewById(R.id.card_target_date);
-        Button completedButton = holder.myDialog.findViewById(R.id.completeButton);
-        ImageView privacyImageView = holder.myDialog.findViewById(R.id.privacyImageView);
-        TextView privacyTextView = holder.myDialog.findViewById(R.id.privacyTextView);
-        TextView categoryTextView = holder.myDialog.findViewById(R.id.categoryTextView);
-        ImageView categoryImageView = holder.myDialog.findViewById(R.id.categoryImageView);
-        ImageView card_background = holder.myDialog.findViewById(R.id.card_background);
-        titleOfCard.setText(items.getTitle());
-        if (items.getInfo() != null) {
-            infoOfCard.setText(items.getInfo());
-        }
-        completedButton.setText(items.isAchieved() ? "RE ACTIVATE": "ACCOMPLISH");
-        privacyImageView.setImageResource(items.isPrivate()? R.drawable.ic_baseline_person_24: R.drawable.ic_baseline_public_24);
-        privacyTextView.setText(items.isPrivate()? "Private" : "Public");
-        targetOfCard.setText(items.getDeadline());
-        categoryTextView.setText(items.getCategory());
-        switch (categoryTextView.getText().toString()){
-            case "Travel":
-                categoryImageView.setImageResource(R.drawable.ic_baseline_flight_24);
-                card_background.setImageResource(R.mipmap.travelbackground);
-                GaussianBlur.with(context).radius(6).put(R.mipmap.travelbackground,card_background);
-                break;
-            case "Adventure":
-                categoryImageView.setImageResource(R.drawable.ic_backpack);
-                card_background.setImageResource(R.mipmap.adventurebackground);
-                GaussianBlur.with(context).radius(6).put(R.mipmap.adventurebackground,card_background);
-                break;
-            case "Food":
-                categoryImageView.setImageResource(R.drawable.ic_hamburger);
-                card_background.setImageResource(R.mipmap.foodbackground);
-                GaussianBlur.with(context).radius(6).put(R.mipmap.foodbackground,card_background);
-                break;
-            case "Relation":
-                categoryImageView.setImageResource(R.drawable.ic_heart);
-                card_background.setImageResource(R.mipmap.relationbackground);
-                GaussianBlur.with(context).radius(6).put(R.mipmap.relationbackground,card_background);
-                break;
-            case "Career":
-                categoryImageView.setImageResource(R.drawable.ic_portfolio);
-                card_background.setImageResource(R.mipmap.careerbackground);
-                GaussianBlur.with(context).radius(6).put(R.mipmap.careerbackground,card_background);
-                break;
-            case "Financial":
-                categoryImageView.setImageResource(R.drawable.ic_financial);
-                card_background.setImageResource(R.mipmap.financialbackground);
-                GaussianBlur.with(context).radius(6).put(R.mipmap.financialbackground,card_background);
-                break;
-            case "Learning":
-                categoryImageView.setImageResource(R.drawable.ic_reading_book);
-                card_background.setImageResource(R.mipmap.learningbackground);
-                GaussianBlur.with(context).radius(6).put(R.mipmap.learningbackground,card_background);
-                break;
-            case "Health":
-                categoryImageView.setImageResource(R.drawable.ic_health);
-                card_background.setImageResource(R.mipmap.healthbackground);
-                GaussianBlur.with(context).radius(6).put(R.mipmap.healthbackground,card_background);
-                break;
-            case "Other":
-                categoryImageView.setImageResource(R.drawable.ic_menu);
-                break;
-
-        }
-        ImageView cancelButton2 = holder.myDialog.findViewById(R.id.cancelButton2);
-        cancelButton2.setOnClickListener(new View.OnClickListener() {
+        new PopUpShowItem(context, items, mUser, holder.myDialog, false) {
             @Override
-            public void onClick(View view) {
-                holder.myDialog.dismiss();
+            protected void onCompleteButtonClicked() {
+                items.setAchieved(items.isAchieved() ? false:true);
+                updateData(items,holder,position);
             }
-        });
+
+            @Override
+            protected void onEditButtonClick() {
+                final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context,R.style.BottomSheetDialogTheme);
+                new EditItem(context, items, mUser, bottomSheetDialog) {
+                    @Override
+                    protected void onEditComplete() {
+                        notifyDataSetChanged();
+                    }
+                };
+            }
+
+        }.hideEditButton();
 
         holder.card_item.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -231,15 +158,6 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
             }
         });
 
-        completedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //todo add this to achieved list
-                items.setAchieved(items.isAchieved() ? false:true);
-
-                updateData(items,holder,position);
-            }
-        });
     }
 
     @Override
@@ -270,6 +188,13 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
                 })
                 .create()
                 .show();
+    }
+
+    @Override
+    public void moveItem(int position, ViewHolder viewHolder) {
+        BucketItems items = itemsList.get(position);
+        items.setAchieved(items.isAchieved() ? false:true);
+        updateData(items,viewHolder,position);
     }
 
     private void deleteFromFireBase(final int position, final RecyclerAdapterAchieved.ViewHolder viewHolder, final OnItemDelete onItemDelete) {
@@ -318,4 +243,36 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
 
     }
 
+
+    class ViewHolder extends RecyclerView.ViewHolder{
+
+        public View viewBackground;
+        public View viewForeground;
+        @NonNull
+        Dialog myDialog;
+        RelativeLayout card_item;
+        ImageView categoryImageView,cardBackground;
+        TextView cardTitle , cardTargetDate;
+        TextView backgroundAchieved;
+        int id;
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            categoryImageView = itemView.findViewById(R.id.cardCategoryIcon);
+            cardTitle = itemView.findViewById(R.id.cardTitle);
+            cardTargetDate = itemView.findViewById(R.id.cardTargetDate);
+            card_item = itemView.findViewById(R.id.card_item);
+            cardBackground = itemView.findViewById(R.id.cardBackground);
+            backgroundAchieved = itemView.findViewById(R.id.achieved_text_bg);
+
+            //swipe
+            viewBackground = itemView.findViewById(R.id.view_background);
+            viewForeground = itemView.findViewById(R.id.card_item);
+
+            //inflating
+            myDialog = new Dialog(context,android.R.style.Theme_Translucent_NoTitleBar);
+            myDialog.setContentView(R.layout.popup_show_window);
+
+        }
+    }
 }

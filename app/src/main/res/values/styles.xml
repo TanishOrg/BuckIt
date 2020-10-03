@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/colorgreen</item>
         <item name="colorPrimaryDark">@color/colorgreen</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowContentTransitions">true</item>
@@ -16,6 +17,8 @@
         <item name="colorPrimary">#D81C0012</item>
         <item name="colorPrimaryDark">#D81C0012</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+
         <!-- Customize your theme here. -->
 
     </style>
@@ -27,6 +30,12 @@
         <item name="android:gravity">center</item>
     </style>
     <style name="Toolbar.expandedTitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">26dp</item>
+        <item name="fontFamily">@font/montserrat_bold</item>
+
+    </style>
+
+    <style name="Toolbar.ProfileExpandedTitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">20dp</item>
 
         <item name="android:textColor">#05001429</item>

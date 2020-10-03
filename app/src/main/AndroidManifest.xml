@@ -27,7 +27,8 @@
         <activity android:name=".layout.userLayout.UserDetail" />
         <activity android:name=".layout.loginLayouts.OtpActivityRegister" />
         <activity android:name=".layout.userLayout.ContactEntry" />
-        <activity android:name=".HomeActivity" />
+        <activity android:name=".HomeActivity"
+            android:theme="@style/CustomTheme"/>
         <activity
             android:name=".layout.openingScreen.Third_Content"
             android:parentActivityName=".layout.openingScreen.SecondContent" />

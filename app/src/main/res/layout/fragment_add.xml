@@ -2,47 +2,42 @@
 <com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/AppTheme"
-    android:layout_marginBottom="66dp"
+    android:theme="@style/CustomTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     >
     
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="280dp"
-        android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Light">
-        
+        >
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingToolBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:contentScrim="#FFFFFF"
+            android:layout_height="match_parent"
+            app:contentScrim="@color/colorwhite"
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-            app:title="Add dreams"
+            app:title="ADD DREAMS"
             app:expandedTitleTextAppearance="@style/Toolbar.expandedTitleText"
             app:collapsedTitleTextAppearance="@style/Toolbar.collapseTitleText"
-            app:collapsedTitleGravity="center"
-            app:expandedTitleGravity="bottom"
-            android:theme="@style/ThemeOverlay.MaterialComponents.Light">
+
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/background3" />
+                android:src="@mipmap/addfragmentimage" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolBar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:contentInsetStart="0dp"
                 android:elevation="20dp"
+                android:layout_marginTop="24dp"
                 app:layout_collapseMode="pin"
-                android:fitsSystemWindows="true"
-                app:contentInsetStartWithNavigation="0dp"
                 android:theme="@style/ThemeOverlay.MaterialComponents.Light"
                 app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light">
 
@@ -55,10 +50,11 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center"
-        android:layout_marginBottom="50dp"
+
+
         android:clipToPadding="false"
         android:theme="@style/ThemeOverlay.MaterialComponents"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -71,11 +67,11 @@
             android:columnCount="2"
             android:rowCount="2">
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
                 android:padding="2dp"
@@ -102,13 +98,13 @@
                     android:layout_gravity="bottom"
                     style="@style/categories.Text"/>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
                 app:cardElevation="4dp"
@@ -134,9 +130,9 @@
                     android:layout_gravity="bottom"
                     style="@style/categories.Text"/>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
@@ -166,9 +162,9 @@
                     android:layout_gravity="bottom"
                     style="@style/categories.Text"/>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
@@ -198,9 +194,9 @@
                     android:layout_gravity="bottom"
                     style="@style/categories.Text"/>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
@@ -230,9 +226,9 @@
                     android:layout_gravity="bottom"
                     style="@style/categories.Text"/>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
@@ -262,9 +258,9 @@
                     android:layout_gravity="bottom"
                     style="@style/categories.Text"/>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
@@ -294,9 +290,9 @@
                     android:layout_gravity="bottom"
                     style="@style/categories.Text"/>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
@@ -327,15 +323,15 @@
                     style="@style/categories.Text"/>
 
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="150dp"
                 app:cardElevation="4dp"
                 app:cardMaxElevation="8dp"
                 app:cardCornerRadius="15dp"
@@ -347,7 +343,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/otherillustration"
+                    android:src="@mipmap/otherbackground"
                     android:scaleType="centerCrop"/>
                 <TextView
                     android:id="@+id/other_text"
@@ -360,7 +356,7 @@
                     android:layout_gravity="bottom"
                     style="@style/categories.Text"/>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
 
 

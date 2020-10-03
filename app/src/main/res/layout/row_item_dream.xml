@@ -6,29 +6,87 @@
     android:maxHeight="170dp"
     android:minHeight="120dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="15dp">
+    android:layout_marginBottom="15dp">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="360dp"
-        android:layout_height="120dp"
-
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:elevation="2dp"
         app:cardMaxElevation="8dp"
         android:layout_centerInParent="true"
-        app:cardBackgroundColor="#0ACC95"
-        app:cardCornerRadius="9dp"
+        app:cardBackgroundColor="@null"
+
         android:clickable="true">
+
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:id="@+id/view_background"
+            android:layout_gravity="right"
+            android:layout_width="120dp"
+            android:layout_marginRight="20dp"
             android:layout_height="match_parent"
-            android:id="@+id/card_item">
-            
+            android:background="#8E1E1D">
+
+            <ImageView
+                android:id="@+id/delete_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+               android:layout_centerInParent="true"
+                android:src="@drawable/ic_baseline_delete_outline_24" />
+
+            <TextView
+                android:id="@+id/delete_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10sp"
+                android:textColor="#fff"
+                android:textSize="13dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_gravity="left"
+            android:layout_width="120dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="match_parent"
+            android:background="#5FA103">
+
+            <ImageView
+                android:id="@+id/achieved_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+               android:layout_centerInParent="true"
+                android:src="@drawable/ic_round_done_all_24" />
+
+            <TextView
+                android:id="@+id/achieved_text_bg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/achieved_icon"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10sp"
+                android:textColor="#fff"
+                android:textSize="13dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/card_item"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="20dp"
+            android:visibility="visible">
+
             <ImageView
                 android:id="@+id/cardBackground"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/building1"
-                android:scaleType="centerCrop"/>
+                android:elevation="10dp"
+                android:scaleType="centerCrop"
+
+                android:src="@drawable/building1" />
 
             <TextView
                 android:id="@+id/cardTitle"
@@ -38,6 +96,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginRight="20dp"
+                android:elevation="10dp"
                 android:fontFamily="@font/montserrat"
 
                 android:inputType="textMultiLine"
@@ -52,6 +111,7 @@
                 android:layout_below="@+id/cardTitle"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="0dp"
+                android:elevation="10dp"
                 android:fontFamily="@font/montserrat"
                 android:text="January 1, 2021"
                 android:textColor="#ffffff"
@@ -66,10 +126,13 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
+                android:elevation="10dp"
                 app:srcCompat="@drawable/ic_baseline_flight_24" />
 
 
         </RelativeLayout>
+
+
 
     </androidx.cardview.widget.CardView>>
 
