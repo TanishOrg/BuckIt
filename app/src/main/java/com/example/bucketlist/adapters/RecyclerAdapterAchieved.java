@@ -207,9 +207,9 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
         documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Snackbar.make(viewHolder.itemView,"Sucess",300).show();
-                itemsList.remove(position);
-                onItemDelete.refreshFragment();
+//                Snackbar.make(viewHolder.itemView,"Sucess",300).show();
+//                itemsList.remove(position);
+//                onItemDelete.refreshFragment();
             }
         })
                 .addOnFailureListener(new OnFailureListener() {
@@ -229,9 +229,9 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "onSuccess: Sucess");
-                itemsList.remove(position);
-                bucketItemModify.onItemDeleted();
-                notifyDataSetChanged();
+//                itemsList.remove(position);
+//                bucketItemModify.onItemDeleted();
+//                notifyDataSetChanged();
                 holder.myDialog.dismiss();
                 //todo add refresh
 

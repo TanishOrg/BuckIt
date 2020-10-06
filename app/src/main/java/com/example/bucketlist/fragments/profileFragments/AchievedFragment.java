@@ -119,10 +119,10 @@ implements ProfileFragmentPart  {
 
     @Override
     public void getDataFromFireStore(FirebaseFirestore fireStore) {
-        FirebaseManager manager = FirebaseManager.getManager(getActivity());
-        manager.getAchievedDataFromFireStore(fireStore,bucketItems,recyclerAdapterAchieved);
-//        CollectionReference collection = fireStore.collection("Users").document(mUser.getUid())
-//                .collection("items");
+//        FirebaseManager manager = FirebaseManager.getManager(getActivity());
+//        manager.getAchievedDataFromFireStore(fireStore,bucketItems,recyclerAdapterAchieved);
+        CollectionReference collection = fireStore.collection("Users").document(mUser.getUid())
+                .collection("items");
 ////        collection.orderBy("dateItemAdded", Query.Direction.DESCENDING).whereEqualTo("achieved", true).get()
 ////                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
 ////            @Override
@@ -137,29 +137,29 @@ implements ProfileFragmentPart  {
 ////            }
 ////        });
 //
-//        Query query = Constants.filterCategory.equals("") ? collection
-//                .orderBy("dateItemAdded", Query.Direction.DESCENDING)
-//                .whereEqualTo("achieved", true)
-//                : collection
-//                .orderBy("dateItemAdded", Query.Direction.DESCENDING)
-//                .whereEqualTo("achieved", true)
-//                .whereEqualTo("category", Constants.filterCategory);;
-//
-//                query.addSnapshotListener(new EventListener<QuerySnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-//                if (error != null) {
-//                    Log.d("Exception Failed", "onEvent: 0  " + error);
-//                }
-//
-//                bucketItems.clear();
-//                for (QueryDocumentSnapshot snapshot  :value) {
-//                    BucketItems item = BucketItems.hashToObject( snapshot.getData(),snapshot.getId());
-//                    bucketItems.add(item);
-//                }
-//                recyclerAdapterAchieved.notifyDataSetChanged();
-//            }
-//        });
+        Query query = Constants.filterCategory.equals("") ? collection
+                .orderBy("dateItemAdded", Query.Direction.DESCENDING)
+                .whereEqualTo("achieved", true)
+                : collection
+                .orderBy("dateItemAdded", Query.Direction.DESCENDING)
+                .whereEqualTo("achieved", true)
+                .whereEqualTo("category", Constants.filterCategory);;
+
+                query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.d("Exception Failed", "onEvent: 0  " + error);
+                }
+
+                bucketItems.clear();
+                for (QueryDocumentSnapshot snapshot  :value) {
+                    BucketItems item = BucketItems.hashToObject( snapshot.getData(),snapshot.getId());
+                    bucketItems.add(item);
+                }
+                recyclerAdapterAchieved.notifyDataSetChanged();
+            }
+        });
 
     }
 }

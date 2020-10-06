@@ -178,9 +178,9 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "onSuccess: Sucess" );
-                itemsList.remove(position);
-                itemModify.onItemDeleted();
-                notifyDataSetChanged();
+//                itemsList.remove(position);
+//                itemModify.onItemDeleted();
+//                notifyDataSetChanged();
                 holder.myDialog.dismiss();
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -273,9 +273,10 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
         documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Snackbar.make(viewHolder.itemView,"Sucess",300).show();
-                itemsList.remove(position);
-                onItemDelete.refreshFragment();
+                //no need now
+//                Snackbar.make(viewHolder.itemView,"Sucess",300).show();
+//                itemsList.remove(position);
+//                onItemDelete.refreshFragment();
             }
         })
         .addOnFailureListener(new OnFailureListener() {
