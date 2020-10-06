@@ -19,6 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/CustomTheme">
         <activity android:name=".ContactEntyLogin"></activity>
+        <activity android:name=".OtpActivityLogin"></activity>
         <activity android:name=".layout.userLayout.EditProfileActivity"></activity>
         <activity android:name=".layout.userLayout.DetailProfile" />
         <activity

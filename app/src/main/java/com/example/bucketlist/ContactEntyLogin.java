@@ -51,8 +51,8 @@ public class ContactEntyLogin extends AppCompatActivity {
                 }
                 else {
                     generateProgressBar.setVisibility(View.VISIBLE);
-                    Intent i = new Intent(getApplicationContext(), OtpActivityRegister.class);
-                    i.putExtra("phonenumber",codeNumber.getFullNumberWithPlus().replace(" ",""));
+                    Intent i = new Intent(getApplicationContext(), OtpActivityLogin.class);
+                    i.putExtra("phone number",codeNumber.getFullNumberWithPlus().replace(" ",""));
                     startActivity(i);
                 }
             }
