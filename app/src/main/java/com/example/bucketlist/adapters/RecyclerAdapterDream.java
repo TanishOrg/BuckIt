@@ -35,12 +35,15 @@ import com.example.bucketlist.model.OnItemDelete;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -55,10 +58,14 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
     private FirebaseUser mUser;
     private BucketItemModify itemModify;
 
-    public RecyclerAdapterDream(Context context, List<BucketItems> items, BucketItemModify modify) {
+    private FloatingActionButton floatingActionButton;
+    private List<BucketItems> bucketItemsListToRemove = new ArrayList<>();
+
+    public RecyclerAdapterDream(Context context, List<BucketItems> items, BucketItemModify modify, FloatingActionButton floatingActionButton) {
         this.context = context;
         this.itemsList = items;
         this.itemModify = modify;
+        this.floatingActionButton = floatingActionButton;
     }
 
     @Override
@@ -126,6 +133,34 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
         }
 
         bindHolder(holder,items,position);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(context).setTitle("Are You Sure")
+                        .setCancelable(true)
+                        .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialogInterface) {
+                            }
+                        })
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                deleteMultipleFromFireBase(bucketItemsListToRemove);
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .create()
+                        .show();
+
+            }
+        });
     }
 
     @Override
@@ -146,6 +181,9 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
         public View viewBackground;
         public View viewForeground;
 
+        RelativeLayout onSelectedLayout;
+        boolean flag  = true;
+
         int id;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -159,6 +197,8 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
             //swipe
             viewBackground = itemView.findViewById(R.id.delete_background);
             viewForeground = itemView.findViewById(R.id.card_item);
+
+            onSelectedLayout  = itemView.findViewById(R.id.selected_relative);
 
             //inflating
             myDialog = new Dialog(context,android.R.style.Theme_Translucent_NoTitleBar);
@@ -194,6 +234,8 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
     @Override
     protected void bindHolder(final ViewHolder holder, final BucketItems items, final int position) {
 
+        holder.onSelectedLayout.setVisibility(View.INVISIBLE);
+
         new PopUpShowItem(context, items, mUser, holder.myDialog,false) {
             @Override
             protected void onCompleteButtonClicked() {
@@ -219,6 +261,35 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
 //                Toast.makeText(context, "test click" + String.valueOf(holder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
                 holder.myDialog.show();
 
+            }
+        });
+
+
+        holder.card_item.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.d(TAG, "onLongClick: ");
+                if(holder.flag) {
+                    holder.onSelectedLayout.setVisibility(View.VISIBLE);
+                    holder.flag = false;
+                    v.setOnClickListener(null);
+                    bucketItemsListToRemove.add(itemsList.get(position));
+                    floatingActionButton.setVisibility(View.VISIBLE);
+
+                } else {
+                    holder.onSelectedLayout.setVisibility(View.INVISIBLE);
+                    holder.flag = true;
+                    holder.card_item.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            holder.myDialog.show();
+                        }
+                    });
+                    bucketItemsListToRemove.remove(itemsList.get(position));
+
+                    if (bucketItemsListToRemove.size() == 0) floatingActionButton.setVisibility(View.INVISIBLE);
+                }
+                return true;
             }
         });
 
@@ -256,6 +327,32 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
                 .create()
                 .show();
 
+    }
+
+    private void deleteMultipleFromFireBase(final List<BucketItems> bucketItemModifies) {
+        FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
+        CollectionReference reference = fireStore.collection("Users").document(mUser.getUid())
+                .collection("items");
+        for (BucketItems item : bucketItemModifies ) {
+            Log.d(TAG, "deleteFromFireBase: " + item.getStringID());
+            reference.document(item.getStringID())
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+
+        }
+        bucketItemModifies.clear();
+        floatingActionButton.setVisibility(View.INVISIBLE);
     }
 
     @Override

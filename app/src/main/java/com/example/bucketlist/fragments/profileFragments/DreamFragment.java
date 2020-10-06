@@ -23,6 +23,7 @@ import com.example.bucketlist.model.OnItemDelete;
 import com.example.bucketlist.model.OnItemDeleteFireBase;
 import com.example.bucketlist.model.ProfileFragmentPart;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -48,10 +49,12 @@ implements ProfileFragmentPart {
     private FirebaseUser mUser;
     private FirebaseFirestore fireStore;
     private ItemTouchHelper itemTouchHelper;
+    private FloatingActionButton fab;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
          view = inflater.inflate(R.layout.fragment_dream,container,false);
+        fab = view.findViewById(R.id.delete_fab_dream);
          initializeUi();
         return view;
     }
@@ -88,7 +91,7 @@ implements ProfileFragmentPart {
             public void onItemDeleted() {
                 refreshFragment();
             }
-        });
+        },fab);
 
         recyclerView.setAdapter(recyclerAdapterDream);
 

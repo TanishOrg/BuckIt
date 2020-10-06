@@ -24,6 +24,7 @@ import com.example.bucketlist.model.OnItemDeleteFireBase;
 
 import com.example.bucketlist.model.ProfileFragmentPart;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -43,6 +44,7 @@ implements ProfileFragmentPart  {
     RecyclerView recyclerView;
     RecyclerAdapterAchieved recyclerAdapterAchieved;
     List<BucketItems> bucketItems = new ArrayList<>();
+    FloatingActionButton fab;
     //    List<BucketItems> items;
     private View view;
     private FirebaseAuth mAuth;
@@ -54,6 +56,8 @@ implements ProfileFragmentPart  {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_achieved,container,false);
+
+        fab = view.findViewById(R.id.delete_fab);
 
         initializeUi();
 
@@ -71,7 +75,7 @@ implements ProfileFragmentPart  {
                 refreshFragment();
 
             }
-        });
+        }, fab);
         recyclerView.setAdapter(recyclerAdapterAchieved);
 
         // attaching
