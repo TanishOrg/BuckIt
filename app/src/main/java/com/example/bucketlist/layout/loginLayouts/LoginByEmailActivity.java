@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.bucketlist.ContactEntyLogin;
 import com.example.bucketlist.layout.userLayout.ContactEntry;
 import com.example.bucketlist.HomeActivity;
 import com.example.bucketlist.R;
@@ -26,7 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class    LoginByEmailActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "LOGIN ACTIVITY";
-    private Button loginButton;
+    private Button loginButton, goToPhoneLogin_button;
     private EditText emailEditText;
     private EditText passwordEditText;
 //    private EditText nameEditText;
@@ -35,7 +36,9 @@ public class    LoginByEmailActivity extends AppCompatActivity implements View.O
     private RelativeLayout loginLayout;
     private TextView signUpTexView;
     private FirebaseAuth mAuth;
+    String password;
     private FirebaseUser mUser;
+
 //    RelativeLayout login_layout;
 //    ConstraintLayout constraintLayout;
 
@@ -56,8 +59,10 @@ public class    LoginByEmailActivity extends AppCompatActivity implements View.O
         loginButton  = findViewById(R.id.login_button);
         signUpTexView = findViewById(R.id.text_sign_up);
         loginLayout = findViewById(R.id.login1_layout);
+        goToPhoneLogin_button = findViewById(R.id.goToPhoneLogin_button);
         signUpTexView.setOnClickListener(this);
         loginButton.setOnClickListener(this);
+        goToPhoneLogin_button.setOnClickListener(this);
     }
 
     @Override
@@ -71,13 +76,21 @@ public class    LoginByEmailActivity extends AppCompatActivity implements View.O
             startActivity(i);
 
         }
+        else if (view.getId() == R.id.goToPhoneLogin_button){
+            Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), ContactEntyLogin.class);
+            startActivity(intent);
+        }
 
     }
 
 
     private void startHome() {
         Intent i=new Intent(getApplicationContext(), HomeActivity.class);
+        i.putExtra("password",password);
+        i.putExtra("from activity","LoginActivity");
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
         startActivity(i);
 
     }
@@ -87,7 +100,7 @@ public class    LoginByEmailActivity extends AppCompatActivity implements View.O
             Toast.makeText(getApplicationContext(),"Any item can't be empty and min length of password should be greater than  8",Toast.LENGTH_SHORT).show();
         } else {
             String email = emailEditText.getText().toString().trim();
-            String password = passwordEditText.getText().toString().trim();
+             password = passwordEditText.getText().toString().trim();
 
             mAuth.signInWithEmailAndPassword(email,password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
