@@ -10,7 +10,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="490dp"
+        android:layout_height="497dp"
         app:cardCornerRadius="9dp"
         android:layout_centerInParent="true"
         android:scrollbars="vertical"
@@ -22,7 +22,7 @@
         <ScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="80dp"
+            android:layout_marginBottom="90dp"
             >
             <RelativeLayout
 
@@ -36,12 +36,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginTop="60dp"
+                    android:layout_marginTop="77dp"
                     android:id="@+id/addPopupTitle"
-                    android:fontFamily="@font/montserrat_bold"
+                    android:fontFamily="@font/roboto_mono"
                     android:text="Travel"
-                    android:textColor="@color/travelcolor"
-                    android:textSize="48dp" />
+                    android:textStyle="bold"
+                    android:textColor="#00283E"
+                    android:textSize="30dp" />
 
                 <EditText
                     android:id="@+id/nameText"
@@ -49,18 +50,15 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@id/addPopupTitle"
-                    android:layout_marginTop="10dp"
-
                     android:layout_marginHorizontal="30dp"
                     android:background="@drawable/round_border"
-                    android:elevation="1dp"
                     android:fontFamily="sans-serif"
                     android:hint="Name"
                     android:inputType="textPersonName"
                     android:padding="16dp"
-
+                    android:layout_marginTop="20dp"
                     android:textAllCaps="false"
-                    android:textColorHint="@color/travelcolor"
+
                     android:textSize="16dp" />
 
                 <EditText
@@ -76,11 +74,10 @@
                     android:layout_marginTop="15dp"
 
                     android:background="@drawable/round_border"
-                    android:elevation="1dp"
                     android:fontFamily="sans-serif"
                     android:hint="Description"
                     android:inputType="textMultiLine"
-                    android:textColorHint="@color/travelcolor"
+
                     android:textSize="16dp" />
 
 
@@ -101,13 +98,10 @@
                         android:id="@+id/targetDateText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
-
                         android:background="@drawable/round_border"
                         android:fontFamily="sans-serif"
                         android:padding="16dp"
                         android:text="Target Date"
-                        android:textColor="@color/travelcolor"
                         android:textSize="16dp"
                         tools:ignore="NotSibling" />
                 </RelativeLayout>
@@ -117,29 +111,31 @@
                     android:id="@+id/radioGroup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginHorizontal="40dp"
+
+                    android:layout_marginHorizontal="25dp"
                     android:layout_below="@id/targetdateLayout"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="17dp"
 
                     android:orientation="horizontal">
 
 
 
                     <RadioButton
+
                         android:id="@+id/publicButton"
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="20dp"
-
+                        android:elevation="2dp"
                         android:layout_gravity="center"
-
+                        android:layout_margin="5dp"
                         android:padding="12dp"
                         android:button="@android:color/transparent"
-                        android:background="@drawable/radio_selector"
+                        android:background="@drawable/category_selector"
                         android:text="Public"
                         android:textAlignment="center"
-                        android:textColor="@color/text_selector"
+                        android:checked="true"
+                        android:textColor="@color/category_text_selector"
                         android:textSize="16dp" />
 
                     <RadioButton
@@ -148,13 +144,13 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:padding="12dp"
-
-                        android:background="@drawable/radio_selector"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/category_selector"
                         android:button="@android:color/transparent"
-
+                        android:elevation="2dp"
                         android:text="Private"
                         android:textAlignment="center"
-                        android:textColor="@color/text_selector"
+                        android:textColor="@color/category_text_selector"
                         android:textSize="16dp" />
 
 
@@ -169,9 +165,16 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
             <ImageView
+                android:id="@+id/topbarbackground"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:src="@color/travelcolor" />
+                android:src="@color/white" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/topbarbackground"
+                android:background="#D6D6D6"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -180,23 +183,23 @@
                     android:id="@+id/cancelButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
                     android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
                     android:layout_centerInParent="true"
-
-                    android:src="@drawable/clear_icon_white" />
+                    android:padding="8dp"
+                    android:src="@drawable/ic_clear_black_24dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorwhite"
-                    android:textSize="20dp"
-                    android:text="Add"
+                    android:textColor="#00283E"
+                    android:textSize="24dp"
+                    android:text="ADD"
                     android:fontFamily="@font/montserrat_bold"
                     android:textAlignment="gravity"
-
+                    android:padding="8dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="15dp"/>
             </RelativeLayout>
 
             <Button
@@ -206,12 +209,12 @@
                 android:padding="16dp"
                 android:layout_marginHorizontal="30dp"
                 android:layout_alignParentBottom="true"
-                android:background="@drawable/entrybackground2"
+                android:background="@drawable/otpbuttonbackground"
                 android:elevation="2dp"
                 android:layout_marginBottom="20dp"
                 android:gravity="center"
                 android:text="Create"
-                android:textColor="@color/colorwhite"
+                android:textColor="@color/white"
                 android:textSize="16dp" />
         </RelativeLayout>
 

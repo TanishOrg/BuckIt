@@ -22,6 +22,7 @@ import com.example.bucketlist.HomeActivity;
 import com.example.bucketlist.PhotoFullPopupWindow;
 import com.example.bucketlist.R;
 import com.example.bucketlist.layout.loginLayouts.LoginByEmailActivity;
+import com.example.bucketlist.layout.openingScreen.Third_Content;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +32,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.net.URL;
 
@@ -43,6 +48,8 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
+    FirebaseStorage firebaseStorage;
+    StorageReference storageReference;
     String StringImageUri,name,email,phone;
     ProgressBar progressBar2;
 
@@ -57,6 +64,8 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference =firebaseStorage.getReference().child(firebaseUser.getUid());
         setContentView(R.layout.activity_detail_profile);
 
         progressBar2=findViewById(R.id.progressBar2);
@@ -86,31 +95,59 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
                     public void onClick(DialogInterface dialog, int which) {
                         progressBar2.setVisibility(View.VISIBLE);
                         firebaseFirestore = FirebaseFirestore.getInstance();
-                        DocumentReference documentReference = firebaseFirestore.collection("Users").document(firebaseUser.getUid());
-                                    documentReference.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        firebaseFirestore.collection("Users").document(firebaseUser.getUid()).collection("items").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()){
+                                    for (QueryDocumentSnapshot document : task.getResult()){
+                                        Log.d("item deleting","first"+task.getException());
+                                        firebaseFirestore.collection("Users").document(firebaseUser.getUid()).collection("items").document(document.getId()).delete();
+                                    }
+
+                                    DocumentReference docReference = firebaseFirestore.collection("Users").document(firebaseUser.getUid());
+                                    docReference.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
-                                                firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                Log.d("user info","delete"+task.getException());
+                                                StorageReference photoRef = storageReference.child("profileImage.jpeg");
+                                                photoRef.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
-                                                        if(task.isSuccessful()){
-                                                            progressBar2.setVisibility(View.GONE);
-                                                            Toast.makeText(DetailProfile.this,"Account Deleted",Toast.LENGTH_LONG).show();
+                                                        if (task.isSuccessful()){
+                                                            Log.d("user profile storage","delete");
+                                                            firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                    if(task.isSuccessful()){
+                                                                        Log.d("user account","delete"+task.getException());
+                                                                        progressBar2.setVisibility(View.GONE);
+                                                                        Toast.makeText(DetailProfile.this,"Account Deleted",Toast.LENGTH_LONG).show();
 
-                                                            Intent i = new Intent(DetailProfile.this, LoginByEmailActivity.class);
-                                                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                            startActivity(i);
-                                                        }else{
-                                                            Toast.makeText(DetailProfile.this,task.getException().getMessage(),Toast.LENGTH_LONG).show();
+                                                                        Intent i = new Intent(DetailProfile.this, LoginByEmailActivity.class);
+                                                                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                        startActivity(i);
+                                                                    }else{
+                                                                        Toast.makeText(DetailProfile.this,"user account not deleted"+task.getException().getMessage(),Toast.LENGTH_LONG).show();
+                                                                    }
+                                                                }
+                                                            });
+                                                        }
+                                                        else{
+                                                            Toast.makeText(DetailProfile.this,"storage " +task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
                                                 });
                                             }else{
-                                                Toast.makeText(DetailProfile.this,task.getException().getMessage(),Toast.LENGTH_LONG).show();
+                                                Toast.makeText(DetailProfile.this,"user info not deleted"+task.getException().getMessage(),Toast.LENGTH_LONG).show();
                                             }
                                         }
                                     });
+                                }
+                            }
+                        });
+
+
                     }
                 });
                 dialog.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {

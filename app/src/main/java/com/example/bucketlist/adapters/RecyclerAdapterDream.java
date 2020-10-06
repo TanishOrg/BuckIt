@@ -155,9 +155,9 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
             cardTargetDate = itemView.findViewById(R.id.cardTargetDate);
             card_item = itemView.findViewById(R.id.card_item);
             cardBackground = itemView.findViewById(R.id.cardBackground);
-
+            cardBackground.setClipToOutline(true);
             //swipe
-            viewBackground = itemView.findViewById(R.id.view_background);
+            viewBackground = itemView.findViewById(R.id.delete_background);
             viewForeground = itemView.findViewById(R.id.card_item);
 
             //inflating
