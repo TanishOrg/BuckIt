@@ -12,9 +12,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bucketlist.FirebaseManager;
 import com.example.bucketlist.R;
 import com.example.bucketlist.adapters.RecyclerAdapterAchieved;
 import com.example.bucketlist.adapters.SwipeToDeleteCallBack;
+import com.example.bucketlist.constants.Constants;
 import com.example.bucketlist.fragments.homePageFragment.ProfileFragment;
 import com.example.bucketlist.model.BucketItemModify;
 import com.example.bucketlist.model.BucketItems;
@@ -117,40 +119,47 @@ implements ProfileFragmentPart  {
 
     @Override
     public void getDataFromFireStore(FirebaseFirestore fireStore) {
-        CollectionReference collection = fireStore.collection("Users").document(mUser.getUid())
-                .collection("items");
-//        collection.orderBy("dateItemAdded", Query.Direction.DESCENDING).whereEqualTo("achieved", true).get()
-//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        FirebaseManager manager = FirebaseManager.getManager(getActivity());
+        manager.getAchievedDataFromFireStore(fireStore,bucketItems,recyclerAdapterAchieved);
+//        CollectionReference collection = fireStore.collection("Users").document(mUser.getUid())
+//                .collection("items");
+////        collection.orderBy("dateItemAdded", Query.Direction.DESCENDING).whereEqualTo("achieved", true).get()
+////                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+////            @Override
+////            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+////
+////                for(QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+////
+////                    BucketItems item = BucketItems.hashToObject( snapshot.getData(),snapshot.getId());
+////                    bucketItems.add(item);
+////                    recyclerAdapterAchieved.notifyDataSetChanged();
+////                }
+////            }
+////        });
+//
+//        Query query = Constants.filterCategory.equals("") ? collection
+//                .orderBy("dateItemAdded", Query.Direction.DESCENDING)
+//                .whereEqualTo("achieved", true)
+//                : collection
+//                .orderBy("dateItemAdded", Query.Direction.DESCENDING)
+//                .whereEqualTo("achieved", true)
+//                .whereEqualTo("category", Constants.filterCategory);;
+//
+//                query.addSnapshotListener(new EventListener<QuerySnapshot>() {
 //            @Override
-//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+//                if (error != null) {
+//                    Log.d("Exception Failed", "onEvent: 0  " + error);
+//                }
 //
-//                for(QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
-//
+//                bucketItems.clear();
+//                for (QueryDocumentSnapshot snapshot  :value) {
 //                    BucketItems item = BucketItems.hashToObject( snapshot.getData(),snapshot.getId());
 //                    bucketItems.add(item);
-//                    recyclerAdapterAchieved.notifyDataSetChanged();
 //                }
+//                recyclerAdapterAchieved.notifyDataSetChanged();
 //            }
 //        });
-
-        collection
-                .orderBy("dateItemAdded", Query.Direction.DESCENDING)
-                .whereEqualTo("achieved", true)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    Log.d("Exception Failed", "onEvent: 0  " + error);
-                }
-
-                bucketItems.clear();
-                for (QueryDocumentSnapshot snapshot  :value) {
-                    BucketItems item = BucketItems.hashToObject( snapshot.getData(),snapshot.getId());
-                    bucketItems.add(item);
-                }
-                recyclerAdapterAchieved.notifyDataSetChanged();
-            }
-        });
 
     }
 }
