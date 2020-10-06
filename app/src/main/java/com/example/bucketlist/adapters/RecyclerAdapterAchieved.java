@@ -78,11 +78,13 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
         holder.cardTitle.setText(items.getTitle());
         holder.cardTargetDate.setText(items.getDeadline());
         String category = items.getCategory();
-        holder.backgroundAchieved.setText("Re-Activate");
+        holder.backgroundiconAchieved.setImageResource(R.drawable.ic_back_to_active);
+        holder.cardBackground.setClipToOutline(true);
         switch (category){
             case "Travel":
                 holder.categoryImageView.setImageResource(R.drawable.ic_baseline_flight_24);
                 holder.cardBackground.setImageResource(R.mipmap.travelbackground);
+
 //                GaussianBlur.with(context).put(R.mipmap.travelbackground,holder.cardBackground);
                 break;
             case "Adventure":
@@ -253,7 +255,7 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
         RelativeLayout card_item;
         ImageView categoryImageView,cardBackground;
         TextView cardTitle , cardTargetDate;
-        TextView backgroundAchieved;
+        ImageView backgroundiconAchieved;
         int id;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -263,10 +265,10 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
             cardTargetDate = itemView.findViewById(R.id.cardTargetDate);
             card_item = itemView.findViewById(R.id.card_item);
             cardBackground = itemView.findViewById(R.id.cardBackground);
-            backgroundAchieved = itemView.findViewById(R.id.achieved_text_bg);
+            backgroundiconAchieved = itemView.findViewById(R.id.achieved_icon);
 
             //swipe
-            viewBackground = itemView.findViewById(R.id.view_background);
+            viewBackground = itemView.findViewById(R.id.delete_background);
             viewForeground = itemView.findViewById(R.id.card_item);
 
             //inflating

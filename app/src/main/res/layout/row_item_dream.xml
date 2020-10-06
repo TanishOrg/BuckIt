@@ -19,18 +19,20 @@
         android:clickable="true">
 
         <RelativeLayout
-            android:id="@+id/view_background"
+            android:id="@+id/delete_background"
             android:layout_gravity="right"
-            android:layout_width="120dp"
+            android:layout_width="160dp"
             android:layout_marginRight="20dp"
             android:layout_height="match_parent"
-            android:background="#8E1E1D">
+            android:background="@drawable/swipedeletebackground">
 
             <ImageView
                 android:id="@+id/delete_icon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-               android:layout_centerInParent="true"
+               android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="45dp"
                 android:src="@drawable/ic_baseline_delete_outline_24" />
 
             <TextView
@@ -47,16 +49,17 @@
 
         <RelativeLayout
             android:layout_gravity="left"
-            android:layout_width="120dp"
+            android:layout_width="160dp"
             android:layout_marginLeft="20dp"
             android:layout_height="match_parent"
-            android:background="#5FA103">
+            android:background="@drawable/swipeactivebackground">
 
             <ImageView
                 android:id="@+id/achieved_icon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-               android:layout_centerInParent="true"
+               android:layout_centerVertical="true"
+                android:layout_marginLeft="45dp"
                 android:src="@drawable/ic_round_done_all_24" />
 
             <TextView
@@ -77,6 +80,7 @@
             android:layout_height="120dp"
             android:layout_gravity="center"
             android:layout_marginHorizontal="20dp"
+
             android:visibility="visible">
 
             <ImageView
@@ -85,6 +89,7 @@
                 android:layout_height="match_parent"
                 android:elevation="10dp"
                 android:scaleType="centerCrop"
+                android:background="@drawable/swipebackground"
 
                 android:src="@drawable/building1" />
 
