@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bucketlist.R;
 import com.example.bucketlist.adapters.RecyclerAdapterDream;
 import com.example.bucketlist.adapters.SwipeToDeleteCallBack;
+import com.example.bucketlist.constants.Constants;
 import com.example.bucketlist.fragments.homePageFragment.ProfileFragment;
 import com.example.bucketlist.model.BucketItemModify;
 import com.example.bucketlist.model.BucketItems;
@@ -127,9 +128,15 @@ implements ProfileFragmentPart {
 //            }
 //        });
 
-        collection
+        Query query = Constants.filterCategory.equals("") ? collection
                 .orderBy("dateItemAdded", Query.Direction.DESCENDING)
                 .whereEqualTo("achieved", false)
+                : collection
+                .orderBy("dateItemAdded", Query.Direction.DESCENDING)
+                .whereEqualTo("achieved", false)
+                .whereEqualTo("category", Constants.filterCategory);;
+
+       query
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
