@@ -38,24 +38,24 @@ public class HomeActivity extends AppCompatActivity {
       //  getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 
-        from = getIntent().getStringExtra("from activity");
-
-        if (from.equals("LoginActivity")){
-            firebaseAuth = FirebaseAuth.getInstance();
-            firebaseFirestore = FirebaseFirestore.getInstance();
-            final DocumentReference documentReference = firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getUid());
-            recentPassword = getIntent().getStringExtra("password");
-            documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                @Override
-                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                    if (value!=null)
-                    storedPassword = value.getString("User password");
-                }
-            });
-            if (!recentPassword.equals(storedPassword)){
-                documentReference.update("User password",recentPassword);
-            }
-        }
+//        from = getIntent().getStringExtra("from activity");
+//
+//        if (from.equals("LoginActivity")){
+//            firebaseAuth = FirebaseAuth.getInstance();
+//            firebaseFirestore = FirebaseFirestore.getInstance();
+//            final DocumentReference documentReference = firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getUid());
+//            recentPassword = getIntent().getStringExtra("password");
+//            documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+//                @Override
+//                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+//                    if (value!=null)
+//                    storedPassword = value.getString("User password");
+//                }
+//            });
+//            if (!recentPassword.equals(storedPassword)){
+//                documentReference.update("User password",recentPassword);
+//            }
+//        }
 
 
         final ChipNavigationBar bottomNav = findViewById(R.id.bottom_nav);
