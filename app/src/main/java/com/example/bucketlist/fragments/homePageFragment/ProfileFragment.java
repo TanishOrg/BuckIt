@@ -42,12 +42,10 @@ import static android.content.ContentValues.TAG;
 
 
 public class ProfileFragment extends Fragment {
-//        implements OnTabRefresh {
+
 
     TabLayout tabLayout;
     public ViewPager viewPager;
-//    AchievedFragment achievedFragment;
-//    DreamFragment dreamFragment;
     ImageView profilePageImage,profileBackground;
     TextView profileName;
     FirebaseFirestore firebaseFirestore;
@@ -115,7 +113,6 @@ public class ProfileFragment extends Fragment {
                     profileName.setText(value.getString("Display Name"));
                     stringImageUri = value.getString("Image Uri");
                     Glide.with(context).load(stringImageUri).into(profilePageImage);
-
                     Glide.with(context)
                             .load(stringImageUri)
                             .into(new CustomTarget<Drawable>() {

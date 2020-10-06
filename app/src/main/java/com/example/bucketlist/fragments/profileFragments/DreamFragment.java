@@ -1,6 +1,7 @@
 package com.example.bucketlist.fragments.profileFragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -110,19 +113,38 @@ implements ProfileFragmentPart {
     public void getDataFromFireStore(FirebaseFirestore fireStore) {
         CollectionReference collection = fireStore.collection("Users").document(mUser.getUid())
                 .collection("items");
-        collection.orderBy("dateItemAdded", Query.Direction.DESCENDING).whereEqualTo("achieved", false).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//        collection.orderBy("dateItemAdded", Query.Direction.DESCENDING).whereEqualTo("achieved", false).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//            @Override
+//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//
+//                for(QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+//                    BucketItems item = BucketItems.hashToObject( snapshot.getData(),snapshot.getId());
+//                    bucketItems.add(item);
+//                }
+//
+//                recyclerAdapterDream.notifyDataSetChanged();
+//
+//            }
+//        });
 
-                for(QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
-                    BucketItems item = BucketItems.hashToObject( snapshot.getData(),snapshot.getId());
-                    bucketItems.add(item);
-                }
+        collection
+                .orderBy("dateItemAdded", Query.Direction.DESCENDING)
+                .whereEqualTo("achieved", false)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            Log.d("Exception Failed", "onEvent: 0  " + error);
+                        }
 
-                recyclerAdapterDream.notifyDataSetChanged();
-
-            }
-        });
+                        bucketItems.clear();
+                        for (QueryDocumentSnapshot snapshot  :value) {
+                            BucketItems item = BucketItems.hashToObject( snapshot.getData(),snapshot.getId());
+                            bucketItems.add(item);
+                        }
+                        recyclerAdapterDream.notifyDataSetChanged();
+                    }
+                });
     }
 
 

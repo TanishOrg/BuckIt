@@ -14,4 +14,6 @@ public class Constants {
     public static final String KEY_DATE_NAME = "date_added";
     public static final String KEY_DATA_DEADLINE = "item_deadline";
     public static final String KEY_ITEM_VISIBILITY  ="item_visibility";
+    public static int itemSelected = 1;
+    public static String filterCategory = "";
 }
