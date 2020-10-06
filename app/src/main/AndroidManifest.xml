@@ -18,13 +18,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CustomTheme">
+        <activity android:name=".ContactEntyLogin"></activity>
         <activity android:name=".layout.userLayout.EditProfileActivity"></activity>
         <activity android:name=".layout.userLayout.DetailProfile" />
-        <activity android:name=".layout.userLayout.ContactEntry2" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Theme.AppCompat" />
-        <activity android:name=".layout.loginLayouts.OtpActivityLogin" />
         <activity android:name=".layout.userLayout.UserDetail" />
         <activity android:name=".layout.loginLayouts.OtpActivityRegister" />
         <activity android:name=".layout.userLayout.ContactEntry" />

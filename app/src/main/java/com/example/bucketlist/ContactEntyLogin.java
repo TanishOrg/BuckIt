@@ -1,9 +1,8 @@
-package com.example.bucketlist.layout.userLayout;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.bucketlist;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -11,27 +10,25 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.bucketlist.R;
-import com.example.bucketlist.layout.loginLayouts.OtpActivityLogin;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.bucketlist.layout.loginLayouts.OtpActivityRegister;
-import com.google.firebase.auth.PhoneAuthProvider;
+import com.example.bucketlist.layout.userLayout.ContactEntry;
 import com.hbb20.CountryCodePicker;
 
-public class ContactEntry2 extends AppCompatActivity {
+public class ContactEntyLogin extends AppCompatActivity {
 
     EditText phoneNumber;
     CountryCodePicker codeNumber;
     TextView errorText;
-    String password;
     Button generateotpButton;
     ProgressBar generateProgressBar;
-    private  PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_entry);
 
-        password = getIntent().getStringExtra("password");
         phoneNumber = findViewById(R.id.phoneNumberLayout);
         codeNumber = findViewById(R.id.codeNumber);
 
@@ -39,7 +36,6 @@ public class ContactEntry2 extends AppCompatActivity {
         errorText = findViewById(R.id.errorText);
         generateProgressBar = findViewById(R.id.generateProgressBar);
         codeNumber.registerCarrierNumberEditText(phoneNumber);
-
 
         generateotpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,20 +51,13 @@ public class ContactEntry2 extends AppCompatActivity {
                 }
                 else {
                     generateProgressBar.setVisibility(View.VISIBLE);
-                    Intent i = new Intent(ContactEntry2.this, OtpActivityLogin.class);
+                    Intent i = new Intent(getApplicationContext(), OtpActivityRegister.class);
                     i.putExtra("phonenumber",codeNumber.getFullNumberWithPlus().replace(" ",""));
-//                    i.putExtra("password",password);
                     startActivity(i);
                 }
-
             }
         });
-
-
     }
-
-
-
 
 
 }
