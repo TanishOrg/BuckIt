@@ -20,6 +20,7 @@
         android:theme="@style/CustomTheme">
         <activity android:name=".layout.userLayout.EditProfileActivity"></activity>
         <activity android:name=".layout.userLayout.DetailProfile" />
+        <activity android:name=".layout.userLayout.ContactEntry2" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Theme.AppCompat" />
