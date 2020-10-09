@@ -5,6 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,7 +44,7 @@ import java.util.List;
 
 public class AchievedFragment extends Fragment
 implements ProfileFragmentPart  {
-
+    public boolean isActionMode = false;
     RecyclerView recyclerView;
     RecyclerAdapterAchieved recyclerAdapterAchieved;
     List<BucketItems> bucketItems = new ArrayList<>();
@@ -51,13 +55,23 @@ implements ProfileFragmentPart  {
     private FirebaseUser mUser;
     private FirebaseFirestore fireStore;
     private ItemTouchHelper itemTouchHelper;
+    private TextView deleteMultiItem;
+    public RelativeLayout floatingOptionLayout;
+    public TextView counterTextView;
+    private ImageView clearButton;
+    public List<BucketItems> bucketItemsListToRemove = new ArrayList<>();
+    public int count=0;
+    public   int fposition = -1;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_achieved,container,false);
 
-        fab = view.findViewById(R.id.delete_fab);
+        deleteMultiItem = view.findViewById(R.id.delete_dream);
+        floatingOptionLayout = view.findViewById(R.id.floatingOptionLayout);
+        counterTextView = view.findViewById(R.id.counterTextView);
+        clearButton = view.findViewById(R.id.clearButton);
 
         initializeUi();
 
@@ -75,7 +89,7 @@ implements ProfileFragmentPart  {
                 refreshFragment();
 
             }
-        }, fab);
+        }, deleteMultiItem,clearButton,AchievedFragment.this);
         recyclerView.setAdapter(recyclerAdapterAchieved);
 
         // attaching
@@ -165,6 +179,45 @@ implements ProfileFragmentPart  {
             }
         });
 
+    }
+
+
+    public void startSelection(int position) {
+        if (!isActionMode){
+            isActionMode = true;
+            floatingOptionLayout.setVisibility(View.VISIBLE);
+            bucketItemsListToRemove.add(bucketItems.get(position));
+            count++;
+            updateOptionLayout(count);
+            fposition = position;
+            recyclerAdapterAchieved.notifyDataSetChanged();
+        }
+    }
+
+    public void check(View v, int position) {
+        if (((CheckBox)v).isChecked()){
+            bucketItemsListToRemove.add(bucketItems.get(position));
+            count++;
+            updateOptionLayout(count);
+        }
+        else {
+            bucketItemsListToRemove.remove(bucketItems.get(position));
+            count--;
+            updateOptionLayout(count);
+        }
+    }
+
+    public void updateOptionLayout(int count) {
+        if (count ==0){
+            counterTextView.setText("0 item selected");
+        }
+        if (count == 1){
+            counterTextView.setText("1 item selected");
+        }
+
+        else {
+            counterTextView.setText(count+" items selected");
+        }
     }
 }
 
