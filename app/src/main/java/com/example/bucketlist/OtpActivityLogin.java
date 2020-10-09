@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bucketlist.layout.loginLayouts.OtpActivityRegister;
+import com.example.bucketlist.layout.loginLayouts.SignupActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -26,7 +27,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 
 public class OtpActivityLogin extends AppCompatActivity {
@@ -36,7 +43,8 @@ public class OtpActivityLogin extends AppCompatActivity {
     PhoneAuthProvider.ForceResendingToken token;
     String phoneNumber, id;
     private static final String TAG = "MESSAGE ";
-
+    boolean phoneNotMatch = false;
+    FirebaseFirestore firestore;
     private FirebaseAuth mAuth;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,7 +55,7 @@ public class OtpActivityLogin extends AppCompatActivity {
         Toast.makeText(this, phoneNumber, Toast.LENGTH_SHORT).show();
 
         mAuth = FirebaseAuth.getInstance();
-
+        firestore = FirebaseFirestore.getInstance();
         otp = findViewById(R.id.otp);
 
         verifyButton = findViewById(R.id.verifyButton);
@@ -135,15 +143,37 @@ public class OtpActivityLogin extends AppCompatActivity {
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential){
+
         mAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-                    Intent i=new Intent(getApplicationContext(), HomeActivity.class);
-                    i.putExtra("from activity", "LoginByPhoneActivity");
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    CollectionReference phoneRef = firestore.collection("Users");
+                    Query phonequery = phoneRef.whereEqualTo("Phone Number",phoneNumber);
+                    phonequery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()){
+                                phoneNotMatch = task.getResult().isEmpty();
+                                if(!phoneNotMatch){
+                                    Intent i=new Intent(getApplicationContext(), HomeActivity.class);
+                                    i.putExtra("from activity", "LoginByPhoneActivity");
+                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(i);
+                                }else {
+                                    Intent i=new Intent(getApplicationContext(), SignupActivity.class);
+                                    i.putExtra("from activity", "OtpActivityLogin");
+                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(i);
+                                }
+                            }
+                            else
+                                Toast.makeText(OtpActivityLogin.this, "Error in comparing phone", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
-                    startActivity(i);
+
+
                 }
                 else{
                     Toast.makeText(OtpActivityLogin.this, "Cannot SignIn with Phone number", Toast.LENGTH_SHORT).show();
