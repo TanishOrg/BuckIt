@@ -321,7 +321,8 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
     public void deleteItem(final int position, final ViewHolder viewHolder, final OnItemDelete onItemDelete) {
 
         Log.d(TAG, "deleteItem: ");
-        new AlertDialog.Builder(context).setTitle("Are You Sure")
+        new AlertDialog.Builder(context,R.style.AlertDialog).setTitle("Are You Sure")
+                .setMessage("This item after deletion cannot be retrieved")
                 .setCancelable(true)
                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override
@@ -337,7 +338,7 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
                         notifyDataSetChanged();
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Snackbar.make(viewHolder.itemView,"Cancelled",300).show();

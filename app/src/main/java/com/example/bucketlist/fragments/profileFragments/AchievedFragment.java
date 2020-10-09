@@ -27,7 +27,9 @@ import com.example.bucketlist.model.BucketItems;
 import com.example.bucketlist.model.OnItemDeleteFireBase;
 
 import com.example.bucketlist.model.ProfileFragmentPart;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -163,19 +165,33 @@ implements ProfileFragmentPart  {
                 .whereEqualTo("achieved", true)
                 .whereEqualTo("category", Constants.filterCategory);;
 
-                query.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    Log.d("Exception Failed", "onEvent: 0  " + error);
-                }
+//                query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+//                if (error != null) {
+//                    Log.d("Exception Failed", "onEvent: 0  " + error);
+//                }
+//
+//                bucketItems.clear();
+//                for (QueryDocumentSnapshot snapshot  :value) {
+//                    BucketItems item = BucketItems.hashToObject( snapshot.getData(),snapshot.getId());
+//                    bucketItems.add(item);
+//                }
+//                recyclerAdapterAchieved.notifyDataSetChanged();
+//            }
+//        });
 
-                bucketItems.clear();
-                for (QueryDocumentSnapshot snapshot  :value) {
-                    BucketItems item = BucketItems.hashToObject( snapshot.getData(),snapshot.getId());
-                    bucketItems.add(item);
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+                    bucketItems.clear();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        BucketItems item = BucketItems.hashToObject( document.getData(),document.getId());
+                        bucketItems.add(item);
+                    }
+                    recyclerAdapterAchieved.notifyDataSetChanged();
                 }
-                recyclerAdapterAchieved.notifyDataSetChanged();
             }
         });
 
