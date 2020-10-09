@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -24,6 +25,7 @@ import com.example.bucketlist.R;
 import com.example.bucketlist.layout.loginLayouts.LoginByEmailActivity;
 import com.example.bucketlist.layout.openingScreen.Third_Content;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -95,7 +97,8 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
                     public void onClick(DialogInterface dialog, int which) {
                         progressBar2.setVisibility(View.VISIBLE);
                         firebaseFirestore = FirebaseFirestore.getInstance();
-                        firebaseFirestore.collection("Users").document(firebaseUser.getUid()).collection("items").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        firebaseFirestore.collection("Users").document(firebaseUser.getUid()).collection("items").get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()){
@@ -103,19 +106,20 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
                                         Log.d("item deleting","first"+task.getException());
                                         firebaseFirestore.collection("Users").document(firebaseUser.getUid()).collection("items").document(document.getId()).delete();
                                     }
-
+                                    Log.d("Message1", "Items deleted");
                                     DocumentReference docReference = firebaseFirestore.collection("Users").document(firebaseUser.getUid());
                                     docReference.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
-                                                Log.d("user info","delete"+task.getException());
+                                                Log.d("Message2","user info delete"+task.getException());
+
                                                 StorageReference photoRef = storageReference.child("profileImage.jpeg");
                                                 photoRef.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if (task.isSuccessful()){
-                                                            Log.d("user profile storage","delete");
+                                                            Log.d("delete","user profile storage");
                                                             firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<Void> task) {
@@ -130,6 +134,15 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
                                                                     }else{
                                                                         Toast.makeText(DetailProfile.this,"user account not deleted"+task.getException().getMessage(),Toast.LENGTH_LONG).show();
                                                                     }
+                                                                }
+                                                            }).addOnFailureListener(new OnFailureListener() {
+                                                                @Override
+                                                                public void onFailure(@NonNull Exception e) {
+                                                                    Log.e(TAG,"Error in deleting account", e);
+                                                                    String error = String.valueOf(e);
+                                                                    Intent i = new Intent(DetailProfile.this, LoginByEmailActivity.class);
+                                                                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                    startActivity(i);
                                                                 }
                                                             });
                                                         }
@@ -146,6 +159,12 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
                                 }
                             }
                         });
+
+
+
+
+
+
 
 
                     }
