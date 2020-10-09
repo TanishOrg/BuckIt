@@ -5,6 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,10 +23,8 @@ import com.example.bucketlist.constants.Constants;
 import com.example.bucketlist.fragments.homePageFragment.ProfileFragment;
 import com.example.bucketlist.model.BucketItemModify;
 import com.example.bucketlist.model.BucketItems;
-import com.example.bucketlist.model.OnItemDelete;
 import com.example.bucketlist.model.OnItemDeleteFireBase;
 import com.example.bucketlist.model.ProfileFragmentPart;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,6 +41,7 @@ import java.util.List;
 
 public class DreamFragment extends Fragment
 implements ProfileFragmentPart {
+    public boolean isActionMode = false;
     @Nullable
 
     private RecyclerView recyclerView;
@@ -49,14 +52,24 @@ implements ProfileFragmentPart {
     private FirebaseUser mUser;
     private FirebaseFirestore fireStore;
     private ItemTouchHelper itemTouchHelper;
-    private FloatingActionButton fab;
+    private TextView deleteMultiItem;
+    public RelativeLayout floatingOptionLayout;
+    public TextView counterTextView;
+    private ImageView clearButton;
+    public List<BucketItems> bucketItemsListToRemove = new ArrayList<>();
+    public int count=0;
+    public   int fposition = -1;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
          view = inflater.inflate(R.layout.fragment_dream,container,false);
-        fab = view.findViewById(R.id.delete_fab_dream);
+        deleteMultiItem = view.findViewById(R.id.delete_dream);
+        floatingOptionLayout = view.findViewById(R.id.floatingOptionLayout);
+        counterTextView = view.findViewById(R.id.counterTextView);
+        clearButton = view.findViewById(R.id.clearButton);
          initializeUi();
         return view;
+
     }
 
     @Override
@@ -91,7 +104,7 @@ implements ProfileFragmentPart {
             public void onItemDeleted() {
                 refreshFragment();
             }
-        },fab);
+        },deleteMultiItem,clearButton,DreamFragment.this);
 
         recyclerView.setAdapter(recyclerAdapterDream);
 
@@ -155,6 +168,45 @@ implements ProfileFragmentPart {
                         recyclerAdapterDream.notifyDataSetChanged();
                     }
                 });
+    }
+
+
+    public void startSelection(int position) {
+        if (!isActionMode){
+            isActionMode = true;
+            floatingOptionLayout.setVisibility(View.VISIBLE);
+            bucketItemsListToRemove.add(bucketItems.get(position));
+            count++;
+            updateOptionLayout(count);
+            fposition = position;
+            recyclerAdapterDream.notifyDataSetChanged();
+        }
+    }
+
+    public void check(View v, int position) {
+        if (((CheckBox)v).isChecked()){
+            bucketItemsListToRemove.add(bucketItems.get(position));
+            count++;
+            updateOptionLayout(count);
+        }
+        else {
+            bucketItemsListToRemove.remove(bucketItems.get(position));
+            count--;
+            updateOptionLayout(count);
+        }
+    }
+
+    public void updateOptionLayout(int count) {
+        if (count ==0){
+            counterTextView.setText("0 item selected");
+        }
+        if (count == 1){
+            counterTextView.setText("1 item selected");
+        }
+
+        else {
+            counterTextView.setText(count+" items selected");
+        }
     }
 
 

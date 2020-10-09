@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bucketlist.EditItem;
 import com.example.bucketlist.PopUpShowItem;
 import com.example.bucketlist.R;
+import com.example.bucketlist.fragments.profileFragments.AchievedFragment;
+import com.example.bucketlist.fragments.profileFragments.DreamFragment;
 import com.example.bucketlist.model.BucketItemModify;
 import com.example.bucketlist.model.BucketItems;
 import com.example.bucketlist.model.ItemAdapter;
@@ -52,13 +55,18 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
     private static final String TAG = "RECYCLERadapter";
     private FloatingActionButton floatingActionButton;
     private List<BucketItems> bucketItemsListToRemove = new ArrayList<>();
+    private TextView deleteMultiItem;
+    AchievedFragment achievedFragment;
+    private ImageView clearButton;
 
-
-    public RecyclerAdapterAchieved(Context context, List<BucketItems> items, BucketItemModify modify,FloatingActionButton floatingActionButton) {
+    public RecyclerAdapterAchieved(Context context, List<BucketItems> items, BucketItemModify modify,
+                                   TextView deleteMultiItem, ImageView clearButton , AchievedFragment achievedFragment) {
         this.context = context;
         this.itemsList = items;
         this.bucketItemModify = modify;
-        this.floatingActionButton = floatingActionButton;
+        this.deleteMultiItem = deleteMultiItem;
+        this.achievedFragment = achievedFragment;
+        this.clearButton = clearButton;
     }
 
     @Override
@@ -131,31 +139,58 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
 
         bindHolder(holder,items,position);
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        if (achievedFragment.fposition == position){
+            holder.checkBox.setChecked(true);
+            achievedFragment.fposition = -1;
+        }
+
+        if (achievedFragment.isActionMode){
+            holder.checkBox.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.checkBox.setVisibility(View.GONE);
+            holder.checkBox.setChecked(false);
+        }
+
+        deleteMultiItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(context).setTitle("Are You Sure")
-                        .setCancelable(true)
-                        .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                            @Override
-                            public void onCancel(DialogInterface dialogInterface) {
-                            }
-                        })
+                AlertDialog.Builder dialog = new AlertDialog.Builder(context,R.style.AlertDialog);
+                dialog.setTitle("Are You Sure");
+                dialog.setMessage("This items after deletion cannot be retrieved");
+                dialog.setCancelable(true);
+                dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                    }
+                })
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                deleteMultipleFromFireBase(bucketItemsListToRemove);
+                                deleteMultipleFromFireBase(achievedFragment.bucketItemsListToRemove);
                             }
                         })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
                             }
-                        })
-                        .create()
-                        .show();
+                        });
+                dialog.create();
+                dialog.show();
 
+            }
+        });
+
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                achievedFragment.isActionMode = false;
+               achievedFragment.counterTextView.setText("0 item selected");
+                achievedFragment.floatingOptionLayout.setVisibility(View.GONE);
+                achievedFragment.bucketItemsListToRemove.clear();
+                achievedFragment.count = 0;
+                notifyDataSetChanged();
             }
         });
     }
@@ -168,7 +203,7 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
     @Override
     protected void bindHolder(final ViewHolder holder, final BucketItems items, final int position) {
 
-        holder.onSelectedLayout.setVisibility(View.INVISIBLE);
+
 
         new PopUpShowItem(context, items, mUser, holder.myDialog, false) {
             @Override
@@ -197,32 +232,19 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
                 holder.myDialog.show();
             }
         });
-        
+
         holder.card_item.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                Log.d(TAG, "onLongClick: ");
-                if(holder.flag) {
-                    holder.onSelectedLayout.setVisibility(View.VISIBLE);
-                    holder.flag = false;
-                    v.setOnClickListener(null);
-                    bucketItemsListToRemove.add(itemsList.get(position));
-                    floatingActionButton.setVisibility(View.VISIBLE);
-
-                } else {
-                    holder.onSelectedLayout.setVisibility(View.INVISIBLE);
-                    holder.flag = true;
-                    holder.card_item.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            holder.myDialog.show();
-                        }
-                    });
-                    bucketItemsListToRemove.remove(itemsList.get(position));
-
-                    if (bucketItemsListToRemove.size() == 0) floatingActionButton.setVisibility(View.INVISIBLE);
-                }
+            public boolean onLongClick(View v) { ;
+                achievedFragment.startSelection(position);
                 return true;
+            }
+        });
+
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                achievedFragment.check(v,position);
             }
         });
 
@@ -288,7 +310,11 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
 
         }
         bucketItemModifies.clear();
-        floatingActionButton.setVisibility(View.INVISIBLE);
+        achievedFragment.count = 0;
+        achievedFragment.isActionMode = false;
+        achievedFragment.counterTextView.setText("0 item selected");
+        achievedFragment.floatingOptionLayout.setVisibility(View.INVISIBLE);
+        notifyDataSetChanged();
     }
 
     private void deleteFromFireBase(final int position, final RecyclerAdapterAchieved.ViewHolder viewHolder, final OnItemDelete onItemDelete) {
@@ -344,6 +370,7 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
         public View viewForeground;
         @NonNull
         Dialog myDialog;
+        CheckBox checkBox;
         RelativeLayout card_item;
         ImageView categoryImageView,cardBackground;
         TextView cardTitle , cardTargetDate;
@@ -361,11 +388,10 @@ public class RecyclerAdapterAchieved extends ItemAdapter<RecyclerAdapterAchieved
             cardBackground = itemView.findViewById(R.id.cardBackground);
             backgroundiconAchieved = itemView.findViewById(R.id.achieved_icon);
 
-            onSelectedLayout  = itemView.findViewById(R.id.selected_relative);
             //swipe
             viewBackground = itemView.findViewById(R.id.delete_background);
             viewForeground = itemView.findViewById(R.id.card_item);
-
+            checkBox = itemView.findViewById(R.id.checkBox);
             //inflating
             myDialog = new Dialog(context,android.R.style.Theme_Translucent_NoTitleBar);
             myDialog.setContentView(R.layout.popup_show_window);

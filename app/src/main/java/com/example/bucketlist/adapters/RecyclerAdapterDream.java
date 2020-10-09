@@ -1,26 +1,18 @@
 package com.example.bucketlist.adapters;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bucketlist.EditItem;
 import com.example.bucketlist.PopUpShowItem;
 import com.example.bucketlist.R;
+import com.example.bucketlist.fragments.profileFragments.DreamFragment;
+import com.example.bucketlist.layout.userLayout.DetailProfile;
 import com.example.bucketlist.model.BucketItemModify;
 import com.example.bucketlist.model.BucketItems;
 import com.example.bucketlist.model.ItemAdapter;
@@ -35,7 +29,6 @@ import com.example.bucketlist.model.OnItemDelete;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,29 +37,34 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 
-public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewHolder>  {
+public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewHolder> implements View.OnClickListener {
 //        extends RecyclerView.Adapter<RecyclerAdapterDream.ViewHolder>{
 
     private static final String TAG = "RECYCLERadapter";
+    private ImageView clearButton;
+
     private Context context;
     private List<BucketItems> itemsList;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private BucketItemModify itemModify;
 
-    private FloatingActionButton floatingActionButton;
+    private TextView deleteMultiItem;
+    DreamFragment dreamFragment;
     private List<BucketItems> bucketItemsListToRemove = new ArrayList<>();
 
-    public RecyclerAdapterDream(Context context, List<BucketItems> items, BucketItemModify modify, FloatingActionButton floatingActionButton) {
+        public RecyclerAdapterDream(Context context, List<BucketItems> items, BucketItemModify modify,
+                                    TextView deleteMultiItem, ImageView clearButton , DreamFragment dreamFragment) {
         this.context = context;
         this.itemsList = items;
         this.itemModify = modify;
-        this.floatingActionButton = floatingActionButton;
-    }
+        this.deleteMultiItem = deleteMultiItem;
+        this.dreamFragment = dreamFragment;
+        this.clearButton = clearButton;
+        }
 
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -127,6 +125,7 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
                     break;
                 case "Other":
                     holder.categoryImageView.setImageResource(R.drawable.ic_menu);
+                    holder.cardBackground.setImageResource(R.mipmap.otherbackground);
                     break;
 
             }
@@ -134,12 +133,27 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
 
         bindHolder(holder,items,position);
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        if (dreamFragment.fposition == position){
+            holder.checkBox.setChecked(true);
+            dreamFragment.fposition = -1;
+        }
+
+        if (dreamFragment.isActionMode){
+            holder.checkBox.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.checkBox.setVisibility(View.GONE);
+            holder.checkBox.setChecked(false);
+        }
+
+        deleteMultiItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(context).setTitle("Are You Sure")
-                        .setCancelable(true)
-                        .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(context,R.style.AlertDialog);
+                dialog.setTitle("Are You Sure");
+                        dialog.setMessage("This items after deletion cannot be retrieved");
+                        dialog.setCancelable(true);
+                        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                             @Override
                             public void onCancel(DialogInterface dialogInterface) {
                             }
@@ -147,20 +161,34 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                deleteMultipleFromFireBase(bucketItemsListToRemove);
+                                deleteMultipleFromFireBase(dreamFragment.bucketItemsListToRemove);
                             }
                         })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
                             }
-                        })
-                        .create()
-                        .show();
+                        });
+                        dialog.create();
+                        dialog.show();
 
             }
         });
+
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dreamFragment.isActionMode = false;
+                dreamFragment.counterTextView.setText("0 item selected");
+                dreamFragment.floatingOptionLayout.setVisibility(View.GONE);
+                dreamFragment.bucketItemsListToRemove.clear();
+                dreamFragment.count = 0;
+                notifyDataSetChanged();
+            }
+        });
+
+
     }
 
     @Override
@@ -168,6 +196,10 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
         return itemsList != null ? itemsList.size() : 0;
     }
 
+    @Override
+    public void onClick(View v) {
+
+    }
 
 
     class ViewHolder extends RecyclerView.ViewHolder{
@@ -178,11 +210,9 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
         ImageView categoryImageView,cardBackground;
         TextView cardTitle , cardTargetDate;
 
+        CheckBox checkBox;
         public View viewBackground;
         public View viewForeground;
-
-        RelativeLayout onSelectedLayout;
-        boolean flag  = true;
 
         int id;
         public ViewHolder(@NonNull View itemView) {
@@ -198,7 +228,8 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
             viewBackground = itemView.findViewById(R.id.delete_background);
             viewForeground = itemView.findViewById(R.id.card_item);
 
-            onSelectedLayout  = itemView.findViewById(R.id.selected_relative);
+            checkBox = itemView.findViewById(R.id.checkBox);
+
 
             //inflating
             myDialog = new Dialog(context,android.R.style.Theme_Translucent_NoTitleBar);
@@ -234,7 +265,7 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
     @Override
     protected void bindHolder(final ViewHolder holder, final BucketItems items, final int position) {
 
-        holder.onSelectedLayout.setVisibility(View.INVISIBLE);
+     //  holder.onSelectedLayout.setVisibility(View.INVISIBLE);
 
         new PopUpShowItem(context, items, mUser, holder.myDialog,false) {
             @Override
@@ -265,31 +296,20 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
         });
 
 
+
+
         holder.card_item.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                Log.d(TAG, "onLongClick: ");
-                if(holder.flag) {
-                    holder.onSelectedLayout.setVisibility(View.VISIBLE);
-                    holder.flag = false;
-                    v.setOnClickListener(null);
-                    bucketItemsListToRemove.add(itemsList.get(position));
-                    floatingActionButton.setVisibility(View.VISIBLE);
-
-                } else {
-                    holder.onSelectedLayout.setVisibility(View.INVISIBLE);
-                    holder.flag = true;
-                    holder.card_item.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            holder.myDialog.show();
-                        }
-                    });
-                    bucketItemsListToRemove.remove(itemsList.get(position));
-
-                    if (bucketItemsListToRemove.size() == 0) floatingActionButton.setVisibility(View.INVISIBLE);
-                }
+            public boolean onLongClick(View v) { ;
+               dreamFragment.startSelection(position);
                 return true;
+            }
+        });
+
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dreamFragment.check(v,position);
             }
         });
 
@@ -352,7 +372,11 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
 
         }
         bucketItemModifies.clear();
-        floatingActionButton.setVisibility(View.INVISIBLE);
+        dreamFragment.count = 0;
+        dreamFragment.isActionMode = false;
+        dreamFragment.counterTextView.setText("0 item selected");
+        dreamFragment.floatingOptionLayout.setVisibility(View.INVISIBLE);
+        notifyDataSetChanged();
     }
 
     @Override
