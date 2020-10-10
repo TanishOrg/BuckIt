@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.bucketlist.HomeActivity;
 import com.example.bucketlist.PhotoFullPopupWindow;
 import com.example.bucketlist.R;
@@ -38,6 +41,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.vansuita.gaussianblur.GaussianBlur;
 
 import java.net.URL;
 
@@ -46,7 +50,7 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
     private static final String TAG ="Detail Profile" ;
     private Button signoutButton,deleteButton;
     EditText displayName,emailAddress,phoneNumber;
-    ImageView profileImage , editButton , backButton ;
+    ImageView profileImage , editButton , backButton,profileBackground ;
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -213,7 +217,19 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
 
                     StringImageUri = value.getString("Image Uri");
                     Glide.with(getApplicationContext()).load(StringImageUri).into(profileImage);
+                    Glide.with(getApplicationContext())
+                            .load(StringImageUri)
+                            .into(new CustomTarget<Drawable>() {
+                                @Override
+                                public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                                    GaussianBlur.with(getApplicationContext()).radius(20).put(resource,profileBackground);
+                                }
 
+                                @Override
+                                public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                                }
+                            });
                     Log.i(TAG, "String: "+StringImageUri);
                 }
 
@@ -229,6 +245,7 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
         editButton = findViewById(R.id.editButton);
         backButton = findViewById(R.id.backButton);
         deleteButton=findViewById(R.id.deleteButton);
+        profileBackground = findViewById(R.id.profileBackground);
 
 
 }

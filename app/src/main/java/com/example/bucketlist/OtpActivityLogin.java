@@ -29,7 +29,9 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -153,28 +155,33 @@ public class OtpActivityLogin extends AppCompatActivity {
                 if (task.isSuccessful()){
                     CollectionReference phoneRef = firestore.collection("Users");
                     Query phonequery = phoneRef.whereEqualTo("Phone Number",phoneNumber);
-                    phonequery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    phonequery.addSnapshotListener(new EventListener<QuerySnapshot>() {
                         @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()){
-                                phoneNotMatch = task.getResult().isEmpty();
+                        public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                            if (error != null) {
+                                Log.d("phone number", "cant check" + error);
+                            }
+
+                            else{
+                                phoneNotMatch = value.isEmpty();
+
                                 if(!phoneNotMatch){
                                     Intent i=new Intent(getApplicationContext(), HomeActivity.class);
                                     i.putExtra("from activity", "LoginByPhoneActivity");
                                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    finish();
                                     startActivity(i);
                                 }else {
 
                                     Intent i=new Intent(getApplicationContext(), SignupActivity.class);
                                     i.putExtra("from activity", "OtpActivityLogin");
                                     i.putExtra("phone number",phoneNumber);
-
+                                    finish();
                                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(i);
                                 }
+
                             }
-                            else
-                                Toast.makeText(OtpActivityLogin.this, "Error in comparing phone", Toast.LENGTH_SHORT).show();
                         }
                     });
 

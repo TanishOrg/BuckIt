@@ -154,35 +154,37 @@ implements ProfileFragmentPart {
                 .whereEqualTo("achieved", false)
                 .whereEqualTo("category", Constants.filterCategory);;
 
-//               query.addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-//                        if (error != null) {
-//                            Log.d("Exception Failed", "onEvent: 0  " + error);
-//                        }
-//
-//                        bucketItems.clear();
-//                        for (QueryDocumentSnapshot snapshot  :value) {
-//                            BucketItems item = BucketItems.hashToObject( snapshot.getData(),snapshot.getId());
-//                            bucketItems.add(item);
-//                        }
-//                        recyclerAdapterDream.notifyDataSetChanged();
-//                    }
-//               });
+               query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            Log.d("Exception Failed", "onEvent: 0  " + error);
+                        }
 
-               query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                   @Override
-                   public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                       if (task.isSuccessful()){
-                           bucketItems.clear();
-                           for (QueryDocumentSnapshot document : task.getResult()) {
-                               BucketItems item = BucketItems.hashToObject( document.getData(),document.getId());
-                               bucketItems.add(item);
-                           }
-                           recyclerAdapterDream.notifyDataSetChanged();
-                       }
-                   }
+                       else{
+                            bucketItems.clear();
+                            for (QueryDocumentSnapshot snapshot  :value) {
+                                BucketItems item = BucketItems.hashToObject( snapshot.getData(),snapshot.getId());
+                                bucketItems.add(item);
+                            }
+                            recyclerAdapterDream.notifyDataSetChanged();
+                        }
+                    }
                });
+
+//               query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                   @Override
+//                   public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                       if (task.isSuccessful()){
+//                           bucketItems.clear();
+//                           for (QueryDocumentSnapshot document : task.getResult()) {
+//                               BucketItems item = BucketItems.hashToObject( document.getData(),document.getId());
+//                               bucketItems.add(item);
+//                           }
+//                           recyclerAdapterDream.notifyDataSetChanged();
+//                       }
+//                   }
+//               });
     }
 
 

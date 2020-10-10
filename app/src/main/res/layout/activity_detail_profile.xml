@@ -8,9 +8,24 @@
 
 
     <ImageView
+        android:id="@+id/profileBackground"
         android:layout_width="match_parent"
         android:layout_height="170dp"
+        android:scaleType="centerCrop"
         android:background="@color/pink1" />
+
+    <ImageView
+
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:background="#750229"
+        android:alpha=".6" />
+
+
+
+
+
+
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileImage"
