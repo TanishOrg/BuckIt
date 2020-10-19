@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.bucketlist">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
 
@@ -18,9 +19,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CustomTheme">
-        <activity android:name=".ContactEntyLogin"></activity>
-        <activity android:name=".OtpActivityLogin"></activity>
-        <activity android:name=".layout.userLayout.EditProfileActivity"></activity>
+        <activity android:name=".AddNewCity"></activity>
+        <activity android:name=".ContactEntyLogin" />
+        <activity android:name=".OtpActivityLogin" />
+        <activity android:name=".layout.userLayout.EditProfileActivity" />
         <activity android:name=".layout.userLayout.DetailProfile" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
@@ -28,8 +30,9 @@
         <activity android:name=".layout.userLayout.UserDetail" />
         <activity android:name=".layout.loginLayouts.OtpActivityRegister" />
         <activity android:name=".layout.userLayout.ContactEntry" />
-        <activity android:name=".HomeActivity"
-            android:theme="@style/CustomTheme"/>
+        <activity
+            android:name=".HomeActivity"
+            android:theme="@style/CustomTheme" />
         <activity
             android:name=".layout.openingScreen.Third_Content"
             android:parentActivityName=".layout.openingScreen.SecondContent" />
