@@ -28,7 +28,7 @@
         android:layout_below="@id/pagetitle"
         android:layout_marginTop="10dp">
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/addCityEditText"
             android:layout_width="match_parent"
             android:layout_toStartOf="@id/smallRelativeLayout"
@@ -36,7 +36,7 @@
             android:padding="16dp"
             android:layout_marginRight="10dp"
             android:paddingStart="26dp"
-            android:hint="states and cities"
+            android:hint="Cities Name"
             android:fontFamily="@font/nunito_bold"
             android:background="@drawable/searchbackground"
             android:textSize="16dp"
