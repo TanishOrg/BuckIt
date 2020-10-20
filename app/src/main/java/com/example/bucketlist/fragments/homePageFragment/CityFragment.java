@@ -54,7 +54,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
         slideModels.add(new SlideModel(R.drawable.sliderbg3));
         imageSlider.setImageList(slideModels,true);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView =  view.findViewById(R.id.recycler_view);
         arrayList = new ArrayList<>();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
