@@ -1,6 +1,7 @@
 package com.example.bucketlist.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.viewHolder
     @Override
     public  void onBindViewHolder(CustomAdapter.viewHolder viewHolder,int position) {
         viewHolder.city_name.setText(arrayList.get(position).getCity());
+        Log.d("name",viewHolder.city_name.getText().toString());
         viewHolder.imageView.setImageResource(arrayList.get(position).getImage());
 
     }
@@ -48,8 +50,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.viewHolder
 
         public viewHolder(View itemView) {
             super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.imageCity);
-            city_name = (TextView) itemView.findViewById(R.id.city_name);
+            imageView = itemView.findViewById(R.id.imageCity);
+            city_name = itemView.findViewById(R.id.city_name);
 
         }
     }

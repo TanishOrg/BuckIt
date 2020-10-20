@@ -20,14 +20,17 @@
 
         <EditText
             android:id="@+id/search_city"
-            android:layout_width="320dp"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:hint="Search city"
-            android:paddingLeft="15dp"
-            android:textSize="25dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="90dp"
-            android:background="@drawable/edittext"/>
+            android:paddingStart="26dp"
+            android:padding="16dp"
+            android:fontFamily="@font/nunito_bold"
+            android:textSize="16dp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="70dp"
+            android:background="@drawable/searchbackground"/>
 
     </com.denzcoskun.imageslider.ImageSlider>
 
@@ -39,11 +42,12 @@
         android:textSize="20dp"
         android:paddingLeft="15dp"
         android:paddingTop="5dp"
+
         android:textColor="@color/blackcolor"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"/>
 
