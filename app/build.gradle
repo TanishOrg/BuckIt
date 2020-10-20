@@ -43,6 +43,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.4.0'
     implementation 'com.google.firebase:firebase-firestore:21.6.0'
     implementation 'com.google.firebase:firebase-storage:19.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha06'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -102,6 +103,14 @@ dependencies {
     compile 'com.github.jrvansuita:GaussianBlur:+'
 
     implementation 'com.android.volley:volley:1.1.1'
+
+//    implementation 'com.github.smarteist:autoimageslider:1.4.0'
+
+    implementation 'com.github.denzcoskun:ImageSlideshow:0.0.6'
+
+    implementation 'androidx.annotation:annotation:1.1.0'
+
+
 
 
 

@@ -1,0 +1,316 @@
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\r\napply plugin: 'com.google.gms.google-services'\r\n\r\nandroid {\r\n    compileSdkVersion 29\r\n    buildToolsVersion \"29.0.3\"\r\n\r\n    defaultConfig {\r\n        applicationId \"com.example.bucketlist\"\r\n        minSdkVersion 26\r\n        targetSdkVersion 29\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n\r\n        renderscriptTargetApi 19\r\n        renderscriptSupportModeEnabled true\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n\r\n    packagingOptions {\r\n        exclude \"lib/mips/libRSSupport.so\"\r\n        exclude \"lib/mips/librsjni.so\"\r\n    }\r\n}\r\n\r\ndependencies {\r\n    implementation fileTree(dir: \"libs\", include: [\"*.jar\"])\r\n    implementation 'androidx.appcompat:appcompat:1.2.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'\r\n    implementation 'androidx.cardview:cardview:1.0.0'\r\n    implementation 'com.google.android.material:material:1.2.1'\r\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\r\n    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'\r\n    implementation 'com.google.firebase:firebase-database:19.4.0'\r\n    implementation 'com.google.firebase:firebase-auth:19.4.0'\r\n    implementation 'com.google.firebase:firebase-firestore:21.6.0'\r\n    implementation 'com.google.firebase:firebase-storage:19.2.0'\r\n    testImplementation 'junit:junit:4.12'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.1'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'\r\n    //noinspection GradleCompatible\r\n    implementation 'com.android.support:appcompat-v7:28.0.0'\r\n\r\n\r\n    implementation 'com.ismaeldivita.chipnavigation:chip-navigation-bar:1.3.3'\r\n    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.3.70'\r\n\r\n\r\n    implementation 'de.hdodenhof:circleimageview:3.1.0'\r\n    implementation 'com.ismaeldivita.chipnavigation:chip-navigation-bar:1.3.3'\r\n\r\n    //room\r\n\r\n    def room_version = \"2.2.5\"\r\n\r\n    implementation \"androidx.room:room-runtime:$room_version\"\r\n    annotationProcessor \"androidx.room:room-compiler:$room_version\"\r\n    // For Kotlin use kapt instead of annotation\r\n\r\n    // optional - Kotlin Extensions and Coroutines support for Room\r\n    implementation \"androidx.room:room-ktx:$room_version\"\r\n\r\n    // optional - RxJava support for Room\r\n    implementation \"androidx.room:room-rxjava2:$room_version\"\r\n\r\n    // optional - Guava support for Room, including Optional and ListenableFuture\r\n    implementation \"androidx.room:room-guava:$room_version\"\r\n\r\n    // Test helpers\r\n    testImplementation \"androidx.room:room-testing:$room_version\"\r\n\r\n    implementation 'com.hbb20:ccp:2.4.0'\r\n    api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'\r\n\r\n    implementation 'com.google.android.material:material:1.1.0'\r\n    implementation 'com.eightbitlab:supportrenderscriptblur:1.0.2'\r\n\r\n    //glide\r\n    implementation 'com.github.bumptech.glide:glide:4.11.0'\r\n    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'\r\n\r\n    compile 'jp.wasabeef:glide-transformations:3.0.1'\r\n\r\n    implementation \"androidx.cardview:cardview:1.0.0\"\r\n    implementation 'com.squareup.picasso:picasso:2.71828'\r\n\r\n    compile 'com.github.chrisbanes:PhotoView:2.1.4'\r\n\r\n    implementation 'com.android.support:palette-v7:28.0.0'\r\n\r\n    compile 'com.github.jgabrielfreitas:BlurImageView:1.0.1'\r\n\r\n    compile 'com.github.jrvansuita:GaussianBlur:+'\r\n\r\n\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision 68b67e9699cfd9a9bf31f896923589a6dce2b2f5)
++++ app/build.gradle	(date 1603175861623)
+@@ -43,6 +43,7 @@
+     implementation 'com.google.firebase:firebase-auth:19.4.0'
+     implementation 'com.google.firebase:firebase-firestore:21.6.0'
+     implementation 'com.google.firebase:firebase-storage:19.2.0'
++    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha06'
+     testImplementation 'junit:junit:4.12'
+     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+@@ -100,6 +101,14 @@
+ 
+     compile 'com.github.jrvansuita:GaussianBlur:+'
+ 
++//    implementation 'com.github.smarteist:autoimageslider:1.4.0'
++
++    implementation 'com.github.denzcoskun:ImageSlideshow:0.0.6'
++
++    implementation 'androidx.annotation:annotation:1.1.0'
++
++
++
+ 
+ 
+ 
+Index: app/src/main/java/com/example/bucketlist/fragments/homePageFragment/CityFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.bucketlist.fragments.homePageFragment;\r\n\r\nimport android.os.Bundle;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.fragment.app.Fragment;\r\n\r\nimport com.example.bucketlist.R;\r\n\r\npublic class CityFragment extends Fragment {\r\n    @Nullable\r\n    @Override\r\n    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {\r\n        return inflater.inflate(R.layout.fragment_city,container,false);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/bucketlist/fragments/homePageFragment/CityFragment.java	(revision 68b67e9699cfd9a9bf31f896923589a6dce2b2f5)
++++ app/src/main/java/com/example/bucketlist/fragments/homePageFragment/CityFragment.java	(date 1603177360277)
+@@ -1,20 +1,71 @@
+ package com.example.bucketlist.fragments.homePageFragment;
+ 
++import android.animation.ArgbEvaluator;
+ import android.os.Bundle;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
++import android.widget.Adapter;
+ 
+ import androidx.annotation.NonNull;
+ import androidx.annotation.Nullable;
+ import androidx.fragment.app.Fragment;
++import androidx.recyclerview.widget.DefaultItemAnimator;
++import androidx.recyclerview.widget.LinearLayoutManager;
++import androidx.recyclerview.widget.RecyclerView;
++import androidx.viewpager.widget.ViewPager;
+ 
++import com.bumptech.glide.load.model.Model;
++import com.denzcoskun.imageslider.ImageSlider;
++import com.denzcoskun.imageslider.models.SlideModel;
+ import com.example.bucketlist.R;
++import com.example.bucketlist.adapters.CustomAdapter;
++import com.example.bucketlist.model.CityModel;
++
++import java.util.ArrayList;
++import java.util.List;
++
+ 
+ public class CityFragment extends Fragment {
+-    @Nullable
+-    @Override
++
++    private View view;
++    ArrayList<CityModel> arrayList;
++    RecyclerView recyclerView;
++    int images[] = {R.drawable.athens,R.drawable.colombo,R.drawable.london,R.drawable.pisa};
++    String cityName[] = {"Athens", "Colombo", "London", "Pisa"};
++
++
+     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+-        return inflater.inflate(R.layout.fragment_city,container,false);
++
++       view= inflater.inflate(R.layout.fragment_city,container,false);
++
++       ImageSlider imageSlider= (ImageSlider)view.findViewById(R.id.slider);
++
++       List<SlideModel> slideModels=new ArrayList<>();
++
++       slideModels.add(new SlideModel(R.drawable.sliderbg1));
++        slideModels.add(new SlideModel(R.drawable.sliderbg2));
++        slideModels.add(new SlideModel(R.drawable.sliderbg3));
++        imageSlider.setImageList(slideModels,true);
++
++        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
++        arrayList = new ArrayList<>();
++
++        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
++        recyclerView.setItemAnimator(new DefaultItemAnimator());
++
++        for (int i = 0; i < images.length; i++) {
++            CityModel cityModel = new CityModel();
++            cityModel.setImage(images[i]);
++            cityModel.setCity(cityName[i]);
++
++            //add in array list
++            arrayList.add(cityModel);
++        }
++
++        CustomAdapter adapter = new CustomAdapter(getContext(), arrayList);
++        recyclerView.setAdapter(adapter);
++
++        return  view;
+     }
+ }
+Index: app/src/main/res/layout/fragment_city.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:background=\"@android:color/holo_purple\">\r\n\r\n    <TextView\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"CITY\"\r\n        android:textSize=\"32dp\"\r\n        android:textColor=\"#ffffff\"\r\n        android:layout_centerInParent=\"true\"/>\r\n\r\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_city.xml	(revision 68b67e9699cfd9a9bf31f896923589a6dce2b2f5)
++++ app/src/main/res/layout/fragment_city.xml	(date 1603175940918)
+@@ -1,15 +1,49 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    android:background="@android:color/holo_purple">
++    android:orientation="vertical"
++    xmlns:app="http://schemas.android.com/apk/res-auto">
++
++    <com.denzcoskun.imageslider.ImageSlider
++        android:id="@+id/slider"
++        android:layout_width="match_parent"
++        android:layout_height="400dp"
++        app:auto_cycle="false"
++        app:corner_radius="5"
++        app:delay="0"
++        app:period="1000">
++<!--        app:placeholder="@drawable/grey_bg"-->
++<!--        app:error_image="@drawable/grey_bg"-->
++
++
++        <EditText
++            android:id="@+id/search_city"
++            android:layout_width="320dp"
++            android:layout_height="40dp"
++            android:hint="Search city"
++            android:paddingLeft="15dp"
++            android:textSize="25dp"
++            android:layout_marginLeft="20dp"
++            android:layout_marginTop="90dp"
++            android:background="@drawable/edittext"/>
++
++    </com.denzcoskun.imageslider.ImageSlider>
+ 
+     <TextView
++        android:id="@+id/textTrending"
++        android:layout_width="match_parent"
++        android:layout_height="40dp"
++        android:text="Trending"
++        android:textSize="20dp"
++        android:paddingLeft="15dp"
++        android:paddingTop="5dp"
++        android:textColor="@color/blackcolor"/>
++
++    <androidx.recyclerview.widget.RecyclerView
++        android:id="@+id/recycler_view"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+-        android:text="CITY"
+-        android:textSize="32dp"
+-        android:textColor="#ffffff"
+-        android:layout_centerInParent="true"/>
++        android:layout_marginTop="4dp"/>
+ 
+-</RelativeLayout>
+\ No newline at end of file
++</LinearLayout>
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"1.8\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision 68b67e9699cfd9a9bf31f896923589a6dce2b2f5)
++++ .idea/gradle.xml	(date 1603109293107)
+@@ -15,6 +15,7 @@
+           </set>
+         </option>
+         <option name="resolveModulePerSourceSet" value="false" />
++        <option name="useQualifiedModuleNames" value="true" />
+       </GradleProjectSettings>
+     </option>
+   </component>
+Index: .idea/codeStyles/Project.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><component name=\"ProjectCodeStyleConfiguration\">\r\n  <code_scheme name=\"Project\" version=\"173\">\r\n    <JetCodeStyleSettings>\r\n      <option name=\"PACKAGES_TO_USE_STAR_IMPORTS\">\r\n        <value>\r\n          <package name=\"java.util\" withSubpackages=\"false\" static=\"false\" />\r\n          <package name=\"kotlinx.android.synthetic\" withSubpackages=\"true\" static=\"false\" />\r\n          <package name=\"io.ktor\" withSubpackages=\"true\" static=\"false\" />\r\n        </value>\r\n      </option>\r\n    </JetCodeStyleSettings>\r\n    <MarkdownNavigatorCodeStyleSettings>\r\n      <option name=\"RIGHT_MARGIN\" value=\"72\" />\r\n    </MarkdownNavigatorCodeStyleSettings>\r\n    <codeStyleSettings language=\"XML\">\r\n      <indentOptions>\r\n        <option name=\"CONTINUATION_INDENT_SIZE\" value=\"4\" />\r\n      </indentOptions>\r\n      <arrangement>\r\n        <rules>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>xmlns:android</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>xmlns:.*</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n              <order>BY_NAME</order>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>.*:id</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>.*:name</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>name</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>style</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>.*</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n              <order>BY_NAME</order>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>.*</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n              <order>ANDROID_ATTRIBUTE_ORDER</order>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>.*</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>.*</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n              <order>BY_NAME</order>\r\n            </rule>\r\n          </section>\r\n        </rules>\r\n      </arrangement>\r\n    </codeStyleSettings>\r\n  </code_scheme>\r\n</component>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/codeStyles/Project.xml	(revision 68b67e9699cfd9a9bf31f896923589a6dce2b2f5)
++++ .idea/codeStyles/Project.xml	(date 1602140378401)
+@@ -3,9 +3,18 @@
+     <JetCodeStyleSettings>
+       <option name="PACKAGES_TO_USE_STAR_IMPORTS">
+         <value>
+-          <package name="java.util" withSubpackages="false" static="false" />
+-          <package name="kotlinx.android.synthetic" withSubpackages="true" static="false" />
+-          <package name="io.ktor" withSubpackages="true" static="false" />
++          <package name="java.util" alias="false" withSubpackages="false" />
++          <package name="kotlinx.android.synthetic" alias="false" withSubpackages="true" />
++          <package name="io.ktor" alias="false" withSubpackages="true" />
++        </value>
++      </option>
++      <option name="PACKAGES_IMPORT_LAYOUT">
++        <value>
++          <package name="" alias="false" withSubpackages="true" />
++          <package name="java" alias="false" withSubpackages="true" />
++          <package name="javax" alias="false" withSubpackages="true" />
++          <package name="kotlin" alias="false" withSubpackages="true" />
++          <package name="" alias="true" withSubpackages="true" />
+         </value>
+       </option>
+     </JetCodeStyleSettings>
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_7\" project-jdk-name=\"1.8\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(revision 68b67e9699cfd9a9bf31f896923589a6dce2b2f5)
++++ .idea/misc.xml	(date 1603109293075)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="1.8" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/compiler.xml	(date 1603109293107)
++++ .idea/compiler.xml	(date 1603109293107)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="CompilerConfiguration">
++    <bytecodeTargetLevel target="1.8" />
++  </component>
++</project>
+\ No newline at end of file
+Index: app/src/main/java/com/example/bucketlist/model/CityModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/bucketlist/model/CityModel.java	(date 1603177360281)
++++ app/src/main/java/com/example/bucketlist/model/CityModel.java	(date 1603177360281)
+@@ -0,0 +1,44 @@
++package com.example.bucketlist.model;
++
++public class CityModel {
++    private int image;
++    private String city;
++    private String country;
++
++//    public CityModel(int image, String city, String country) {
++//        this.image = image;
++//        this.city = city;
++//        this.country = country;
++//    }
++
++    public CityModel() {
++        this.image = image;
++    }
++
++
++    public int getImage() {
++        return image;
++    }
++
++    public void setImage(int image) {
++        this.image = image;
++    }
++
++    public String getCity() {
++        return city;
++    }
++
++    public void setCity(String city) {
++        this.city = city;
++    }
++
++    public String getCountry() {
++        return country;
++    }
++
++    public void setCountry(String country) {
++        this.country = country;
++    }
++}
++
++

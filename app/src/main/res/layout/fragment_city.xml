@@ -1,17 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   >
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.denzcoskun.imageslider.ImageSlider
+        android:id="@+id/slider"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:auto_cycle="false"
+        app:corner_radius="5"
+        app:delay="0"
+        app:period="1000"
+        app:placeholder="@drawable/grey_bg"
+        app:error_image="@drawable/grey_bg">
+
+
+        <EditText
+            android:id="@+id/search_city"
+            android:layout_width="320dp"
+            android:layout_height="40dp"
+            android:hint="Search city"
+            android:paddingLeft="15dp"
+            android:textSize="25dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="90dp"
+            android:background="@drawable/edittext"/>
+
+    </com.denzcoskun.imageslider.ImageSlider>
 
     <TextView
-        android:id="@+id/cityText"
+        android:id="@+id/textTrending"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Trending"
+        android:textSize="20dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
+        android:textColor="@color/blackcolor"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CITY"
-        android:textSize="32dp"
-        android:textColor="@color/blackcolor"
-        android:layout_centerInParent="true"/>
+        android:layout_marginTop="4dp"/>
 
-
-</RelativeLayout>
+</LinearLayout>
