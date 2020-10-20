@@ -20,10 +20,20 @@ import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
+/**
+ * Helper class to get the list of cities acc to the query .
+ * The api is used from the website of LocationIq
+ */
 
 public abstract class CityListHelper {
+    /**
+     * Token for the api
+     */
     final String token ="pk.6594a14765cc8da44679e78bad670adf";
+
     Context context;
+
+
     public CityListHelper(Context context,String searchQuery) {
         this.context = context;
         try{
@@ -38,14 +48,11 @@ public abstract class CityListHelper {
                         for (int i = 0; i < response.length(); i++) {
 
                             JSONObject object1 = response.getJSONObject(i).getJSONObject("address");
-//                            Log.d(TAG, "onResponse: " + object1);
                             CityQuery query = new CityQuery();
                             query.setCountry(object1.getString("country"));
                             query.setCityName( object1.getString("name"));
                             query.setStateName( object1.getString("state"));
                             query.setDisplayName(query.cityName + ", " + query.stateName + ", " + query.country);
-//                            Log.d(TAG, "onResponse: " + query.toString());
-
                             queryResult.add(query);
                         }
                         onCompleteListener(queryResult);
@@ -53,8 +60,6 @@ public abstract class CityListHelper {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-//                    JSONArray array = response.getJSONArray("results");
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -63,6 +68,7 @@ public abstract class CityListHelper {
                 }
             });
 
+            // adding to request queue
             VolleySingleton.getInstance(context).getRequestQueue().add(jsonArrayRequest);
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,6 +77,11 @@ public abstract class CityListHelper {
     }
 
     protected abstract void onCompleteListener(List<CityQuery> queryResult);
+
+
+    /**
+     * This is the helper class for getting the city details and is only used for seaching
+     */
 
     public class CityQuery {
         private String stateName;
