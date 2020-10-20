@@ -7,27 +7,15 @@
         android:id="@+id/add"
         android:enabled="true"
         android:icon="@drawable/ic_round_add_24"
-        android:title="Add"
-        app:cnb_backgroundColor ="@color/pink1"
-        app:cnb_iconColor="@color/white"
-        app:cnb_textColor="@color/white"
-        app:cnb_unselectedColor ="@color/white"/>
+        android:title="Add" />
     <item
         android:id="@+id/city"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_map_24"
-        android:title="City"
-        app:cnb_backgroundColor ="@color/pink1"
-        app:cnb_iconColor="@color/white"
-        app:cnb_textColor="@color/white"
-        app:cnb_unselectedColor ="@color/white"/>
+        android:icon="@drawable/city_bottom_icon"
+        android:title="City" />
     <item
         android:id="@+id/profile"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_person_24"
-        android:title="Profile"
-        app:cnb_backgroundColor ="@color/pink1"
-        app:cnb_iconColor="@color/white"
-        app:cnb_textColor="@color/white"
-        app:cnb_unselectedColor ="@color/white"/>
+        android:icon="@drawable/ic_home_24px"
+        android:title="Profile" />
 </menu>
