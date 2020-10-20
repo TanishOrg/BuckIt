@@ -7,8 +7,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -29,6 +33,7 @@ import com.example.bucketlist.fragments.homePageFragment.CityFragment;
 import com.example.bucketlist.fragments.homePageFragment.ProfileFragment;
 import com.example.bucketlist.layout.userLayout.DetailProfile;
 import com.example.bucketlist.model.WallpaperModel;
+import com.example.bucketlist.utils.CityListHelper;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonArray;
@@ -38,26 +43,31 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.OkHttpClient;
+
 public class AddNewCity extends AppCompatActivity implements View.OnClickListener {
 
     Button cancelButton , createButton;
-    EditText addCityEditText;
+    AutoCompleteTextView addCityEditText;
     RecyclerView recyclerView;
     String City;
     RecyclerAdapterWallpaper recyclerAdapterWallpaper;
     List<WallpaperModel> wallpaperModelList;
     RelativeLayout smallRelativeLayout;
+
+    ArrayAdapter<String> arrayAdapter;
+
+    private static List<String> city= new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_new_city);
-
-
 
         cancelButton = findViewById(R.id.cancelButton);
         createButton = findViewById(R.id.createButton);
@@ -68,14 +78,29 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
         recyclerAdapterWallpaper = new RecyclerAdapterWallpaper(this,wallpaperModelList);
 
         recyclerView.setAdapter(recyclerAdapterWallpaper);
-
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,);
-//        recyclerView.setLayoutManager(linearLayoutManager);
-
         cancelButton.setOnClickListener(this);
         smallRelativeLayout.setOnClickListener(this);
 
+    }
 
+    private void loadCityList(String search) {
+        CityListHelper cityListHelper = new CityListHelper(this,search) {
+
+            @Override
+            protected void onCompleteListener(List<CityQuery> queryResult) {
+                Log.d("Listener ", "onCompleteListener: " + queryResult.toString());
+                List<String> list = new ArrayList<>();
+                for (CityQuery query: queryResult
+                     ) {
+                    list.add(query.getDisplayName());
+                }
+                city = list;
+                arrayAdapter = new ArrayAdapter<>(getApplicationContext(),
+                        android.R.layout.simple_list_item_1,city);
+                addCityEditText.setAdapter(arrayAdapter);
+                arrayAdapter.notifyDataSetChanged();
+            }
+        };
     }
 
     public void  fetchWallpaper(){
@@ -124,10 +149,8 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
 
         RequestQueue queue = VolleySingleton.getInstance(this).getRequestQueue();
         queue.add(objectRequest);
+//        VolleySingleton.getInstance().addToRequestQueue(objectRequest);;
         wallpaperModelList.clear();
-
-
-
 
 
     }
@@ -135,8 +158,6 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.cancelButton){
-
-
 
 
         }
@@ -154,4 +175,26 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
         }
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        addCityEditText.addTextChangedListener(tf);
+    }
+
+    TextWatcher tf = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            Log.d("Ok", "afterTextChanged: " + s.toString());
+            loadCityList(s.toString());
+        }
+    };
 }
