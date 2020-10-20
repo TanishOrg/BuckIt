@@ -60,12 +60,6 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
     String StringImageUri,name,email,phone;
     ProgressBar progressBar2;
 
-
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
