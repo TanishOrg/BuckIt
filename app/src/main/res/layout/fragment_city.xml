@@ -12,9 +12,9 @@
         app:auto_cycle="false"
         app:corner_radius="5"
         app:delay="0"
-        app:period="1000">
-<!--        app:placeholder="@drawable/grey_bg"-->
-<!--        app:error_image="@drawable/grey_bg"-->
+        app:period="1000"
+        app:placeholder="@drawable/grey_bg"
+        app:error_image="@drawable/grey_bg">
 
 
         <EditText
