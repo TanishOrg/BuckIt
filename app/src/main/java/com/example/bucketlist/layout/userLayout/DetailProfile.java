@@ -29,6 +29,7 @@ import com.example.bucketlist.layout.loginLayouts.LoginByEmailActivity;
 import com.example.bucketlist.layout.openingScreen.Third_Content;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -118,41 +119,78 @@ public class DetailProfile extends AppCompatActivity implements View.OnClickList
                                             if(task.isSuccessful()){
                                                 Log.d("Message2","user info delete"+task.getException());
 
-                                                StorageReference photoRef = storageReference.child("profileImage.jpeg");
-                                                photoRef.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if (task.isSuccessful()){
-                                                            Log.d("delete","user profile storage");
-                                                            firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-                                                                    if(task.isSuccessful()){
-                                                                        Log.d("user account","delete"+task.getException());
-                                                                        progressBar2.setVisibility(View.GONE);
-                                                                        Toast.makeText(DetailProfile.this,"Account Deleted",Toast.LENGTH_LONG).show();
+                                                final StorageReference photoRef = storageReference.child("profileImage.jpeg");
 
-                                                                        Intent i = new Intent(DetailProfile.this, LoginByEmailActivity.class);
-                                                                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                                        startActivity(i);
-                                                                    }else{
-                                                                        Toast.makeText(DetailProfile.this,"user account not deleted"+task.getException().getMessage(),Toast.LENGTH_LONG).show();
-                                                                    }
+                                                photoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                    @Override
+                                                    public void onSuccess(Uri uri) {
+                                                        photoRef.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if (task.isSuccessful()){
+                                                                    Log.d("delete","user profile storage");
+                                                                    firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                        @Override
+                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                            if(task.isSuccessful()){
+                                                                                Log.d("user account","delete"+task.getException());
+                                                                                progressBar2.setVisibility(View.GONE);
+                                                                                Toast.makeText(DetailProfile.this,"Account Deleted",Toast.LENGTH_LONG).show();
+
+                                                                                Intent i = new Intent(DetailProfile.this, LoginByEmailActivity.class);
+                                                                                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                                startActivity(i);
+                                                                            }else{
+                                                                                Toast.makeText(DetailProfile.this,"user account not deleted"+task.getException().getMessage(),Toast.LENGTH_LONG).show();
+                                                                            }
+                                                                        }
+                                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                                        @Override
+                                                                        public void onFailure(@NonNull Exception e) {
+                                                                            Log.e(TAG,"Error in deleting account", e);
+                                                                            String error = String.valueOf(e);
+                                                                            Intent i = new Intent(DetailProfile.this, LoginByEmailActivity.class);
+                                                                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                            startActivity(i);
+                                                                        }
+                                                                    });
                                                                 }
-                                                            }).addOnFailureListener(new OnFailureListener() {
-                                                                @Override
-                                                                public void onFailure(@NonNull Exception e) {
-                                                                    Log.e(TAG,"Error in deleting account", e);
-                                                                    String error = String.valueOf(e);
+                                                                else{
+                                                                    Toast.makeText(DetailProfile.this,"storage " +task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+
+                                                        firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if(task.isSuccessful()){
+                                                                    Log.d("user account","delete"+task.getException());
+                                                                    progressBar2.setVisibility(View.GONE);
+                                                                    Toast.makeText(DetailProfile.this,"Account Deleted",Toast.LENGTH_LONG).show();
+
                                                                     Intent i = new Intent(DetailProfile.this, LoginByEmailActivity.class);
                                                                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                                     startActivity(i);
+                                                                }else{
+                                                                    Toast.makeText(DetailProfile.this,"user account not deleted"+task.getException().getMessage(),Toast.LENGTH_LONG).show();
                                                                 }
-                                                            });
-                                                        }
-                                                        else{
-                                                            Toast.makeText(DetailProfile.this,"storage " +task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                                        }
+                                                            }
+                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Log.e(TAG,"Error in deleting account", e);
+                                                                String error = String.valueOf(e);
+                                                                Intent i = new Intent(DetailProfile.this, LoginByEmailActivity.class);
+                                                                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                startActivity(i);
+                                                            }
+                                                        });
+
                                                     }
                                                 });
                                             }else{

@@ -33,9 +33,6 @@ public class    LoginByEmailActivity extends AppCompatActivity implements View.O
     private Button loginButton, goToPhoneLogin_button;
     private EditText emailEditText;
     private EditText passwordEditText;
-//    private EditText nameEditText;
-//    private EditText signUpemailEditText;
-//    private EditText signUppasswordEditText;
     private RelativeLayout loginLayout;
     private TextView signUpTexView;
     TextView forgotPassword;
