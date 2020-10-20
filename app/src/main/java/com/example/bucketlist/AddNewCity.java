@@ -122,7 +122,7 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
             }
         });
 
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        RequestQueue queue = VolleySingleton.getInstance(this).getRequestQueue();
         queue.add(objectRequest);
         wallpaperModelList.clear();
 
