@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.denzcoskun.imageslider.ImageSlider
@@ -15,7 +16,9 @@
         app:delay="0"
         app:period="1000"
         app:placeholder="@drawable/grey_bg"
-        app:error_image="@drawable/grey_bg">
+        app:error_image="@drawable/grey_bg"
+        tools:ignore="MissingClass"
+        >
 
 
         <EditText
@@ -25,12 +28,13 @@
             android:hint="Search city"
             android:paddingStart="26dp"
             android:padding="16dp"
+
             android:fontFamily="@font/nunito_bold"
             android:textSize="16dp"
             android:layout_gravity="center"
             android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="70dp"
-            android:backgroundTint="#A4FFFFFF"
+            android:layout_marginTop="55dp"
+            android:backgroundTint="#B7FFFFFF"
             android:background="@drawable/searchbackground"/>
 
     </com.denzcoskun.imageslider.ImageSlider>

@@ -49,7 +49,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
        List<SlideModel> slideModels=new ArrayList<>();
 
-       slideModels.add(new SlideModel(R.drawable.sliderbg1));
+       slideModels.add(new SlideModel(R.drawable.abc));
         slideModels.add(new SlideModel(R.drawable.sliderbg2));
         slideModels.add(new SlideModel(R.drawable.sliderbg3));
         imageSlider.setImageList(slideModels,true);
