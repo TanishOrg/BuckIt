@@ -35,8 +35,8 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:layout_marginRight="10dp"
-            android:paddingStart="26dp"
-            android:hint="Cities Name"
+            android:paddingStart="23dp"
+            android:hint="Add cities"
             android:fontFamily="@font/nunito_bold"
             android:background="@drawable/searchbackground"
             android:textSize="16dp"
@@ -99,18 +99,7 @@
         android:layout_marginHorizontal="30dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp">
-        <Button
-            android:id="@+id/createButton"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:text="Create"
-            android:layout_alignParentRight="true"
-            android:fontFamily="@font/nunito_bold"
-            android:padding="16dp"
-            android:textColor="@color/white"
-            android:textSize="18dp"
-            android:backgroundTint="#218D87"
-            android:background="@drawable/moreroundbutton"/>
+
 
         <Button
             android:id="@+id/cancelButton"
@@ -124,6 +113,18 @@
             android:textColor="#218D87"
             android:textSize="16dp"
             android:backgroundTint="@null"
+            android:background="@drawable/moreroundbutton"/>
+        <Button
+            android:id="@+id/createButton"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Create"
+            android:layout_alignParentRight="true"
+            android:fontFamily="@font/nunito_bold"
+            android:padding="16dp"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:backgroundTint="#218D87"
             android:background="@drawable/moreroundbutton"/>
 
 
