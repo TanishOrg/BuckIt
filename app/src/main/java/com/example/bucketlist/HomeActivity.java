@@ -69,7 +69,7 @@ public class HomeActivity extends AppCompatActivity {
         if(savedInstanceState == null) {
             getSupportFragmentManager().
                     beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).commit();
-
+            bottomNav.setSelectedItemId(R.id.profile);
         }
 
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

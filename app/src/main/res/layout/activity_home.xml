@@ -29,6 +29,7 @@
         android:background="@drawable/bottom_navigation_background"
         android:layout_marginHorizontal="70dp"
         app:labelVisibilityMode="unlabeled"
+
         app:itemIconTint="@color/bottombar_icon_color"
     />
 

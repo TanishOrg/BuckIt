@@ -1,11 +1,13 @@
 package com.example.bucketlist;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -32,10 +34,19 @@ import com.example.bucketlist.adapters.RecyclerAdapterWallpaper;
 import com.example.bucketlist.fragments.homePageFragment.CityFragment;
 import com.example.bucketlist.fragments.homePageFragment.ProfileFragment;
 import com.example.bucketlist.layout.userLayout.DetailProfile;
+import com.example.bucketlist.layout.userLayout.UserDetail;
 import com.example.bucketlist.model.WallpaperModel;
 import com.example.bucketlist.utils.CityListHelper;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.gson.JsonArray;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
@@ -61,6 +72,10 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
     List<WallpaperModel> wallpaperModelList;
     RelativeLayout smallRelativeLayout;
 
+    StorageReference storageReference;
+    FirebaseFirestore firestore;
+    FirebaseAuth firebaseAuth;
+
     ArrayAdapter<String> arrayAdapter;
 
     private static List<String> city= new ArrayList<>();
@@ -77,10 +92,13 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
         wallpaperModelList = new ArrayList<>();
         recyclerAdapterWallpaper = new RecyclerAdapterWallpaper(this,wallpaperModelList);
 
+        storageReference = FirebaseStorage.getInstance().getReference().child("city background");
+        firestore =FirebaseFirestore.getInstance();
+
         recyclerView.setAdapter(recyclerAdapterWallpaper);
         cancelButton.setOnClickListener(this);
         smallRelativeLayout.setOnClickListener(this);
-
+        createButton.setOnClickListener(this);
     }
 
     private void loadCityList(String search) {
@@ -159,7 +177,10 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.cancelButton){
-
+            Intent i = new Intent(AddNewCity.this,HomeActivity.class);
+            finish();
+            i.putExtra("which Activity","from Add new city");
+            startActivity(i);
 
         }
         if (v.getId() == R.id.smallRelativeLayout){
@@ -172,8 +193,27 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
             else{
                 recyclerView.setVisibility(View.GONE);
                 Snackbar.make(v,"Field is empty.",Snackbar.LENGTH_LONG).show();
-            }
 
+            }
+        }
+
+        else if (v.getId() == R.id.createButton){
+            if (!addCityEditText.getText().toString().isEmpty()){
+                if (recyclerAdapterWallpaper.selectedImagePosition != -1){
+                    uploadToFireStore(recyclerAdapterWallpaper.selectedImageUrl);
+                    Intent i = new Intent(AddNewCity.this,HomeActivity.class);
+                    finish();
+                    i.putExtra("which Activity","from Add new city");
+                    startActivity(i);
+
+
+                }
+                else
+                    Snackbar.make(v,"Please select the background",Snackbar.LENGTH_LONG).show();
+
+            }
+            else
+                Snackbar.make(v,"Enter the City ",Snackbar.LENGTH_LONG).show();
         }
 
     }
@@ -199,4 +239,32 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
             loadCityList(s.toString());
         }
     };
+
+
+
+    public void uploadToFireStore(String StringCityImageUri){
+        String[] arr = addCityEditText.getText().toString().split(", ",0);
+       String cityFilename = arr[0] + ", " + arr[arr.length - 1];
+        long timeInMilliSeconds = System.currentTimeMillis();
+        DocumentReference documentReference = firestore.collection("Cities").document(cityFilename);
+        Map<String,Object> user = new HashMap<>();
+        user.put("City Name",arr[0]);
+        user.put("State Name",arr[1]);
+        user.put("Country Name",arr[2]);
+        user.put("City Background Image",StringCityImageUri);
+        user.put("Visitors",0);
+        user.put("Likes",0);
+        user.put("Time of Creation",timeInMilliSeconds);
+        documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(AddNewCity.this, "City created", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(AddNewCity.this, "firestore Updated failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

@@ -21,8 +21,8 @@ public class RecyclerAdapterWallpaper extends RecyclerView.Adapter<WallpaperView
 
     private Context context;
     private List<WallpaperModel> wallpaperModelList;
-    int selectedImagePosition = -1;
-    String selectedImageUrl;
+    public int selectedImagePosition = -1;
+    public String selectedImageUrl;
 
     public RecyclerAdapterWallpaper(Context context, List<WallpaperModel> wallpaperModelList) {
         this.context = context;
