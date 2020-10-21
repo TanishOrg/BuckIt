@@ -126,6 +126,7 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
                         JSONObject objectUrls = object.getJSONObject("urls");
                         String rawImageUrl = objectUrls.getString("raw");
 
+                        Log.d("Image url", rawImageUrl);
                         WallpaperModel wallpaperModel = new WallpaperModel(id,rawImageUrl);
                         wallpaperModelList.add(wallpaperModel);
 
@@ -163,7 +164,8 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
         }
         if (v.getId() == R.id.smallRelativeLayout){
             if(!addCityEditText.getText().toString().isEmpty()){
-                City = addCityEditText.getText().toString();
+                City = addCityEditText.getText().toString().split(",")[0];
+                Log.d("searched city",City);
                 fetchWallpaper();
               recyclerView.setVisibility(View.VISIBLE);
             }
