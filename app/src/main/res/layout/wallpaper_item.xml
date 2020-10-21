@@ -12,11 +12,25 @@
         android:layout_height="match_parent"
         app:cardCornerRadius="9dp">
 
-        <ImageView
-            android:id="@+id/wallpaper"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/wallpaper"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:id="@+id/selectedImage"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_margin="7dp"
+                android:src="@drawable/ic_baseline_check_circle_24"
+                android:visibility="gone"/>
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
     
     

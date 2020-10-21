@@ -1,6 +1,7 @@
 package com.example.bucketlist.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,12 @@ import com.example.bucketlist.model.WallpaperModel;
 
 import java.util.List;
 
-public class RecyclerAdapterWallpaper extends RecyclerView.Adapter<WallpaperViewHolder> {
+public class RecyclerAdapterWallpaper extends RecyclerView.Adapter<WallpaperViewHolder>  {
 
     private Context context;
     private List<WallpaperModel> wallpaperModelList;
+    int selectedImagePosition = -1;
+    String selectedImageUrl;
 
     public RecyclerAdapterWallpaper(Context context, List<WallpaperModel> wallpaperModelList) {
         this.context = context;
@@ -34,25 +37,47 @@ public class RecyclerAdapterWallpaper extends RecyclerView.Adapter<WallpaperView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WallpaperViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final WallpaperViewHolder holder, int position) {
 
         Glide.with(context).load(wallpaperModelList.get(position).getRawUrl()).into(holder.wallpaper);
 
+        if(position==selectedImagePosition){
+            holder.selectedImage.setVisibility(View.VISIBLE);
+            selectedImageUrl = wallpaperModelList.get(position).getRawUrl();
+            Log.d("selected Image url", selectedImageUrl);
+        }
+        else {
+            holder.selectedImage.setVisibility(View.GONE);
+        }
+
+
+
+        holder.wallpaper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedImagePosition = holder.getBindingAdapterPosition();
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return wallpaperModelList.size();
     }
+
+
 }
 
 class WallpaperViewHolder extends RecyclerView.ViewHolder{
 
     CardView wallpaperCard;
     ImageView wallpaper;
+    ImageView selectedImage;
     public WallpaperViewHolder(@NonNull View itemView) {
         super(itemView);
         wallpaperCard = itemView.findViewById(R.id.wallpaperCard);
         wallpaper = itemView.findViewById(R.id.wallpaper);
+        selectedImage = itemView.findViewById(R.id.selectedImage);
     }
 }
