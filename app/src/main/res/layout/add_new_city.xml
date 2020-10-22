@@ -63,7 +63,7 @@
                 android:layout_height="36dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/ic_round_add_24"
-                android:backgroundTint="#218D87"/>
+                android:backgroundTint="@color/greenishcolor"/>
         </RelativeLayout>
     </RelativeLayout>
 
@@ -110,7 +110,7 @@
             android:layout_toStartOf="@id/createButton"
             android:padding="16dp"
             android:layout_marginRight="10dp"
-            android:textColor="#218D87"
+            android:textColor="@color/greenishcolor"
             android:textSize="16dp"
             android:backgroundTint="@null"
             android:background="@drawable/moreroundbutton"/>
@@ -124,14 +124,23 @@
             android:padding="16dp"
             android:textColor="@color/white"
             android:textSize="18dp"
-            android:backgroundTint="#218D87"
+            android:backgroundTint="@color/greenishcolor"
             android:background="@drawable/moreroundbutton"/>
+
+
 
 
 
 
     </RelativeLayout>
 
-
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_centerInParent="true"
+        android:theme="@style/AppTheme.WhiteAccent"
+        android:visibility="gone"
+       />
 
 </RelativeLayout>

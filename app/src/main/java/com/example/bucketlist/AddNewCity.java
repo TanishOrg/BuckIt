@@ -18,6 +18,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -71,7 +72,7 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
     RecyclerAdapterWallpaper recyclerAdapterWallpaper;
     List<WallpaperModel> wallpaperModelList;
     RelativeLayout smallRelativeLayout;
-
+    ProgressBar progressBar;
     StorageReference storageReference;
     FirebaseFirestore firestore;
     FirebaseAuth firebaseAuth;
@@ -89,8 +90,10 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
         addCityEditText = findViewById(R.id.addCityEditText);
         smallRelativeLayout = findViewById(R.id.smallRelativeLayout);
         recyclerView = findViewById(R.id.recyclerView);
+        progressBar = findViewById(R.id.progressBar);
         wallpaperModelList = new ArrayList<>();
         recyclerAdapterWallpaper = new RecyclerAdapterWallpaper(this,wallpaperModelList);
+
 
         storageReference = FirebaseStorage.getInstance().getReference().child("city background");
         firestore =FirebaseFirestore.getInstance();
@@ -198,11 +201,14 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
         }
 
         else if (v.getId() == R.id.createButton){
+
             if (!addCityEditText.getText().toString().isEmpty()){
                 if (recyclerAdapterWallpaper.selectedImagePosition != -1){
+                    progressBar.setVisibility(View.VISIBLE);
                     uploadToFireStore(recyclerAdapterWallpaper.selectedImageUrl);
                     Intent i = new Intent(AddNewCity.this,HomeActivity.class);
                     finish();
+                    progressBar.setVisibility(View.GONE);
                     i.putExtra("which Activity","from Add new city");
                     startActivity(i);
 

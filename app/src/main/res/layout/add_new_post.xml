@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/AppTheme"
+    tools:context=".AddNewPost">
+
+    <RelativeLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="40dp">
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back_icon_black"
+            android:padding="4dp"
+           />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="Post"
+            android:fontFamily="@font/nunito_bold"
+            android:textColor="@color/greenishcolor"
+            android:layout_alignParentRight="true"
+            android:padding="4dp"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/pagetitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Share your \nactivities with world"
+        android:textStyle="bold"
+        android:textSize="30dp"
+
+        android:textColor="#191818"
+        android:gravity="left|center"
+        android:layout_below="@id/layout"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="20dp"/>
+
+    <EditText
+        android:id="@+id/titleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/pagetitle"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="20dp"
+        android:hint="Title"
+        android:textSize="16dp"
+        android:fontFamily="@font/nunito_bold"
+        android:background="@drawable/edit_text_background"
+        android:padding="16dp"/>
+
+    <EditText
+        android:id="@+id/descriptionText"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:minHeight="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/titleText"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="20dp"
+        android:hint="Enter description here"
+        android:textSize="16dp"
+        android:gravity="top"
+        android:fontFamily="@font/nunito_bold"
+        android:background="@drawable/edit_text_background"
+        android:padding="16dp"/>
+
+    <EditText
+        android:id="@+id/location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/descriptionText"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="20dp"
+        android:hint="Title"
+        android:text="New Delhi, India"
+        android:textSize="16dp"
+        android:fontFamily="@font/nunito_bold"
+        android:background="@drawable/edit_text_background"
+        android:padding="16dp"/>
+
+    <TextView
+        android:id="@+id/locationchangetext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/location"
+        android:layout_marginTop="5dp"
+        android:text="change location"
+        android:fontFamily="@font/nunito_bold"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="23dp"
+        android:textSize="16dp"
+        android:textColor="@color/greenishcolor"/>
+
+    <TextView
+        android:id="@+id/chooseCategory"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Choose category"
+    android:layout_marginLeft="23dp"
+    android:textSize="18dp"
+        android:layout_below="@id/locationchangetext"
+        android:layout_marginTop="20dp"
+    android:fontFamily="@font/nunito_bold"/>
+
+    <com.google.android.material.chip.ChipGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/chooseCategory"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
+        >
+
+
+
+        <com.google.android.material.chip.Chip
+            android:tag="1"
+            android:id="@+id/chip_adventure"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            style="@style/ChipCustomStyle"
+            android:text="adventure"
+            app:chipBackgroundColor="@color/chip_background_selector_2"
+            android:elevation="1dp"
+            android:fontFamily="@font/nunito_bold"
+            android:paddingHorizontal="10dp"
+            android:textAlignment="center"
+            />
+
+        <com.google.android.material.chip.Chip
+            android:tag="1"
+            android:id="@+id/chip_travel"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            style="@style/ChipCustomStyle"
+            android:text="  travel  "
+            app:chipBackgroundColor="@color/chip_background_selector_2"
+            android:elevation="1dp"
+            android:fontFamily="@font/nunito_bold"
+            android:paddingHorizontal="10dp"
+            android:textAlignment="center"
+            />
+
+        <com.google.android.material.chip.Chip
+            android:tag="1"
+            android:id="@+id/chip_food"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            style="@style/ChipCustomStyle"
+            android:text="  food  "
+            app:chipBackgroundColor="@color/chip_background_selector_2"
+            android:elevation="1dp"
+            android:fontFamily="@font/nunito_bold"
+            android:paddingHorizontal="10dp"
+            android:textAlignment="center"
+            />
+
+        <com.google.android.material.chip.Chip
+            android:tag="1"
+            android:id="@+id/chip_career"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            style="@style/ChipCustomStyle"
+            android:text="  career  "
+            app:chipBackgroundColor="@color/chip_background_selector_2"
+            android:elevation="1dp"
+            android:fontFamily="@font/nunito_bold"
+            android:paddingHorizontal="10dp"
+            android:textAlignment="center"
+            />
+
+        <com.google.android.material.chip.Chip
+            android:tag="1"
+            android:id="@+id/chip_health"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            style="@style/ChipCustomStyle"
+            android:text="health"
+            app:chipBackgroundColor="@color/chip_background_selector_2"
+            android:elevation="1dp"
+            android:fontFamily="@font/nunito_bold"
+            android:paddingHorizontal="10dp"
+            android:textAlignment="center"
+            />
+
+        <com.google.android.material.chip.Chip
+            android:tag="1"
+            android:id="@+id/chip_financial"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            style="@style/ChipCustomStyle"
+            android:text="financial"
+            app:chipBackgroundColor="@color/chip_background_selector_2"
+            android:elevation="1dp"
+            android:fontFamily="@font/nunito_bold"
+            android:paddingHorizontal="10dp"
+            android:textAlignment="center"
+            />
+
+
+
+        <com.google.android.material.chip.Chip
+            android:tag="1"
+            android:id="@+id/chip_learning"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            style="@style/ChipCustomStyle"
+            android:text="learning"
+            app:chipBackgroundColor="@color/chip_background_selector_2"
+            android:elevation="1dp"
+            android:fontFamily="@font/nunito_bold"
+            android:paddingHorizontal="10dp"
+            android:textAlignment="center"
+            />
+
+
+        <com.google.android.material.chip.Chip
+            android:tag="1"
+            android:id="@+id/chip_relation"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            style="@style/ChipCustomStyle"
+            android:text="relationship"
+            app:chipBackgroundColor="@color/chip_background_selector_2"
+            android:elevation="1dp"
+            android:fontFamily="@font/nunito_bold"
+            android:paddingHorizontal="10dp"
+            android:textAlignment="center"
+            />
+
+        <com.google.android.material.chip.Chip
+            android:tag="1"
+            android:id="@+id/chip_other"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            style="@style/ChipCustomStyle"
+            android:text="  other  "
+            app:chipBackgroundColor="@color/chip_background_selector_2"
+            android:elevation="1dp"
+            android:fontFamily="@font/nunito_bold"
+            android:paddingHorizontal="10dp"
+            android:textAlignment="center"
+            />
+
+    </com.google.android.material.chip.ChipGroup>
+
+
+</RelativeLayout>

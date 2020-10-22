@@ -105,6 +105,20 @@
     </style>
 
 
+    <style name="AppTheme.WhiteAccent">
+        <item name="colorAccent">#218D87</item> <!-- Whatever color you want-->
+    </style>
+
+        <style name="ChipCustomStyle" parent="Widget.MaterialComponents.Chip.Filter">
+            <item name="fontFamily">@font/nunito_bold</item>
+            <item name="chipBackgroundColor">@color/chip_background_selector_2</item>
+            <item name="android:textColor">@color/chip_text_selector_2</item>
+            <item name="checkedIconTint">#252525</item>
+            <item name="rippleColor">#feeac5</item>
+
+    </style>
+
+
 
 
 </resources>
