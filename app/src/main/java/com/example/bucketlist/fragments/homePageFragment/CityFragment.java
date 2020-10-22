@@ -21,6 +21,7 @@ import com.bumptech.glide.load.model.Model;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.bucketlist.AddNewCity;
+import com.example.bucketlist.AddNewPost;
 import com.example.bucketlist.R;
 import com.example.bucketlist.adapters.CustomAdapter;
 import com.example.bucketlist.model.CityModel;
@@ -34,7 +35,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
     private View view;
     ArrayList<CityModel> arrayList;
     RecyclerView recyclerView;
-    TextView createCity;
+    TextView createCity,activity;
     int images[] = {R.drawable.athens,R.drawable.colombo,R.drawable.london,R.drawable.pisa};
     String cityName[] = {"Athens", "Colombo", "London", "Pisa"};
 
@@ -43,6 +44,8 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
        view= inflater.inflate(R.layout.fragment_city,container,false);
        createCity = view.findViewById(R.id.city);
+        activity = view.findViewById(R.id.activity);
+        activity.setOnClickListener(this);
        createCity.setOnClickListener(this);
 
        ImageSlider imageSlider= (ImageSlider)view.findViewById(R.id.slider);
@@ -79,6 +82,11 @@ public class CityFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         if (v.getId() == R.id.city){
             Intent i = new Intent(getContext(), AddNewCity.class);
+            startActivity(i);
+        }
+
+        if (v.getId() == R.id.activity){
+            Intent i = new Intent(getContext(), AddNewPost.class);
             startActivity(i);
         }
     }

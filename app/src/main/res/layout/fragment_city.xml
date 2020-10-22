@@ -15,6 +15,7 @@
         app:corner_radius="5"
         app:delay="0"
         app:period="1000"
+        android:scrollIndicators="none"
         app:placeholder="@drawable/grey_bg"
         app:error_image="@drawable/grey_bg"
         tools:ignore="MissingClass"
@@ -68,5 +69,14 @@
         android:text="CREATE"
         android:textSize="30dp"
         android:textAlignment="textEnd"/>
+
+    <TextView
+        android:id="@+id/activity"
+        android:layout_width="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_height="wrap_content"
+        android:text="CREATE activity"
+        android:textSize="30dp"
+        android:textAlignment="textStart"/>
 
 </LinearLayout>
