@@ -26,7 +26,6 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
     EditText titleText, descriptionText, locationText;
     ChipGroup chipGroup;
     Context context;
-    AddNewPost addNewPost;
     FirebaseFirestore firestore;
     boolean empty = false;
 
