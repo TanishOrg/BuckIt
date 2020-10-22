@@ -22,6 +22,7 @@
            />
 
         <TextView
+            android:id="@+id/postButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18dp"
@@ -85,25 +86,11 @@
         android:layout_below="@id/descriptionText"
         android:layout_marginTop="16dp"
         android:layout_marginHorizontal="20dp"
-        android:hint="Title"
-        android:text="New Delhi, India"
+        android:hint="Enter city"
         android:textSize="16dp"
         android:fontFamily="@font/nunito_bold"
         android:background="@drawable/edit_text_background"
         android:padding="16dp"/>
-
-    <TextView
-        android:id="@+id/locationchangetext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/location"
-        android:layout_marginTop="5dp"
-        android:text="change location"
-        android:fontFamily="@font/nunito_bold"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="23dp"
-        android:textSize="16dp"
-        android:textColor="@color/greenishcolor"/>
 
     <TextView
         android:id="@+id/chooseCategory"
@@ -112,11 +99,12 @@
     android:text="Choose category"
     android:layout_marginLeft="23dp"
     android:textSize="18dp"
-        android:layout_below="@id/locationchangetext"
+        android:layout_below="@id/location"
         android:layout_marginTop="20dp"
     android:fontFamily="@font/nunito_bold"/>
 
     <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/chooseCategory"
@@ -134,7 +122,7 @@
             style="@style/ChipCustomStyle"
             android:text="adventure"
             app:chipBackgroundColor="@color/chip_background_selector_2"
-            android:elevation="1dp"
+
             android:fontFamily="@font/nunito_bold"
             android:paddingHorizontal="10dp"
             android:textAlignment="center"
@@ -148,7 +136,7 @@
             style="@style/ChipCustomStyle"
             android:text="  travel  "
             app:chipBackgroundColor="@color/chip_background_selector_2"
-            android:elevation="1dp"
+
             android:fontFamily="@font/nunito_bold"
             android:paddingHorizontal="10dp"
             android:textAlignment="center"
@@ -162,7 +150,7 @@
             style="@style/ChipCustomStyle"
             android:text="  food  "
             app:chipBackgroundColor="@color/chip_background_selector_2"
-            android:elevation="1dp"
+
             android:fontFamily="@font/nunito_bold"
             android:paddingHorizontal="10dp"
             android:textAlignment="center"
@@ -176,7 +164,7 @@
             style="@style/ChipCustomStyle"
             android:text="  career  "
             app:chipBackgroundColor="@color/chip_background_selector_2"
-            android:elevation="1dp"
+
             android:fontFamily="@font/nunito_bold"
             android:paddingHorizontal="10dp"
             android:textAlignment="center"
@@ -190,7 +178,7 @@
             style="@style/ChipCustomStyle"
             android:text="health"
             app:chipBackgroundColor="@color/chip_background_selector_2"
-            android:elevation="1dp"
+
             android:fontFamily="@font/nunito_bold"
             android:paddingHorizontal="10dp"
             android:textAlignment="center"
@@ -204,7 +192,7 @@
             style="@style/ChipCustomStyle"
             android:text="financial"
             app:chipBackgroundColor="@color/chip_background_selector_2"
-            android:elevation="1dp"
+
             android:fontFamily="@font/nunito_bold"
             android:paddingHorizontal="10dp"
             android:textAlignment="center"
@@ -220,7 +208,7 @@
             style="@style/ChipCustomStyle"
             android:text="learning"
             app:chipBackgroundColor="@color/chip_background_selector_2"
-            android:elevation="1dp"
+
             android:fontFamily="@font/nunito_bold"
             android:paddingHorizontal="10dp"
             android:textAlignment="center"
@@ -235,7 +223,7 @@
             style="@style/ChipCustomStyle"
             android:text="relationship"
             app:chipBackgroundColor="@color/chip_background_selector_2"
-            android:elevation="1dp"
+
             android:fontFamily="@font/nunito_bold"
             android:paddingHorizontal="10dp"
             android:textAlignment="center"
@@ -249,7 +237,7 @@
             style="@style/ChipCustomStyle"
             android:text="  other  "
             app:chipBackgroundColor="@color/chip_background_selector_2"
-            android:elevation="1dp"
+
             android:fontFamily="@font/nunito_bold"
             android:paddingHorizontal="10dp"
             android:textAlignment="center"
