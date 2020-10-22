@@ -25,7 +25,7 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
     TextView postButton;
     EditText titleText, descriptionText, locationText;
     ChipGroup chipGroup;
-    Context context;
+
     FirebaseFirestore firestore;
     boolean empty = false;
 
@@ -63,8 +63,8 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.backButton){
-            Toast.makeText(context, "back", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(context,HomeActivity.class);
+            Toast.makeText(getApplicationContext(), "back", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(getApplicationContext(),HomeActivity.class);
             startActivity(i);
 
         }
@@ -73,8 +73,8 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
                 Snackbar.make(view,"Please fill all the fields",Snackbar.LENGTH_LONG).show();
             }
             else{
-                Toast.makeText(context, "Post shared", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(context,HomeActivity.class);
+                Toast.makeText(getApplicationContext(), "Post shared", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getApplicationContext(),HomeActivity.class);
                 startActivity(i);
             }
         }
