@@ -1,82 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-
+    android:theme="@style/CustomTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <com.denzcoskun.imageslider.ImageSlider
-        android:id="@+id/slider"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="450dp"
-        app:auto_cycle="false"
-        app:corner_radius="5"
-        app:delay="0"
-        app:period="1000"
-        android:scrollIndicators="none"
-        app:placeholder="@drawable/grey_bg"
-        app:error_image="@drawable/grey_bg"
-        tools:ignore="MissingClass"
-        >
+        android:layout_height="450dp">
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="@color/colorwhite"
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
+            <com.denzcoskun.imageslider.ImageSlider
+                android:id="@+id/slider"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                app:auto_cycle="false"
+                app:corner_radius="5"
+                app:delay="0"
+                android:background="@color/greenishcolor"
+                app:period="1000"
+                android:scrollIndicators="none"
+                app:placeholder="@drawable/grey_bg"
+                app:error_image="@drawable/grey_bg"
+                >
+            </com.denzcoskun.imageslider.ImageSlider>
 
-        <EditText
-            android:id="@+id/search_city"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:elevation="20dp"
+                android:layout_marginTop="24dp"
+                app:layout_collapseMode="pin"
+                android:theme="@style/ThemeOverlay.MaterialComponents.Light"
+                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light">
+
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Search city"
-            android:paddingStart="26dp"
-            android:padding="16dp"
+            android:orientation="vertical">
 
-            android:fontFamily="@font/nunito_bold"
-            android:textSize="16dp"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="55dp"
-            android:backgroundTint="#B7FFFFFF"
-            android:background="@drawable/searchbackground"/>
-
-    </com.denzcoskun.imageslider.ImageSlider>
-
-    <TextView
-        android:id="@+id/textTrending"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Trending"
-        android:textSize="16dp"
-        android:gravity="center|start"
-        android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="16dp"
-        android:fontFamily="@font/nunito_bold"
-        android:paddingTop="5dp"
+            <TextView
+                android:id="@+id/textTrending"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Trending"
+                android:textSize="18dp"
+                android:gravity="center|start"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="16dp"
+                android:fontFamily="@font/nunito_bold"
+                android:paddingTop="5dp"
 
 
-        android:textColor="#1B1B1B"/>
+                android:textColor="#1B1B1B"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_marginTop="3dp"
-        android:layout_height="wrap_content" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_marginTop="3dp"
+                android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/city"
-        android:layout_width="match_parent"
-        android:layout_marginHorizontal="10dp"
-        android:layout_height="wrap_content"
-        android:text="CREATE"
-        android:textSize="30dp"
-        android:textAlignment="textEnd"/>
+            <TextView
+                android:id="@+id/city"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:layout_height="wrap_content"
+                android:text="CREATE"
+                android:textSize="30dp"
+                android:textAlignment="textEnd"/>
 
-    <TextView
-        android:id="@+id/activity"
-        android:layout_width="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_height="wrap_content"
-        android:text="CREATE activity"
-        android:textSize="30dp"
-        android:textAlignment="textStart"/>
+            <TextView
+                android:id="@+id/activity"
+                android:layout_width="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_height="wrap_content"
+                android:text="CREATE activity"
+                android:textSize="30dp"
+                android:layout_alignParentBottom="true"
+                android:textAlignment="textStart"/>
 
-</LinearLayout>
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1500dp"-->
+<!--                android:background="@color/greenishcolor"/>-->
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
