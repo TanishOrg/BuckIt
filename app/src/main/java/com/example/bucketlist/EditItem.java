@@ -90,7 +90,6 @@ public abstract class EditItem
        bottomSheetDialog.setContentView(R.layout.edit_item_bottom_sheet);
        cancelEditButton = bottomSheetDialog.findViewById(R.id.cancelEditButton);
        doneEditButton = bottomSheetDialog.findViewById(R.id.doneEditButton);
-
        nameEditText = bottomSheetDialog.findViewById(R.id.nameEditText);
 //       Log.d(TAG, "initializeUi: " + nameEditText != null ? nameEditText.toString():"Error");
        discriptionEditText = bottomSheetDialog.findViewById(R.id.discriptionEditText);
