@@ -1,0 +1,102 @@
+Index: app/src/main/res/layout/fragment_city.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:theme=\"@style/CustomTheme\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\">\r\n    <com.google.android.material.appbar.AppBarLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"450dp\">\r\n        <com.google.android.material.appbar.CollapsingToolbarLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            app:contentScrim=\"@color/colorwhite\"\r\n            android:fitsSystemWindows=\"true\"\r\n            app:layout_scrollFlags=\"scroll|snap|exitUntilCollapsed\">\r\n\r\n            <com.denzcoskun.imageslider.ImageSlider\r\n                android:id=\"@+id/slider\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"450dp\"\r\n                app:auto_cycle=\"false\"\r\n                app:corner_radius=\"5\"\r\n                app:delay=\"0\"\r\n                android:background=\"@color/greenishcolor\"\r\n                app:period=\"1000\"\r\n                android:scrollIndicators=\"none\"\r\n                app:placeholder=\"@drawable/grey_bg\"\r\n                app:error_image=\"@drawable/grey_bg\"\r\n                >\r\n            </com.denzcoskun.imageslider.ImageSlider>\r\n\r\n            <androidx.appcompat.widget.Toolbar\r\n                android:id=\"@+id/toolBar\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"?attr/actionBarSize\"\r\n                android:elevation=\"20dp\"\r\n                android:layout_marginTop=\"24dp\"\r\n                app:layout_collapseMode=\"pin\"\r\n                android:theme=\"@style/ThemeOverlay.MaterialComponents.Light\"\r\n                app:popupTheme=\"@style/ThemeOverlay.MaterialComponents.Light\">\r\n\r\n            </androidx.appcompat.widget.Toolbar>\r\n        </com.google.android.material.appbar.CollapsingToolbarLayout>\r\n    </com.google.android.material.appbar.AppBarLayout>\r\n\r\n    <androidx.core.widget.NestedScrollView\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        app:layout_behavior=\"com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior\">\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:orientation=\"vertical\">\r\n\r\n            <TextView\r\n                android:id=\"@+id/textTrending\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"Trending\"\r\n                android:textSize=\"18dp\"\r\n                android:gravity=\"center|start\"\r\n                android:layout_marginTop=\"10dp\"\r\n                android:layout_marginHorizontal=\"16dp\"\r\n                android:fontFamily=\"@font/nunito_bold\"\r\n                android:paddingTop=\"5dp\"\r\n\r\n\r\n                android:textColor=\"#1B1B1B\"/>\r\n\r\n            <androidx.recyclerview.widget.RecyclerView\r\n                android:id=\"@+id/recycler_view\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_marginTop=\"3dp\"\r\n                android:layout_height=\"wrap_content\" />\r\n\r\n            <TextView\r\n                android:id=\"@+id/city\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_marginHorizontal=\"10dp\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"CREATE\"\r\n                android:textSize=\"30dp\"\r\n                android:textAlignment=\"textEnd\"/>\r\n\r\n            <TextView\r\n                android:id=\"@+id/activity\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_marginHorizontal=\"10dp\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"CREATE activity\"\r\n                android:textSize=\"30dp\"\r\n                android:layout_alignParentBottom=\"true\"\r\n                android:textAlignment=\"textStart\"/>\r\n\r\n<!--            <androidx.recyclerview.widget.RecyclerView-->\r\n<!--                android:layout_width=\"match_parent\"-->\r\n<!--                android:layout_height=\"1500dp\"-->\r\n<!--                android:background=\"@color/greenishcolor\"/>-->\r\n        </LinearLayout>\r\n\r\n    </androidx.core.widget.NestedScrollView>\r\n</androidx.coordinatorlayout.widget.CoordinatorLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_city.xml	(revision 83ea4c502e8655dafd19af5ee681f878b06a87c7)
++++ app/src/main/res/layout/fragment_city.xml	(date 1603438740124)
+@@ -29,23 +29,31 @@
+                 >
+             </com.denzcoskun.imageslider.ImageSlider>
+ 
+-            <androidx.appcompat.widget.Toolbar
+-                android:id="@+id/toolBar"
+-                android:layout_width="match_parent"
+-                android:layout_height="?attr/actionBarSize"
+-                android:elevation="20dp"
+-                android:layout_marginTop="24dp"
+-                app:layout_collapseMode="pin"
+-                android:theme="@style/ThemeOverlay.MaterialComponents.Light"
+-                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light">
++
+ 
+-            </androidx.appcompat.widget.Toolbar>
++<!--            <androidx.appcompat.widget.Toolbar-->
++<!--                android:id="@+id/toolBar"-->
++<!--                android:layout_width="match_parent"-->
++<!--                android:layout_height="?attr/actionBarSize"-->
++<!--                android:elevation="20dp"-->
++<!--                android:layout_marginTop="24dp"-->
++<!--                app:layout_collapseMode="pin"-->
++<!--                android:theme="@style/ThemeOverlay.MaterialComponents.Light"-->
++<!--                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light">-->
++
++<!--               -->
++
++<!--            </androidx.appcompat.widget.Toolbar>-->
+         </com.google.android.material.appbar.CollapsingToolbarLayout>
++
+     </com.google.android.material.appbar.AppBarLayout>
+ 
++
++
+     <androidx.core.widget.NestedScrollView
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
++
+         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+ 
+         <LinearLayout
+@@ -71,8 +79,8 @@
+             <androidx.recyclerview.widget.RecyclerView
+                 android:id="@+id/recycler_view"
+                 android:layout_width="match_parent"
+-                android:layout_marginTop="3dp"
+-                android:layout_height="wrap_content" />
++                android:layout_height="wrap_content"
++                android:layout_marginTop="3dp" />
+ 
+             <TextView
+                 android:id="@+id/city"
+@@ -100,4 +108,16 @@
+         </LinearLayout>
+ 
+     </androidx.core.widget.NestedScrollView>
++
++    <SearchView
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:background="@color/white"
++        android:layout_gravity="top|right"
++        android:layout_marginTop="34dp"
++
++
++        android:elevation="2dp"
++        app:layout_collapseMode="pin"
++        android:layout_marginHorizontal="10dp" />
+ </androidx.coordinatorlayout.widget.CoordinatorLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/bucketlist/AddNewPost.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.bucketlist;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport android.content.Context;\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.widget.EditText;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport com.google.android.material.chip.ChipGroup;\r\nimport com.google.android.material.snackbar.Snackbar;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\nimport com.google.firebase.auth.FirebaseUser;\r\nimport com.google.firebase.firestore.FirebaseFirestore;\r\n\r\npublic class AddNewPost extends AppCompatActivity implements View.OnClickListener {\r\n\r\n    FirebaseAuth mAuth;\r\n    FirebaseUser user;\r\n    ImageView backButton;\r\n    TextView postButton;\r\n    EditText titleText, descriptionText, locationText;\r\n    ChipGroup chipGroup;\r\n\r\n    FirebaseFirestore firestore;\r\n    boolean empty = false;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.add_new_post);\r\n\r\n\r\n\r\n        initialize();\r\n\r\n\r\n\r\n    }\r\n\r\n    private void initialize(){\r\n\r\n        mAuth = FirebaseAuth.getInstance();\r\n        user = mAuth.getCurrentUser();\r\n        firestore = FirebaseFirestore.getInstance();\r\n\r\n        backButton = findViewById(R.id.backButton);\r\n        postButton = findViewById(R.id.postButton);\r\n        titleText = findViewById(R.id.titleText);\r\n        descriptionText = findViewById(R.id.descriptionText);\r\n        locationText = findViewById(R.id.location);\r\n        chipGroup = findViewById(R.id.chipGroup);\r\n\r\n        backButton.setOnClickListener(this);\r\n        postButton.setOnClickListener(this);\r\n\r\n    }\r\n\r\n    @Override\r\n    public void onClick(View view) {\r\n        if (view.getId() == R.id.backButton){\r\n            Toast.makeText(getApplicationContext(), \"back\", Toast.LENGTH_SHORT).show();\r\n            Intent i = new Intent(getApplicationContext(),HomeActivity.class);\r\n            startActivity(i);\r\n\r\n        }\r\n        else if (view.getId() == R.id.postButton){\r\n            if (checkEmptyField(empty)){\r\n                Snackbar.make(view,\"Please fill all the fields\",Snackbar.LENGTH_LONG).show();\r\n            }\r\n            else{\r\n                Toast.makeText(getApplicationContext(), \"Post shared\", Toast.LENGTH_SHORT).show();\r\n                Intent i = new Intent(getApplicationContext(),HomeActivity.class);\r\n                startActivity(i);\r\n            }\r\n        }\r\n    }\r\n\r\n    private boolean checkEmptyField(boolean empty ){\r\n        if (titleText.getText().toString().isEmpty()||\r\n                descriptionText.getText().toString().isEmpty()||\r\n                locationText.getText().toString().isEmpty()){\r\n\r\n            empty = true;\r\n\r\n        }\r\n        return empty;\r\n    }\r\n\r\n\r\n\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/bucketlist/AddNewPost.java	(revision 83ea4c502e8655dafd19af5ee681f878b06a87c7)
++++ app/src/main/java/com/example/bucketlist/AddNewPost.java	(date 1603433214069)
+@@ -34,12 +34,8 @@
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.add_new_post);
+ 
+-
+-
+         initialize();
+ 
+-
+-
+     }
+ 
+     private void initialize(){

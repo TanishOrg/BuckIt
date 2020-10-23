@@ -10,32 +10,35 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.bucketlist.R;
 import com.example.bucketlist.model.CityModel;
 
-import java.text.BreakIterator;
 import java.util.ArrayList;
+import java.util.List;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.viewHolder> {
+public class RecyclerAdapterTrendingCard extends RecyclerView.Adapter<RecyclerAdapterTrendingCard.viewHolder> {
 
     Context context;
-    ArrayList<CityModel> arrayList;
+    List<CityModel> arrayList;
 
-    public CustomAdapter(Context context, ArrayList<CityModel> arrayList) {
+    public RecyclerAdapterTrendingCard(Context context, List<CityModel> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
     }
 
     @Override
-    public  CustomAdapter.viewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.city_item, viewGroup, false);
+    public  RecyclerAdapterTrendingCard.viewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(context).inflate(R.layout.mainpagecity_item, viewGroup, false);
         return new viewHolder(view);
     }
     @Override
-    public  void onBindViewHolder(CustomAdapter.viewHolder viewHolder,int position) {
+    public  void onBindViewHolder(RecyclerAdapterTrendingCard.viewHolder viewHolder, int position) {
         viewHolder.city_name.setText(arrayList.get(position).getCity());
+        viewHolder.country_name.setText(arrayList.get(position).getCountry());
         Log.d("name",viewHolder.city_name.getText().toString());
-        viewHolder.imageView.setImageResource(arrayList.get(position).getImage());
+        Glide.with(context).load(arrayList.get(position).getImage()).into(viewHolder.imageView);
+
 
     }
 
@@ -46,12 +49,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.viewHolder
 
     public class viewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView city_name;
+        TextView city_name,country_name;
 
         public viewHolder(View itemView) {
             super(itemView);
+
+
             imageView = itemView.findViewById(R.id.imageCity);
             city_name = itemView.findViewById(R.id.city_name);
+            country_name = itemView.findViewById(R.id.county_name);
 
         }
     }
