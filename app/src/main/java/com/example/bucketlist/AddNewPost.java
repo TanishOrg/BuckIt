@@ -206,4 +206,9 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
         });
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        availableLocation.clear();
+    }
 }
