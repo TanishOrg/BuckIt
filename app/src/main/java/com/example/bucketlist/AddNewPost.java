@@ -140,6 +140,7 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
         Log.d(TAG, "postToFirebase: " + data.toHashMap().toString());
 //        Log.d(TAG, "postToFirebase: " + chipGroup.getCheckedChipIds().toString());
         final DocumentReference userActivity = firestore.collection("Users").document(user.getUid()).collection("activities").document();
+
         final DocumentReference documentReference = firestore.collection("Cities").document(data.getLocation()).collection("activities").document();
         userActivity.set(data.toHashMap()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

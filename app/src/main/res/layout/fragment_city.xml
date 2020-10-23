@@ -1,33 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/CustomTheme"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    >
+
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:background="@null"
         android:layout_width="match_parent"
-        android:layout_height="450dp">
+        android:layout_height="wrap_content"
+        >
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolBar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:contentScrim="@color/colorwhite"
             android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
-            <com.denzcoskun.imageslider.ImageSlider
-                android:id="@+id/slider"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+            android:theme="@style/ThemeOverlay.MaterialComponents.Light">
+
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="450dp"
-                app:auto_cycle="false"
-                app:corner_radius="5"
-                app:delay="0"
-                android:background="@color/greenishcolor"
-                app:period="1000"
-                android:scrollIndicators="none"
-                app:placeholder="@drawable/grey_bg"
-                app:error_image="@drawable/grey_bg"
-                >
-            </com.denzcoskun.imageslider.ImageSlider>
+                android:layout_height="match_parent">
+
+
+
+                <TextView
+                    android:id="@+id/pagetitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Share your\nexperience with\nwhole world"
+                    android:textSize="30dp"
+                    android:fontFamily="@font/nunito_bold"
+                    android:layout_marginTop="80dp"
+
+                    android:layout_marginHorizontal="20dp"/>
+
+                <SearchView
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_below="@id/pagetitle"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/edit_text_background"
+                    android:backgroundTint="#EAEAEA"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="150dp"
+                    android:layout_marginLeft="20dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_below="@id/pagetitle"
+                    android:layout_alignParentRight="true"
+                    android:text="Create"
+                    android:textSize="18dp"
+                    android:fontFamily="@font/nunito_bold"
+                    android:gravity="center"
+                    android:paddingHorizontal="30dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/edit_text_background"/>
+
+            </RelativeLayout>
+
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolBar"
@@ -39,28 +79,59 @@
                 android:theme="@style/ThemeOverlay.MaterialComponents.Light"
                 app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light">
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_round_menu_24"
+                    app:tint="@color/blackcolor"
+                    android:padding="4dp"
+                    android:layout_marginLeft="14dp"/>
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/ic_edit"
+                    app:tint="@color/blackcolor"
+                    android:padding="4dp"
+                    android:layout_marginLeft="14dp"/>
+
+
             </androidx.appcompat.widget.Toolbar>
+
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
+
+           <androidx.viewpager.widget.ViewPager
+               android:id="@+id/viewPager"
+               android:layout_width="match_parent"
+               android:layout_height="490dp"
+               android:layout_weight="1"
+               android:layout_marginTop="20dp"
+               android:overScrollMode="ifContentScrolls"
+               android:clipToPadding="false"
+               />
+
 
             <TextView
                 android:id="@+id/textTrending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Trending"
-                android:textSize="18dp"
+                android:textSize="20dp"
                 android:gravity="center|start"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="35dp"
                 android:layout_marginHorizontal="16dp"
                 android:fontFamily="@font/nunito_bold"
                 android:paddingTop="5dp"
@@ -71,8 +142,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_marginTop="3dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp" />
 
             <TextView
                 android:id="@+id/city"
@@ -93,11 +164,12 @@
                 android:layout_alignParentBottom="true"
                 android:textAlignment="textStart"/>
 
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="1500dp"-->
-<!--                android:background="@color/greenishcolor"/>-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="1500dp"/>
         </LinearLayout>
 
+
     </androidx.core.widget.NestedScrollView>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout>
