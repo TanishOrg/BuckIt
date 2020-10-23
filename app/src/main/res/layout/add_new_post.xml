@@ -78,7 +78,7 @@
         android:background="@drawable/edit_text_background"
         android:padding="16dp"/>
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -86,6 +86,7 @@
         android:layout_below="@id/descriptionText"
         android:layout_marginTop="16dp"
         android:layout_marginHorizontal="20dp"
+        android:completionThreshold="0"
         android:hint="Enter city"
         android:textSize="16dp"
         android:fontFamily="@font/nunito_bold"
@@ -120,7 +121,7 @@
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             style="@style/ChipCustomStyle"
-            android:text="adventure"
+            android:text="Adventure"
             app:chipBackgroundColor="@color/chip_background_selector_2"
 
             android:fontFamily="@font/nunito_bold"
@@ -134,7 +135,7 @@
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             style="@style/ChipCustomStyle"
-            android:text="  travel  "
+            android:text="  Travel  "
             app:chipBackgroundColor="@color/chip_background_selector_2"
 
             android:fontFamily="@font/nunito_bold"
@@ -148,7 +149,7 @@
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             style="@style/ChipCustomStyle"
-            android:text="  food  "
+            android:text="  Food  "
             app:chipBackgroundColor="@color/chip_background_selector_2"
 
             android:fontFamily="@font/nunito_bold"
@@ -162,7 +163,7 @@
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             style="@style/ChipCustomStyle"
-            android:text="  career  "
+            android:text="  Career  "
             app:chipBackgroundColor="@color/chip_background_selector_2"
 
             android:fontFamily="@font/nunito_bold"
@@ -176,7 +177,7 @@
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             style="@style/ChipCustomStyle"
-            android:text="health"
+            android:text="Health"
             app:chipBackgroundColor="@color/chip_background_selector_2"
 
             android:fontFamily="@font/nunito_bold"
@@ -190,7 +191,7 @@
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             style="@style/ChipCustomStyle"
-            android:text="financial"
+            android:text="Financial"
             app:chipBackgroundColor="@color/chip_background_selector_2"
 
             android:fontFamily="@font/nunito_bold"
@@ -206,7 +207,7 @@
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             style="@style/ChipCustomStyle"
-            android:text="learning"
+            android:text="Learning"
             app:chipBackgroundColor="@color/chip_background_selector_2"
 
             android:fontFamily="@font/nunito_bold"
@@ -221,7 +222,7 @@
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             style="@style/ChipCustomStyle"
-            android:text="relationship"
+            android:text="Relationship"
             app:chipBackgroundColor="@color/chip_background_selector_2"
 
             android:fontFamily="@font/nunito_bold"
@@ -235,7 +236,7 @@
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             style="@style/ChipCustomStyle"
-            android:text="  other  "
+            android:text="  Other  "
             app:chipBackgroundColor="@color/chip_background_selector_2"
 
             android:fontFamily="@font/nunito_bold"
