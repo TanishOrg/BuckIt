@@ -14,6 +14,7 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
 import com.example.bucketlist.R;
+import com.example.bucketlist.fragments.homePageFragment.CityFragment;
 import com.example.bucketlist.model.TrendingCardModel;
 
 import java.util.ArrayList;
@@ -56,6 +57,8 @@ public class PageAdapterTrendingCard extends PagerAdapter {
         Glide.with(context).load(imageUrl).into(backgroundImage);
         city.setText(cityName);
         country.setText(countryName);
+
+
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

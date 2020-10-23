@@ -2,6 +2,7 @@ package com.example.bucketlist.fragments.homePageFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class CityFragment extends Fragment implements View.OnClickListener {
@@ -47,6 +50,11 @@ public class CityFragment extends Fragment implements View.OnClickListener {
     private List<TrendingCardModel> trendingCardModelList;
     TextView createCity,activity;
 
+
+    int currentPage = 0;
+    Timer timer;
+    final long DELAY_MS = 500;
+    final long PERIOD_MS = 3000;
 
     RecyclerAdapterTrendingCard recyclerAdapterTrendingCard;
     List<CityModel> arrayList;
@@ -68,6 +76,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
         recyclerView =  view.findViewById(R.id.recycler_view);
 
         trendingCardDataLoading();
+        autoScroll();
 
 
 
@@ -140,6 +149,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
         viewPager.setAdapter(pageAdapterTrendingCard);
         viewPager.setPadding(150,0,150,0);
 
+
     }
 
     public void trendingbottomCardDataLoading(){
@@ -183,5 +193,26 @@ public class CityFragment extends Fragment implements View.OnClickListener {
         recyclerView.setAdapter(recyclerAdapterTrendingCard);
 //        viewPager.setPadding(50,0,50,0);
 
+    }
+
+    public void autoScroll(){
+        final Handler handler = new Handler();
+        final Runnable Update = new Runnable() {
+            public void run() {
+
+                if (currentPage == arrayList.size()) {
+                    currentPage = 0;
+                }
+                viewPager.setCurrentItem(currentPage++, true);
+            }
+        };
+
+        timer = new Timer(); // This will create a new Thread
+        timer.schedule(new TimerTask() { // task to be scheduled
+            @Override
+            public void run() {
+                handler.post(Update);
+            }
+        }, DELAY_MS, PERIOD_MS);
     }
 }
