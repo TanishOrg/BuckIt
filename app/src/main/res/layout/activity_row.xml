@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:maxHeight="180dp"
+    android:minHeight="170dp"
+    android:layout_marginBottom="15dp"
+    android:layout_marginTop="25dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:clickable="true"
+        app:cardBackgroundColor="@null"
+        app:cardCornerRadius="30dp">
+
+        <RelativeLayout
+            android:layout_width="55dp"
+            android:layout_height="172dp"
+            android:background="@color/lightgray">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/like">
+
+            </ImageView>
+
+            <TextView
+                android:id="@+id/total"
+                android:layout_width="30dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="70dp"
+                android:text="2K+"
+                android:textSize="15dp"
+                android:gravity="center"/>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="100dp"
+                android:src="@drawable/dislike">
+
+            </ImageView>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginLeft="55dp"
+            android:layout_marginTop="5dp">
+
+
+            <TextView
+                android:id="@+id/city_row"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:textSize="15dp"
+                android:text="London ."
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:fontFamily="@font/roboto_italic"/>
+
+            <TextView
+                android:id="@+id/posted_by"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:text="Posted by Taniya"
+                android:textSize="15dp"
+                android:layout_marginLeft="70dp"
+                android:gravity="center"
+                android:fontFamily="@font/roboto_italic"/>
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:text="11:11"
+                android:textSize="15dp"
+                android:layout_marginLeft="300dp"
+                android:gravity="center"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="330dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="55dp"
+            android:layout_marginTop="35dp">
+
+
+            <TextView
+                android:id="@+id/activityDescription"
+                android:layout_width="329dp"
+                android:layout_height="100dp"
+                android:text="If you just came in relationship,the best place for your date in Delhi will be Hauz Khas."
+                android:textSize="20dp"
+                android:paddingLeft="10dp"
+                android:textColor="@color/blackcolor"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="55dp"
+            android:layout_marginTop="138dp">
+
+            <TextView
+                android:id="@+id/comments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100 comments"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"/>
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>
