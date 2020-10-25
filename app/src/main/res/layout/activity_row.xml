@@ -65,7 +65,7 @@
                 android:text="London ."
                 android:layout_marginLeft="10dp"
                 android:gravity="center"
-                android:fontFamily="@font/roboto_italic"/>
+                android:fontFamily="@font/nunito_semibold"/>
 
             <TextView
                 android:id="@+id/posted_by"
