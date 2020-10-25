@@ -53,6 +53,7 @@
                     android:layout_marginLeft="20dp"/>
 
                 <TextView
+                    android:id="@+id/city"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
                     android:layout_below="@id/pagetitle"
@@ -89,11 +90,12 @@
 
                 <ImageView
                     android:layout_width="36dp"
+                    android:id="@+id/activity"
                     android:layout_height="36dp"
                     android:src="@drawable/ic_edit"
                     app:tint="@color/blackcolor"
                     android:padding="4dp"
-                    android:layout_marginLeft="14dp"/>
+                    android:layout_marginLeft="320dp"/>
 
 
             </androidx.appcompat.widget.Toolbar>
@@ -146,24 +148,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="9dp" />
 
-            <TextView
-                android:id="@+id/city"
-                android:layout_width="match_parent"
-                android:layout_marginHorizontal="10dp"
-                android:layout_height="wrap_content"
-                android:text="CREATE"
-                android:textSize="30dp"
-                android:textAlignment="textEnd"/>
+<!--            <TextView-->
+<!--                android:id="@+id/city"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_marginHorizontal="10dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="CREATE"-->
+<!--                android:textSize="30dp"-->
+<!--                android:textAlignment="textEnd"/>-->
 
-            <TextView
-                android:id="@+id/activity"
-                android:layout_width="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_height="wrap_content"
-                android:text="CREATE activity"
-                android:textSize="30dp"
-                android:layout_alignParentBottom="true"
-                android:textAlignment="textStart"/>
+<!--            <TextView-->
+<!--                android:id="@+id/activity"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_marginHorizontal="10dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="CREATE activity"-->
+<!--                android:textSize="30dp"-->
+<!--                android:layout_alignParentBottom="true"-->
+<!--                android:textAlignment="textStart"/>-->
 
             <RelativeLayout
                 android:layout_width="match_parent"

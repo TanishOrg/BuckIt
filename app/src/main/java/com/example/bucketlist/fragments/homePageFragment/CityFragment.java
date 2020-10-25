@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,7 +50,8 @@ public class CityFragment extends Fragment implements View.OnClickListener {
     FirebaseFirestore firestore;
     private PageAdapterTrendingCard pageAdapterTrendingCard;
     private List<TrendingCardModel> trendingCardModelList;
-    TextView createCity,activity;
+    TextView createCity;
+    ImageView activity;
 
 
     int currentPage = 0;
