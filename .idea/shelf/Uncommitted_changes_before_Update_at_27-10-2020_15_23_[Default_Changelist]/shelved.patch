@@ -1,0 +1,320 @@
+Index: app/src/main/java/com/example/bucketlist/fragments/homePageFragment/CityFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.bucketlist.fragments.homePageFragment;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.os.Handler;\r\nimport android.util.Log;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.fragment.app.Fragment;\r\nimport androidx.recyclerview.widget.DefaultItemAnimator;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\nimport androidx.viewpager.widget.ViewPager;\r\n\r\nimport com.example.bucketlist.AddNewCity;\r\nimport com.example.bucketlist.AddNewPost;\r\nimport com.example.bucketlist.R;\r\nimport com.example.bucketlist.adapters.RecyclerAdapterTrendingCard;\r\nimport com.example.bucketlist.adapters.PageAdapterTrendingCard;\r\nimport com.example.bucketlist.model.CityModel;\r\nimport com.example.bucketlist.model.TrendingCardModel;\r\nimport com.google.firebase.firestore.CollectionReference;\r\nimport com.google.firebase.firestore.DocumentReference;\r\nimport com.google.firebase.firestore.DocumentSnapshot;\r\nimport com.google.firebase.firestore.EventListener;\r\nimport com.google.firebase.firestore.FirebaseFirestore;\r\nimport com.google.firebase.firestore.FirebaseFirestoreException;\r\nimport com.google.firebase.firestore.QueryDocumentSnapshot;\r\nimport com.google.firebase.firestore.QuerySnapshot;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\nimport java.util.Timer;\r\nimport java.util.TimerTask;\r\n\r\n\r\npublic class CityFragment extends Fragment implements View.OnClickListener {\r\n\r\n    private View view;\r\n\r\n    RecyclerView recyclerView;\r\n    ViewPager viewPager;\r\n    FirebaseFirestore firestore;\r\n    private PageAdapterTrendingCard pageAdapterTrendingCard;\r\n    private List<TrendingCardModel> trendingCardModelList;\r\n    TextView createCity,activity;\r\n\r\n\r\n    int currentPage = 0;\r\n    Timer timer;\r\n    final long DELAY_MS = 500;\r\n    final long PERIOD_MS = 3000;\r\n\r\n    RecyclerAdapterTrendingCard recyclerAdapterTrendingCard;\r\n    List<CityModel> arrayList;\r\n    int images[] = {R.drawable.athens,R.drawable.colombo,R.drawable.london,R.drawable.pisa};\r\n    String cityName[] = {\"Athens\", \"Colombo\", \"London\", \"Pisa\"};\r\n\r\n\r\n    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {\r\n\r\n        view= inflater.inflate(R.layout.fragment_city,container,false);\r\n        createCity = view.findViewById(R.id.city);\r\n        activity = view.findViewById(R.id.activity);\r\n        viewPager = view.findViewById(R.id.viewPager);\r\n\r\n        firestore =FirebaseFirestore.getInstance();\r\n\r\n        activity.setOnClickListener(this);\r\n        createCity.setOnClickListener(this);\r\n        recyclerView =  view.findViewById(R.id.recycler_view);\r\n\r\n        trendingCardDataLoading();\r\n        autoScroll();\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));\r\n        recyclerView.setItemAnimator(new DefaultItemAnimator());\r\n\r\n        trendingbottomCardDataLoading();\r\n\r\n\r\n\r\n        return  view;\r\n    }\r\n\r\n    @Override\r\n    public void onClick(View v) {\r\n        if (v.getId() == R.id.city){\r\n            Intent i = new Intent(getContext(), AddNewCity.class);\r\n            startActivity(i);\r\n        }\r\n\r\n        if (v.getId() == R.id.activity){\r\n            Intent i = new Intent(getContext(), AddNewPost.class);\r\n            startActivity(i);\r\n        }\r\n    }\r\n\r\n    public void trendingCardDataLoading(){\r\n\r\n        trendingCardModelList = new ArrayList<>();\r\n\r\n        CollectionReference collectionReference = firestore.collection(\"Cities\");\r\n        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {\r\n            @Override\r\n            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {\r\n                if (error!=null){\r\n                        Log.d(\"Exception Failed\", \"onEvent: 0  \" + error);\r\n\r\n                }\r\n                else{\r\n                    for (QueryDocumentSnapshot snapshot : value){\r\n                        DocumentReference documentReference = firestore.collection(\"Cities\").document(snapshot.getId());\r\n                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {\r\n                            @Override\r\n                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {\r\n                                if (error!=null){\r\n                                    Log.d(\"Exception Failed\", \"onEvent: 0  \" + error);\r\n\r\n                                }\r\n                                else{\r\n                                    trendingCardModelList.add(new TrendingCardModel(value.getString(\"City Name\"),\r\n                                           value.getString(\"Country Name\"),\r\n                                            value.getString(\"City Background Image\")));\r\n                                    pageAdapterTrendingCard.notifyDataSetChanged();\r\n                                }\r\n\r\n                            }\r\n                        });\r\n\r\n                    }\r\n                }\r\n            }\r\n        });\r\n\r\n        pageAdapterTrendingCard = new PageAdapterTrendingCard(getContext(),trendingCardModelList);\r\n        viewPager.setAdapter(pageAdapterTrendingCard);\r\n        viewPager.setPadding(150,0,150,0);\r\n\r\n\r\n    }\r\n\r\n    public void trendingbottomCardDataLoading(){\r\n\r\n        arrayList = new ArrayList<>();\r\n\r\n        CollectionReference collectionReference = firestore.collection(\"Cities\");\r\n        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {\r\n            @Override\r\n            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {\r\n                if (error!=null){\r\n                    Log.d(\"Exception Failed\", \"onEvent: 0  \" + error);\r\n\r\n                }\r\n                else{\r\n                    for (QueryDocumentSnapshot snapshot : value){\r\n                        DocumentReference documentReference = firestore.collection(\"Cities\").document(snapshot.getId());\r\n                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {\r\n                            @Override\r\n                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {\r\n                                if (error!=null){\r\n                                    Log.d(\"Exception Failed\", \"onEvent: 0  \" + error);\r\n\r\n                                }\r\n                                else{\r\n                                    arrayList.add(new CityModel(value.getString(\"City Background Image\"),\r\n                                            value.getString(\"City Name\"),\r\n                                            value.getString(\"Country Name\")));\r\n                                    recyclerAdapterTrendingCard.notifyDataSetChanged();\r\n                                }\r\n\r\n                            }\r\n                        });\r\n\r\n                    }\r\n                }\r\n            }\r\n        });\r\n\r\n        recyclerAdapterTrendingCard = new RecyclerAdapterTrendingCard(getContext(),arrayList);\r\n        recyclerView.setAdapter(recyclerAdapterTrendingCard);\r\n//        viewPager.setPadding(50,0,50,0);\r\n\r\n    }\r\n\r\n    public void autoScroll(){\r\n        final Handler handler = new Handler();\r\n        final Runnable Update = new Runnable() {\r\n            public void run() {\r\n\r\n                if (currentPage == arrayList.size()) {\r\n                    currentPage = 0;\r\n                }\r\n                viewPager.setCurrentItem(currentPage++, true);\r\n            }\r\n        };\r\n\r\n        timer = new Timer(); // This will create a new Thread\r\n        timer.schedule(new TimerTask() { // task to be scheduled\r\n            @Override\r\n            public void run() {\r\n                handler.post(Update);\r\n            }\r\n        }, DELAY_MS, PERIOD_MS);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/bucketlist/fragments/homePageFragment/CityFragment.java	(revision af4f9146b4cffac36dc47151d1233c22606abb93)
++++ app/src/main/java/com/example/bucketlist/fragments/homePageFragment/CityFragment.java	(date 1603791375316)
+@@ -20,6 +20,7 @@
+ import com.example.bucketlist.AddNewCity;
+ import com.example.bucketlist.AddNewPost;
+ import com.example.bucketlist.R;
++import com.example.bucketlist.SeeMoreCities;
+ import com.example.bucketlist.adapters.RecyclerAdapterTrendingCard;
+ import com.example.bucketlist.adapters.PageAdapterTrendingCard;
+ import com.example.bucketlist.model.CityModel;
+@@ -48,7 +49,7 @@
+     FirebaseFirestore firestore;
+     private PageAdapterTrendingCard pageAdapterTrendingCard;
+     private List<TrendingCardModel> trendingCardModelList;
+-    TextView createCity,activity;
++    TextView createCity,activity,seemore;
+ 
+ 
+     int currentPage = 0;
+@@ -58,8 +59,6 @@
+ 
+     RecyclerAdapterTrendingCard recyclerAdapterTrendingCard;
+     List<CityModel> arrayList;
+-    int images[] = {R.drawable.athens,R.drawable.colombo,R.drawable.london,R.drawable.pisa};
+-    String cityName[] = {"Athens", "Colombo", "London", "Pisa"};
+ 
+ 
+     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+@@ -68,23 +67,19 @@
+         createCity = view.findViewById(R.id.city);
+         activity = view.findViewById(R.id.activity);
+         viewPager = view.findViewById(R.id.viewPager);
++        seemore = view.findViewById(R.id.seemore);
+ 
+         firestore =FirebaseFirestore.getInstance();
+ 
+         activity.setOnClickListener(this);
+         createCity.setOnClickListener(this);
++        seemore.setOnClickListener(this);
++
+         recyclerView =  view.findViewById(R.id.recycler_view);
+ 
+         trendingCardDataLoading();
+         autoScroll();
+ 
+-
+-
+-
+-
+-
+-
+-
+         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+         recyclerView.setItemAnimator(new DefaultItemAnimator());
+ 
+@@ -102,10 +97,15 @@
+             startActivity(i);
+         }
+ 
+-        if (v.getId() == R.id.activity){
++        else if (v.getId() == R.id.activity){
+             Intent i = new Intent(getContext(), AddNewPost.class);
+             startActivity(i);
+         }
++        else if (v.getId() == R.id.seemore){
++            Intent i = new Intent(getContext(), SeeMoreCities.class);
++            startActivity(i);
++        }
++
+     }
+ 
+     public void trendingCardDataLoading(){
+@@ -121,7 +121,7 @@
+ 
+                 }
+                 else{
+-                    for (QueryDocumentSnapshot snapshot : value){
++                    for (final QueryDocumentSnapshot snapshot : value){
+                         DocumentReference documentReference = firestore.collection("Cities").document(snapshot.getId());
+                         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                             @Override
+@@ -133,7 +133,7 @@
+                                 else{
+                                     trendingCardModelList.add(new TrendingCardModel(value.getString("City Name"),
+                                            value.getString("Country Name"),
+-                                            value.getString("City Background Image")));
++                                            value.getString("City Background Image"),snapshot.getId()));
+                                     pageAdapterTrendingCard.notifyDataSetChanged();
+                                 }
+ 
+@@ -165,7 +165,7 @@
+ 
+                 }
+                 else{
+-                    for (QueryDocumentSnapshot snapshot : value){
++                    for (final QueryDocumentSnapshot snapshot : value){
+                         DocumentReference documentReference = firestore.collection("Cities").document(snapshot.getId());
+                         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                             @Override
+@@ -177,7 +177,7 @@
+                                 else{
+                                     arrayList.add(new CityModel(value.getString("City Background Image"),
+                                             value.getString("City Name"),
+-                                            value.getString("Country Name")));
++                                            value.getString("Country Name"),snapshot.getId()));
+                                     recyclerAdapterTrendingCard.notifyDataSetChanged();
+                                 }
+ 
+Index: app/src/main/java/com/example/bucketlist/adapters/RecyclerAdapterSeemoreCities.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/bucketlist/adapters/RecyclerAdapterSeemoreCities.java	(date 1603791184907)
++++ app/src/main/java/com/example/bucketlist/adapters/RecyclerAdapterSeemoreCities.java	(date 1603791184907)
+@@ -0,0 +1,77 @@
++package com.example.bucketlist.adapters;
++
++import android.content.Context;
++import android.content.Intent;
++import android.util.Log;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.ImageView;
++import android.widget.TextView;
++
++import androidx.annotation.NonNull;
++import androidx.cardview.widget.CardView;
++import androidx.recyclerview.widget.RecyclerView;
++
++import com.bumptech.glide.Glide;
++import com.example.bucketlist.CityInnerPage;
++import com.example.bucketlist.R;
++import com.example.bucketlist.model.CityModel;
++
++import java.util.List;
++
++public class RecyclerAdapterSeemoreCities extends RecyclerView.Adapter<RecyclerAdapterSeemoreCities.viewHolder> {
++    Context context;
++    List<CityModel> cityModelList;
++
++    public RecyclerAdapterSeemoreCities(Context context, List<CityModel> cityModelList) {
++        this.context = context;
++        this.cityModelList = cityModelList;
++    }
++
++    @NonNull
++    @Override
++    public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
++        View view = LayoutInflater.from(context).inflate(R.layout.see_more_cities_item,parent,false);
++        return new viewHolder(view);
++    }
++
++    @Override
++    public void onBindViewHolder(@NonNull RecyclerAdapterSeemoreCities.viewHolder viewHolder, final int position) {
++        viewHolder.city_name.setText(cityModelList.get(position).getCity());
++        viewHolder.country_name.setText(cityModelList.get(position).getCountry());
++        Log.d("name",viewHolder.city_name.getText().toString());
++        Glide.with(context).load(cityModelList.get(position).getImage()).into(viewHolder.imageView);
++        Log.d("id",cityModelList.get(position).getStringId());
++
++        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View view) {
++                Intent i = new Intent(view.getContext(), CityInnerPage.class);
++                i.putExtra("cityId",cityModelList.get(position).getStringId());
++                view.getContext().startActivity(i);
++            }
++        });
++
++    }
++
++    @Override
++    public int getItemCount() {
++        return cityModelList.size();
++    }
++
++    class viewHolder extends RecyclerView.ViewHolder{
++
++        ImageView imageView;
++        TextView city_name,country_name;
++        CardView cardView;
++        public viewHolder(@NonNull View itemView) {
++            super(itemView);
++
++            imageView = itemView.findViewById(R.id.backgroundImage);
++            city_name = itemView.findViewById(R.id.cityName);
++            country_name = itemView.findViewById(R.id.countryName);
++            cardView = itemView.findViewById(R.id.cardView);
++        }
++    }
++}
+Index: app/src/main/java/com/example/bucketlist/model/TrendingCardModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.bucketlist.model;\r\n\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\n\r\npublic class TrendingCardModel {\r\n\r\n    String city,country;\r\n    String backgroundImageUrl;\r\n\r\n\r\n    public TrendingCardModel(String city, String country, String backgroundImageUrl) {\r\n        this.city = city;\r\n        this.country = country;\r\n        this.backgroundImageUrl = backgroundImageUrl;\r\n    }\r\n\r\n    public String getCity() {\r\n        return city;\r\n    }\r\n\r\n    public void setCity(String city) {\r\n        this.city = city;\r\n    }\r\n\r\n    public String getCountry() {\r\n        return country;\r\n    }\r\n\r\n    public void setCountry(String country) {\r\n        this.country = country;\r\n    }\r\n\r\n    public String getBackgroundImageUrl() {\r\n        return backgroundImageUrl;\r\n    }\r\n\r\n    public void setBackgroundImageUrl(String backgroundImage) {\r\n        this.backgroundImageUrl = backgroundImage;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/bucketlist/model/TrendingCardModel.java	(revision af4f9146b4cffac36dc47151d1233c22606abb93)
++++ app/src/main/java/com/example/bucketlist/model/TrendingCardModel.java	(date 1603783343324)
+@@ -5,14 +5,23 @@
+ 
+ public class TrendingCardModel {
+ 
+-    String city,country;
++    String city,country,stringId;
+     String backgroundImageUrl;
+ 
+ 
+-    public TrendingCardModel(String city, String country, String backgroundImageUrl) {
++    public TrendingCardModel(String city, String country, String backgroundImageUrl, String stringId) {
+         this.city = city;
+         this.country = country;
+         this.backgroundImageUrl = backgroundImageUrl;
++        this.stringId = stringId;
++    }
++
++    public String getStringId() {
++        return stringId;
++    }
++
++    public void setStringId(String stringId) {
++        this.stringId = stringId;
+     }
+ 
+     public String getCity() {
+Index: app/src/main/res/layout/mainpagecity_item.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><RelativeLayout\r\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:card_view=\"http://schemas.android.com/apk/res-auto\"\r\n    android:layout_width=\"wrap_content\"\r\n    android:layout_height=\"wrap_content\"\r\n    android:layout_marginHorizontal=\"8dp\">\r\n\r\n    <androidx.cardview.widget.CardView\r\n        android:layout_width=\"200dp\"\r\n        android:layout_height=\"225dp\"\r\n        android:layout_margin=\"5dp\"\r\n        android:elevation=\"4dp\"\r\n        card_view:cardCornerRadius=\"9dp\">\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            android:orientation=\"vertical\">\r\n\r\n\r\n               <ImageView\r\n                   android:id=\"@+id/imageCity\"\r\n                   android:layout_width=\"match_parent\"\r\n                   android:layout_height=\"150dp\"\r\n                   android:scaleType=\"centerCrop\"\r\n                   android:background=\"#D8D7D7\"/>\r\n\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:orientation=\"vertical\"\r\n                android:layout_marginVertical=\"15dp\">\r\n\r\n                <TextView\r\n                    android:id=\"@+id/city_name\"\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:paddingStart=\"10dp\"\r\n                    android:paddingLeft=\"5dp\"\r\n                    android:text=\"Ab\"\r\n\r\n                    android:textColor=\"@android:color/black\"\r\n                    android:textSize=\"16sp\" />\r\n\r\n                <TextView\r\n                    android:id=\"@+id/county_name\"\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:paddingStart=\"10dp\"\r\n                    android:paddingLeft=\"5dp\"\r\n                    android:text=\"United states of america\"\r\n\r\n                    android:textColor=\"#555454\"\r\n                    android:textSize=\"14sp\" />\r\n\r\n            </LinearLayout>\r\n\r\n\r\n\r\n        </LinearLayout>\r\n    </androidx.cardview.widget.CardView>\r\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/mainpagecity_item.xml	(revision af4f9146b4cffac36dc47151d1233c22606abb93)
++++ app/src/main/res/layout/mainpagecity_item.xml	(date 1603783343415)
+@@ -6,6 +6,7 @@
+     android:layout_marginHorizontal="8dp">
+ 
+     <androidx.cardview.widget.CardView
++        android:id="@+id/cardView"
+         android:layout_width="200dp"
+         android:layout_height="225dp"
+         android:layout_margin="5dp"
+Index: app/src/main/res/layout/see_more_cities_item.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/see_more_cities_item.xml	(date 1603791609091)
++++ app/src/main/res/layout/see_more_cities_item.xml	(date 1603791609091)
+@@ -0,0 +1,59 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    android:layout_gravity="center"
++    xmlns:app="http://schemas.android.com/apk/res-auto">
++
++    <androidx.cardview.widget.CardView
++        android:id="@+id/cardView"
++        android:layout_width="match_parent"
++        android:layout_height="250dp"
++        android:elevation="2dp"
++        android:layout_marginVertical="9dp"
++        android:layout_marginHorizontal="10dp"
++        app:cardCornerRadius="9dp">
++
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="match_parent"
++            android:orientation="vertical">
++
++            <ImageView
++                android:id="@+id/backgroundImage"
++                android:layout_width="match_parent"
++                android:layout_height="170dp"
++                android:scaleType="centerCrop"
++                android:background="#B3B3B3"/>
++            <LinearLayout
++                android:layout_width="match_parent"
++                android:layout_height="80dp"
++                android:gravity="center|left"
++                android:orientation="vertical">
++                <TextView
++                    android:id="@+id/cityName"
++                    android:layout_width="match_parent"
++                    android:layout_height="wrap_content"
++                    android:layout_marginHorizontal="10dp"
++                    android:text="City name"
++                    android:textColor="@color/blackcolor"
++                    android:fontFamily="@font/nunito_bold"
++                    android:textSize="20dp"
++                    />
++                <TextView
++                    android:id="@+id/countryName"
++                    android:layout_width="match_parent"
++                    android:layout_height="wrap_content"
++                    android:layout_marginLeft="10dp"
++                    android:text="Country name"
++                    android:fontFamily="@font/nunito_bold"
++                    android:textSize="16dp" />
++
++            </LinearLayout>
++
++
++
++        </LinearLayout>
++    </androidx.cardview.widget.CardView>
++
++</LinearLayout>
+\ No newline at end of file
