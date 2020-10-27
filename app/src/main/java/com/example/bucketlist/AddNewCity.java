@@ -85,6 +85,8 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_new_city);
 
+
+
         cancelButton = findViewById(R.id.cancelButton);
         createButton = findViewById(R.id.createButton);
         addCityEditText = findViewById(R.id.addCityEditText);
