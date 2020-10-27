@@ -61,6 +61,12 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
 
         initialize();
 
+        String from = getIntent().getStringExtra("which activity");
+        String location = getIntent().getStringExtra("location");
+        if (from!=null&& location!=null && from.equals("cityinneractivity")){
+            locationText.setText(location);
+        }
+
     }
 
     private void initialize(){
