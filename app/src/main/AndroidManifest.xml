@@ -23,6 +23,8 @@
         <activity android:name=".AddNewCity" />
         <activity android:name=".ContactEntyLogin" />
         <activity android:name=".OtpActivityLogin" />
+        <activity android:name=".SeeMoreCities" />
+        <activity android:name=".CityInnerPage" />
         <activity android:name=".layout.userLayout.EditProfileActivity" />
         <activity android:name=".layout.userLayout.DetailProfile" />
         <activity

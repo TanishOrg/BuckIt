@@ -22,6 +22,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.bucketlist.AddNewCity;
 import com.example.bucketlist.AddNewPost;
 import com.example.bucketlist.R;
+import com.example.bucketlist.SeeMoreCities;
 import com.example.bucketlist.adapters.RecyclerAdapterTrendingCard;
 import com.example.bucketlist.adapters.PageAdapterTrendingCard;
 import com.example.bucketlist.model.CityModel;
@@ -52,6 +53,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
     private List<TrendingCardModel> trendingCardModelList;
     TextView createCity;
     ImageView activity;
+    TextView seemore;
 
 
     int currentPage = 0;
@@ -71,11 +73,13 @@ public class CityFragment extends Fragment implements View.OnClickListener {
         createCity = view.findViewById(R.id.city);
         activity = view.findViewById(R.id.activity);
         viewPager = view.findViewById(R.id.viewPager);
+        seemore = view.findViewById(R.id.seemore);
 
         firestore =FirebaseFirestore.getInstance();
 
         activity.setOnClickListener(this);
         createCity.setOnClickListener(this);
+        seemore.setOnClickListener(this);
         recyclerView =  view.findViewById(R.id.recycler_view);
 
         trendingCardDataLoading();
@@ -105,8 +109,13 @@ public class CityFragment extends Fragment implements View.OnClickListener {
             startActivity(i);
         }
 
-        if (v.getId() == R.id.activity){
+        else if (v.getId() == R.id.activity){
             Intent i = new Intent(getContext(), AddNewPost.class);
+            startActivity(i);
+        }
+
+        else if (v.getId() == R.id.seemore){
+            Intent i = new Intent(getContext(), SeeMoreCities.class);
             startActivity(i);
         }
     }
@@ -120,7 +129,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error!=null){
-                        Log.d("Exception Failed", "onEvent: 0  " + error);
+                    Log.d("Exception Failed", "onEvent: 0  " + error);
 
                 }
                 else{
@@ -135,7 +144,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
                                 }
                                 else{
                                     trendingCardModelList.add(new TrendingCardModel(value.getString("City Name"),
-                                           value.getString("Country Name"),
+                                            value.getString("Country Name"),
                                             value.getString("City Background Image")));
                                     pageAdapterTrendingCard.notifyDataSetChanged();
                                 }
@@ -168,7 +177,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
                 }
                 else{
-                    for (QueryDocumentSnapshot snapshot : value){
+                    for (final QueryDocumentSnapshot snapshot : value){
                         DocumentReference documentReference = firestore.collection("Cities").document(snapshot.getId());
                         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                             @Override
@@ -180,7 +189,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
                                 else{
                                     arrayList.add(new CityModel(value.getString("City Background Image"),
                                             value.getString("City Name"),
-                                            value.getString("Country Name")));
+                                            value.getString("Country Name"),snapshot.getId()));
                                     recyclerAdapterTrendingCard.notifyDataSetChanged();
                                 }
 
