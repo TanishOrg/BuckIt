@@ -1,6 +1,7 @@
 package com.example.bucketlist.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
+import com.example.bucketlist.CityInnerPage;
 import com.example.bucketlist.R;
 import com.example.bucketlist.fragments.homePageFragment.CityFragment;
 import com.example.bucketlist.model.TrendingCardModel;
@@ -66,6 +68,9 @@ public class PageAdapterTrendingCard extends PagerAdapter {
             @Override
             public void onClick(View view) {
               Toast.makeText(context, position+cityName+countryName, Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(view.getContext(), CityInnerPage.class);
+                i.putExtra("cityId",trendingCardModelArrayList.get(position).getId());
+                view.getContext().startActivity(i);
 
             }
         });
