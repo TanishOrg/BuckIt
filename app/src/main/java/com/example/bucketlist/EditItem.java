@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bucketlist.model.BucketItems;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -70,6 +71,7 @@ public abstract class EditItem
 
 
 
+
     public EditItem(Context context, BucketItems item, FirebaseUser user, BottomSheetDialog bottomSheetDialog) {
         firebaseFirestore = FirebaseFirestore.getInstance();
         this.context = context;
@@ -81,6 +83,8 @@ public abstract class EditItem
         nameEditText.addTextChangedListener(this);
         discriptionEditText.addTextChangedListener(this);
         targetEditText.addTextChangedListener(this);
+
+
 
         bottomSheetDialog.show();
         bottomSheetDialog.setCanceledOnTouchOutside(false);

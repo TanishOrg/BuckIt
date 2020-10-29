@@ -94,7 +94,7 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
         recyclerView = findViewById(R.id.recyclerView);
         progressBar = findViewById(R.id.progressBar);
         wallpaperModelList = new ArrayList<>();
-        recyclerAdapterWallpaper = new RecyclerAdapterWallpaper(this,wallpaperModelList);
+        recyclerAdapterWallpaper = new RecyclerAdapterWallpaper(this,wallpaperModelList,AddNewCity.this);
         storageReference = FirebaseStorage.getInstance().getReference().child("city background");
         firestore =FirebaseFirestore.getInstance();
 

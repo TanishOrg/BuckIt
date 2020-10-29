@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.example.bucketlist.R;
@@ -43,7 +44,9 @@ public class PageAdapterTrendingCard extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, final int position) {
+
         View view = LayoutInflater.from(context).inflate(R.layout.trending_card_item,container,false);
+
         ImageView backgroundImage = view.findViewById(R.id.backgroundImage);
         final TextView city = view.findViewById(R.id.city);
         TextView country = view.findViewById(R.id.country);
@@ -59,7 +62,6 @@ public class PageAdapterTrendingCard extends PagerAdapter {
         country.setText(countryName);
 
 
-
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,7 +70,7 @@ public class PageAdapterTrendingCard extends PagerAdapter {
             }
         });
 
-        
+
         container.addView(view,position);
         return view;
 
