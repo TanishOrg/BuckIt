@@ -82,8 +82,9 @@ public class CityFragment extends Fragment implements View.OnClickListener {
         seemore.setOnClickListener(this);
         recyclerView =  view.findViewById(R.id.recycler_view);
 
+
         trendingCardDataLoading();
-        autoScroll();
+
 
 
 
@@ -97,6 +98,9 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
         trendingbottomCardDataLoading();
 
+
+
+        autoScroll();
 
 
         return  view;
@@ -121,6 +125,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
     }
 
     public void trendingCardDataLoading(){
+
 
         trendingCardModelList = new ArrayList<>();
 
@@ -160,6 +165,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
         pageAdapterTrendingCard = new PageAdapterTrendingCard(getContext(),trendingCardModelList);
         viewPager.setAdapter(pageAdapterTrendingCard);
         viewPager.setPadding(150,0,150,0);
+
 
 
     }
@@ -213,9 +219,12 @@ public class CityFragment extends Fragment implements View.OnClickListener {
             public void run() {
 
                 if (currentPage == arrayList.size()) {
-                    currentPage = 0;
+                    viewPager.setCurrentItem(0);
                 }
-                viewPager.setCurrentItem(currentPage++, true);
+                else {
+                    viewPager.setCurrentItem(currentPage, true);
+                    currentPage++;
+                }
             }
         };
 

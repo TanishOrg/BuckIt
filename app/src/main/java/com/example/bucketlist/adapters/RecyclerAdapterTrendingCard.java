@@ -43,6 +43,7 @@ public class RecyclerAdapterTrendingCard extends RecyclerView.Adapter<RecyclerAd
         Glide.with(context).load(arrayList.get(position).getImage()).into(viewHolder.imageView);
         Log.d("id",arrayList.get(position).getStringId());
 
+
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

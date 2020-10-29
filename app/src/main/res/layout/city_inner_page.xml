@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:theme="@style/CustomTheme"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".CityInnerPage">
 
@@ -11,7 +12,7 @@
         android:id="@+id/appBarLayout"
         android:background="@color/colorAccent"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="match_parent"
         >
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingToolBar"
@@ -33,27 +34,208 @@
                     android:layout_height="match_parent"
                     android:background="#808080"
                     android:scaleType="centerCrop"/>
-            </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="24dp"
+                    android:orientation="horizontal"
+                    android:gravity="center|end"
+                    android:layout_height="?attr/actionBarSize">
+
+
+
+                    <TextView
+                        android:id="@+id/changebackground"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="6dp"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:textColor="@color/white"
+                        android:layout_marginRight="16dp"
+                        android:text="Change background"
+                        android:gravity="center"
+                        android:background="@drawable/blackblurbackground"
+                        />
+
+                    <ImageView
+                        android:id="@+id/likebutton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_heart"
+                        android:layout_marginRight="16dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/confirmchangelayout"
+                    android:layout_width="?attr/actionBarSize"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="24dp"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:layout_alignParentRight="true">
+
+                    <ImageView
+                        android:id="@+id/donebutton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/circularblurbackground"
+                        android:src="@drawable/done_icon" />
+
+                    <ImageView
+                        android:id="@+id/cancelbutton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:padding="4dp"
+                        android:background="@drawable/circularblurbackground"
+                        android:src="@drawable/clear_icon_white" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+
+
+                    android:layout_alignParentBottom="true">
+
+                    <LinearLayout
+                        android:id="@+id/layout1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/blackblurbackground2"
+                        android:orientation="vertical">
+                        <TextView
+                        android:id="@+id/city"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="32dp"
+                        android:fontFamily="@font/nunito_bold"
+                        android:textColor="@color/white"
+                        android:text="City name"/>
+
+                        <LinearLayout
+                        android:id="@+id/layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/state"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="17dp"
+                            android:fontFamily="@font/nunito_semibold"
+                            android:textColor="@color/white"
+                            android:text="State name"
+                            />
+
+                        <TextView
+                            android:id="@+id/country"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="17dp"
+                            android:fontFamily="@font/nunito_semibold"
+                            android:textColor="@color/white"
+                            android:text="Country name"
+                            android:layout_marginHorizontal="10dp"
+                            />
+                    </LinearLayout>
+
+                        <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+
+                            <TextView
+                            android:id="@+id/visitors"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16dp"
+                            android:gravity="center"
+
+                            android:fontFamily="@font/nunito_bold"
+                            android:textColor="@color/white"
+                            android:text="0 visitors"
+                            />
+
+                            <ImageView
+                            android:layout_width="4dp"
+                            android:layout_height="4dp"
+                            android:layout_gravity="center"
+                            android:layout_marginHorizontal="10dp"
+                            android:src="@drawable/default_selected_dot"
+                            app:tint="#FFFFFF" />
+
+                            <TextView
+                            android:id="@+id/likes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16dp"
+                            android:fontFamily="@font/nunito_bold"
+                            android:textColor="@color/white"
+                            android:text="0 likes"
+                            android:gravity="center"
+                            />
+                    </LinearLayout>
+
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/wallpaperRecyclerView"
+                        android:layout_width="match_parent"
+                        android:visibility="gone"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="20dp"
+                        android:layout_height="250dp"/>
+
+                </LinearLayout>
+
+
+
+
+
+                </RelativeLayout>
 
 
 
 
 
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolBar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:elevation="20dp"
-                android:layout_marginTop="24dp"
-                app:layout_collapseMode="pin"
-                android:theme="@style/ThemeOverlay.MaterialComponents.Light"
-                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light">
 
 
 
 
-            </androidx.appcompat.widget.Toolbar>
+
+<!--            <androidx.appcompat.widget.Toolbar-->
+<!--                android:id="@+id/toolBar"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="?attr/actionBarSize"-->
+<!--                android:elevation="20dp"-->
+<!--                android:layout_marginTop="24dp"-->
+<!--                app:layout_collapseMode="pin"-->
+<!--                android:theme="@style/ThemeOverlay.MaterialComponents.Light"-->
+<!--                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light">-->
+
+
+
+
+<!--            </androidx.appcompat.widget.Toolbar>-->
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -62,6 +244,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="24dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         android:clipToPadding="false">
 
@@ -156,15 +339,6 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabCreatePost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:src="@drawable/add_bottom_icon"
-        app:backgroundTint="#0C8BCF"
-        android:tint="#FFFFFF"
-        app:layout_anchorGravity="bottom|right"
-        app:layout_anchor="@id/appBarLayout"/>
+   
 
 </com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout>
