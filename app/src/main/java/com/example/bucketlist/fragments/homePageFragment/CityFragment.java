@@ -138,7 +138,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
                 }
                 else{
-                    for (QueryDocumentSnapshot snapshot : value){
+                    for (final QueryDocumentSnapshot snapshot : value){
                         DocumentReference documentReference = firestore.collection("Cities").document(snapshot.getId());
                         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                             @Override
@@ -150,7 +150,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
                                 else{
                                     trendingCardModelList.add(new TrendingCardModel(value.getString("City Name"),
                                             value.getString("Country Name"),
-                                            value.getString("City Background Image")));
+                                            value.getString("City Background Image"),snapshot.getId()));
                                     pageAdapterTrendingCard.notifyDataSetChanged();
                                 }
 

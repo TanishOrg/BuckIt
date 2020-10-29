@@ -5,14 +5,23 @@ import android.widget.TextView;
 
 public class TrendingCardModel {
 
-    String city,country;
+    String city,country,id;
     String backgroundImageUrl;
 
 
-    public TrendingCardModel(String city, String country, String backgroundImageUrl) {
+    public TrendingCardModel(String city, String country, String backgroundImageUrl,String id) {
         this.city = city;
         this.country = country;
         this.backgroundImageUrl = backgroundImageUrl;
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getCity() {
