@@ -164,21 +164,26 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
             break;
 
             case R.id.donebutton:
+
                 layout.setVisibility(View.VISIBLE);
                 enableScroll();
-                DocumentReference documentReference = firestore.collection("Cities").document(cityId);
-                documentReference.update("City Background Image",recyclerViewChangeWallpaper.selectedImageUrl)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Snackbar.make(view,"Background has been changed", BaseTransientBottomBar.LENGTH_LONG);
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Snackbar.make(view,"Please try again later.", BaseTransientBottomBar.LENGTH_LONG);
-                    }
-                });
+                if (imageUrl!=recyclerViewChangeWallpaper.selectedImageUrl){
+                    DocumentReference documentReference = firestore.collection("Cities").document(cityId);
+                    documentReference.update("City Background Image",recyclerViewChangeWallpaper.selectedImageUrl)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Snackbar.make(view,"Background has been changed", BaseTransientBottomBar.LENGTH_LONG);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Snackbar.make(view,"Please try again later.", BaseTransientBottomBar.LENGTH_LONG);
+                        }
+                    });
+
+
+                }
 
                 wallpaperRecyclerView.setVisibility(View.GONE);
                 changebackground.setVisibility(View.VISIBLE);

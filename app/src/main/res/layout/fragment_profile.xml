@@ -172,20 +172,7 @@
                    android:textColor="@color/chip_text_selector"
                    android:checkable="true"
                    style="@style/Widget.MaterialComponents.Chip.Choice"/>
-               <com.google.android.material.chip.Chip
-                   android:layout_width="80dp"
-                   android:layout_height="55dp"
-                   android:layout_marginVertical="10dp"
-                   android:layout_marginLeft="10dp"
-                   android:layout_marginRight="20dp"
-                   android:text="Travel"
-                   android:elevation="2dp"
-                   android:textAlignment="center"
-                   android:textSize="16dp"
-                   app:chipBackgroundColor="@color/chip_background_selector"
-                   android:textColor="@color/chip_text_selector"
-                   android:checkable="true"
-                   style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
 
 
 
