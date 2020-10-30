@@ -91,8 +91,6 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
 
 
-
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -152,19 +150,24 @@ public class CityFragment extends Fragment implements View.OnClickListener {
                                             value.getString("Country Name"),
                                             value.getString("City Background Image"),snapshot.getId()));
                                     pageAdapterTrendingCard.notifyDataSetChanged();
+                                    Log.d("size",Integer.toString(trendingCardModelList.size()));
                                 }
 
                             }
                         });
 
                     }
+
                 }
             }
         });
 
+
+
         pageAdapterTrendingCard = new PageAdapterTrendingCard(getContext(),trendingCardModelList);
         viewPager.setAdapter(pageAdapterTrendingCard);
         viewPager.setPadding(150,0,150,0);
+
 
 
 
@@ -203,6 +206,8 @@ public class CityFragment extends Fragment implements View.OnClickListener {
                         });
 
                     }
+
+
                 }
             }
         });
@@ -214,17 +219,17 @@ public class CityFragment extends Fragment implements View.OnClickListener {
     }
 
     public void autoScroll(){
+
         final Handler handler = new Handler();
         final Runnable Update = new Runnable() {
             public void run() {
 
-                if (currentPage == arrayList.size()) {
-                    viewPager.setCurrentItem(0);
+                if (viewPager.getCurrentItem() == trendingCardModelList.size()-1) {
+                    currentPage=0;
                 }
-                else {
-                    viewPager.setCurrentItem(currentPage, true);
-                    currentPage++;
-                }
+
+//                viewPager.setCurrentItem(currentPage, true);
+//                currentPage++;
             }
         };
 
@@ -232,8 +237,11 @@ public class CityFragment extends Fragment implements View.OnClickListener {
         timer.schedule(new TimerTask() { // task to be scheduled
             @Override
             public void run() {
+
                 handler.post(Update);
             }
         }, DELAY_MS, PERIOD_MS);
     }
+
+
 }

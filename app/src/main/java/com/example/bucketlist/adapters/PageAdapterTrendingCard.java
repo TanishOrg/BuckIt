@@ -35,6 +35,10 @@ public class PageAdapterTrendingCard extends PagerAdapter {
 
     @Override
     public int getCount() {
+        if(trendingCardModelArrayList.isEmpty()){
+            return 0;
+        }
+        else
         return trendingCardModelArrayList.size();
     }
 
@@ -67,7 +71,7 @@ public class PageAdapterTrendingCard extends PagerAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              Toast.makeText(context, position+cityName+countryName, Toast.LENGTH_SHORT).show();
+             // Toast.makeText(context, position+cityName+countryName, Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(view.getContext(), CityInnerPage.class);
                 i.putExtra("cityId",trendingCardModelArrayList.get(position).getId());
                 view.getContext().startActivity(i);
