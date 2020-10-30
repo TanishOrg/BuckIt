@@ -33,6 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -133,14 +134,8 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
             categories.add(chip.getText().toString().trim());
         }
 
-//        data.setLikes(0);
-//        data.setDislikes(0);
-//        data.setDescription(descriptionText.getText().toString());
-//        data.setTitle(titleText.getText().toString());
-//        data.setLocation(locationText.getText().toString());
-//        data.setCreatedByUserID(user.getUid());
-//        data.setCategory(categories);
-//        data.setTimeStamp();
+        String[] arr = locationText.getText().toString().split(", ",0);
+        String cityFilename = arr[0] + ", " + arr[arr.length - 1];
         Map map = new HashMap();
         map.put("title",titleText.getText().toString());
         map.put("description",descriptionText.getText().toString());
@@ -148,7 +143,7 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
         map.put("dislikes",0);
         map.put("timeStamp",System.currentTimeMillis());
         map.put("createdBy",user.getUid());
-        map.put("location",locationText.getText().toString());
+        map.put("location",cityFilename);
         map.put("category",categories);
 
 //        Log.d(TAG, "postToFirebase: " + chipGroup.getCheckedChipIds().toString());
