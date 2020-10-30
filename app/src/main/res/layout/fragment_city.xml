@@ -190,9 +190,12 @@
             <!--                android:layout_alignParentBottom="true"-->
             <!--                android:textAlignment="textStart"/>-->
 
-            <RelativeLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_post"
                 android:layout_width="match_parent"
-                android:layout_height="1500dp"/>
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"/>
         </LinearLayout>
 
 

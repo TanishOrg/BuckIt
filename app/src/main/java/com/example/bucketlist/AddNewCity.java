@@ -252,7 +252,7 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
         String[] arr = addCityEditText.getText().toString().split(", ",0);
        String cityFilename = arr[0] + ", " + arr[arr.length - 1];
         long timeInMilliSeconds = System.currentTimeMillis();
-        DocumentReference documentReference = firestore.collection("Cities").document(cityFilename);
+        DocumentReference documentReference = firestore.collection("Cities").document(addCityEditText.getText().toString());
         Map<String,Object> user = new HashMap<>();
         user.put("City Name",arr[0]);
         user.put("State Name",arr[1]);

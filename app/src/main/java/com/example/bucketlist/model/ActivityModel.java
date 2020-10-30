@@ -8,15 +8,30 @@ public class ActivityModel {
 
 
     private String createdByUserID;
-    private String title;
+    private String title,postId;
     private String description;
     private long timeStamp;
     private String location;
     private int likes;
     private int dislikes;
     private List<String> category;
-    public ActivityModel(){
 
+    public ActivityModel(String createdByUserID, String title, long timeStamp, String location, int likes,String postId) {
+        this.createdByUserID = createdByUserID;
+        this.title = title;
+        this.timeStamp = timeStamp;
+        this.location = location;
+        this.likes = likes;
+        this.postId=postId;
+
+    }
+
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
     }
 
     public String getCreatedByUserID() {
@@ -56,7 +71,7 @@ public class ActivityModel {
     }
 
     public void setTimeStamp() {
-        this.timeStamp = System.currentTimeMillis();
+        this.timeStamp =timeStamp ;
     }
 
     public String getLocation() {
@@ -64,9 +79,9 @@ public class ActivityModel {
     }
 
     public void setLocation(String location) {
-        String[] arr = location.split(",");
-        String cityName = arr[0].trim() + ", " + arr[arr.length - 1].trim();
-        this.location = cityName;
+//        String[] arr = location.split(",");
+//        String cityName = arr[0].trim() + ", " + arr[arr.length - 1].trim();
+        this.location = location;
     }
 
     public int getLikes() {
@@ -83,19 +98,6 @@ public class ActivityModel {
 
     public void setDislikes(int dislikes) {
         this.dislikes = dislikes;
-    }
-
-    public Map toHashMap() {
-        Map map = new HashMap();
-        map.put("title",title.trim());
-        map.put("description",description);
-        map.put("likes",likes);
-        map.put("dislikes",dislikes);
-        map.put("timeStamp",timeStamp);
-        map.put("createdBy",createdByUserID);
-        map.put("location",location);
-        map.put("category",category);
-        return map;
     }
 
 }
