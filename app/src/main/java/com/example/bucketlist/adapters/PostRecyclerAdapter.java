@@ -54,7 +54,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
                     Log.e("error",error.getMessage());
                 }
                 else {
-                    holder.postedBy.setText("Posted by " + value.getString("Display Name"));
+                    holder.postedBy.setText(value.getString("Display Name"));
                 }
             }
         });
