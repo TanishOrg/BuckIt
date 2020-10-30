@@ -95,7 +95,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
 
 
-
+        PostLoading();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -104,7 +104,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
         autoScroll();
 
-        PostLoading();
+
 
 
         return  view;
@@ -255,57 +255,57 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
         List = new ArrayList<>();
 
-        CollectionReference usersCollectionReference = firestore.collection("Users");
-        usersCollectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        CollectionReference userCollectionref = firestore.collection("Users");
+        userCollectionref.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if(error!=null)
-                {
-                    Log.d("error",error.toString());
+                if (error!=null){
+                    Log.e("error",error.getMessage());
                 }
-                else {
-                    for(final QueryDocumentSnapshot snapshot:value) {
-                        CollectionReference activityCollectionReference = firestore.collection("Users").document(snapshot.getId()).collection("activities");
-                        activityCollectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                else{
+                    for (final QueryDocumentSnapshot snapshot:value){
+                        CollectionReference activityCollectionRef = firestore.collection("Users")
+                                .document(snapshot.getId()).collection("activities");
+
+                        activityCollectionRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
                             @Override
                             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                                if (error != null) {
-                                    Log.d("Exception Failed", "onEvent: 0  " + error);
-
-                                } else {
-                                    for (final QueryDocumentSnapshot snapshot1 : value) {
-                                        DocumentReference documentReference = firestore.collection("Users").document(snapshot.getId()).collection("activities").document(snapshot1.getId());
-                                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                if (error!=null){
+                                    Log.e("error",error.getMessage());
+                                }
+                                else {
+                                    for (final QueryDocumentSnapshot snapshot1 : value){
+                                        DocumentReference activityDocRef = firestore.collection("Users").document(snapshot.getId())
+                                                .collection("activities").document(snapshot1.getId());
+                                        activityDocRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                                             @Override
                                             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                                if (error != null) {
-                                                    Log.d("Exception Failed", "onEvent: 0  " + error);
-
-                                                } else {
-                                                    List.add(new ActivityModel(snapshot1.getString("createdBy"),
-                                                            snapshot1.getString("title"), snapshot1.getLong("timeStamp").intValue(),
-                                                            snapshot1.getString("location"),
-                                                            snapshot1.getLong("likes").intValue(),
-                                                            snapshot1.getId()));
+                                                if (error!=null){
+                                                    Log.e("error",error.getMessage());
+                                                }
+                                                else{
+                                                    Log.d("activity id",value.getId());
+                                                    List.add(new ActivityModel(value.getString("createdBy")
+                                                            , value.getString("title")
+                                                            , value.getLong("timeStamp").longValue()
+                                                            , value.getString("location")
+                                                            , value.getLong("likes").intValue()
+                                                            , value.getId()));
                                                     postRecyclerAdapter.notifyDataSetChanged();
                                                 }
-
                                             }
                                         });
-
                                     }
-
                                 }
                             }
                         });
                     }
-
                 }
             }
         });
 
         postRecyclerAdapter = new PostRecyclerAdapter(getContext(),List);
-        recyclerView.setAdapter(postRecyclerAdapter);
+        postRecyclerView.setAdapter(postRecyclerAdapter);
 
 
     }

@@ -1,6 +1,7 @@
 package com.example.bucketlist.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,12 +9,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bucketlist.R;
 import com.example.bucketlist.model.ActivityModel;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapter.PostViewHolder> {
 
@@ -34,11 +44,46 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
-        holder.postedBy.setText(modelList.get(position).getCreatedByUserID());
+    public void onBindViewHolder(@NonNull final PostViewHolder holder, int position) {
+
+        FirebaseFirestore.getInstance().collection("Users").document(modelList.get(position)
+                .getCreatedByUserID()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error!=null){
+                    Log.e("error",error.getMessage());
+                }
+                else {
+                    holder.postedBy.setText("Posted by " + value.getString("Display Name"));
+                }
+            }
+        });
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+
+//Here you say to java the initial timezone. This is the secret
+        //sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+//Will print in UTC
+      //  System.out.println(sdf.format(calendar.getTime()));
+
+//Here you set to your timezone
+        sdf.setTimeZone(TimeZone.getDefault());
+//Will print on your default Timezone
+      //  System.out.println(sdf.format(new Date(modelList.get(position).getTimeStamp() * 1000L)));
+
+
+        Log.d("timestamp",Long.toString(modelList.get(position).getTimeStamp()));
+        Log.d("timezone",TimeZone.getDefault().toString());
+        String dateAsText = sdf.format(new Date(modelList.get(position).getTimeStamp()).getTime());
+
+        Log.d("datecreated",dateAsText);
         holder.location.setText(modelList.get(position).getLocation());
-        holder.timeCreated.setText(Integer.toString((int) modelList.get(position).getTimeStamp()));
+        holder.timeCreated.setText(dateAsText);
         holder.title.setText(modelList.get(position).getTitle());
+        holder.noOfLikes.setText(Integer.toString( modelList.get(position).getLikes()));
+
 
 
     }
@@ -50,7 +95,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
 
     class PostViewHolder extends RecyclerView.ViewHolder{
 
-        TextView postedBy,location,timeCreated,title;
+        TextView postedBy,location,timeCreated,title,noOfLikes;
         ImageView likeButton;
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -60,6 +105,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             timeCreated = itemView.findViewById(R.id.timeCreated);
             title = itemView.findViewById(R.id.title);
             likeButton = itemView.findViewById(R.id.likeButton);
+            noOfLikes = itemView.findViewById(R.id.noOfLikes);
         }
     }
 }
