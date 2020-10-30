@@ -133,22 +133,29 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
             categories.add(chip.getText().toString().trim());
         }
 
-        ActivityModel data = new ActivityModel();
-        data.setLikes(0);
-        data.setDislikes(0);
-        data.setDescription(descriptionText.getText().toString());
-        data.setTitle(titleText.getText().toString());
-        data.setLocation(locationText.getText().toString());
-        data.setCreatedByUserID(user.getUid());
-        data.setCategory(categories);
-        data.setTimeStamp();
+//        data.setLikes(0);
+//        data.setDislikes(0);
+//        data.setDescription(descriptionText.getText().toString());
+//        data.setTitle(titleText.getText().toString());
+//        data.setLocation(locationText.getText().toString());
+//        data.setCreatedByUserID(user.getUid());
+//        data.setCategory(categories);
+//        data.setTimeStamp();
+        Map map = new HashMap();
+        map.put("title",titleText.getText().toString());
+        map.put("description",descriptionText.getText().toString());
+        map.put("likes",0);
+        map.put("dislikes",0);
+        map.put("timeStamp",System.currentTimeMillis());
+        map.put("createdBy",user.getUid());
+        map.put("location",locationText.getText().toString());
+        map.put("category",categories);
 
-        Log.d(TAG, "postToFirebase: " + data.toHashMap().toString());
 //        Log.d(TAG, "postToFirebase: " + chipGroup.getCheckedChipIds().toString());
         final DocumentReference userActivity = firestore.collection("Users").document(user.getUid()).collection("activities").document();
 
-        final DocumentReference documentReference = firestore.collection("Cities").document(data.getLocation()).collection("activities").document();
-        userActivity.set(data.toHashMap()).addOnSuccessListener(new OnSuccessListener<Void>() {
+        final DocumentReference documentReference = firestore.collection("Cities").document(locationText.getText().toString()).collection("activities").document();
+        userActivity.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
@@ -160,11 +167,11 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
             }
         });
 
-        Map map = new HashMap();
-        map.put("createdBy",user.getUid());
-        map.put("reference",userActivity);
+        Map map1 = new HashMap();
+        map1.put("createdBy",user.getUid());
+        map1.put("reference",userActivity);
 
-        documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+        documentReference.set(map1).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Snackbar.make(v,"Added ",Snackbar.LENGTH_LONG).show();

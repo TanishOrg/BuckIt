@@ -23,8 +23,10 @@ import com.example.bucketlist.AddNewCity;
 import com.example.bucketlist.AddNewPost;
 import com.example.bucketlist.R;
 import com.example.bucketlist.SeeMoreCities;
+import com.example.bucketlist.adapters.PostRecyclerAdapter;
 import com.example.bucketlist.adapters.RecyclerAdapterTrendingCard;
 import com.example.bucketlist.adapters.PageAdapterTrendingCard;
+import com.example.bucketlist.model.ActivityModel;
 import com.example.bucketlist.model.CityModel;
 import com.example.bucketlist.model.TrendingCardModel;
 import com.google.firebase.firestore.CollectionReference;
@@ -46,7 +48,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
     private View view;
 
-    RecyclerView recyclerView;
+    RecyclerView recyclerView,postRecyclerView;
     ViewPager viewPager;
     FirebaseFirestore firestore;
     private PageAdapterTrendingCard pageAdapterTrendingCard;
@@ -62,9 +64,11 @@ public class CityFragment extends Fragment implements View.OnClickListener {
     final long PERIOD_MS = 3000;
 
     RecyclerAdapterTrendingCard recyclerAdapterTrendingCard;
+    PostRecyclerAdapter postRecyclerAdapter;
     List<CityModel> arrayList;
-    int images[] = {R.drawable.athens,R.drawable.colombo,R.drawable.london,R.drawable.pisa};
-    String cityName[] = {"Athens", "Colombo", "London", "Pisa"};
+    List<ActivityModel> List;
+//    int images[] = {R.drawable.athens,R.drawable.colombo,R.drawable.london,R.drawable.pisa};
+//    String cityName[] = {"Athens", "Colombo", "London", "Pisa"};
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -82,6 +86,8 @@ public class CityFragment extends Fragment implements View.OnClickListener {
         seemore.setOnClickListener(this);
         recyclerView =  view.findViewById(R.id.recycler_view);
 
+        postRecyclerView=view.findViewById(R.id.recycler_view_post);
+
 
         trendingCardDataLoading();
 
@@ -96,9 +102,9 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
         trendingbottomCardDataLoading();
 
-
-
         autoScroll();
+
+        PostLoading();
 
 
         return  view;
@@ -218,6 +224,8 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
     }
 
+
+
     public void autoScroll(){
 
         final Handler handler = new Handler();
@@ -242,6 +250,67 @@ public class CityFragment extends Fragment implements View.OnClickListener {
             }
         }, DELAY_MS, PERIOD_MS);
     }
+
+    public void PostLoading(){
+
+        List = new ArrayList<>();
+
+        CollectionReference usersCollectionReference = firestore.collection("Users");
+        usersCollectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error!=null)
+                {
+                    Log.d("error",error.toString());
+                }
+                else {
+                    for(final QueryDocumentSnapshot snapshot:value) {
+                        CollectionReference activityCollectionReference = firestore.collection("Users").document(snapshot.getId()).collection("activities");
+                        activityCollectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                                if (error != null) {
+                                    Log.d("Exception Failed", "onEvent: 0  " + error);
+
+                                } else {
+                                    for (final QueryDocumentSnapshot snapshot1 : value) {
+                                        DocumentReference documentReference = firestore.collection("Users").document(snapshot.getId()).collection("activities").document(snapshot1.getId());
+                                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                                                if (error != null) {
+                                                    Log.d("Exception Failed", "onEvent: 0  " + error);
+
+                                                } else {
+                                                    List.add(new ActivityModel(snapshot1.getString("createdBy"),
+                                                            snapshot1.getString("title"), snapshot1.getLong("timeStamp").intValue(),
+                                                            snapshot1.getString("location"),
+                                                            snapshot1.getLong("likes").intValue(),
+                                                            snapshot1.getId()));
+                                                    postRecyclerAdapter.notifyDataSetChanged();
+                                                }
+
+                                            }
+                                        });
+
+                                    }
+
+                                }
+                            }
+                        });
+                    }
+
+                }
+            }
+        });
+
+        postRecyclerAdapter = new PostRecyclerAdapter(getContext(),List);
+        recyclerView.setAdapter(postRecyclerAdapter);
+
+
+    }
+
+
 
 
 }
