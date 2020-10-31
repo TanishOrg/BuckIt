@@ -97,13 +97,15 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
         cancelButton = findViewById(R.id.cancelbutton);
 
 //        wallpaperRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
-
-        loadData();
         changebackground.setOnClickListener(this);
         doneButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
 
 
+
+        if (cityId!=null){
+            loadData();
+        }
         postRecyclerVew = findViewById(R.id.postRecyclerView);
 
         postRecyclerVew.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));

@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CustomTheme">
-        <activity android:name=".AddNewPost"></activity>
+        <activity android:name=".PostInnerPage"></activity>
+        <activity android:name=".AddNewPost" />
         <activity android:name=".AddNewCity" />
         <activity android:name=".ContactEntyLogin" />
         <activity android:name=".OtpActivityLogin" />
