@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PostInnerPage">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="24dp"
+        app:cardBackgroundColor="#142327"
+        android:elevation="2dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/back_icon_black"
+                app:tint="@color/white"
+                android:layout_marginHorizontal="10dp"/>
+
+            <ImageView
+                android:id="@+id/saveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/bookmark_icon"
+                android:layout_alignParentRight="true"
+                app:tint="@color/white"
+                android:layout_marginHorizontal="10dp"/>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/cardView">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:textColor="#142327"
+                android:textSize="17dp"
+                android:text="Location"
+                android:fontFamily="@font/nunito_bold"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/createdBy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#142327"
+                    android:textSize="13dp"
+                    android:text="posted by Username"
+                    android:fontFamily="@font/nunito"/>
+
+                <ImageView
+                    android:layout_width="2dp"
+                    android:layout_height="2dp"
+                    android:src="@drawable/dot"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/timeCreated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#142327"
+                    android:textSize="13dp"
+                    android:text="11:!1"
+                    android:fontFamily="@font/nunito"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:layout_marginHorizontal="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/titleView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:fontFamily="@font/nunito_bold"
+                    android:textColor="#142327"
+                    android:text="Here comes the title of the post where user will give summary"/>
+
+                <TextView
+                    android:id="@+id/descriptionView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="#202020"
+                    android:fontFamily="sans-serif-light"
+                    android:lineSpacingExtra="2dp"
+                    android:layout_marginHorizontal="3dp"
+                    android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."/>
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:id="@+id/noOfLikes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#787777"
+                    android:fontFamily="@font/nunito_bold"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:textSize="16dp"
+                    android:text="1,232 points"/>
+
+                <ImageView
+                    android:id="@+id/a"
+                    android:layout_width="3dp"
+                    android:layout_height="3dp"
+                    android:src="@drawable/dot"
+                    android:layout_toEndOf="@id/noOfLikes"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/noOfComments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#787777"
+                    android:fontFamily="@font/nunito_bold"
+                    android:layout_marginRight="10dp"
+                    android:layout_toEndOf="@id/a"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:textSize="16dp"
+                    android:text="12 comments"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginHorizontal="10dp">
+                    <ImageView
+                        android:id="@+id/likeButton"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/up_arrow_icon"
+                        app:tint="#142327" />
+
+                    <ImageView
+                        android:id="@+id/dislikeButton"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_down_arrow_icon"
+                        app:tint="#142327"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="#DFDEDE"/>
+        </LinearLayout>
+
+
+
+
+
+
+
+    </ScrollView>
+
+</RelativeLayout>

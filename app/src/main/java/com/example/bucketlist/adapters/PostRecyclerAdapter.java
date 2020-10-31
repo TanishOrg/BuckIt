@@ -1,6 +1,7 @@
 package com.example.bucketlist.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +11,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bucketlist.PostInnerPage;
 import com.example.bucketlist.R;
 import com.example.bucketlist.model.ActivityModel;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -44,7 +47,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final PostViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final PostViewHolder holder, final int position) {
 
         FirebaseFirestore.getInstance().collection("Users")
                 .document(modelList.get(position).getCreatedByUserID()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -78,6 +81,16 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         holder.title.setText(modelList.get(position).getTitle());
         holder.noOfLikes.setText(Integer.toString( modelList.get(position).getLikes()));
 
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(view.getContext(), PostInnerPage.class);
+                Log.d("123id",modelList.get(position).getPostId());
+                i.putExtra("postId",modelList.get(position).getPostId());
+                view.getContext().startActivity(i);
+            }
+        });
+
 
 
     }
@@ -91,6 +104,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
 
         TextView postedBy,location,timeCreated,title,noOfLikes;
         ImageView likeButton;
+        CardView cardView;
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -100,6 +114,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             title = itemView.findViewById(R.id.title);
             likeButton = itemView.findViewById(R.id.likeButton);
             noOfLikes = itemView.findViewById(R.id.noOfLikes);
+            cardView = itemView.findViewById(R.id.cardView);
         }
     }
 }
