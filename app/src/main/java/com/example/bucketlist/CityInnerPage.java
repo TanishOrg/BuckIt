@@ -11,6 +11,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -19,7 +21,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
+import com.example.bucketlist.adapters.PostRecyclerAdapter;
 import com.example.bucketlist.adapters.RecyclerViewChangeWallpaper;
+import com.example.bucketlist.model.ActivityModel;
 import com.example.bucketlist.model.WallpaperModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,11 +31,16 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,8 +50,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CityInnerPage extends AppCompatActivity implements View.OnClickListener {
-    TextView cityName,mainCity,mainState,mainCountry,mainLikes,mainVisitors
-            ,stateName,countryname,visitorNo,likeNo;
+    TextView mainCity,mainState,mainCountry,mainLikes,mainVisitors;
     String cityId,imageUrl,city,state,country;
     int like,visitors;
     public  ImageView backgroundImage;
@@ -54,6 +62,11 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
     CollapsingToolbarLayout collapsingToolBar;
     ImageView likebutton, doneButton,cancelButton;
     RecyclerViewChangeWallpaper recyclerViewChangeWallpaper;
+    RecyclerView postRecyclerVew;
+    PostRecyclerAdapter postRecyclerAdapter;
+
+    FirebaseAuth auth;
+    List<ActivityModel> activityModelList ;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,11 +74,10 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.city_inner_page);
         cityId = getIntent().getStringExtra("cityId");
         firestore = FirebaseFirestore.getInstance();
-        cityName = findViewById(R.id.cityName);
-        stateName = findViewById(R.id.stateName);
-        countryname = findViewById(R.id.countryName);
-        visitorNo = findViewById(R.id.visitorno);
-        likeNo = findViewById(R.id.likeNo);
+
+        auth = FirebaseAuth.getInstance();
+
+
         mainCity = findViewById(R.id.city);
         mainCountry = findViewById(R.id.country);
         mainState = findViewById(R.id.state);
@@ -92,7 +104,12 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
         cancelButton.setOnClickListener(this);
 
 
+        postRecyclerVew = findViewById(R.id.postRecyclerView);
 
+        postRecyclerVew.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        postRecyclerVew.setItemAnimator(new DefaultItemAnimator());
+
+        PostLoading();
 
     }
 
@@ -115,11 +132,7 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
                     like =  value.getLong("Likes").intValue();
                     imageUrl = value.getString("City Background Image");
 
-                    cityName.setText(city);
-                    countryname.setText(country);
-                    stateName.setText(state+",");
-                    visitorNo.setText(Integer.toString(visitors)+" visitors");
-                    likeNo.setText(Integer.toString(like)+" likes");
+
 
                     mainCity.setText(city);
                     mainCountry.setText(country);
@@ -215,7 +228,7 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
 
 
 
-        String url = "https://api.unsplash.com/search/photos?query="+cityName.getText().toString()+"&client_id=oxQo4AhPw8db0J1kqs9urtDCYtgGm4Kpil2aA8pNyU8&per_page=15";
+        String url = "https://api.unsplash.com/search/photos?query="+mainCity.getText().toString()+"&client_id=oxQo4AhPw8db0J1kqs9urtDCYtgGm4Kpil2aA8pNyU8&per_page=15";
 
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url,
@@ -266,4 +279,48 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
 
 
     }
+
+    public void PostLoading(){
+
+        activityModelList = new ArrayList<>();
+
+        CollectionReference collectionReference = firestore.collection("Posts");
+        Query locationquery = collectionReference.whereEqualTo("location",cityId);
+        locationquery.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error!=null){
+                    error.printStackTrace();
+                }
+                else{
+                    for (QueryDocumentSnapshot snapshot: value){
+                        DocumentReference documentReference = firestore.collection("Posts").document(snapshot.getId());
+                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                                if (error!=null){
+                                    error.printStackTrace();
+                                }
+                                else{
+                                    activityModelList.add(new ActivityModel(value.getString("createdBy"),
+                                            value.getString("title"),
+                                            value.getLong("timeStamp").longValue(),
+                                            value.getString("location"),
+                                            value.getLong("likes").intValue(),
+                                            value.getId()));
+                                    postRecyclerAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        });
+
+        postRecyclerAdapter = new PostRecyclerAdapter(this,activityModelList);
+        postRecyclerVew.setAdapter(postRecyclerAdapter);
+
+
+    }
+
 }
