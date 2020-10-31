@@ -3,9 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/CustomTheme"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    >
+
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -26,7 +27,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:layout_collapseMode="pin">
 
 
 
@@ -76,16 +78,17 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolBar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:elevation="20dp"
-                android:layout_marginTop="24dp"
+                android:layout_height="80dp"
+                android:elevation="0dp"
+                android:background="@color/white"
                 app:layout_collapseMode="pin"
                 android:theme="@style/ThemeOverlay.MaterialComponents.Light"
                 app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="24dp">
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -195,7 +198,7 @@
                     android:textColor="#1B1B1B"/>
 
                 <TextView
-
+                    android:id="@+id/postMore"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="more"

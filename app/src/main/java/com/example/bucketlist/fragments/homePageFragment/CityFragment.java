@@ -17,12 +17,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.bucketlist.AddNewCity;
 import com.example.bucketlist.AddNewPost;
 import com.example.bucketlist.R;
 import com.example.bucketlist.SeeMoreCities;
+import com.example.bucketlist.SeemorePosts;
 import com.example.bucketlist.adapters.PostRecyclerAdapter;
 import com.example.bucketlist.adapters.RecyclerAdapterTrendingCard;
 import com.example.bucketlist.adapters.PageAdapterTrendingCard;
@@ -55,7 +57,9 @@ public class CityFragment extends Fragment implements View.OnClickListener {
     private List<TrendingCardModel> trendingCardModelList;
     TextView createCity;
     ImageView activity;
-    TextView seemore;
+    TextView seemore,postMore;
+
+
 
 
     int currentPage = 0;
@@ -78,12 +82,15 @@ public class CityFragment extends Fragment implements View.OnClickListener {
         activity = view.findViewById(R.id.activity);
         viewPager = view.findViewById(R.id.viewPager);
         seemore = view.findViewById(R.id.seemore);
+        postMore = view.findViewById(R.id.postMore);
+
 
         firestore =FirebaseFirestore.getInstance();
 
         activity.setOnClickListener(this);
         createCity.setOnClickListener(this);
         seemore.setOnClickListener(this);
+        postMore.setOnClickListener(this);
         recyclerView =  view.findViewById(R.id.recycler_view);
 
         postRecyclerView=view.findViewById(R.id.recycler_view_post);
@@ -124,6 +131,10 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
         else if (v.getId() == R.id.seemore){
             Intent i = new Intent(getContext(), SeeMoreCities.class);
+            startActivity(i);
+        }
+        else if (v.getId() == R.id.postMore){
+            Intent i = new Intent(getContext(), SeemorePosts.class);
             startActivity(i);
         }
     }
