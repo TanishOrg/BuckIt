@@ -15,9 +15,7 @@
         android:background="@drawable/edit_text_background"
         android:backgroundTint="#EAEAEA"
         android:drawableRight="@drawable/ic_round_search_24"
-        android:drawableTint="@color/greenishcolor"
         android:hint="search"
-        android:textColorHint="@color/greenishcolor"
         android:padding="16dp">
     </EditText>
 
