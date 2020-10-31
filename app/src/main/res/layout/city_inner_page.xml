@@ -222,21 +222,21 @@
 
 
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolBar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:elevation="20dp"
+<!--            <androidx.appcompat.widget.Toolbar-->
+<!--                android:id="@+id/toolBar"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="?attr/actionBarSize"-->
+<!--                android:elevation="20dp"-->
 
-                android:layout_marginTop="24dp"
-                app:layout_collapseMode="pin"
-                android:theme="@style/ThemeOverlay.MaterialComponents.Light"
-                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light">
-
-
+<!--                android:layout_marginTop="24dp"-->
+<!--                app:layout_collapseMode="pin"-->
+<!--                android:theme="@style/ThemeOverlay.MaterialComponents.Light"-->
+<!--                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light">-->
 
 
-            </androidx.appcompat.widget.Toolbar>
+
+
+<!--            </androidx.appcompat.widget.Toolbar>-->
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
