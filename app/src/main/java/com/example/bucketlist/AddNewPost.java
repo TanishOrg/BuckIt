@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -143,17 +144,16 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
         map.put("dislikes",0);
         map.put("timeStamp",System.currentTimeMillis());
         map.put("createdBy",user.getUid());
-        map.put("location",cityFilename);
+        map.put("location",locationText.getText().toString());
         map.put("category",categories);
 
 //        Log.d(TAG, "postToFirebase: " + chipGroup.getCheckedChipIds().toString());
-        final DocumentReference userActivity = firestore.collection("Users").document(user.getUid()).collection("activities").document();
 
-        final DocumentReference documentReference = firestore.collection("Cities").document(locationText.getText().toString()).collection("activities").document();
-        userActivity.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+        DocumentReference activityDocumentReference = firestore.collection("Posts").document();
+        activityDocumentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-
+               Snackbar.make(v,"Post created", BaseTransientBottomBar.LENGTH_SHORT);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -162,21 +162,6 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
             }
         });
 
-        Map map1 = new HashMap();
-        map1.put("createdBy",user.getUid());
-        map1.put("reference",userActivity);
-
-        documentReference.set(map1).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Snackbar.make(v,"Added ",Snackbar.LENGTH_LONG).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                e.printStackTrace();
-            }
-        });
     }
 
     private boolean checkEmptyField(boolean empty ){

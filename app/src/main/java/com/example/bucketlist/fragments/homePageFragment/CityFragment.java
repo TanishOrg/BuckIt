@@ -255,51 +255,40 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
         List = new ArrayList<>();
 
-        CollectionReference userCollectionref = firestore.collection("Users");
-        userCollectionref.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        CollectionReference collectionReference = firestore.collection("Posts");
+        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error!=null){
-                    Log.e("error",error.getMessage());
+                    Log.d("Exception Failed", "onEvent: 0  " + error);
+
                 }
                 else{
-                    for (final QueryDocumentSnapshot snapshot:value){
-                        CollectionReference activityCollectionRef = firestore.collection("Users")
-                                .document(snapshot.getId()).collection("activities");
-
-                        activityCollectionRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    for (final QueryDocumentSnapshot snapshot : value){
+                        DocumentReference documentReference = firestore.collection("Posts").document(snapshot.getId());
+                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                             @Override
-                            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                                 if (error!=null){
-                                    Log.e("error",error.getMessage());
+                                    Log.d("Exception Failed", "onEvent: 0  " + error);
+
                                 }
-                                else {
-                                    for (final QueryDocumentSnapshot snapshot1 : value){
-                                        DocumentReference activityDocRef = firestore.collection("Users").document(snapshot.getId())
-                                                .collection("activities").document(snapshot1.getId());
-                                        activityDocRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                                if (error!=null){
-                                                    Log.e("error",error.getMessage());
-                                                }
-                                                else{
-                                                    Log.d("activity id",value.getId());
-                                                    List.add(new ActivityModel(value.getString("createdBy")
-                                                            , value.getString("title")
-                                                            , value.getLong("timeStamp").longValue()
-                                                            , value.getString("location")
-                                                            , value.getLong("likes").intValue()
-                                                            , value.getId()));
-                                                    postRecyclerAdapter.notifyDataSetChanged();
-                                                }
-                                            }
-                                        });
-                                    }
+                                else{
+                                   List.add(new ActivityModel(value.getString("createdBy"),
+                                           value.getString("title"),
+                                           value.getLong("timeStamp").longValue(),
+                                           value.getString("location"),
+                                           value.getLong("likes").intValue(),
+                                           value.getId()));
+                                    postRecyclerAdapter.notifyDataSetChanged();
                                 }
+
                             }
                         });
+
                     }
+
+
                 }
             }
         });
