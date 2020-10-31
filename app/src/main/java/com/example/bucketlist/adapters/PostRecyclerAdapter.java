@@ -46,8 +46,8 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
     @Override
     public void onBindViewHolder(@NonNull final PostViewHolder holder, int position) {
 
-        FirebaseFirestore.getInstance().collection("Users").document(modelList.get(position)
-                .getCreatedByUserID()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        FirebaseFirestore.getInstance().collection("Users")
+                .document(modelList.get(position).getCreatedByUserID()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error!=null){
@@ -74,12 +74,16 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
       //  System.out.println(sdf.format(new Date(modelList.get(position).getTimeStamp() * 1000L)));
 
 
+
         Log.d("timestamp",Long.toString(modelList.get(position).getTimeStamp()));
         Log.d("timezone",TimeZone.getDefault().toString());
         String dateAsText = sdf.format(new Date(modelList.get(position).getTimeStamp()).getTime());
 
         Log.d("datecreated",dateAsText);
-        holder.location.setText(modelList.get(position).getLocation());
+
+        String[] arr = modelList.get(position).getLocation().split(", ",0);
+        String cityFilename = arr[0] + ", " + arr[arr.length - 1];
+        holder.location.setText(cityFilename);
         holder.timeCreated.setText(dateAsText);
         holder.title.setText(modelList.get(position).getTitle());
         holder.noOfLikes.setText(Integer.toString( modelList.get(position).getLikes()));

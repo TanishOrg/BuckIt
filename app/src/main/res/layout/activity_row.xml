@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:maxHeight="250dp"
+    android:maxHeight="260dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:minHeight="130dp"
+        android:layout_height="140dp"
+        android:minHeight="140dp"
         app:cardCornerRadius="12dp"
         android:elevation="13dp"
         android:layout_marginHorizontal="10dp"
@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="#DDDDDD"
-                android:paddingHorizontal="5dp"
+                android:paddingHorizontal="2dp"
                 android:gravity="center|top"
                 android:orientation="vertical">
 
@@ -33,7 +33,7 @@
                     android:id="@+id/likeButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginHorizontal="8dp"
                     android:layout_marginTop="10dp"
                     android:src="@drawable/up_arrow_icon"
                     app:tint="#2b2b2b" />
@@ -50,7 +50,7 @@
                     android:id="@+id/dislikeButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginHorizontal="8dp"
                     android:layout_marginBottom="10dp"
                     app:tint="#2B2B2B"
                     android:src="@drawable/ic_down_arrow_icon"/>
@@ -76,25 +76,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Location"
-                        android:textSize="12dp"
+                        android:textSize="16dp"
                         android:fontFamily="@font/nunito_bold"/>
 
-                    <ImageView
-                        android:layout_width="2dp"
-                        android:layout_height="2dp"
-                        android:layout_gravity="center"
-                        android:layout_marginHorizontal="5dp"
-                        android:src="@drawable/default_selected_dot"
-                        app:tint="#000000" />
 
-                    <TextView
-                        android:id="@+id/postedBy"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Posted by username"
-                        android:textSize="10dp"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/nunito_semibold"/>
+
+
 
                     <TextView
                         android:id="@+id/timeCreated"
@@ -102,11 +89,19 @@
                         android:layout_height="wrap_content"
                         android:text="11:11"
                         android:gravity="end"
-                        android:textSize="10dp"
+                        android:textSize="12dp"
                         android:layout_gravity="center"
                         android:fontFamily="@font/nunito_semibold"/>
 
                 </LinearLayout>
+                <TextView
+                    android:id="@+id/postedBy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Posted by username"
+                    android:textSize="12dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito_semibold"/>
 
                 <TextView
                     android:id="@+id/title"
