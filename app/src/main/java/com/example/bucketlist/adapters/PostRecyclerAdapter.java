@@ -63,17 +63,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         calendar.setTime(new Date());
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
 
-//Here you say to java the initial timezone. This is the secret
-        //sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-//Will print in UTC
-      //  System.out.println(sdf.format(calendar.getTime()));
-
-//Here you set to your timezone
         sdf.setTimeZone(TimeZone.getDefault());
-//Will print on your default Timezone
-      //  System.out.println(sdf.format(new Date(modelList.get(position).getTimeStamp() * 1000L)));
-
-
 
         Log.d("timestamp",Long.toString(modelList.get(position).getTimeStamp()));
         Log.d("timezone",TimeZone.getDefault().toString());
