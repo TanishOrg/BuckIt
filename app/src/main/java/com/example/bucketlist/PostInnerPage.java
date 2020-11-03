@@ -163,7 +163,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                 .collection("Bookmarks").document(postId);
         DocumentReference postDocRef = firestore.collection("Posts").document(postId);
         Map map = new HashMap();
-        map.put("post reference",documentReference);
+        map.put("post reference",postDocRef);
         documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

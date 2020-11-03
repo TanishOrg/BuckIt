@@ -74,13 +74,13 @@ public class Bookmark extends AppCompatActivity {
                                   error.printStackTrace();
                               }
                               else{
-//                                  modelList.add(new ActivityModel(value.getString("createdBy"),
-//                                          value.getString("title"),
-//                                          value.getLong("timeStamp").longValue(),
-//                                          value.getString("location"),
-//                                          value.getLong("likes").intValue(),
-//                                          value.getId()));
-//                                  bookmarkrecyclerAdapter.notifyDataSetChanged();
+                                  modelList.add(new ActivityModel(value.getString("createdBy"),
+                                          value.getString("title"),
+                                          value.getLong("timeStamp").longValue(),
+                                          value.getString("location"),
+                                          value.getLong("likes").intValue(),
+                                          value.getId()));
+                                  bookmarkrecyclerAdapter.notifyDataSetChanged();
 //
                                       Log.d("title",value.getDocumentReference("post reference").toString());
                               }
