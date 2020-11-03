@@ -1,5 +1,6 @@
 package com.example.bucketlist;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,12 +8,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.bucketlist.fragments.homePageFragment.CityFragment;
+import androidx.appcompat.widget.Toolbar;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -22,10 +28,11 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 
-import static com.example.bucketlist.R.drawable.ic_baseline_bookmark_24;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostInnerPage extends AppCompatActivity implements View.OnClickListener {
     String postId;
@@ -34,17 +41,27 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     int likes;
     Long timestamp;
     FirebaseFirestore firestore;
-    FirebaseUser user;
-    FirebaseAuth mAuth;
+    Toolbar toolbar;
 
-    ImageView backButton,saveBookmark;
+    CircleImageView userImage;
+
+    FirebaseAuth auth;
+
+    ImageView backButton,bookmarkButton;
 
     TextView locationView,createdBy,timeCreated,titleView,descriptionView,likesView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.post_inner_page_activity);
+
+        toolbar = findViewById(R.id.toolBar);
+        setSupportActionBar(toolbar);
+
+
+
         postId = getIntent().getStringExtra("postId");
         initialize();
 
@@ -52,6 +69,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     }
 
     public void initialize(){
+        auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         locationView = findViewById(R.id.location);
         createdBy = findViewById(R.id.createdBy);
@@ -60,13 +78,11 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
         descriptionView  =findViewById(R.id.descriptionView);
         likesView = findViewById(R.id.noOfLikes);
         backButton = findViewById(R.id.backButton);
-        saveBookmark=findViewById(R.id.saveBookmark);
-
-        mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
+        userImage = findViewById(R.id.userImage);
+        bookmarkButton = findViewById(R.id.saveBookmark);
 
         backButton.setOnClickListener(this);
-        saveBookmark.setOnClickListener(this);
+        bookmarkButton.setOnClickListener(this);
 
         if (postId!=null){
             loadPost();
@@ -128,14 +144,38 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
             }
         });
 
+        firestore.collection("Users").document(auth.getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error!=null){
+                    error.printStackTrace();
+                }
+                else{
+                    Glide.with(getApplicationContext()).load(value.getString("Image Uri")).into(userImage);
+                }
+            }
+        });
+
     }
 
-
-
-    public void setSaveBookmark(){
-        DocumentReference documentReference = firestore.collection("Users").document(user.getUid()).collection("bookmark").document(postId);
-
-
+    public void bookmarking(){
+        DocumentReference documentReference = firestore.collection("Users").document(auth.getCurrentUser().getUid())
+                .collection("Bookmarks").document(postId);
+        DocumentReference postDocRef = firestore.collection("Posts").document(postId);
+        Map map = new HashMap();
+        map.put("post reference",documentReference);
+        documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("successful","successful");
+                Toast.makeText(PostInnerPage.this, "Bookmarked", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -146,15 +186,9 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                 i.putExtra("cityId",location);
                 finish();
                 startActivity(i);
-
-//            case R.id.saveBookmark:
-//                if(){
-//                    saveBookmark.setImageResource(R.drawable.ic_baseline_bookmark_24);
-//                }
-//                else(){
-//                saveBookmark.setImageResource(R.drawable.ic_baseline_bookmark_border_24);
-//            }
-//
+                break;
+            case R.id.saveBookmark:
+               bookmarking();
 
 
         }

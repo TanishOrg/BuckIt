@@ -31,6 +31,8 @@ public class Bookmark extends AppCompatActivity {
     FirebaseFirestore firestore;
     FirebaseAuth auth;
     RecyclerView bookmarkRecyclerview;
+    PostRecyclerAdapter bookmarkrecyclerAdapter;
+    List<ActivityModel> modelList;
 
 
 
@@ -40,10 +42,57 @@ public class Bookmark extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bookmark);
 
+        bookmarkRecyclerview = findViewById(R.id.bookmarkRecyclerview);
+
+
         firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
+        bookmarkRecyclerview.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        bookmarkRecyclerview.setItemAnimator(new DefaultItemAnimator());
 
+        LoadBookamrkPost();
 
     }
+
+    private void LoadBookamrkPost() {
+        modelList = new ArrayList<>();
+        CollectionReference collection = firestore.collection("Users").document(auth.getCurrentUser().getUid())
+                .collection("Bookmarks");
+        collection.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error!=null){
+                    error.printStackTrace();
+                }
+                else{
+                    for (QueryDocumentSnapshot snapshot : value){
+                        snapshot.getDocumentReference("post reference").addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                              if (error!=null){
+                                  error.printStackTrace();
+                              }
+                              else{
+//                                  modelList.add(new ActivityModel(value.getString("createdBy"),
+//                                          value.getString("title"),
+//                                          value.getLong("timeStamp").longValue(),
+//                                          value.getString("location"),
+//                                          value.getLong("likes").intValue(),
+//                                          value.getId()));
+//                                  bookmarkrecyclerAdapter.notifyDataSetChanged();
+//
+                                      Log.d("title",value.getDocumentReference("post reference").toString());
+                              }
+                            }
+                        });
+                    }
+                }
+            }
+        });
+
+        bookmarkrecyclerAdapter = new PostRecyclerAdapter(getApplicationContext(),modelList);
+        bookmarkRecyclerview.setAdapter(bookmarkrecyclerAdapter);
+    }
+
 }

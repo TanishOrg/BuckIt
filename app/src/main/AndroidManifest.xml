@@ -21,6 +21,7 @@
         android:theme="@style/CustomTheme">
         <activity android:name=".SeemorePosts"></activity>
         <activity android:name=".PostInnerPage"/>
+        <activity android:name=".Bookmark"/>
         <activity android:name=".AddNewPost" />
         <activity android:name=".AddNewCity" />
         <activity android:name=".ContactEntyLogin" />
