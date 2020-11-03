@@ -70,7 +70,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
     RecyclerAdapterTrendingCard recyclerAdapterTrendingCard;
     PostRecyclerAdapter postRecyclerAdapter;
     List<CityModel> arrayList;
-    List<ActivityModel> List;
+    List<ActivityModel> list;
 //    int images[] = {R.drawable.athens,R.drawable.colombo,R.drawable.london,R.drawable.pisa};
 //    String cityName[] = {"Athens", "Colombo", "London", "Pisa"};
 
@@ -95,10 +95,21 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
         postRecyclerView=view.findViewById(R.id.recycler_view_post);
 
+        arrayList = new ArrayList<>();
+        trendingCardModelList = new ArrayList<>();
+        list = new ArrayList<>();
+
+        pageAdapterTrendingCard = new PageAdapterTrendingCard(getContext(),trendingCardModelList);
+        viewPager.setAdapter(pageAdapterTrendingCard);
+        viewPager.setPadding(150,0,150,0);
+
+        recyclerAdapterTrendingCard = new RecyclerAdapterTrendingCard(getContext(),arrayList);
+        recyclerView.setAdapter(recyclerAdapterTrendingCard);
+
+        postRecyclerAdapter = new PostRecyclerAdapter(getContext(),list);
+        postRecyclerView.setAdapter(postRecyclerAdapter);
 
         trendingCardDataLoading();
-
-
 
 
 
@@ -142,7 +153,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
     public void trendingCardDataLoading(){
 
 
-        trendingCardModelList = new ArrayList<>();
+
 
         CollectionReference collectionReference = firestore.collection("Cities");
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -153,46 +164,47 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
                 }
                 else{
-                    for (final QueryDocumentSnapshot snapshot : value){
-                        DocumentReference documentReference = firestore.collection("Cities").document(snapshot.getId());
-                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                            @Override
-                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                if (error!=null){
-                                    Log.d("Exception Failed", "onEvent: 0  " + error);
-
-                                }
-                                else{
-                                    trendingCardModelList.add(new TrendingCardModel(value.getString("City Name"),
-                                            value.getString("Country Name"),
-                                            value.getString("City Background Image"),snapshot.getId()));
-                                    pageAdapterTrendingCard.notifyDataSetChanged();
-                                    Log.d("size",Integer.toString(trendingCardModelList.size()));
-                                }
-
-                            }
-                        });
-
+                    for (QueryDocumentSnapshot snapshot : value) {
+                        trendingCardModelList.add(new TrendingCardModel(snapshot.getString("City Name"),
+                                snapshot.getString("Country Name"),
+                                snapshot.getString("City Background Image"),snapshot.getId()));
                     }
+
+                    pageAdapterTrendingCard.notifyDataSetChanged();
+
+                    Log.d("size",Integer.toString(trendingCardModelList.size()));
+//                    pageAdapterTrendingCard.notifyDataSetChanged();
+//                    for (final QueryDocumentSnapshot snapshot : value){
+//                        DocumentReference documentReference = firestore.collection("Cities").document(snapshot.getId());
+//
+//                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+//                            @Override
+//                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+//                                if (error!=null){
+//                                    Log.d("Exception Failed", "onEvent: 0  " + error);
+//
+//                                }
+//                                else{
+//                                    trendingCardModelList.add(new TrendingCardModel(value.getString("City Name"),
+//                                            value.getString("Country Name"),
+//                                            value.getString("City Background Image"),snapshot.getId()));
+//                                    pageAdapterTrendingCard.notifyDataSetChanged();
+//                                    Log.d("size",Integer.toString(trendingCardModelList.size()));
+//                                }
+//
+//                            }
+//                        });
+//
+//                    }
 
                 }
             }
         });
-
-
-
-        pageAdapterTrendingCard = new PageAdapterTrendingCard(getContext(),trendingCardModelList);
-        viewPager.setAdapter(pageAdapterTrendingCard);
-        viewPager.setPadding(150,0,150,0);
-
-
-
-
     }
 
     public void trendingbottomCardDataLoading(){
 
-        arrayList = new ArrayList<>();
+
 
         CollectionReference collectionReference = firestore.collection("Cities");
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -203,34 +215,38 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
                 }
                 else{
+                    arrayList.clear();
                     for (final QueryDocumentSnapshot snapshot : value){
-                        DocumentReference documentReference = firestore.collection("Cities").document(snapshot.getId());
-                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                            @Override
-                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                if (error!=null){
-                                    Log.d("Exception Failed", "onEvent: 0  " + error);
 
-                                }
-                                else{
-                                    arrayList.add(new CityModel(value.getString("City Background Image"),
-                                            value.getString("City Name"),
-                                            value.getString("Country Name"),snapshot.getId()));
-                                    recyclerAdapterTrendingCard.notifyDataSetChanged();
-                                }
-
-                            }
-                        });
+                        arrayList.add(new CityModel(snapshot.getString("City Background Image"),
+                                snapshot.getString("City Name"),
+                                snapshot.getString("Country Name"),snapshot.getId()));
+//                        DocumentReference documentReference = firestore.collection("Cities").document(snapshot.getId());
+//                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+//                            @Override
+//                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+//                                if (error!=null){
+//                                    Log.d("Exception Failed", "onEvent: 0  " + error);
+//
+//                                }
+//                                else{
+//                                    arrayList.add(new CityModel(snapshot.getString("City Background Image"),
+//                                            snapshot.getString("City Name"),
+//                                            snapshot.getString("Country Name"),snapshot.getId()));
+//                                    recyclerAdapterTrendingCard.notifyDataSetChanged();
+//                                }
+//
+//                            }
+//                        });
 
                     }
-
+                    recyclerAdapterTrendingCard.notifyDataSetChanged();
 
                 }
             }
         });
 
-        recyclerAdapterTrendingCard = new RecyclerAdapterTrendingCard(getContext(),arrayList);
-        recyclerView.setAdapter(recyclerAdapterTrendingCard);
+
 //        viewPager.setPadding(50,0,50,0);
 
     }
@@ -264,7 +280,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
     public void PostLoading(){
 
-        List = new ArrayList<>();
+
 
         CollectionReference collectionReference = firestore.collection("Posts");
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -276,36 +292,39 @@ public class CityFragment extends Fragment implements View.OnClickListener {
                 }
                 else{
                     for (final QueryDocumentSnapshot snapshot : value){
-                        DocumentReference documentReference = firestore.collection("Posts").document(snapshot.getId());
-                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                            @Override
-                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                if (error!=null){
-                                    Log.d("Exception Failed", "onEvent: 0  " + error);
-
-                                }
-                                else{
-                                   List.add(new ActivityModel(value.getString("createdBy"),
-                                           value.getString("title"),
-                                           value.getLong("timeStamp").longValue(),
-                                           value.getString("location"),
-                                           value.getLong("likes").intValue(),
-                                           value.getId()));
-                                    postRecyclerAdapter.notifyDataSetChanged();
-                                }
-
-                            }
-                        });
-
+//                        DocumentReference documentReference = firestore.collection("Posts").document(snapshot.getId());
+//                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+//                            @Override
+//                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+//                                if (error!=null){
+//                                    Log.d("Exception Failed", "onEvent: 0  " + error);
+//
+//                                }
+//                                else{
+//                                   List.add(new ActivityModel(snapshot.getString("createdBy"),
+//                                           snapshot.getString("title"),
+//                                           snapshot.getLong("timeStamp").longValue(),
+//                                           snapshot.getString("location"),
+//                                           snapshot.getLong("likes").intValue(),
+//                                           snapshot.getId()));
+//                                    postRecyclerAdapter.notifyDataSetChanged();
+//                                }
+//
+//                            }
+//                        });
+                        list.add(new ActivityModel(snapshot.getString("createdBy"),
+                                snapshot.getString("title"),
+                                snapshot.getLong("timeStamp").longValue(),
+                                snapshot.getString("location"),
+                                snapshot.getLong("likes").intValue(),
+                                snapshot.getId()));
                     }
-
-
+                    postRecyclerAdapter.notifyDataSetChanged();
                 }
             }
         });
 
-        postRecyclerAdapter = new PostRecyclerAdapter(getContext(),List);
-        postRecyclerView.setAdapter(postRecyclerAdapter);
+
 
 
     }
