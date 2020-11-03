@@ -7,10 +7,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
 
-import com.example.bucketlist.fragments.homePageFragment.CityFragment;
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -22,6 +25,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class PostInnerPage extends AppCompatActivity implements View.OnClickListener {
     String postId;
     String location,username,title,description;
@@ -29,6 +34,11 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     int likes;
     Long timestamp;
     FirebaseFirestore firestore;
+    Toolbar toolbar;
+
+    CircleImageView userImage;
+
+    FirebaseAuth auth;
 
     ImageView backButton;
 
@@ -37,7 +47,14 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.post_inner_page_activity);
+
+        toolbar = findViewById(R.id.toolBar);
+        setSupportActionBar(toolbar);
+
+
+
         postId = getIntent().getStringExtra("postId");
         initialize();
 
@@ -45,6 +62,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     }
 
     public void initialize(){
+        auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         locationView = findViewById(R.id.location);
         createdBy = findViewById(R.id.createdBy);
@@ -53,6 +71,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
         descriptionView  =findViewById(R.id.descriptionView);
         likesView = findViewById(R.id.noOfLikes);
         backButton = findViewById(R.id.backButton);
+        userImage = findViewById(R.id.userImage);
 
         backButton.setOnClickListener(this);
 
@@ -112,6 +131,18 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                         }
                     });
 
+                }
+            }
+        });
+
+        firestore.collection("Users").document(auth.getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error!=null){
+                    error.printStackTrace();
+                }
+                else{
+                    Glide.with(getApplicationContext()).load(value.getString("Image Uri")).into(userImage);
                 }
             }
         });

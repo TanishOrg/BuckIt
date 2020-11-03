@@ -33,10 +33,12 @@ public class HomeActivity extends AppCompatActivity {
     FirebaseAuth  firebaseAuth;
     FirebaseFirestore firebaseFirestore;
     String recentPassword , storedPassword ,from;
+    String whichCity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
 
       //  getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -70,6 +72,17 @@ public class HomeActivity extends AppCompatActivity {
             getSupportFragmentManager().
                     beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).commit();
             bottomNav.setSelectedItemId(R.id.profile);
+        }
+
+        try {
+            whichCity = getIntent().getStringExtra("which Activity");
+            if (whichCity.equals("from Add new city")){
+                getSupportFragmentManager().
+                        beginTransaction().replace(R.id.fragment_container,new CityFragment()).commit();
+                bottomNav.setSelectedItemId(R.id.city);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
