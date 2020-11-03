@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bucketlist.fragments.homePageFragment.CityFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -20,7 +22,10 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
+
+import static com.example.bucketlist.R.drawable.ic_baseline_bookmark_24;
 
 public class PostInnerPage extends AppCompatActivity implements View.OnClickListener {
     String postId;
@@ -29,8 +34,10 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     int likes;
     Long timestamp;
     FirebaseFirestore firestore;
+    FirebaseUser user;
+    FirebaseAuth mAuth;
 
-    ImageView backButton;
+    ImageView backButton,saveBookmark;
 
     TextView locationView,createdBy,timeCreated,titleView,descriptionView,likesView;
 
@@ -53,8 +60,13 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
         descriptionView  =findViewById(R.id.descriptionView);
         likesView = findViewById(R.id.noOfLikes);
         backButton = findViewById(R.id.backButton);
+        saveBookmark=findViewById(R.id.saveBookmark);
+
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
 
         backButton.setOnClickListener(this);
+        saveBookmark.setOnClickListener(this);
 
         if (postId!=null){
             loadPost();
@@ -118,6 +130,14 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
 
     }
 
+
+
+    public void setSaveBookmark(){
+        DocumentReference documentReference = firestore.collection("Users").document(user.getUid()).collection("bookmark").document(postId);
+
+
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -126,6 +146,15 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                 i.putExtra("cityId",location);
                 finish();
                 startActivity(i);
+
+//            case R.id.saveBookmark:
+//                if(){
+//                    saveBookmark.setImageResource(R.drawable.ic_baseline_bookmark_24);
+//                }
+//                else(){
+//                saveBookmark.setImageResource(R.drawable.ic_baseline_bookmark_border_24);
+//            }
+//
 
 
         }

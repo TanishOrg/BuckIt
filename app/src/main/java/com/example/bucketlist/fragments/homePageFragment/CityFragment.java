@@ -88,8 +88,6 @@ public class CityFragment extends Fragment implements View.OnClickListener {
     TextView profileName;
 
 
-
-
     int currentPage = 0;
     Timer timer;
     final long DELAY_MS = 500;
@@ -123,6 +121,8 @@ public class CityFragment extends Fragment implements View.OnClickListener {
                     case R.id.myPost:
                         Intent i = new Intent(getContext(), myPost.class);
                         startActivity(i);
+                    case R.id.bookmark:
+
                 }
                 return false;
             }
@@ -156,16 +156,12 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
         postRecyclerView=view.findViewById(R.id.recycler_view_post);
 
-        profileImage = view.findViewById(R.id.profileImage1);
-        profileName = view.findViewById(R.id.profileName1);
+        profileImage = headerView.findViewById(R.id.profileImage1);
+        profileName = headerView.findViewById(R.id.profileName1);
         user_id = firebaseAuth.getCurrentUser().getUid();
 
 
         trendingCardDataLoading();
-
-
-
-
 
         PostLoading();
 
@@ -175,9 +171,6 @@ public class CityFragment extends Fragment implements View.OnClickListener {
         trendingbottomCardDataLoading();
 
         autoScroll();
-
-
-
 
         loadData(user_id);
 
@@ -251,9 +244,6 @@ public class CityFragment extends Fragment implements View.OnClickListener {
         pageAdapterTrendingCard = new PageAdapterTrendingCard(getContext(),trendingCardModelList);
         viewPager.setAdapter(pageAdapterTrendingCard);
         viewPager.setPadding(150,0,150,0);
-
-
-
 
     }
 
@@ -393,8 +383,5 @@ public class CityFragment extends Fragment implements View.OnClickListener {
             }
         });
     }
-
-
-
 
 }
