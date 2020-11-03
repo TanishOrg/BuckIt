@@ -1,5 +1,6 @@
 package com.example.bucketlist;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,9 +11,13 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -23,6 +28,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -40,7 +47,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
 
     FirebaseAuth auth;
 
-    ImageView backButton;
+    ImageView backButton,bookmarkButton;
 
     TextView locationView,createdBy,timeCreated,titleView,descriptionView,likesView;
 
@@ -72,8 +79,10 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
         likesView = findViewById(R.id.noOfLikes);
         backButton = findViewById(R.id.backButton);
         userImage = findViewById(R.id.userImage);
+        bookmarkButton = findViewById(R.id.saveBookmark);
 
         backButton.setOnClickListener(this);
+        bookmarkButton.setOnClickListener(this);
 
         if (postId!=null){
             loadPost();
@@ -149,6 +158,26 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
 
     }
 
+    public void bookmarking(){
+        DocumentReference documentReference = firestore.collection("Users").document(auth.getCurrentUser().getUid())
+                .collection("Bookmarks").document(postId);
+        DocumentReference postDocRef = firestore.collection("Posts").document(postId);
+        Map map = new HashMap();
+        map.put("post reference",documentReference);
+        documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("successful","successful");
+                Toast.makeText(PostInnerPage.this, "Bookmarked", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -157,6 +186,9 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                 i.putExtra("cityId",location);
                 finish();
                 startActivity(i);
+                break;
+            case R.id.saveBookmark:
+               bookmarking();
 
 
         }

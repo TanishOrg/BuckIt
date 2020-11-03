@@ -33,6 +33,7 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.bucketlist.AddNewCity;
 import com.example.bucketlist.AddNewPost;
+import com.example.bucketlist.Bookmark;
 import com.example.bucketlist.R;
 import com.example.bucketlist.SeeMoreCities;
 import com.example.bucketlist.SeemorePosts;
@@ -123,8 +124,8 @@ public class CityFragment extends Fragment implements View.OnClickListener {
                         startActivity(i);
                         break;
                     case R.id.bookmark:
-
-
+                        Intent in = new Intent(getContext(), Bookmark.class);
+                        startActivity(in);
                 }
                 return false;
             }
