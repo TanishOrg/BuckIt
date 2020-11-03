@@ -121,7 +121,9 @@ public class CityFragment extends Fragment implements View.OnClickListener {
                     case R.id.myPost:
                         Intent i = new Intent(getContext(), myPost.class);
                         startActivity(i);
+                        break;
                     case R.id.bookmark:
+
 
                 }
                 return false;
