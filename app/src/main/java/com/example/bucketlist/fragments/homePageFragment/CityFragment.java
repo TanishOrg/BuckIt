@@ -99,8 +99,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
     PostRecyclerAdapter postRecyclerAdapter;
     List<CityModel> arrayList;
     List<ActivityModel> List;
-//    int images[] = {R.drawable.athens,R.drawable.colombo,R.drawable.london,R.drawable.pisa};
-//    String cityName[] = {"Athens", "Colombo", "London", "Pisa"};
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -180,7 +179,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
 
 
-//        loadData(user_id);
+        loadData(user_id);
 
         return  view;
     }
@@ -377,23 +376,23 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
 
     }
-//    private void loadData(String user_id) {
-//        DocumentReference documentReference = firestore.collection("Users").document(user_id);
-//        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-//                if (error!=null){
-//                    Log.d("City Fragment error","Error:"+error.getMessage());
-//                }
-//                else {
-//                    profileName.setText(value.getString("Display Name"));
-//                    stringImageUri = value.getString("Image Uri");
-//                    Glide.with(context).load(stringImageUri).into(profileImage);
-//
-//                }
-//            }
-//        });
-//    }
+    private void loadData(String user_id) {
+        DocumentReference documentReference = firestore.collection("Users").document(user_id);
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error!=null){
+                    Log.d("City Fragment error","Error:"+error.getMessage());
+                }
+                else {
+                    profileName.setText(value.getString("Display Name"));
+                    stringImageUri = value.getString("Image Uri");
+                    Glide.with(context).load(stringImageUri).into(profileImage);
+
+                }
+            }
+        });
+    }
 
 
 
