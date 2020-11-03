@@ -156,16 +156,12 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
         postRecyclerView=view.findViewById(R.id.recycler_view_post);
 
-        profileImage = view.findViewById(R.id.profileImage1);
-        profileName = view.findViewById(R.id.profileName1);
+        profileImage = headerView.findViewById(R.id.profileImage1);
+        profileName = headerView.findViewById(R.id.profileName1);
         user_id = firebaseAuth.getCurrentUser().getUid();
 
 
         trendingCardDataLoading();
-
-
-
-
 
         PostLoading();
 

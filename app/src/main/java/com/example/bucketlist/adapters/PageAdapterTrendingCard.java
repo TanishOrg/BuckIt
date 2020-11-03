@@ -76,7 +76,7 @@ public class PageAdapterTrendingCard extends PagerAdapter {
         });
 
 
-        container.addView(view,position);
+        container.addView(view);
         return view;
 
     }
