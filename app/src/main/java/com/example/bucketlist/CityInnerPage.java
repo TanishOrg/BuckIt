@@ -108,7 +108,7 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
         }
         postRecyclerVew = findViewById(R.id.postRecyclerView);
 
-        postRecyclerVew.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        postRecyclerVew.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         postRecyclerVew.setItemAnimator(new DefaultItemAnimator());
 
         PostLoading();
@@ -296,8 +296,8 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
                 }
                 else{
                     for (QueryDocumentSnapshot snapshot: value){
-                        DocumentReference documentReference = firestore.collection("Posts").document(snapshot.getId());
-                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                        firestore.collection("Posts").document(snapshot.getId())
+                                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
                             @Override
                             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                                 if (error!=null){
@@ -311,6 +311,9 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
                                             value.getLong("likes").intValue(),
                                             value.getId()));
                                     postRecyclerAdapter.notifyDataSetChanged();
+
+                                    Log.d("inflist",value.getString("createdBy")+value.getString("title"));
+
                                 }
                             }
                         });

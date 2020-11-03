@@ -7,12 +7,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
 
-import com.example.bucketlist.fragments.homePageFragment.CityFragment;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -22,10 +23,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.TimeZone;
 
-import static com.example.bucketlist.R.drawable.ic_baseline_bookmark_24;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostInnerPage extends AppCompatActivity implements View.OnClickListener {
     String postId;
@@ -34,17 +34,27 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     int likes;
     Long timestamp;
     FirebaseFirestore firestore;
-    FirebaseUser user;
-    FirebaseAuth mAuth;
+    Toolbar toolbar;
 
-    ImageView backButton,saveBookmark;
+    CircleImageView userImage;
+
+    FirebaseAuth auth;
+
+    ImageView backButton;
 
     TextView locationView,createdBy,timeCreated,titleView,descriptionView,likesView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.post_inner_page_activity);
+
+        toolbar = findViewById(R.id.toolBar);
+        setSupportActionBar(toolbar);
+
+
+
         postId = getIntent().getStringExtra("postId");
         initialize();
 
@@ -52,6 +62,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     }
 
     public void initialize(){
+        auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         locationView = findViewById(R.id.location);
         createdBy = findViewById(R.id.createdBy);
@@ -60,13 +71,9 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
         descriptionView  =findViewById(R.id.descriptionView);
         likesView = findViewById(R.id.noOfLikes);
         backButton = findViewById(R.id.backButton);
-        saveBookmark=findViewById(R.id.saveBookmark);
-
-        mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
+        userImage = findViewById(R.id.userImage);
 
         backButton.setOnClickListener(this);
-        saveBookmark.setOnClickListener(this);
 
         if (postId!=null){
             loadPost();
@@ -128,13 +135,17 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
             }
         });
 
-    }
-
-
-
-    public void setSaveBookmark(){
-        DocumentReference documentReference = firestore.collection("Users").document(user.getUid()).collection("bookmark").document(postId);
-
+        firestore.collection("Users").document(auth.getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error!=null){
+                    error.printStackTrace();
+                }
+                else{
+                    Glide.with(getApplicationContext()).load(value.getString("Image Uri")).into(userImage);
+                }
+            }
+        });
 
     }
 
@@ -146,15 +157,6 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                 i.putExtra("cityId",location);
                 finish();
                 startActivity(i);
-
-//            case R.id.saveBookmark:
-//                if(){
-//                    saveBookmark.setImageResource(R.drawable.ic_baseline_bookmark_24);
-//                }
-//                else(){
-//                saveBookmark.setImageResource(R.drawable.ic_baseline_bookmark_border_24);
-//            }
-//
 
 
         }

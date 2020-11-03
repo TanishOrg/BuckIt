@@ -35,10 +35,6 @@ public class PageAdapterTrendingCard extends PagerAdapter {
 
     @Override
     public int getCount() {
-        if(trendingCardModelArrayList.isEmpty()){
-            return 0;
-        }
-        else
         return trendingCardModelArrayList.size();
     }
 

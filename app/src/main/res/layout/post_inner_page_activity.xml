@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="#FBFBFB"
     tools:context=".PostInnerPage">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar"
         android:layout_width="match_parent"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:layout_height="?attr/actionBarSize"
-        android:layout_marginTop="24dp"
-        app:cardBackgroundColor="#142327"
-        app:cardCornerRadius="-1dp"
+        android:background="#142327"
         android:elevation="2dp">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -23,8 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:src="@drawable/back_icon_black"
-                app:tint="@color/white"
-                android:layout_marginHorizontal="10dp"/>
+                app:tint="@color/white" />
 
             <ImageView
                 android:id="@+id/saveBookmark"
@@ -36,18 +36,18 @@
                 app:tint="@color/white"
                 android:layout_marginHorizontal="10dp"/>
         </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+    </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/cardView">
+        android:layout_below="@id/toolBar">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
-
+            android:layout_marginBottom="10dp"
+            android:background="@color/white"
             android:orientation="vertical">
 
             <TextView
@@ -55,6 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
                 android:textColor="#142327"
                 android:textSize="17dp"
                 android:text="Location"
@@ -202,5 +203,58 @@
 
 
     </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+
+       >
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DFDEDE"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userImage"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/default_profile"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"/>
+
+        <EditText
+            android:id="@+id/addComment"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_centerVertical="true"
+
+            android:layout_toEndOf="@id/userImage"
+            android:background="@drawable/edit_text_background"
+            android:backgroundTint="#FFFFFF"
+            android:layout_toStartOf="@id/sendCommentButton"
+            android:layout_marginHorizontal="10dp"
+
+            android:paddingVertical="16dp"
+            android:paddingHorizontal="10dp"
+            android:hint="add comment"
+            android:textSize="16dp"
+            android:fontFamily="@font/nunito"/>
+
+        <ImageView
+            android:id="@+id/sendCommentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_baseline_send_24"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>
