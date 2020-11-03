@@ -87,6 +87,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
                 Intent i = new Intent(view.getContext(), PostInnerPage.class);
                 Log.d("123id",modelList.get(position).getPostId());
                 i.putExtra("postId",modelList.get(position).getPostId());
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 view.getContext().startActivity(i);
             }
         });
