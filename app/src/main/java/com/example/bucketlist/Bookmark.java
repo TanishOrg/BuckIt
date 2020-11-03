@@ -81,8 +81,8 @@ public class Bookmark extends AppCompatActivity {
                                           value.getLong("likes").intValue(),
                                           value.getId()));
                                   bookmarkrecyclerAdapter.notifyDataSetChanged();
-//
-                                      Log.d("title",value.getDocumentReference("post reference").toString());
+
+                                      Log.d("title", value.getString("title"));
                               }
                             }
                         });
