@@ -1,8 +1,11 @@
 package com.example.bucketlist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +29,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class myPost extends AppCompatActivity {
+public class myPost extends AppCompatActivity implements View.OnClickListener {
 
     String cityId;
     FirebaseFirestore firestore;
@@ -34,6 +37,7 @@ public class myPost extends AppCompatActivity {
     List<ActivityModel> activityModelList ;
     RecyclerView myPostRecyclerView;
     PostRecyclerAdapter myPostRecyclerAdapter;
+    ImageView backButton;
 
 
 
@@ -44,6 +48,9 @@ public class myPost extends AppCompatActivity {
 
         cityId = getIntent().getStringExtra("cityId");
         firestore = FirebaseFirestore.getInstance();
+        backButton = findViewById(R.id.backButton);
+
+        backButton.setOnClickListener(this);
 
         auth = FirebaseAuth.getInstance();
 
@@ -100,5 +107,14 @@ public class myPost extends AppCompatActivity {
         myPostRecyclerView.setAdapter(myPostRecyclerAdapter);
 
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId()==R.id.backButton){
+            Intent i = new Intent(getApplicationContext(),HomeActivity.class);
+            i.putExtra("which Activity","from Add new city");
+            startActivity(i);
+        }
     }
 }

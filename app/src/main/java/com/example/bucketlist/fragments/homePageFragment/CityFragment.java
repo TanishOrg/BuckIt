@@ -2,7 +2,6 @@ package com.example.bucketlist.fragments.homePageFragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -10,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,15 +23,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.example.bucketlist.AddNewCity;
 import com.example.bucketlist.AddNewPost;
-import com.example.bucketlist.Bookmark;
+import com.example.bucketlist.BookmarkPage;
 import com.example.bucketlist.R;
 import com.example.bucketlist.SeeMoreCities;
 import com.example.bucketlist.SeemorePosts;
@@ -54,7 +49,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.vansuita.gaussianblur.GaussianBlur;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,7 +118,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
                         startActivity(i);
                         break;
                     case R.id.bookmark:
-                        Intent in = new Intent(getContext(), Bookmark.class);
+                        Intent in = new Intent(getContext(), BookmarkPage.class);
                         startActivity(in);
                 }
                 return false;

@@ -19,9 +19,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CustomTheme">
-        <activity android:name=".SeemorePosts"></activity>
-        <activity android:name=".PostInnerPage"/>
-        <activity android:name=".Bookmark"/>
+        <activity android:name=".BookmarkPage"></activity>
+        <activity android:name=".SeemorePosts" />
+        <activity android:name=".PostInnerPage" />
         <activity android:name=".AddNewPost" />
         <activity android:name=".AddNewCity" />
         <activity android:name=".ContactEntyLogin" />
@@ -30,7 +30,7 @@
         <activity android:name=".CityInnerPage" />
         <activity android:name=".layout.userLayout.EditProfileActivity" />
         <activity android:name=".layout.userLayout.DetailProfile" />
-        <activity android:name=".myPost"/>
+        <activity android:name=".myPost" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Theme.AppCompat" />
