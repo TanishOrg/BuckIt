@@ -234,18 +234,7 @@ public class SignupActivity extends AppCompatActivity
                     }
                 });
 
-//                final StorageReference ref = FirebaseStorage.getInstance().getReference().child(user.getUid()).child("profileImage.jpeg");
-//                ref.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                    @Override
-//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                            @Override
-//                            public void onSuccess(Uri uriToSend) {
-//
-//                            }
-//                        });
-//                    }
-//                });
+
 
 
             }

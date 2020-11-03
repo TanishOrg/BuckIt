@@ -174,7 +174,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
         trendingbottomCardDataLoading();
 
-        autoScroll();
+       // autoScroll();
 
 
 
@@ -245,7 +245,6 @@ public class CityFragment extends Fragment implements View.OnClickListener {
                 }
             }
         });
-
 
 
         pageAdapterTrendingCard = new PageAdapterTrendingCard(getContext(),trendingCardModelList);
