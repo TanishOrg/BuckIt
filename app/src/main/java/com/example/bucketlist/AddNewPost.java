@@ -104,6 +104,8 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
         if (view.getId() == R.id.backButton){
             Toast.makeText(getApplicationContext(), "back", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(getApplicationContext(),HomeActivity.class);
+            finish();
+            i.putExtra("which Activity","from City fragment");
             startActivity(i);
 
         }
@@ -121,6 +123,8 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
                  */
                 postToFirebase(view);
                 Intent i = new Intent(getApplicationContext(),HomeActivity.class);
+                finish();
+                i.putExtra("which Activity","from City fragment");
                 startActivity(i);
             }
         }
