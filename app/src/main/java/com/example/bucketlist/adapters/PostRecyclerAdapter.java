@@ -84,11 +84,11 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(view.getContext(), PostInnerPage.class);
+                Intent i = new Intent(context, PostInnerPage.class);
                 Log.d("123id",modelList.get(position).getPostId());
                 i.putExtra("postId",modelList.get(position).getPostId());
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                view.getContext().startActivity(i);
+                context.startActivity(i);
             }
         });
 

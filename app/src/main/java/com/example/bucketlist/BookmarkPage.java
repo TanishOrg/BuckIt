@@ -1,62 +1,58 @@
 package com.example.bucketlist;
 
-import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.util.Log;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+
 import com.example.bucketlist.adapters.PostRecyclerAdapter;
 import com.example.bucketlist.model.ActivityModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Bookmark extends AppCompatActivity {
+public class BookmarkPage extends AppCompatActivity implements View.OnClickListener {
 
     FirebaseFirestore firestore;
     FirebaseAuth auth;
     RecyclerView bookmarkRecyclerview;
     PostRecyclerAdapter bookmarkrecyclerAdapter;
     List<ActivityModel> modelList;
-
-
-
+    ImageView backButton;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.bookmark);
+        setContentView(R.layout.bookmark_page);
 
-        bookmarkRecyclerview = findViewById(R.id.bookmarkRecyclerview);
-
-
-        firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
+        bookmarkRecyclerview = findViewById(R.id.bookmarkRecyclerview);
+        backButton = findViewById(R.id.backButton);
 
-        bookmarkRecyclerview.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        bookmarkRecyclerview.setItemAnimator(new DefaultItemAnimator());
+        backButton.setOnClickListener(this);
+
 
         LoadBookamrkPost();
-
     }
 
     private void LoadBookamrkPost() {
         modelList = new ArrayList<>();
+        firestore = FirebaseFirestore.getInstance();
         CollectionReference collection = firestore.collection("Users").document(auth.getCurrentUser().getUid())
                 .collection("Bookmarks");
         collection.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -70,22 +66,23 @@ public class Bookmark extends AppCompatActivity {
                         snapshot.getDocumentReference("post reference").addSnapshotListener(new EventListener<DocumentSnapshot>() {
                             @Override
                             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                              if (error!=null){
-                                  error.printStackTrace();
-                              }
-                              else{
-                                  modelList.add(new ActivityModel(value.getString("createdBy"),
-                                          value.getString("title"),
-                                          value.getLong("timeStamp").longValue(),
-                                          value.getString("location"),
-                                          value.getLong("likes").intValue(),
-                                          value.getId()));
-                                  bookmarkrecyclerAdapter.notifyDataSetChanged();
+                                if (error!=null){
+                                    error.printStackTrace();
+                                }
+                                else{
+                                    modelList.add(new ActivityModel(value.getString("createdBy"),
+                                            value.getString("title"),
+                                            value.getLong("timeStamp").longValue(),
+                                            value.getString("location"),
+                                            value.getLong("likes").intValue(),
+                                            value.getId()));
+                                    bookmarkrecyclerAdapter.notifyDataSetChanged();
 
-                                      Log.d("title", value.getString("title"));
-                              }
+                                    Log.d("title", value.getString("title"));
+                                }
                             }
                         });
+
                     }
                 }
             }
@@ -95,4 +92,12 @@ public class Bookmark extends AppCompatActivity {
         bookmarkRecyclerview.setAdapter(bookmarkrecyclerAdapter);
     }
 
+    @Override
+    public void onClick(View view) {
+        if (view.getId()==R.id.backButton){
+            Intent i = new Intent(getApplicationContext(),HomeActivity.class);
+            i.putExtra("which Activity","from Add new city");
+            startActivity(i);
+        }
+    }
 }
