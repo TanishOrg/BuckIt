@@ -79,7 +79,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         holder.location.setText(cityFilename);
         holder.timeCreated.setText(dateAsText);
         holder.title.setText(modelList.get(position).getTitle());
-        holder.noOfLikes.setText(Integer.toString( modelList.get(position).getLikes()));
+        holder.noOfLikes.setText(Integer.toString( modelList.get(position).getLikes() - modelList.get(position).getDislikes()) );
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
