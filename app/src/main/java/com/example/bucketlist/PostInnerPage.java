@@ -51,9 +51,11 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     String location,username,title,description;
     String dateAsText;
     int likes;
+    int dislikes;
     Long timestamp;
     FirebaseFirestore firestore;
     Toolbar toolbar;
+    boolean isLike = false,isDislike = false;
 
     CircleImageView userImage;
 
@@ -116,7 +118,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                      @Override
                      public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                          if (value.exists()) {
-
+                             isLike = true;
                              DrawableCompat.setTint(likeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
                              DrawableCompat.setTint(dislikeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(),R.color.postAction));
 
@@ -129,7 +131,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                         if (value.exists()) {
-
+                            isDislike = true;
                             DrawableCompat.setTint(dislikeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
                             DrawableCompat.setTint(likeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(),R.color.postAction));
 
@@ -171,7 +173,8 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
 
 
                     likes = value.getLong("likes").intValue();
-                    likesView.setText(Integer.toString(likes));
+                    dislikes = value.getLong("dislikes").intValue();
+                    likesView.setText(Integer.toString(likes-dislikes));
 
 
 
@@ -255,17 +258,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
      */
     private void like(final View view) {
 
-//        CollectionReference reference = firestore.collection("Users")
-//                .document(auth.getCurrentUser().getUid()).collection("LikedPost");
-//        DocumentReference documentReference = firestore.collection("Posts").document(postId);
-//        Map map = new HashMap();
-//        map.put("ref",documentReference);
-//        reference.document(postId).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                Snackbar.make(view,"Liked",Snackbar.LENGTH_SHORT).show();
-//            }
-//        });
+//
         firestore.collection("Posts").document(postId)
                 .collection("DislikedBy").document(auth.getCurrentUser().getUid()).delete();
 
@@ -276,10 +269,21 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
         collectionReference.document(auth.getCurrentUser().getUid()).set(map1).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
+//                firestore.collection("Posts").document(postId)
+//                        .update("likes",++likes);
                 if (task.isSuccessful()) {
-                    Log.d(TAG, "onComplete: " + "liked");
-//                    Drawable d = getResources().getDrawable(R.drawable.up_arrow_icon);
-//                    d.setColorFilter( 0xffff0000, PorterDuff.Mode.MULTIPLY );
+                    if(isDislike) {
+                        firestore.collection("Posts").document(postId)
+                                .update("dislikes", --dislikes);
+                        isDislike = false;
+                    }
+                    if(!isLike){
+
+                        firestore.collection("Posts").document(postId)
+                                .update("likes",--likes);
+                        isLike = true;
+                    }
+
                     DrawableCompat.setTint(likeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
                     DrawableCompat.setTint(dislikeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(),R.color.postAction));
 
@@ -287,23 +291,38 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
             }
         });
 
+
     }
 
     private void dislike() {
 
-        firestore.collection("Posts").document(postId)
+         firestore.collection("Posts").document(postId)
                 .collection("LikedBy").document(auth.getCurrentUser().getUid()).delete();
 
         CollectionReference collectionReference = firestore.collection("Posts").document(postId)
                 .collection("DislikedBy");
         Map map1 = new HashMap();
         map1.put("ref",firestore.collection("Users").document(auth.getCurrentUser().getUid()));
+
+
         collectionReference.document(auth.getCurrentUser().getUid()).set(map1).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 
                 if (task.isSuccessful()) {
                     Log.d(TAG, "onComplete: " + "liked");
+
+                    if(!isDislike) {
+                        firestore.collection("Posts").document(postId)
+                                .update("dislikes",++dislikes);
+                        isDislike  = true;
+                    }
+                    if (isLike) {
+                        firestore.collection("Posts").document(postId)
+                                .update("likes", --likes);
+                        isLike = false;
+                    }
+
                     DrawableCompat.setTint(dislikeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
                     DrawableCompat.setTint(likeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(),R.color.postAction));
 
