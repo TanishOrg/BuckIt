@@ -210,6 +210,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
                 }
                 else{
+                    trendingCardModelList.clear();
                     for (final QueryDocumentSnapshot snapshot : value){
 //                        DocumentReference documentReference = firestore.collection("Cities").document(snapshot.getId());
 //                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
