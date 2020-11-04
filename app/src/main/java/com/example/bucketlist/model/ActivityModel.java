@@ -16,12 +16,13 @@ public class ActivityModel {
     private int dislikes;
     private List<String> category;
 
-    public ActivityModel(String createdByUserID, String title, long timeStamp, String location, int likes,String postId) {
+    public ActivityModel(String createdByUserID, String title, long timeStamp, String location, int likes,int dislikes,String postId) {
         this.createdByUserID = createdByUserID;
         this.title = title;
         this.timeStamp = timeStamp;
         this.location = location;
         this.likes = likes;
+        this.dislikes = dislikes;
         this.postId=postId;
 
     }

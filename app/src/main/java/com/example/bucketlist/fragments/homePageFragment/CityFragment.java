@@ -261,6 +261,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
                 }
                 else{
+                    arrayList.clear();
                     for (final QueryDocumentSnapshot snapshot : value){
                         arrayList.add(new CityModel(snapshot.getString("City Background Image"),
                                             snapshot.getString("City Name"),
@@ -337,6 +338,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
                 }
                 else{
+                    List.clear();
                     for (final QueryDocumentSnapshot snapshot : value){
 //                        DocumentReference documentReference = firestore.collection("Posts").document(snapshot.getId());
 //                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -363,6 +365,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
                                            snapshot.getLong("timeStamp").longValue(),
                                            snapshot.getString("location"),
                                            snapshot.getLong("likes").intValue(),
+                                        snapshot.getLong("dislikes").intValue(),
                                            snapshot.getId()));
                                     postRecyclerAdapter.notifyDataSetChanged();
 
