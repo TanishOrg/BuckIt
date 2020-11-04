@@ -50,12 +50,13 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     String postId;
     String location,username,title,description;
     String dateAsText;
-    int likes;
-    int dislikes;
+    int likes = 0;
+    int dislikes = 0;
     Long timestamp;
     FirebaseFirestore firestore;
     Toolbar toolbar;
-    boolean isLike = false,isDislike = false;
+    boolean isLike = false;
+    boolean isDislike = false;
 
     CircleImageView userImage;
 
@@ -86,6 +87,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     }
 
     public void initialize(){
+
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         locationView = findViewById(R.id.location);
@@ -113,28 +115,38 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
 
     private void ifDocExists() {
          firestore.collection("Posts").document(postId)
-                .collection("LikedBy").document(auth.getCurrentUser().getUid())
-                 .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                .collection("LikedBy").document(auth.getCurrentUser().getUid()).get()
+                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                      @Override
-                     public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                         if (value.exists()) {
-                             isLike = true;
-                             DrawableCompat.setTint(likeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
-                             DrawableCompat.setTint(dislikeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(),R.color.postAction));
+                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                         if (task.isSuccessful()) {
+                             DocumentSnapshot documentSnapshot = task.getResult();
+                             if (documentSnapshot.exists()) {
+                                 Log.d(TAG, "onComplete: exists like");
+                                 isLike = true;
+                                 DrawableCompat.setTint(likeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+                                 DrawableCompat.setTint(dislikeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(),R.color.postAction));
 
+                             }
                          }
                      }
                  });
+
         firestore.collection("Posts").document(postId)
                 .collection("DislikedBy").document(auth.getCurrentUser().getUid())
-                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if (value.exists()) {
-                            isDislike = true;
-                            DrawableCompat.setTint(dislikeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
-                            DrawableCompat.setTint(likeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(),R.color.postAction));
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot snapshot = task.getResult();
+                            if (snapshot.exists()) {
+                                Log.d(TAG, "onComplete: exists dislike" );
+                                isDislike = true;
+                                DrawableCompat.setTint(dislikeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+                                DrawableCompat.setTint(likeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(),R.color.postAction));
 
+                            }
                         }
                     }
                 });
@@ -272,6 +284,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
 //                firestore.collection("Posts").document(postId)
 //                        .update("likes",++likes);
                 if (task.isSuccessful()) {
+
                     if(isDislike) {
                         firestore.collection("Posts").document(postId)
                                 .update("dislikes", --dislikes);
@@ -280,7 +293,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                     if(!isLike){
 
                         firestore.collection("Posts").document(postId)
-                                .update("likes",--likes);
+                                .update("likes",++likes);
                         isLike = true;
                     }
 
@@ -290,7 +303,6 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                 }
             }
         });
-
 
     }
 
