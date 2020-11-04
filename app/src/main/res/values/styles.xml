@@ -126,6 +126,11 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="MyCustomFontTextAppearance" parent="TextAppearance.AppCompat.Body1">
+        <item name="fontFamily">@font/nunito_bold</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
+    </style>
+
 
 
 

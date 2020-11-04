@@ -80,6 +80,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         holder.timeCreated.setText(dateAsText);
         holder.title.setText(modelList.get(position).getTitle());
         holder.noOfLikes.setText(Integer.toString( modelList.get(position).getLikes() - modelList.get(position).getDislikes()) );
+        holder.totalComments.setText(Integer.toString(modelList.get(position).getTotalComments())+" comments");
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,9 +104,10 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
 
     class PostViewHolder extends RecyclerView.ViewHolder{
 
-        TextView postedBy,location,timeCreated,title,noOfLikes;
+        TextView postedBy,location,timeCreated,title,noOfLikes,totalComments;
         ImageView likeButton;
         CardView cardView;
+
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -116,6 +118,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             likeButton = itemView.findViewById(R.id.likeButton);
             noOfLikes = itemView.findViewById(R.id.noOfLikes);
             cardView = itemView.findViewById(R.id.cardView);
+            totalComments = itemView.findViewById(R.id.totalComments);
         }
     }
 }

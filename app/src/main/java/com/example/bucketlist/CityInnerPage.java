@@ -310,7 +310,7 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
                                             value.getString("location"),
                                             value.getLong("likes").intValue(),
                                             value.getLong("dislikes").intValue(),
-                                            value.getId()));
+                                            value.getId(),value.getLong("total comments").intValue()));
                                     postRecyclerAdapter.notifyDataSetChanged();
 
                                     Log.d("inflist",value.getString("createdBy")+value.getString("title"));
