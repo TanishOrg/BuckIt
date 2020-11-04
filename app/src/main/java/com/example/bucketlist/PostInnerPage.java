@@ -5,6 +5,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,27 +16,37 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.lang.ref.Reference;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostInnerPage extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = "Post Inner Page";
     String postId;
     String location,username,title,description;
     String dateAsText;
@@ -48,6 +60,8 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     FirebaseAuth auth;
 
     ImageView backButton,bookmarkButton;
+    ImageView likeButton;
+    ImageView dislikeButton;
 
     TextView locationView,createdBy,timeCreated,titleView,descriptionView,likesView;
 
@@ -66,6 +80,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
         initialize();
 
 
+
     }
 
     public void initialize(){
@@ -80,13 +95,47 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
         backButton = findViewById(R.id.backButton);
         userImage = findViewById(R.id.userImage);
         bookmarkButton = findViewById(R.id.saveBookmark);
+        likeButton = findViewById(R.id.likeButton);
+        dislikeButton = findViewById(R.id.dislikeButton);
 
+        likeButton.setOnClickListener(this);
+        dislikeButton.setOnClickListener(this);
         backButton.setOnClickListener(this);
         bookmarkButton.setOnClickListener(this);
 
         if (postId!=null){
             loadPost();
         }
+        ifDocExists();
+    }
+
+    private void ifDocExists() {
+         firestore.collection("Posts").document(postId)
+                .collection("LikedBy").document(auth.getCurrentUser().getUid())
+                 .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                     @Override
+                     public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                         if (value.exists()) {
+
+                             DrawableCompat.setTint(likeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+                             DrawableCompat.setTint(dislikeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(),R.color.postAction));
+
+                         }
+                     }
+                 });
+        firestore.collection("Posts").document(postId)
+                .collection("DislikedBy").document(auth.getCurrentUser().getUid())
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (value.exists()) {
+
+                            DrawableCompat.setTint(dislikeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+                            DrawableCompat.setTint(likeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(),R.color.postAction));
+
+                        }
+                    }
+                });
     }
 
     public void loadPost(){
@@ -189,8 +238,77 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.saveBookmark:
                bookmarking();
-
+               break;
+            case R.id.likeButton:
+                like(view);
+                break;
+            case R.id.dislikeButton:
+                dislike();
+                Log.d(TAG, "onClick: ");
+                break;
 
         }
+    }
+
+    /**
+     * We have the post id and in users document we will create a new collection of liked posts
+     */
+    private void like(final View view) {
+
+//        CollectionReference reference = firestore.collection("Users")
+//                .document(auth.getCurrentUser().getUid()).collection("LikedPost");
+//        DocumentReference documentReference = firestore.collection("Posts").document(postId);
+//        Map map = new HashMap();
+//        map.put("ref",documentReference);
+//        reference.document(postId).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+//            @Override
+//            public void onSuccess(Void aVoid) {
+//                Snackbar.make(view,"Liked",Snackbar.LENGTH_SHORT).show();
+//            }
+//        });
+        firestore.collection("Posts").document(postId)
+                .collection("DislikedBy").document(auth.getCurrentUser().getUid()).delete();
+
+        CollectionReference collectionReference = firestore.collection("Posts").document(postId)
+                .collection("LikedBy");
+        Map map1 = new HashMap();
+        map1.put("ref",firestore.collection("Users").document(auth.getCurrentUser().getUid()));
+        collectionReference.document(auth.getCurrentUser().getUid()).set(map1).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "onComplete: " + "liked");
+//                    Drawable d = getResources().getDrawable(R.drawable.up_arrow_icon);
+//                    d.setColorFilter( 0xffff0000, PorterDuff.Mode.MULTIPLY );
+                    DrawableCompat.setTint(likeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+                    DrawableCompat.setTint(dislikeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(),R.color.postAction));
+
+                }
+            }
+        });
+
+    }
+
+    private void dislike() {
+
+        firestore.collection("Posts").document(postId)
+                .collection("LikedBy").document(auth.getCurrentUser().getUid()).delete();
+
+        CollectionReference collectionReference = firestore.collection("Posts").document(postId)
+                .collection("DislikedBy");
+        Map map1 = new HashMap();
+        map1.put("ref",firestore.collection("Users").document(auth.getCurrentUser().getUid()));
+        collectionReference.document(auth.getCurrentUser().getUid()).set(map1).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "onComplete: " + "liked");
+                    DrawableCompat.setTint(dislikeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+                    DrawableCompat.setTint(likeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(),R.color.postAction));
+
+                }
+            }
+        });
     }
 }

@@ -19,6 +19,7 @@
     <color name="lightgray">#EAE9E9</color>
     <color name="disableColor">#818181</color>
     <color name="greenishcolor">#218D87</color>
+    <color name="postAction">#FF000000</color>
 
 
 </resources>
