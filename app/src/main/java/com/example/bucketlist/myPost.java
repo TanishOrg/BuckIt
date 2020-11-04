@@ -94,7 +94,7 @@ public class myPost extends AppCompatActivity implements View.OnClickListener {
                                             value.getString("location"),
                                             value.getLong("likes").intValue(),
                                             value.getLong("dislikes").intValue(),
-                                            value.getId()));
+                                            value.getId(),value.getLong("total comments").intValue()));
                                     myPostRecyclerAdapter.notifyDataSetChanged();
                                 }
                             }

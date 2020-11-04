@@ -15,8 +15,9 @@ public class ActivityModel {
     private int likes;
     private int dislikes;
     private List<String> category;
+    private int totalComments;
 
-    public ActivityModel(String createdByUserID, String title, long timeStamp, String location, int likes,int dislikes,String postId) {
+    public ActivityModel(String createdByUserID, String title, long timeStamp, String location, int likes,int dislikes,String postId,int totalComments) {
         this.createdByUserID = createdByUserID;
         this.title = title;
         this.timeStamp = timeStamp;
@@ -24,6 +25,16 @@ public class ActivityModel {
         this.likes = likes;
         this.dislikes = dislikes;
         this.postId=postId;
+        this.totalComments = totalComments;
+
+    }
+
+    public int getTotalComments() {
+        return totalComments;
+    }
+
+    public void setTotalComments(int totalComments) {
+        this.totalComments = totalComments;
     }
 
     public String getPostId() {

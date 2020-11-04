@@ -76,7 +76,7 @@ public class BookmarkPage extends AppCompatActivity implements View.OnClickListe
                                             value.getString("location"),
                                             value.getLong("likes").intValue(),
                                             value.getLong("dislikes").intValue(),
-                                            value.getId()));
+                                            value.getId(),value.getLong("total comments").intValue()));
                                     bookmarkrecyclerAdapter.notifyDataSetChanged();
 
                                     Log.d("title", value.getString("title"));
