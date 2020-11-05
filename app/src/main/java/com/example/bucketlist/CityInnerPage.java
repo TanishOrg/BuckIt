@@ -1,5 +1,6 @@
 package com.example.bucketlist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -60,7 +61,7 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
     List<WallpaperModel> wallpaperModelList;
     RecyclerView wallpaperRecyclerView;
     CollapsingToolbarLayout collapsingToolBar;
-    ImageView likebutton, doneButton,cancelButton;
+    ImageView likebutton, doneButton,cancelButton,back_button;
     RecyclerViewChangeWallpaper recyclerViewChangeWallpaper;
     RecyclerView postRecyclerVew;
     PostRecyclerAdapter postRecyclerAdapter;
@@ -95,11 +96,13 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
         wallpaperRecyclerView.setAdapter(recyclerViewChangeWallpaper);
         doneButton = findViewById(R.id.donebutton);
         cancelButton = findViewById(R.id.cancelbutton);
+//        back_button = findViewById(R.id.back_button);
 
 //        wallpaperRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         changebackground.setOnClickListener(this);
         doneButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
+//        back_button.setOnClickListener(this);
 
 
 
@@ -204,6 +207,13 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
                 changebackground.setVisibility(View.VISIBLE);
                 likebutton.setVisibility(View.VISIBLE);
                 confirmchangelayout.setVisibility(View.GONE);
+                break;
+//
+//            case R.id.back_button:
+//                Intent i =new Intent(getApplicationContext(),HomeActivity.class);
+//                i.putExtra("which Activity","from Add new city");
+//                finish();
+//                startActivity(i);
 
 
         }

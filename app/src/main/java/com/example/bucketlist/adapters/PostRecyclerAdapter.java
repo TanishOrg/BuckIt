@@ -82,7 +82,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         holder.timeCreated.setText(dateAsText);
         holder.title.setText(modelList.get(position).getTitle());
         holder.noOfLikes.setText(Integer.toString( modelList.get(position).getLikes() - modelList.get(position).getDislikes()) );
-        holder.totalComments.setText(Integer.toString(modelList.get(position).getTotalComments()) + "comments");
+        holder.totalComments.setText(Integer.toString(modelList.get(position).getTotalComments()) + " comments");
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override

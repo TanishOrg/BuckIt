@@ -18,11 +18,43 @@
             android:id="@+id/collapsingToolBar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="@color/colorwhite"
+            app:contentScrim="#142327"
             android:fitsSystemWindows="true"
 
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             android:theme="@style/ThemeOverlay.MaterialComponents.Light">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--            <androidx.appcompat.widget.Toolbar-->
+<!--                android:id="@+id/toolBar"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="?attr/actionBarSize"-->
+<!--                android:elevation="20dp"-->
+
+<!--                android:layout_marginTop="24dp"-->
+<!--                app:layout_collapseMode="pin"-->
+<!--                android:theme="@style/ThemeOverlay.MaterialComponents.Light"-->
+<!--                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/back_button"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:src="@drawable/back_icon_black"-->
+<!--                    app:tint="@color/white" />-->
+
+<!--            </androidx.appcompat.widget.Toolbar>-->
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -118,80 +150,80 @@
                         android:background="@drawable/blackblurbackground2"
                         android:orientation="vertical">
                         <TextView
-                        android:id="@+id/city"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="32dp"
-                        android:fontFamily="@font/nunito_bold"
-                        android:textColor="@color/white"
-                        android:text="City name"/>
+                            android:id="@+id/city"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="32dp"
+                            android:fontFamily="@font/nunito_bold"
+                            android:textColor="@color/white"
+                            android:text="City name"/>
 
                         <LinearLayout
-                        android:id="@+id/layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/state"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/layout"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="17dp"
-                            android:fontFamily="@font/nunito_semibold"
-                            android:textColor="@color/white"
-                            android:text="State name"
-                            />
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/country"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="17dp"
-                            android:fontFamily="@font/nunito_semibold"
-                            android:textColor="@color/white"
-                            android:text="Country name"
-                            android:layout_marginHorizontal="10dp"
-                            />
-                    </LinearLayout>
+                            <TextView
+                                android:id="@+id/state"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="17dp"
+                                android:fontFamily="@font/nunito_semibold"
+                                android:textColor="@color/white"
+                                android:text="State name"
+                                />
+
+                            <TextView
+                                android:id="@+id/country"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="17dp"
+                                android:fontFamily="@font/nunito_semibold"
+                                android:textColor="@color/white"
+                                android:text="Country name"
+                                android:layout_marginHorizontal="10dp"
+                                />
+                        </LinearLayout>
 
                         <LinearLayout
 
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
 
                             <TextView
-                            android:id="@+id/visitors"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="16dp"
-                            android:gravity="center"
+                                android:id="@+id/visitors"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="16dp"
+                                android:gravity="center"
 
-                            android:fontFamily="@font/nunito_bold"
-                            android:textColor="@color/white"
-                            android:text="0 visitors"
-                            />
+                                android:fontFamily="@font/nunito_bold"
+                                android:textColor="@color/white"
+                                android:text="0 visitors"
+                                />
 
                             <ImageView
-                            android:layout_width="4dp"
-                            android:layout_height="4dp"
-                            android:layout_gravity="center"
-                            android:layout_marginHorizontal="10dp"
-                            android:src="@drawable/default_selected_dot"
-                            app:tint="#FFFFFF" />
+                                android:layout_width="4dp"
+                                android:layout_height="4dp"
+                                android:layout_gravity="center"
+                                android:layout_marginHorizontal="10dp"
+                                android:src="@drawable/default_selected_dot"
+                                app:tint="#FFFFFF" />
 
                             <TextView
-                            android:id="@+id/likes"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="16dp"
-                            android:fontFamily="@font/nunito_bold"
-                            android:textColor="@color/white"
-                            android:text="0 likes"
-                            android:gravity="center"
-                            />
-                    </LinearLayout>
+                                android:id="@+id/likes"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="16dp"
+                                android:fontFamily="@font/nunito_bold"
+                                android:textColor="@color/white"
+                                android:text="0 likes"
+                                android:gravity="center"
+                                />
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -210,33 +242,7 @@
 
 
 
-                </RelativeLayout>
-
-
-
-
-
-
-
-
-
-
-
-<!--            <androidx.appcompat.widget.Toolbar-->
-<!--                android:id="@+id/toolBar"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="?attr/actionBarSize"-->
-<!--                android:elevation="20dp"-->
-
-<!--                android:layout_marginTop="24dp"-->
-<!--                app:layout_collapseMode="pin"-->
-<!--                android:theme="@style/ThemeOverlay.MaterialComponents.Light"-->
-<!--                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light">-->
-
-
-
-
-<!--            </androidx.appcompat.widget.Toolbar>-->
+            </RelativeLayout>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
