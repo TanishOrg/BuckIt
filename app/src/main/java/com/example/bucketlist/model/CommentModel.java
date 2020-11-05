@@ -4,12 +4,14 @@ public class CommentModel {
     String uid,comment;
     private long timeStamp;
     private int likes;
+    private String commentId;
 
-    public CommentModel(String uid, String comment, long timeStamp, int likes) {
+    public CommentModel(String uid, String comment, long timeStamp, int likes,String commentId) {
         this.uid = uid;
         this.comment = comment;
         this.timeStamp = timeStamp;
         this.likes = likes;
+        this.commentId = commentId;
     }
 
     public String getUid() {
@@ -42,5 +44,9 @@ public class CommentModel {
 
     public void setLikes(int likes) {
         this.likes = likes;
+    }
+
+    public String getCommentId() {
+        return commentId;
     }
 }

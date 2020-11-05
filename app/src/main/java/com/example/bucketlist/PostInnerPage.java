@@ -162,6 +162,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                 });
 
     }
+
     private void loadComments() {
         commentModelList = new ArrayList<>();
         firestore.collection("Posts").document(postId).collection("Comments")
@@ -174,17 +175,20 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                         else{
                             commentModelList.clear();
                             for (QueryDocumentSnapshot snapshot:value){
-                                commentModelList.add(new CommentModel(snapshot.getString("user id")
+                                commentModelList.add(
+                                        new CommentModel(snapshot.getString("user id")
                                         ,snapshot.getString("comment")
                                         ,snapshot.getLong("time of comment").longValue(),
-                                        snapshot.getLong("total likes").intValue()));
+                                        snapshot.getLong("total likes").intValue(),
+                                                snapshot.getId())
+                                );
 
 
                             }adapterComment.notifyDataSetChanged();
                         }
                     }
                 });
-        adapterComment= new RecyclerAdapterComment(getApplicationContext(),commentModelList);
+        adapterComment= new RecyclerAdapterComment(getApplicationContext(),commentModelList,postId);
         commentRecyclerView.setAdapter(adapterComment);
 
 

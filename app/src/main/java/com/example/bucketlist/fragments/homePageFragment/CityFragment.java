@@ -346,7 +346,8 @@ public class CityFragment extends Fragment implements View.OnClickListener {
                                            snapshot.getString("location"),
                                            snapshot.getLong("likes").intValue(),
                                         snapshot.getLong("dislikes").intValue(),
-                                           snapshot.getId(),snapshot.getLong("total comments").intValue()));
+                                           snapshot.getId(),
+                                snapshot.getLong("total comments").intValue()));
                                     postRecyclerAdapter.notifyDataSetChanged();
 
                     }
