@@ -28,13 +28,19 @@
 
             <TextView
                 android:id="@+id/toolbartitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_toStartOf="@id/saveBookmark"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="17dp"
+                android:gravity="center|start"
                 android:fontFamily="@font/nunito_bold"
                 android:layout_toEndOf="@id/backButton"
                 android:layout_centerVertical="true"
                 android:textColor="@color/white"
-                android:layout_marginHorizontal="15dp"/>
+                android:layout_marginHorizontal="15dp"
+                app:autoSizeMinTextSize="16sp"
+                android:autoSizeTextType="uniform"
+                app:autoSizeStepGranularity="2sp"/>
 
 
             <ImageView

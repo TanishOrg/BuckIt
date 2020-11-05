@@ -9,9 +9,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -65,6 +67,7 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
     RecyclerViewChangeWallpaper recyclerViewChangeWallpaper;
     RecyclerView postRecyclerVew;
     PostRecyclerAdapter postRecyclerAdapter;
+    Toolbar toolBar;
 
     FirebaseAuth auth;
     List<ActivityModel> activityModelList ;
@@ -96,13 +99,29 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
         wallpaperRecyclerView.setAdapter(recyclerViewChangeWallpaper);
         doneButton = findViewById(R.id.donebutton);
         cancelButton = findViewById(R.id.cancelbutton);
-//        back_button = findViewById(R.id.back_button);
+        toolBar = findViewById(R.id.toolBar);
+        setSupportActionBar(toolBar);
+        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset == 0){
+                    changebackground.setVisibility(View.VISIBLE);
+                    likebutton.setVisibility(View.VISIBLE);
+                }
+                else {
+                    changebackground.setVisibility(View.GONE);
+                    likebutton.setVisibility(View.GONE);
+                }
+            }
+        });
+      back_button = findViewById(R.id.back_button);
 
 //        wallpaperRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         changebackground.setOnClickListener(this);
         doneButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
-//        back_button.setOnClickListener(this);
+     back_button.setOnClickListener(this);
 
 
 
@@ -161,12 +180,11 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
         switch (view.getId()){
             case R.id.changebackground: {
                 layout.setVisibility(View.GONE);
+                confirmchangelayout.setVisibility(View.VISIBLE);
+                wallpaperRecyclerView.setVisibility(View.VISIBLE);
                disableScroll();
                 fetchWallpaper();
-                wallpaperRecyclerView.setVisibility(View.VISIBLE);
-                changebackground.setVisibility(View.GONE);
-                likebutton.setVisibility(View.GONE);
-                confirmchangelayout.setVisibility(View.VISIBLE);
+                toolBar.setVisibility(View.GONE);
             }
             break;
 
@@ -174,9 +192,8 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
                 layout.setVisibility(View.VISIBLE);
                 enableScroll();
                 wallpaperRecyclerView.setVisibility(View.GONE);
-                changebackground.setVisibility(View.VISIBLE);
-                likebutton.setVisibility(View.VISIBLE);
                 confirmchangelayout.setVisibility(View.GONE);
+                toolBar.setVisibility(View.VISIBLE);
 
             }
             break;
@@ -185,7 +202,7 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
 
                 layout.setVisibility(View.VISIBLE);
                 enableScroll();
-                if (imageUrl!=recyclerViewChangeWallpaper.selectedImageUrl){
+                if (imageUrl!=recyclerViewChangeWallpaper.selectedImageUrl&&recyclerViewChangeWallpaper.selectedImageUrl!=null){
                     DocumentReference documentReference = firestore.collection("Cities").document(cityId);
                     documentReference.update("City Background Image",recyclerViewChangeWallpaper.selectedImageUrl)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -204,16 +221,15 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
                 }
 
                 wallpaperRecyclerView.setVisibility(View.GONE);
-                changebackground.setVisibility(View.VISIBLE);
-                likebutton.setVisibility(View.VISIBLE);
+                toolBar.setVisibility(View.VISIBLE);
                 confirmchangelayout.setVisibility(View.GONE);
                 break;
-//
-//            case R.id.back_button:
-//                Intent i =new Intent(getApplicationContext(),HomeActivity.class);
-//                i.putExtra("which Activity","from Add new city");
-//                finish();
-//                startActivity(i);
+
+            case R.id.back_button:
+                Intent i =new Intent(getApplicationContext(),HomeActivity.class);
+                i.putExtra("which Activity","from Add new city");
+                finish();
+                startActivity(i);
 
 
         }

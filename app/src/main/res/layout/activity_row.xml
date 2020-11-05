@@ -10,7 +10,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="170dp"
         android:minHeight="140dp"
         app:cardCornerRadius="12dp"
         android:elevation="13dp"
@@ -21,46 +21,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             
-            <LinearLayout
-                android:id="@+id/layout1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="#DDDDDD"
-                android:paddingHorizontal="2dp"
-                android:gravity="center|top"
-                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/likeButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="8dp"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/up_arrow_icon"
-                    app:tint="#2b2b2b" />
-
-                <TextView
-                    android:id="@+id/noOfLikes"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_semibold"
-                    android:gravity="center"
-                    android:text="2,300" />
-
-                <ImageView
-                    android:id="@+id/dislikeButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="8dp"
-                    android:layout_marginBottom="10dp"
-                    app:tint="#2B2B2B"
-                    android:src="@drawable/ic_down_arrow_icon"/>
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_toEndOf="@id/layout1"
+                android:layout_margin="10dp"
                 android:orientation="vertical"
                 android:background="#FFFFFF">
 
@@ -118,10 +84,32 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginHorizontal="10dp"
                     android:gravity="bottom"
                     android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/noOfLikes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_bold"
+                        android:gravity="center"
+                        android:text="2,300" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_bold"
+                        android:gravity="center"
+                        android:text=" Votes"/>
+
+                    <ImageView
+                        android:layout_width="2dp"
+                        android:layout_height="2dp"
+                        android:src="@drawable/dot"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_gravity="center"/>
 
                     <TextView
                         android:id="@+id/totalComments"
