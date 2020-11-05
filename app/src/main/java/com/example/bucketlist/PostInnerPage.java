@@ -81,6 +81,8 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     TextView locationView,createdBy,timeCreated,titleView,descriptionView,points
             ,noOfComments,toolbartitle;
 
+    boolean isbookmarked=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +133,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
             loadComments();
         }
         ifDocExists();
+        ifBookmarkExists();
     }
 
     private void ifDocExists() {
@@ -275,25 +278,67 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
         });
 
     }
+    private void ifBookmarkExists() {
+        firestore.collection("Users").document(auth.getCurrentUser().getUid())
+                .collection("Bookmarks").document(postId)
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (value.exists()) {
+
+                            bookmarkButton.setImageResource(R.drawable.ic_baseline_bookmark_24);
+                            isbookmarked = true;
+
+                        }else {
+                            bookmarkButton.setImageResource(R.drawable.ic_baseline_bookmark_border_24);
+                            isbookmarked=false;
+                        }
+                    }
+                });
+
+    }
 
     public void bookmarking(){
-        DocumentReference documentReference = firestore.collection("Users").document(auth.getCurrentUser().getUid())
-                .collection("Bookmarks").document(postId);
-        DocumentReference postDocRef = firestore.collection("Posts").document(postId);
-        Map map = new HashMap();
-        map.put("post reference",postDocRef);
-        documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d("successful","successful");
-                Toast.makeText(PostInnerPage.this, "Bookmarked", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                e.printStackTrace();
-            }
-        });
+        if(isbookmarked==false){
+            DocumentReference documentReference = firestore.collection("Users").document(auth.getCurrentUser().getUid())
+                    .collection("Bookmarks").document(postId);
+            DocumentReference postDocRef = firestore.collection("Posts").document(postId);
+            Map map = new HashMap();
+            map.put("post reference",postDocRef);
+            documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d("successful","successful");
+                    Toast.makeText(PostInnerPage.this, "Bookmarked", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
+//            DrawableCompat.setTint(bookmarkButton.getDrawable(), ContextCompat.getColor(getApplicationContext(),R.color.colorwhite));
+            bookmarkButton.setImageResource(R.drawable.ic_baseline_bookmark_24);
+            isbookmarked=true;
+        }else{
+             firestore.collection("Users").document(auth.getCurrentUser().getUid())
+                    .collection("Bookmarks").document(postId).delete()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                     @Override
+                     public void onComplete(@NonNull Task<Void> task) {
+                         if(task.isSuccessful()){
+                             Log.d(TAG, "onComplete: " + "bookmarked");
+                             Toast.makeText(PostInnerPage.this, "Bookmark Removed", Toast.LENGTH_SHORT).show();
+                         }
+
+                     }
+                 });
+
+            bookmarkButton.setImageResource(R.drawable.ic_baseline_bookmark_border_24);
+            isbookmarked=false;
+        }
+
     }
 
     @Override
