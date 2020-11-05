@@ -231,7 +231,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                     likes = value.getLong("likes").intValue();
                     dislikes = value.getLong("dislikes").intValue();
 
-                     intpoints = likes-dislikes;
+                    intpoints = likes-dislikes;
                     points.setText(Integer.toString(intpoints)+" Votes");
 
                     totalComments = value.getLong("total comments").intValue();
@@ -306,8 +306,8 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                 startActivity(i);
                 break;
             case R.id.saveBookmark:
-               bookmarking();
-               break;
+                bookmarking();
+                break;
             case R.id.likeButton:
                 like();
                 break;
@@ -316,7 +316,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                 Log.d(TAG, "onClick: ");
                 break;
             case R.id.sendCommentButton:
-              storingcomment();
+                storingcomment();
 
 
         }
@@ -355,8 +355,9 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                 firestore.collection("Posts").document(postId)
                         .collection("DislikedBy").document(auth.getCurrentUser().getUid()).delete();
                 dislikes--;
+                isdisliked = false;
             }
-            isdisliked = false;
+
 
             CollectionReference collectionReference = firestore.collection("Posts").document(postId)
                     .collection("LikedBy");
@@ -405,8 +406,9 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                 firestore.collection("Posts").document(postId)
                         .collection("LikedBy").document(auth.getCurrentUser().getUid()).delete();
                 likes--;
+                isliked = false;
             }
-            isliked = false;
+
 
             CollectionReference collectionReference = firestore.collection("Posts").document(postId)
                     .collection("DislikedBy");
