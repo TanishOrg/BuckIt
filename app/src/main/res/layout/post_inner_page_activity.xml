@@ -38,10 +38,11 @@
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolBar">
+        android:layout_below="@id/toolBar"
+        android:layout_above="@id/layout">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -168,10 +169,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginHorizontal="10dp">
-
                     <ImageView
                         android:id="@+id/likeButton"
-                        android:layout_width="wrap_content"
+                        android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
@@ -195,6 +195,22 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
                 android:background="#DFDEDE"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Comments"
+                android:textSize="16dp"
+                android:fontFamily="@font/nunito_bold"
+                android:padding="10dp"
+                android:background="#F8F7F7"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/commentRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
         </LinearLayout>
 
 
@@ -203,9 +219,11 @@
 
 
 
-    </ScrollView>
+
+    </androidx.core.widget.NestedScrollView>
 
     <RelativeLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -228,7 +246,7 @@
             android:layout_marginLeft="10dp"/>
 
         <EditText
-            android:id="@+id/addComment"
+            android:id="@+id/commentText"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_centerVertical="true"

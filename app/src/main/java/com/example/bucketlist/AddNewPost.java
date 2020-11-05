@@ -150,6 +150,7 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
         map.put("createdBy",user.getUid());
         map.put("location",locationText.getText().toString());
         map.put("category",categories);
+        map.put("total comments",0);
 
 //        Log.d(TAG, "postToFirebase: " + chipGroup.getCheckedChipIds().toString());
 

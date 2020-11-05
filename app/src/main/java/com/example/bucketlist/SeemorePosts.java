@@ -73,7 +73,7 @@ public class SeemorePosts extends AppCompatActivity {
                                             value.getString("location"),
                                             value.getLong("likes").intValue(),
                                             value.getLong("dislikes").intValue(),
-                                            value.getId()));
+                                            value.getId(),snapshot.getLong("total comments").intValue()));
                                     postRecyclerAdapter.notifyDataSetChanged();
                                 }
 
