@@ -79,7 +79,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     ImageView likeButton;
     ImageView dislikeButton;
     TextView locationView,createdBy,timeCreated,titleView,descriptionView,points
-            ,noOfComments;
+            ,noOfComments,toolbartitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +118,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
         likeButton = findViewById(R.id.likeButton);
         dislikeButton = findViewById(R.id.dislikeButton);
         commentRecyclerView = findViewById(R.id.commentRecyclerView);
+        toolbartitle = findViewById(R.id.toolbartitle);
 
         likeButton.setOnClickListener(this);
         dislikeButton.setOnClickListener(this);
@@ -203,6 +204,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                     String[] arr = location.split(", ",0);
                     String cityFilename = arr[0] + ", " + arr[arr.length - 1];
                     locationView.setText(cityFilename);
+                    toolbartitle.setText(cityFilename);
 
 
                     Calendar calendar = Calendar.getInstance();
