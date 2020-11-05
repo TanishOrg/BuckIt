@@ -357,7 +357,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        postRecyclerAdapter = new PostRecyclerAdapter(getContext(),List);
+        postRecyclerAdapter = new PostRecyclerAdapter(getContext(),List,"city fragment");
         postRecyclerView.setAdapter(postRecyclerAdapter);
 
 

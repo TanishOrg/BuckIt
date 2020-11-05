@@ -333,7 +333,7 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
             }
         });
 
-        postRecyclerAdapter = new PostRecyclerAdapter(this,activityModelList);
+        postRecyclerAdapter = new PostRecyclerAdapter(this,activityModelList,"city inner page");
         postRecyclerVew.setAdapter(postRecyclerAdapter);
 
 

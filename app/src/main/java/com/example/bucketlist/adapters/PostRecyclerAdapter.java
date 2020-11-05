@@ -33,10 +33,12 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
 
     Context context;
     List<ActivityModel> modelList;
+    String whichActivity;
 
-    public PostRecyclerAdapter(Context context, List<ActivityModel> modelList) {
+    public PostRecyclerAdapter(Context context, List<ActivityModel> modelList, String whichActivity) {
         this.context = context;
         this.modelList = modelList;
+        this.whichActivity = whichActivity;
     }
 
     @NonNull
@@ -90,6 +92,23 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
                 Intent i = new Intent(context, PostInnerPage.class);
                 Log.d("123id",modelList.get(position).getPostId());
                 i.putExtra("postId",modelList.get(position).getPostId());
+                switch (whichActivity){
+                    case "city fragment":
+                        i.putExtra("to activity","city fragment");
+                        break;
+                    case "city inner page":
+                        i.putExtra("to activity","city inner page");
+                        break;
+                    case "bookmark page":
+                        i.putExtra("to activity","bookmark page");
+                        break;
+                    case "my post page":
+                        i.putExtra("to activity","my post page");
+                        break;
+                    case "see more post page":
+                        i.putExtra("to activity","see more post page");
+                        break;
+                }
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(i);
             }
