@@ -24,7 +24,6 @@ public class ActivityModel {
         this.likes = likes;
         this.dislikes = dislikes;
         this.postId=postId;
-
     }
 
     public String getPostId() {
