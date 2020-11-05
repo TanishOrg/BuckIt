@@ -124,7 +124,7 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
                 postToFirebase(view);
                 Intent i = new Intent(getApplicationContext(),HomeActivity.class);
                 finish();
-                i.putExtra("which Activity","from City fragment");
+                i.putExtra("which Activity","from Add new city");
                 startActivity(i);
             }
         }

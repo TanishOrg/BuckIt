@@ -5,10 +5,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -57,25 +60,26 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     String dateAsText;
     int likes = 0;
     int dislikes = 0;
+    boolean isdisliked = false;
+    boolean isliked = false;
     Long timestamp;
     FirebaseFirestore firestore;
     Toolbar toolbar;
-    boolean isLike = false;
-    boolean isDislike = false;
     int totalComments;
     CircleImageView userImage;
     RecyclerView commentRecyclerView;
     List<CommentModel> commentModelList ;
     RecyclerAdapterComment adapterComment;
 
+    int intpoints = 0;
     FirebaseAuth auth;
 
     EditText commentText;
     ImageView backButton,bookmarkButton,sendCommentButton;
     ImageView likeButton;
     ImageView dislikeButton;
-    TextView locationView,createdBy,timeCreated,titleView,descriptionView,likesView
-            ,noOfComments;
+    TextView locationView,createdBy,timeCreated,titleView,descriptionView,points
+            ,noOfComments,toolbartitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,21 +108,20 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
         timeCreated = findViewById(R.id.timeCreated);
         titleView =findViewById(R.id.titleView);
         descriptionView  =findViewById(R.id.descriptionView);
-        likesView = findViewById(R.id.noOfLikes);
+        points = findViewById(R.id.points);
         backButton = findViewById(R.id.backButton);
         userImage = findViewById(R.id.userImage);
         bookmarkButton = findViewById(R.id.saveBookmark);
         noOfComments = findViewById(R.id.noOfComments);
         sendCommentButton = findViewById(R.id.sendCommentButton);
         commentText = findViewById(R.id.commentText);
-        commentRecyclerView = findViewById(R.id.commentRecyclerView);
-
         likeButton = findViewById(R.id.likeButton);
         dislikeButton = findViewById(R.id.dislikeButton);
+        commentRecyclerView = findViewById(R.id.commentRecyclerView);
+        toolbartitle = findViewById(R.id.toolbartitle);
 
         likeButton.setOnClickListener(this);
         dislikeButton.setOnClickListener(this);
-
         backButton.setOnClickListener(this);
         bookmarkButton.setOnClickListener(this);
         sendCommentButton.setOnClickListener(this);
@@ -132,42 +135,33 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
 
     private void ifDocExists() {
         firestore.collection("Posts").document(postId)
-                .collection("LikedBy").document(auth.getCurrentUser().getUid()).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .collection("LikedBy").document(auth.getCurrentUser().getUid())
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot documentSnapshot = task.getResult();
-                            if (documentSnapshot.exists()) {
-                                Log.d(TAG, "onComplete: exists like");
-                                isLike = true;
-                                DrawableCompat.setTint(likeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
-                                DrawableCompat.setTint(dislikeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(),R.color.postAction));
+                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (value.exists()) {
 
-                            }
+                            DrawableCompat.setTint(likeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.selectediconcolor));
+                            DrawableCompat.setTint(dislikeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(),R.color.postAction));
+                            isliked = true;
+
                         }
                     }
                 });
         firestore.collection("Posts").document(postId)
                 .collection("DislikedBy").document(auth.getCurrentUser().getUid())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot snapshot = task.getResult();
-                            if (snapshot.exists()) {
-                                Log.d(TAG, "onComplete: exists dislike" );
-                                isDislike = true;
-                                DrawableCompat.setTint(dislikeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
-                                DrawableCompat.setTint(likeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(),R.color.postAction));
-
-                            }
+                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (value.exists()) {
+                            DrawableCompat.setTint(dislikeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.selectediconcolor));
+                            DrawableCompat.setTint(likeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(),R.color.postAction));
+                            isdisliked = true;
                         }
                     }
                 });
-    }
 
+    }
     private void loadComments() {
         commentModelList = new ArrayList<>();
         firestore.collection("Posts").document(postId).collection("Comments")
@@ -178,6 +172,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                             error.printStackTrace();
                         }
                         else{
+                            commentModelList.clear();
                             for (QueryDocumentSnapshot snapshot:value){
                                 commentModelList.add(new CommentModel(snapshot.getString("user id")
                                         ,snapshot.getString("comment")
@@ -209,6 +204,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                     String[] arr = location.split(", ",0);
                     String cityFilename = arr[0] + ", " + arr[arr.length - 1];
                     locationView.setText(cityFilename);
+                    toolbartitle.setText(cityFilename);
 
 
                     Calendar calendar = Calendar.getInstance();
@@ -229,9 +225,11 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
 
 
                     likes = value.getLong("likes").intValue();
-                    likesView.setText(Integer.toString(likes));
                     dislikes = value.getLong("dislikes").intValue();
-                    likesView.setText(Integer.toString(likes-dislikes));
+
+                     intpoints = likes-dislikes;
+                    points.setText(Integer.toString(intpoints)+" Votes");
+
                     totalComments = value.getLong("total comments").intValue();
                     noOfComments.setText(Integer.toString(totalComments) +" Comments");
 
@@ -306,16 +304,16 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
             case R.id.saveBookmark:
                bookmarking();
                break;
-            case R.id.sendCommentButton:
-              storingcomment();
-                break;
             case R.id.likeButton:
-                like(view);
+                like();
                 break;
             case R.id.dislikeButton:
                 dislike();
                 Log.d(TAG, "onClick: ");
                 break;
+            case R.id.sendCommentButton:
+              storingcomment();
+
 
         }
     }
@@ -339,8 +337,6 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                     firestore.collection("Posts").document(postId).update("total comments",totalComments);
                     commentText.setText(null);
 
-                    finish();
-                    startActivity(getIntent());
                 }
             });
         }
@@ -349,84 +345,100 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
 
     }
 
+    private void like() {
+        if (isliked==false){
+            if (isdisliked==true){
+                firestore.collection("Posts").document(postId)
+                        .collection("DislikedBy").document(auth.getCurrentUser().getUid()).delete();
+                dislikes--;
+            }
+            isdisliked = false;
 
+            CollectionReference collectionReference = firestore.collection("Posts").document(postId)
+                    .collection("LikedBy");
+            Map map1 = new HashMap();
+            map1.put("ref", firestore.collection("Users").document(auth.getCurrentUser().getUid()));
+            collectionReference.document(auth.getCurrentUser().getUid()).set(map1).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Log.d(TAG, "onComplete: " + "liked");
+//                    Drawable d = getResources().getDrawable(R.drawable.up_arrow_icon);
+//                    d.setColorFilter( 0xffff0000, PorterDuff.Mode.MULTIPLY );
+                        DrawableCompat.setTint(likeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.selectediconcolor));
+                        DrawableCompat.setTint(dislikeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.postAction));
 
-
-    /**
-     * We have the post id and in users document we will create a new collection of liked posts
-     */
-    private void like(final View view) {
-
-//
-        firestore.collection("Posts").document(postId)
-                .collection("DislikedBy").document(auth.getCurrentUser().getUid()).delete();
-
-        CollectionReference collectionReference = firestore.collection("Posts").document(postId)
-                .collection("LikedBy");
-        Map map1 = new HashMap();
-        map1.put("ref",firestore.collection("Users").document(auth.getCurrentUser().getUid()));
-        collectionReference.document(auth.getCurrentUser().getUid()).set(map1).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-//                firestore.collection("Posts").document(postId)
-//                        .update("likes",++likes);
-                if (task.isSuccessful()) {
-
-                    if(isDislike) {
-                        firestore.collection("Posts").document(postId)
-                                .update("dislikes", --dislikes);
-                        isDislike = false;
                     }
-                    if(!isLike){
-
-                        firestore.collection("Posts").document(postId)
-                                .update("likes",++likes);
-                        isLike = true;
-                    }
-
-                    DrawableCompat.setTint(likeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
-                    DrawableCompat.setTint(dislikeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(),R.color.postAction));
-
                 }
+            });
+            isliked = true;
+            likes++;
+
+        }
+        else {
+            firestore.collection("Posts").document(postId)
+                    .collection("LikedBy").document(auth.getCurrentUser().getUid()).delete();
+            DrawableCompat.setTint(likeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.postAction));
+            isliked = false;
+            likes--;
+        }
+        Map likedislike = new HashMap();
+        likedislike.put("likes",likes);
+        likedislike.put("dislikes",dislikes);
+        firestore.collection("Posts").document(postId).update(likedislike).addOnSuccessListener(new OnSuccessListener() {
+            @Override
+            public void onSuccess(Object o) {
+                Log.d("like dislike updated","yes");
             }
         });
-
     }
+
 
     private void dislike() {
 
-        firestore.collection("Posts").document(postId)
-                .collection("LikedBy").document(auth.getCurrentUser().getUid()).delete();
+        if (isdisliked == false){
+            if (isliked == true){
+                firestore.collection("Posts").document(postId)
+                        .collection("LikedBy").document(auth.getCurrentUser().getUid()).delete();
+                likes--;
+            }
+            isliked = false;
 
-        CollectionReference collectionReference = firestore.collection("Posts").document(postId)
-                .collection("DislikedBy");
-        Map map1 = new HashMap();
-        map1.put("ref",firestore.collection("Users").document(auth.getCurrentUser().getUid()));
+            CollectionReference collectionReference = firestore.collection("Posts").document(postId)
+                    .collection("DislikedBy");
+            Map map1 = new HashMap();
+            map1.put("ref",firestore.collection("Users").document(auth.getCurrentUser().getUid()));
+            collectionReference.document(auth.getCurrentUser().getUid()).set(map1).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Log.d(TAG, "onComplete: " + "liked");
+                        DrawableCompat.setTint(dislikeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.selectediconcolor));
+                        DrawableCompat.setTint(likeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(),R.color.postAction));
 
-
-        collectionReference.document(auth.getCurrentUser().getUid()).set(map1).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-
-                if (task.isSuccessful()) {
-                    Log.d(TAG, "onComplete: " + "liked");
-
-                    if(!isDislike) {
-                        firestore.collection("Posts").document(postId)
-                                .update("dislikes",++dislikes);
-                        isDislike  = true;
                     }
-                    if (isLike) {
-                        firestore.collection("Posts").document(postId)
-                                .update("likes", --likes);
-                        isLike = false;
-                    }
-
-                    DrawableCompat.setTint(dislikeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
-                    DrawableCompat.setTint(likeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(),R.color.postAction));
-
                 }
+            });
+            isdisliked = true;
+            dislikes++;
+
+        }
+        else {
+            firestore.collection("Posts").document(postId)
+                    .collection("DislikedBy").document(auth.getCurrentUser().getUid()).delete();
+            DrawableCompat.setTint(dislikeButton.getDrawable(), ContextCompat.getColor(getApplicationContext(), R.color.postAction));
+            isdisliked = false;
+            dislikes--;
+        }
+        Map likedislike = new HashMap();
+        likedislike.put("likes",likes);
+        likedislike.put("dislikes",dislikes);
+        firestore.collection("Posts").document(postId).update(likedislike).addOnSuccessListener(new OnSuccessListener() {
+            @Override
+            public void onSuccess(Object o) {
+                Log.d("like dislike updated","yes");
             }
         });
     }
+
 }

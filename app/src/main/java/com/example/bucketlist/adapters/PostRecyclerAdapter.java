@@ -1,5 +1,6 @@
 package com.example.bucketlist.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -46,6 +47,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final PostViewHolder holder, final int position) {
 
@@ -80,7 +82,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         holder.timeCreated.setText(dateAsText);
         holder.title.setText(modelList.get(position).getTitle());
         holder.noOfLikes.setText(Integer.toString( modelList.get(position).getLikes() - modelList.get(position).getDislikes()) );
-        holder.totalComments.setText(Integer.toString(modelList.get(position).getTotalComments())+" comments");
+        holder.totalComments.setText(Integer.toString(modelList.get(position).getTotalComments()) + " comments");
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
