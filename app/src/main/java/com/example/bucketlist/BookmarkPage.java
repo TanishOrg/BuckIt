@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.bucketlist.adapters.PostRecyclerAdapter;
+import com.example.bucketlist.fragments.homePageFragment.CityFragment;
 import com.example.bucketlist.model.ActivityModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -96,7 +97,7 @@ public class BookmarkPage extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view.getId()==R.id.backButton){
-            Intent i = new Intent(getApplicationContext(),HomeActivity.class);
+            Intent i = new Intent(getApplicationContext(), HomeActivity.class);
             i.putExtra("which Activity","from Add new city");
             startActivity(i);
         }
