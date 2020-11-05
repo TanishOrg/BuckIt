@@ -104,7 +104,7 @@ public class myPost extends AppCompatActivity implements View.OnClickListener {
             }
         });
 
-        myPostRecyclerAdapter = new PostRecyclerAdapter(this,activityModelList);
+        myPostRecyclerAdapter = new PostRecyclerAdapter(this,activityModelList,"my post page");
         myPostRecyclerView.setAdapter(myPostRecyclerAdapter);
 
 

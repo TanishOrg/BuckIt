@@ -87,7 +87,7 @@ public class SeemorePosts extends AppCompatActivity {
             }
         });
 
-        postRecyclerAdapter = new PostRecyclerAdapter(this,List);
+        postRecyclerAdapter = new PostRecyclerAdapter(this,List,"see more post page");
         postRecyclerView.setAdapter(postRecyclerAdapter);
 
 

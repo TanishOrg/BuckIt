@@ -71,6 +71,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     List<CommentModel> commentModelList ;
     RecyclerAdapterComment adapterComment;
 
+    String toactivity;
     int intpoints = 0;
     FirebaseAuth auth;
 
@@ -92,8 +93,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
         toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
 
-
-
+        toactivity = getIntent().getStringExtra("to activity");
         postId = getIntent().getStringExtra("postId");
         initialize();
 
@@ -345,10 +345,14 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.backButton:
-                Intent i = new Intent(this, CityInnerPage.class);
-                i.putExtra("cityId",location);
-                finish();
-                startActivity(i);
+                try {
+                    if (toactivity!=null){
+                        backtowhichactivity();
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
                 break;
             case R.id.saveBookmark:
                 bookmarking();
@@ -492,4 +496,35 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
         });
     }
 
+    public void backtowhichactivity(){
+        Intent in = null;
+        
+        
+        switch (toactivity){
+            case "city fragment":
+               in = new Intent(this, HomeActivity.class);
+                in.putExtra("which Activity","from Add new city");
+                break;
+            case "city inner page":
+                in = new Intent(this, CityInnerPage.class);
+                in.putExtra("cityId",location);
+                break;
+            case "bookmark page":
+                new Intent(this, BookmarkPage.class);
+                break;
+            case "my post page":
+                new Intent(this, myPost.class);
+                break;
+            case "see more post page":
+                new Intent(this, SeemorePosts.class);
+                break;
+            default:
+                in = new Intent(this, HomeActivity.class);
+                in.putExtra("which Activity","from Add new city");
+                break;
+        }
+
+        finish();
+        startActivity(in);
+    }
 }

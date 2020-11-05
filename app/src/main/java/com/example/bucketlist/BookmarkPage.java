@@ -63,6 +63,7 @@ public class BookmarkPage extends AppCompatActivity implements View.OnClickListe
                     error.printStackTrace();
                 }
                 else{
+                    modelList.clear();
                     for (QueryDocumentSnapshot snapshot : value){
                         snapshot.getDocumentReference("post reference").addSnapshotListener(new EventListener<DocumentSnapshot>() {
                             @Override
@@ -90,7 +91,7 @@ public class BookmarkPage extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        bookmarkrecyclerAdapter = new PostRecyclerAdapter(getApplicationContext(),modelList);
+        bookmarkrecyclerAdapter = new PostRecyclerAdapter(getApplicationContext(),modelList,"bookmark page");
         bookmarkRecyclerview.setAdapter(bookmarkrecyclerAdapter);
     }
 
