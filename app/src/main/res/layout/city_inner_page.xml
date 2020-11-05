@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:theme="@style/CustomTheme"
-
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".CityInnerPage">
 
@@ -24,41 +23,10 @@
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             android:theme="@style/ThemeOverlay.MaterialComponents.Light">
 
-
-
-
-
-
-
-
-
-
-
-
-
-<!--            <androidx.appcompat.widget.Toolbar-->
-<!--                android:id="@+id/toolBar"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="?attr/actionBarSize"-->
-<!--                android:elevation="20dp"-->
-
-<!--                android:layout_marginTop="24dp"-->
-<!--                app:layout_collapseMode="pin"-->
-<!--                android:theme="@style/ThemeOverlay.MaterialComponents.Light"-->
-<!--                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light">-->
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/back_button"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:src="@drawable/back_icon_black"-->
-<!--                    app:tint="@color/white" />-->
-
-<!--            </androidx.appcompat.widget.Toolbar>-->
-
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:layout_collapseMode="parallax">
 
                 <ImageView
                     android:id="@+id/backgroundImage"
@@ -67,40 +35,7 @@
                     android:background="#808080"
                     android:scaleType="centerCrop"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="24dp"
-                    android:orientation="horizontal"
-                    android:gravity="center|end"
-                    android:layout_height="?attr/actionBarSize">
 
-
-
-                    <TextView
-                        android:id="@+id/changebackground"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="16dp"
-                        android:paddingHorizontal="10dp"
-                        android:paddingVertical="6dp"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/nunito_semibold"
-                        android:textColor="@color/white"
-                        android:layout_marginRight="16dp"
-                        android:text="Change background"
-                        android:gravity="center"
-                        android:background="@drawable/blackblurbackground"
-                        />
-
-                    <ImageView
-                        android:id="@+id/likebutton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_heart"
-                        android:layout_marginRight="16dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"/>
-                </LinearLayout>
 
 
                 <LinearLayout
@@ -117,9 +52,9 @@
                         android:id="@+id/donebutton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="4dp"
+                        android:padding="7dp"
                         android:layout_marginTop="16dp"
-                        android:background="@drawable/circularblurbackground"
+                        android:background="@drawable/circle_blur_background"
                         android:src="@drawable/done_icon" />
 
                     <ImageView
@@ -127,8 +62,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:padding="4dp"
-                        android:background="@drawable/circularblurbackground"
+                        android:padding="7dp"
+                        android:background="@drawable/circle_blur_background"
                         android:src="@drawable/clear_icon_white" />
 
                 </LinearLayout>
@@ -147,7 +82,7 @@
                         android:layout_height="wrap_content"
                         android:padding="15dp"
                         android:layout_margin="10dp"
-                        android:background="@drawable/blackblurbackground2"
+                        android:background="@drawable/rectangle_blur_background"
                         android:orientation="vertical">
                         <TextView
                             android:id="@+id/city"
@@ -244,6 +179,68 @@
 
             </RelativeLayout>
 
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:elevation="20dp"
+                android:layout_marginTop="24dp"
+                app:layout_collapseMode="pin"
+                android:theme="@style/ThemeOverlay.MaterialComponents.Light"
+                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light">
+
+                <ImageView
+                    android:id="@+id/back_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/back_icon_black"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:padding="5dp"
+                    android:background="@drawable/circle_blur_background"
+                    app:tint="@color/white" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center|end"
+                    android:layout_height="?attr/actionBarSize">
+
+
+
+                    <TextView
+                        android:id="@+id/changebackground"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="6dp"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:textColor="@color/white"
+                        android:layout_marginRight="16dp"
+
+                        android:layout_toStartOf="@id/likebutton"
+                        android:text="Change background"
+                        android:gravity="center"
+                        android:background="@drawable/rectangle_blur_background"
+                        />
+
+                    <ImageView
+                        android:id="@+id/likebutton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_heart"
+                        android:layout_marginRight="16dp"
+                        android:layout_alignParentRight="true"
+                        android:padding="7dp"
+                        android:background="@drawable/circle_blur_background"
+                        android:layout_centerVertical="true"/>
+                </RelativeLayout>
+
+
+
+            </androidx.appcompat.widget.Toolbar>
+
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -251,9 +248,10 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="24dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         android:clipToPadding="false">
+
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/postRecyclerView"

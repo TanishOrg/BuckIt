@@ -33,7 +33,7 @@ public class BookmarkPage extends AppCompatActivity implements View.OnClickListe
     FirebaseAuth auth;
     RecyclerView bookmarkRecyclerview;
     PostRecyclerAdapter bookmarkrecyclerAdapter;
-    List<ActivityModel> modelList;
+
     ImageView backButton;
 
     @Override
@@ -52,7 +52,7 @@ public class BookmarkPage extends AppCompatActivity implements View.OnClickListe
     }
 
     private void LoadBookamrkPost() {
-        modelList = new ArrayList<>();
+        final List<ActivityModel> modelList = new ArrayList<>();
         firestore = FirebaseFirestore.getInstance();
         CollectionReference collection = firestore.collection("Users").document(auth.getCurrentUser().getUid())
                 .collection("Bookmarks");

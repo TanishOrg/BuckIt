@@ -79,6 +79,7 @@ public class myPost extends AppCompatActivity implements View.OnClickListener {
                     error.printStackTrace();
                 }
                 else{
+                    activityModelList.clear();
                     for (QueryDocumentSnapshot snapshot: value){
                         DocumentReference documentReference = firestore.collection("Posts").document(snapshot.getId());
                         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
