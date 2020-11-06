@@ -55,7 +55,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostInnerPage extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "Post Inner Page";
-    String postId;
+    String myUid,postId;
     String location,username,title,description;
     String dateAsText;
     int likes = 0;
