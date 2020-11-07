@@ -1,15 +1,21 @@
 package com.example.bucketlist.fragments.homePageFragment;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -93,7 +99,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
     List<CityModel> arrayList;
     List<ActivityModel> List;
 
-
+    ImageView searchImageView;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
@@ -111,7 +117,6 @@ public class CityFragment extends Fragment implements View.OnClickListener {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
                 switch (item.getItemId()){
                     case R.id.myPost:
                         Intent i = new Intent(getContext(), myPost.class);
@@ -125,6 +130,10 @@ public class CityFragment extends Fragment implements View.OnClickListener {
             }
         });
 
+        //search view
+
+        searchImageView = view.findViewById(R.id.searchView);
+        searchImageView.setOnClickListener(this);
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this.getActivity(),drawerLayout,toolbar,R.string.draw_open,R.string.drawer_closed);
         actionBarDrawerToggle.syncState();
@@ -148,7 +157,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
         activity.setOnClickListener(this);
         createCity.setOnClickListener(this);
         seemore.setOnClickListener(this);
-//        postMore.setOnClickListener(this);
+
         recyclerView =  view.findViewById(R.id.recycler_view);
 
         postRecyclerView=view.findViewById(R.id.recycler_view_post);
@@ -171,8 +180,12 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
         loadData(user_id);
 
+
+
         return  view;
     }
+
+
 
     @Override
     public void onClick(View v) {
@@ -192,6 +205,9 @@ public class CityFragment extends Fragment implements View.OnClickListener {
         }
         else if (v.getId() == R.id.postMore){
             Intent i = new Intent(getContext(), SeemorePosts.class);
+            startActivity(i);
+        } else if (v.getId() == R.id.searchView) {
+            Intent i  = new Intent(getContext(),SearchActivity.class);
             startActivity(i);
         }
     }
@@ -267,23 +283,6 @@ public class CityFragment extends Fragment implements View.OnClickListener {
                                             snapshot.getString("City Name"),
                                             snapshot.getString("Country Name"),snapshot.getId()));
                                     recyclerAdapterTrendingCard.notifyDataSetChanged();
-//                        DocumentReference documentReference = firestore.collection("Cities").document(snapshot.getId());
-//                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-//                            @Override
-//                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-//                                if (error!=null){
-//                                    Log.d("Exception Failed", "onEvent: 0  " + error);
-//
-//                                }
-//                                else{
-//                                    arrayList.add(new CityModel(value.getString("City Background Image"),
-//                                            value.getString("City Name"),
-//                                            value.getString("Country Name"),snapshot.getId()));
-//                                    recyclerAdapterTrendingCard.notifyDataSetChanged();
-//                                }
-//
-//                            }
-//                        });
 
                     }
 

@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,27 +26,35 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapter.PostViewHolder> {
+public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapter.PostViewHolder>
+implements Filterable {
 
     Context context;
     List<ActivityModel> modelList;
     String whichActivity;
+    List<ActivityModel> modelEgList;
 
     public PostRecyclerAdapter(Context context, List<ActivityModel> modelList, String whichActivity) {
         this.context = context;
         this.modelList = modelList;
         this.whichActivity = whichActivity;
+
     }
 
     @NonNull
     @Override
     public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.activity_row, parent, false);
+
+        this.modelEgList= new ArrayList<>( modelList );
+        Log.d("TAG", "PostRecyclerAdapter: " + modelEgList.size());
+
         return new PostViewHolder(view);
 
     }
@@ -120,8 +130,47 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
 
     @Override
     public int getItemCount() {
-        return modelList.size();
+        return modelList != null ? modelList.size() : 0;
     }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    private  Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<ActivityModel> filterd = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filterd.addAll(modelEgList);
+            } else {
+                String patttern = constraint.toString().toLowerCase().trim();
+
+                for (ActivityModel item : modelEgList) {
+                    if (item.getTitle().toLowerCase().contains(patttern)
+                            || (item.getCategory() != null && item.getCategory().toString()
+                            .toLowerCase().contains(patttern) )
+                            || item.getLocation().toLowerCase().contains(patttern)
+                    ) {
+                        filterd.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values  = filterd;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            modelList.clear();
+            modelList.addAll((List) results.values);
+
+            notifyDataSetChanged();
+        }
+    };
 
     class PostViewHolder extends RecyclerView.ViewHolder{
 
