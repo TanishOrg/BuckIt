@@ -9,6 +9,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -54,7 +55,7 @@ import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PostInnerPage extends AppCompatActivity implements View.OnClickListener {
+public class PostInnerPage extends AppCompatActivity implements View.OnClickListener, Toolbar.OnMenuItemClickListener {
     private static final String TAG = "Post Inner Page";
     String postId;
     String location,username,title,description;
@@ -94,7 +95,6 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.post_inner_page_activity);
 
         toolbar = findViewById(R.id.toolBar);
-        setSupportActionBar(toolbar);
 
         toactivity = getIntent().getStringExtra("to activity");
         postId = getIntent().getStringExtra("postId");
@@ -140,6 +140,8 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
         }
         ifDocExists();
         ifBookmarkExists();
+
+        toolbar.setOnMenuItemClickListener(this);
     }
 
     private void ifDocExists() {
@@ -212,7 +214,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                 if (error!=null){
                     error.printStackTrace();
                 }
-                else {
+                else if (value.exists()){
                     location =  value.getString("location");
                     String[] arr = location.split(", ",0);
                     String cityFilename = arr[0] + ", " + arr[arr.length - 1];
@@ -262,8 +264,16 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                         }
                     });
 
+                 if (auth.getCurrentUser().getUid().equals(username)){
+                     toolbar.inflateMenu(R.menu.menu_post_mine);
+                 }
+                 else{
+                     toolbar.inflateMenu(R.menu.menu_post_other);
+                 }
+
                 }
             }
+
         });
 
 
@@ -351,13 +361,15 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.backButton:
-                try {
-                    if (toactivity!=null){
-                        backtowhichactivity();
-                    }
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+                finish();
+//
+//                try {
+//                    if (toactivity!=null){
+////                        backtowhichactivity();
+//                    }
+//                }catch (Exception e){
+//                    e.printStackTrace();
+//                }
 
                 break;
             case R.id.saveBookmark:
@@ -380,13 +392,14 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     private void storingcomment() {
         if (!commentText.getText().toString().isEmpty()){
             totalComments++;
+            long timecreated = System.currentTimeMillis();
             DocumentReference commentDocRef = firestore.collection("Posts").document(postId)
-                    .collection("Comments").document("comment"+Integer.toString(totalComments));
+                    .collection("Comments").document(Long.toString(timecreated));
 
             Map commentmap = new HashMap();
             commentmap.put("user id",auth.getCurrentUser().getUid());
             commentmap.put("comment",commentText.getText().toString());
-            commentmap.put("time of comment",System.currentTimeMillis());
+            commentmap.put("time of comment",timecreated);
             commentmap.put("total likes",0);
 
             commentDocRef.set(commentmap).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -532,5 +545,33 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
 
         finish();
         startActivity(in);
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.edit:
+                break;
+            case R.id.report:
+                Toast.makeText(this, "Reported", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.delete:
+                firestore.collection("Posts").document(postId)
+                        .delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(PostInnerPage.this, "succesful", Toast.LENGTH_SHORT).show();
+                      finish();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+                break;
+
+        }
+        return false;
     }
 }

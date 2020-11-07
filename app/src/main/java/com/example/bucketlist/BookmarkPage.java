@@ -72,16 +72,21 @@ public class BookmarkPage extends AppCompatActivity implements View.OnClickListe
                                     error.printStackTrace();
                                 }
                                 else{
-                                    modelList.add(new ActivityModel(value.getString("createdBy"),
-                                            value.getString("title"),
-                                            value.getLong("timeStamp").longValue(),
-                                            value.getString("location"),
-                                            value.getLong("likes").intValue(),
-                                            value.getLong("dislikes").intValue(),
-                                            value.getId(),value.getLong("total comments").intValue()));
-                                    bookmarkrecyclerAdapter.notifyDataSetChanged();
+                                   try {
+                                       modelList.add(new ActivityModel(value.getString("createdBy"),
+                                               value.getString("title"),
+                                               value.getLong("timeStamp").longValue(),
+                                               value.getString("location"),
+                                               value.getLong("likes").intValue(),
+                                               value.getLong("dislikes").intValue(),
+                                               value.getId(),value.getLong("total comments").intValue()));
+                                       Log.d("title", value.getString("title"));
+                                       bookmarkrecyclerAdapter.notifyDataSetChanged();
 
-                                    Log.d("title", value.getString("title"));
+                                   }catch (Exception e){
+                                       e.printStackTrace();
+                                   }
+
                                 }
                             }
                         });

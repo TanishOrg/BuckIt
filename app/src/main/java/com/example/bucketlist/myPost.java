@@ -89,14 +89,18 @@ public class myPost extends AppCompatActivity implements View.OnClickListener {
                                     error.printStackTrace();
                                 }
                                 else{
-                                    activityModelList.add(new ActivityModel(value.getString("createdBy"),
-                                            value.getString("title"),
-                                            value.getLong("timeStamp").longValue(),
-                                            value.getString("location"),
-                                            value.getLong("likes").intValue(),
-                                            value.getLong("dislikes").intValue(),
-                                            value.getId(),value.getLong("total comments").intValue()));
-                                    myPostRecyclerAdapter.notifyDataSetChanged();
+                                 try {
+                                     activityModelList.add(new ActivityModel(value.getString("createdBy"),
+                                             value.getString("title"),
+                                             value.getLong("timeStamp").longValue(),
+                                             value.getString("location"),
+                                             value.getLong("likes").intValue(),
+                                             value.getLong("dislikes").intValue(),
+                                             value.getId(),value.getLong("total comments").intValue()));
+                                     myPostRecyclerAdapter.notifyDataSetChanged();
+                                 }catch (Exception e){
+                                     e.printStackTrace();
+                                 }
                                 }
                             }
                         });

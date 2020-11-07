@@ -157,6 +157,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
         activity.setOnClickListener(this);
         createCity.setOnClickListener(this);
         seemore.setOnClickListener(this);
+        postMore.setOnClickListener(this);
 
         recyclerView =  view.findViewById(R.id.recycler_view);
 

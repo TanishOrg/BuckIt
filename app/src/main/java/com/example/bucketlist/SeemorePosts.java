@@ -67,14 +67,18 @@ public class SeemorePosts extends AppCompatActivity {
 
                                 }
                                 else{
-                                    List.add(new ActivityModel(value.getString("createdBy"),
-                                            value.getString("title"),
-                                            value.getLong("timeStamp").longValue(),
-                                            value.getString("location"),
-                                            value.getLong("likes").intValue(),
-                                            value.getLong("dislikes").intValue(),
-                                            value.getId(),snapshot.getLong("total comments").intValue()));
-                                    postRecyclerAdapter.notifyDataSetChanged();
+                                    try {
+                                        List.add(new ActivityModel(value.getString("createdBy"),
+                                                value.getString("title"),
+                                                value.getLong("timeStamp").longValue(),
+                                                value.getString("location"),
+                                                value.getLong("likes").intValue(),
+                                                value.getLong("dislikes").intValue(),
+                                                value.getId(),snapshot.getLong("total comments").intValue()));
+                                        postRecyclerAdapter.notifyDataSetChanged();
+                                    }catch (Exception e){
+                                        e.printStackTrace();
+                                    }
                                 }
 
                             }
