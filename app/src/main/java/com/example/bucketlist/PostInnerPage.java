@@ -551,6 +551,9 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()){
             case R.id.edit:
+                Intent intent = new Intent(this,EditPostPage.class);
+                intent.putExtra("postid",postId);
+                startActivity(intent);
                 break;
             case R.id.report:
                 Toast.makeText(this, "Reported", Toast.LENGTH_SHORT).show();

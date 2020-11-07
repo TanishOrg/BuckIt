@@ -109,7 +109,13 @@ public class RecyclerAdapterComment extends RecyclerView.Adapter<RecyclerAdapter
         firestore.collection("Posts").document(postid).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                totalComments=value.getLong("total comments").intValue();
+                if (error!=null){
+                    error.printStackTrace();
+                }
+                else if (value.exists()){
+                    totalComments=value.getLong("total comments").intValue();
+                }
+
             }
         });
 
