@@ -32,6 +32,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -55,8 +56,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostInnerPage extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "Post Inner Page";
-    String myUid,postId;
+    String postId;
     String location,username,title,description;
+    BottomSheetDialog bottomSheetDialog;
     String dateAsText;
     int likes = 0;
     int dislikes = 0;
@@ -76,6 +78,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     FirebaseAuth auth;
 
     EditText commentText;
+    TextView comment;
     ImageView backButton,bookmarkButton,sendCommentButton;
     ImageView likeButton;
     ImageView dislikeButton;
@@ -117,6 +120,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
         noOfComments = findViewById(R.id.noOfComments);
         sendCommentButton = findViewById(R.id.sendCommentButton);
         commentText = findViewById(R.id.commentText);
+        comment=findViewById(R.id.comment);
         likeButton = findViewById(R.id.likeButton);
         dislikeButton = findViewById(R.id.dislikeButton);
         commentRecyclerView = findViewById(R.id.commentRecyclerView);
@@ -127,6 +131,8 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
         backButton.setOnClickListener(this);
         bookmarkButton.setOnClickListener(this);
         sendCommentButton.setOnClickListener(this);
+
+        bottomSheetDialog = new BottomSheetDialog(this);
 
         if (postId!=null){
             loadPost();
@@ -191,7 +197,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                         }
                     }
                 });
-        adapterComment= new RecyclerAdapterComment(getApplicationContext(),commentModelList,postId);
+        adapterComment= new RecyclerAdapterComment(getApplicationContext(),commentModelList,postId,bottomSheetDialog);
         commentRecyclerView.setAdapter(adapterComment);
 
 

@@ -1,7 +1,6 @@
 package com.example.bucketlist.adapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,10 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -29,16 +25,16 @@ import com.example.bucketlist.model.CommentModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -56,12 +52,24 @@ public class RecyclerAdapterComment extends RecyclerView.Adapter<RecyclerAdapter
     String  postid,uid,cid;
     int totalComments;
 
+    public BottomSheetDialog bottomSheetDialog;
 
-    public RecyclerAdapterComment(Context context, List<CommentModel> commentModelList, String postid) {
+    private ImageView cancelEditButton;
+    private ImageView doneEditButton;
+
+    private EditText edit_comment_new;
+    String sComment;
+    FirebaseAuth mAuth;
+    FirebaseUser mUser;
+
+
+
+    public RecyclerAdapterComment(Context context, List<CommentModel> commentModelList, String postid,BottomSheetDialog bottomSheetDialog) {
         this.context = context;
         this.commentModelList = commentModelList;
         firestore = FirebaseFirestore.getInstance();
         this.postid = postid;
+        this.bottomSheetDialog=bottomSheetDialog;
     }
 
     @NonNull
@@ -79,6 +87,10 @@ public class RecyclerAdapterComment extends RecyclerView.Adapter<RecyclerAdapter
     @Override
     public void onBindViewHolder(@NonNull final CommentViewHolder holder, final int position) {
 
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth != null){
+            mUser = mAuth.getCurrentUser();
+        }
 
 
         holder.moreOptions.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +98,8 @@ public class RecyclerAdapterComment extends RecyclerView.Adapter<RecyclerAdapter
             public void onClick(View v) {
                 uid=commentModelList.get(position).getUid();
                 cid=commentModelList.get(position).getCommentId();
+                sComment=commentModelList.get(position).getComment();
+
                 Log.d("abc",uid+cid);
                 showCommentMenu(v);
 
@@ -222,8 +236,25 @@ public class RecyclerAdapterComment extends RecyclerView.Adapter<RecyclerAdapter
 //
 //    }
 
+
     @Override
-    public void onClick(View v) {
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.cancelEditButton2:
+                bottomSheetDialog.dismiss();
+                break;
+            case R.id.doneEditButton2:
+                final DocumentReference documentReference = firestore.collection("Posts").document(postid)
+                        .collection("Comments").document(cid);
+                documentReference.update("comment",edit_comment_new.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(context, "Edited", Toast.LENGTH_SHORT).show();
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+                break;
+        }
     }
     private void showCommentMenu(View view) {
         PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
@@ -236,15 +267,55 @@ public class RecyclerAdapterComment extends RecyclerView.Adapter<RecyclerAdapter
         popupMenu.show();
     }
 
+    public void editComment(){
+
+        bottomSheetDialog.setContentView(R.layout.edit_comment_bottomsheet);
+        bottomSheetDialog.setCanceledOnTouchOutside(false);
+
+        cancelEditButton =bottomSheetDialog.findViewById(R.id.cancelEditButton2);
+        doneEditButton = bottomSheetDialog.findViewById(R.id.doneEditButton2);
+        edit_comment_new = bottomSheetDialog.findViewById(R.id.edit_comment_new);
+
+
+        edit_comment_new.setText(sComment);
+        cancelEditButton.setOnClickListener(this);
+        doneEditButton.setOnClickListener(this);
+
+
+        edit_comment_new.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if(edit_comment_new.getText().toString().equals(sComment) && edit_comment_new.getText().toString().isEmpty()){
+                doneEditButton.setVisibility(View.GONE);
+            }else{
+                doneEditButton.setVisibility(View.VISIBLE);
+            }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        bottomSheetDialog.show();
+
+
+
+    }
+
     @Override
     public boolean onMenuItemClick(MenuItem item) {
 
         switch (item.getItemId()) {
             case R.id.edit_comment:
-//                if(FirebaseAuth.getInstance().getCurrentUser().getUid().equals(uid)) {
-//
-//                }
-                return true;
+                editComment();
+                break;
+
             case R.id.delete_comment:
                 if(FirebaseAuth.getInstance().getCurrentUser().getUid().equals(uid)) {
                     firestore.collection("Posts").document(postid)
@@ -276,7 +347,10 @@ public class RecyclerAdapterComment extends RecyclerView.Adapter<RecyclerAdapter
             default:
                 return false;
         }
+        return true;
     }
+
+//    protected abstract onEditCommentClick();
 
 
     class CommentViewHolder extends RecyclerView.ViewHolder {
@@ -287,8 +361,8 @@ public class RecyclerAdapterComment extends RecyclerView.Adapter<RecyclerAdapter
         TextView likesText;
         CircleImageView userimage;
         ImageView moreOptions;
-        EditText commentText;
         boolean isLiked = false;
+
         
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -299,25 +373,9 @@ public class RecyclerAdapterComment extends RecyclerView.Adapter<RecyclerAdapter
             noOfLikes = itemView.findViewById(R.id.noOfLikes);
             likesText = itemView.findViewById(R.id.likes);
             moreOptions = itemView.findViewById(R.id.moreOptions);
-            commentText=itemView.findViewById(R.id.commentText);
 
 
-//                commentText.addTextChangedListener(new TextWatcher() {
-//                    @Override
-//                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                        comment.setText(s);
-//                    }
-//
-//                    @Override
-//                    public void afterTextChanged(Editable s) {
-//
-//                    }
-//                });
+
 
         }
     }
