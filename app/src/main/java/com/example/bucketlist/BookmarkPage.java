@@ -1,5 +1,6 @@
 package com.example.bucketlist;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -15,6 +16,8 @@ import android.widget.ImageView;
 import com.example.bucketlist.adapters.PostRecyclerAdapter;
 import com.example.bucketlist.fragments.homePageFragment.CityFragment;
 import com.example.bucketlist.model.ActivityModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -65,31 +68,27 @@ public class BookmarkPage extends AppCompatActivity implements View.OnClickListe
                 else{
                     modelList.clear();
                     for (QueryDocumentSnapshot snapshot : value){
-                        snapshot.getDocumentReference("post reference").addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                            @Override
-                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                if (error!=null){
-                                    error.printStackTrace();
-                                }
-                                else{
-                                   try {
-                                       modelList.add(new ActivityModel(value.getString("createdBy"),
-                                               value.getString("title"),
-                                               value.getLong("timeStamp").longValue(),
-                                               value.getString("location"),
-                                               value.getLong("likes").intValue(),
-                                               value.getLong("dislikes").intValue(),
-                                               value.getId(),value.getLong("total comments").intValue()));
-                                       Log.d("title", value.getString("title"));
-                                       bookmarkrecyclerAdapter.notifyDataSetChanged();
 
-                                   }catch (Exception e){
-                                       e.printStackTrace();
-                                   }
 
-                                }
-                            }
-                        });
+                        snapshot.getDocumentReference("post reference")
+                                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                                        if (value.exists()) {
+                                                modelList.add(new ActivityModel(value.getString("createdBy"),
+                                                        value.getString("title"),
+                                                        value.getLong("timeStamp").longValue(),
+                                                        value.getString("location"),
+                                                        value.getLong("likes").intValue(),
+                                                        value.getLong("dislikes").intValue(),
+                                                        value.getId(), value.getLong("total comments").intValue()));
+                                                Log.d("title", value.getString("title"));
+                                                bookmarkrecyclerAdapter.notifyDataSetChanged();
+
+                                        }
+                                    }
+                                });
+
 
                     }
                 }

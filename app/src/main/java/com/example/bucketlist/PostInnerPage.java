@@ -145,6 +145,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     }
 
     private void ifDocExists() {
+
         firestore.collection("Posts").document(postId)
                 .collection("LikedBy").document(auth.getCurrentUser().getUid())
                 .addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -192,6 +193,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                                         ,snapshot.getLong("time of comment").longValue(),
                                         snapshot.getLong("total likes").intValue(),
                                                 snapshot.getId())
+
                                 );
 
 
@@ -553,13 +555,34 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
             case R.id.edit:
                 break;
             case R.id.report:
+
                 Toast.makeText(this, "Reported", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.delete:
+
                 firestore.collection("Posts").document(postId)
                         .delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        final DocumentReference ref = firestore.collection("Users").document(auth.getCurrentUser().getUid())
+                                .collection("Bookmarks").document(postId);
+                       ref .get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot  val = task.getResult();
+                                    if(val.exists()) {
+                                        ref.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        });
                         Toast.makeText(PostInnerPage.this, "succesful", Toast.LENGTH_SHORT).show();
                       finish();
                     }
@@ -569,6 +592,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
 
                     }
                 });
+
                 break;
 
         }
