@@ -58,31 +58,14 @@ public class SeemorePosts extends AppCompatActivity {
                 }
                 else{
                     for (final QueryDocumentSnapshot snapshot : value){
-                        DocumentReference documentReference = firestore.collection("Posts").document(snapshot.getId());
-                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                            @Override
-                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                if (error!=null){
-                                    Log.d("Exception Failed", "onEvent: 0  " + error);
-
-                                }
-                                else{
-                                    try {
-                                        List.add(new ActivityModel(value.getString("createdBy"),
-                                                value.getString("title"),
-                                                value.getLong("timeStamp").longValue(),
-                                                value.getString("location"),
-                                                value.getLong("likes").intValue(),
-                                                value.getLong("dislikes").intValue(),
-                                                value.getId(),snapshot.getLong("total comments").intValue()));
-                                        postRecyclerAdapter.notifyDataSetChanged();
-                                    }catch (Exception e){
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                            }
-                        });
+                        List.add(new ActivityModel(snapshot.getString("createdBy"),
+                                snapshot.getString("title"),
+                                snapshot.getLong("timeStamp").longValue(),
+                                snapshot.getString("location"),
+                                snapshot.getLong("likes").intValue(),
+                                snapshot.getLong("dislikes").intValue(),
+                                snapshot.getId(),snapshot.getLong("total comments").intValue()));
+                        postRecyclerAdapter.notifyDataSetChanged();
 
                     }
 
