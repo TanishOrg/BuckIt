@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/AppTheme"
+    android:orientation="vertical"
+    tools:context=".EditPostPage">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#142327"
+        android:elevation="2dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/back_icon_black"
+                app:tint="@color/white" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_toStartOf="@id/saveBookmark"
+                android:layout_height="match_parent"
+                android:gravity="center|start"
+                android:fontFamily="@font/nunito_bold"
+                android:layout_toEndOf="@id/backButton"
+                android:layout_centerVertical="true"
+                android:textColor="@color/white"
+                android:layout_marginHorizontal="15dp"
+                android:textSize="18dp"
+                android:text="Edit post" />
+
+
+            <ImageView
+                android:id="@+id/saveBookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_baseline_bookmark_border_24"
+                android:layout_alignParentRight="true"
+                app:tint="@color/white"
+                android:layout_marginHorizontal="10dp"/>
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+
+</LinearLayout>
