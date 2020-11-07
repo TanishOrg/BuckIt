@@ -34,7 +34,6 @@
                    app:layout_collapseMode="parallax">
 
 
-
                    <TextView
                        android:id="@+id/pagetitle"
                        android:layout_width="match_parent"
@@ -46,19 +45,21 @@
                        android:textColor="#001030"
                        android:layout_marginHorizontal="20dp"/>
 
-                   <EditText
-                       android:layout_width="match_parent"
-                       android:layout_height="48dp"
-                       android:layout_below="@id/pagetitle"
-                       android:layout_marginTop="20dp"
-                       android:background="@drawable/edit_text_background"
-                       android:backgroundTint="#EAEAEA"
-                       android:layout_marginBottom="20dp"
-                       android:layout_marginRight="150dp"
-                       android:hint="  search"
-                       android:paddingHorizontal="8dp"
-                       android:drawableRight="@drawable/ic_round_search_24"
-                       android:layout_marginLeft="20dp"/>
+
+<!--                   <EditText-->
+<!--                       android:layout_width="match_parent"-->
+<!--                       android:layout_height="48dp"-->
+<!--                       android:layout_below="@id/pagetitle"-->
+<!--                       android:layout_marginTop="20dp"-->
+<!--                       android:background="@drawable/edit_text_background"-->
+<!--                       android:backgroundTint="#EAEAEA"-->
+<!--                       android:layout_marginBottom="20dp"-->
+<!--                       android:layout_marginRight="150dp"-->
+<!--                       android:hint="  search"-->
+<!--                       android:paddingHorizontal="8dp"-->
+<!--                       android:drawableRight="@drawable/ic_round_search_24"-->
+<!--                       android:layout_marginLeft="20dp"/>-->
+
 
                    <TextView
                        android:id="@+id/city"
@@ -107,6 +108,20 @@
                            android:layout_centerVertical="true"
                            android:layout_marginRight="14dp"
                            android:padding="4dp" />
+
+
+                       <ImageView
+                           android:id="@+id/searchView"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:src="@drawable/ic_baseline_search_24"
+                           android:layout_toLeftOf="@+id/activity"
+                           android:layout_centerVertical="true"
+                           android:paddingHorizontal="20dp"
+                           android:layout_marginLeft="30dp"
+                           android:layout_marginTop="20dp"
+                           />
+
                    </RelativeLayout>
 
 

@@ -289,7 +289,7 @@ public class RecyclerAdapterComment extends RecyclerView.Adapter<RecyclerAdapter
         ImageView moreOptions;
         EditText commentText;
         boolean isLiked = false;
-
+        
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
             userimage = itemView.findViewById(R.id.userImage);
