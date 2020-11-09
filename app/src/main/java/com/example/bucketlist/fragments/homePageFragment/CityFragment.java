@@ -230,24 +230,6 @@ public class CityFragment extends Fragment implements View.OnClickListener {
                 else{
                     trendingCardModelList.clear();
                     for (final QueryDocumentSnapshot snapshot : value){
-//                        DocumentReference documentReference = firestore.collection("Cities").document(snapshot.getId());
-//                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-//                            @Override
-//                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-//                                if (error!=null){
-//                                    Log.d("Exception Failed", "onEvent: 0  " + error);
-//
-//                                }
-//                                else{
-//                                    trendingCardModelList.add(new TrendingCardModel(value.getString("City Name"),
-//                                            value.getString("Country Name"),
-//                                            value.getString("City Background Image"),snapshot.getId()));
-//                                    pageAdapterTrendingCard.notifyDataSetChanged();
-//                                    Log.d("size",Integer.toString(trendingCardModelList.size()));
-//                                }
-//
-//                            }
-//                        });
                         trendingCardModelList.add(new TrendingCardModel(snapshot.getString("City Name"),
                                             snapshot.getString("Country Name"),
                                             snapshot.getString("City Background Image"),snapshot.getId()));
