@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -73,7 +74,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
     private PageAdapterTrendingCard pageAdapterTrendingCard;
     private List<TrendingCardModel> trendingCardModelList;
     TextView createCity;
-    ImageView activity;
+    EditText activity;
     TextView seemore,postMore;
 
     Toolbar toolbar;

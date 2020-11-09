@@ -46,19 +46,22 @@
                        android:layout_marginHorizontal="20dp"/>
 
 
-<!--                   <EditText-->
-<!--                       android:layout_width="match_parent"-->
-<!--                       android:layout_height="48dp"-->
-<!--                       android:layout_below="@id/pagetitle"-->
-<!--                       android:layout_marginTop="20dp"-->
-<!--                       android:background="@drawable/edit_text_background"-->
-<!--                       android:backgroundTint="#EAEAEA"-->
-<!--                       android:layout_marginBottom="20dp"-->
-<!--                       android:layout_marginRight="150dp"-->
-<!--                       android:hint="  search"-->
-<!--                       android:paddingHorizontal="8dp"-->
-<!--                       android:drawableRight="@drawable/ic_round_search_24"-->
-<!--                       android:layout_marginLeft="20dp"/>-->
+                   <EditText
+                       android:id="@+id/activity"
+                       android:layout_width="match_parent"
+                       android:layout_height="48dp"
+                       android:layout_below="@id/pagetitle"
+                       android:layout_marginTop="20dp"
+                       android:background="@drawable/edit_text_background"
+                       android:backgroundTint="#EAEAEA"
+                       android:layout_marginBottom="20dp"
+                       android:layout_marginRight="170dp"
+                       android:hint="create post"
+                       android:paddingHorizontal="13dp"
+                       android:drawableRight="@drawable/ic_baseline_edit_24"
+                       android:drawableTint="#676767"
+                       android:focusable="false"
+                       android:layout_marginLeft="20dp"/>
 
 
                    <TextView
@@ -67,7 +70,7 @@
                        android:layout_height="48dp"
                        android:layout_below="@id/pagetitle"
                        android:layout_alignParentRight="true"
-                       android:text="Create"
+                       android:text="Add city"
                        android:textSize="18dp"
                        android:fontFamily="@font/nunito_bold"
                        android:gravity="center"
@@ -98,27 +101,16 @@
                        <!--                        android:layout_centerVertical="true"-->
                        <!--                        android:padding="4dp" />-->
 
-                       <ImageView
-                           android:layout_width="36dp"
-                           android:id="@+id/activity"
-                           android:layout_height="36dp"
-                           android:src="@drawable/ic_post"
-                           app:tint="@color/blackcolor"
-                           android:layout_alignParentRight="true"
-                           android:layout_centerVertical="true"
-                           android:layout_marginRight="14dp"
-                           android:padding="4dp" />
-
 
                        <ImageView
                            android:id="@+id/searchView"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:src="@drawable/ic_baseline_search_24"
-                           android:layout_toLeftOf="@+id/activity"
                            android:layout_centerVertical="true"
-                           android:paddingHorizontal="20dp"
-                           android:layout_marginLeft="30dp"
+                           android:layout_marginRight="16dp"
+                           android:padding="4dp"
+                           android:layout_alignParentRight="true"
                            android:layout_marginTop="20dp"
                            />
 
