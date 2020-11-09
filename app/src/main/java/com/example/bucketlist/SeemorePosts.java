@@ -6,10 +6,14 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.example.bucketlist.adapters.PostRecyclerAdapter;
+import com.example.bucketlist.fragments.homePageFragment.CityFragment;
 import com.example.bucketlist.model.ActivityModel;
 import com.example.bucketlist.model.CityModel;
 import com.google.firebase.firestore.CollectionReference;
@@ -24,12 +28,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SeemorePosts extends AppCompatActivity {
+public class SeemorePosts extends AppCompatActivity implements View.OnClickListener {
 
     PostRecyclerAdapter postRecyclerAdapter;
     List<ActivityModel> List;
     FirebaseFirestore firestore;
     RecyclerView postRecyclerView;
+    ImageView backButton;
 
 
     @Override
@@ -37,10 +42,13 @@ public class SeemorePosts extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.seemore_posts_activity);
         postRecyclerView = findViewById(R.id.recyclerView);
+        backButton = findViewById(R.id.backButton);
         firestore = FirebaseFirestore.getInstance();
 
 
         PostLoading();
+
+        backButton.setOnClickListener(this);
 
     }
 
@@ -78,5 +86,13 @@ public class SeemorePosts extends AppCompatActivity {
         postRecyclerView.setAdapter(postRecyclerAdapter);
 
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId()==R.id.backButton){
+            finish();
+
+        }
     }
 }
