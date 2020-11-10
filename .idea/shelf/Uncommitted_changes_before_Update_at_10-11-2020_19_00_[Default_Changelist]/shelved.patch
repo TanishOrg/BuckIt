@@ -1,0 +1,946 @@
+Index: app/src/main/java/com/example/bucketlist/SeemorePosts.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.bucketlist;\r\n\r\nimport androidx.annotation.Nullable;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.recyclerview.widget.DefaultItemAnimator;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.util.Log;\r\nimport android.view.View;\r\nimport android.widget.ImageView;\r\n\r\nimport com.example.bucketlist.adapters.PostRecyclerAdapter;\r\nimport com.example.bucketlist.fragments.homePageFragment.CityFragment;\r\nimport com.example.bucketlist.model.ActivityModel;\r\nimport com.example.bucketlist.model.CityModel;\r\nimport com.google.firebase.firestore.CollectionReference;\r\nimport com.google.firebase.firestore.DocumentReference;\r\nimport com.google.firebase.firestore.DocumentSnapshot;\r\nimport com.google.firebase.firestore.EventListener;\r\nimport com.google.firebase.firestore.FirebaseFirestore;\r\nimport com.google.firebase.firestore.FirebaseFirestoreException;\r\nimport com.google.firebase.firestore.QueryDocumentSnapshot;\r\nimport com.google.firebase.firestore.QuerySnapshot;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class SeemorePosts extends AppCompatActivity implements View.OnClickListener {\r\n\r\n    PostRecyclerAdapter postRecyclerAdapter;\r\n    List<ActivityModel> List;\r\n    FirebaseFirestore firestore;\r\n    RecyclerView postRecyclerView;\r\n    ImageView backButton;\r\n\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.seemore_posts_activity);\r\n        postRecyclerView = findViewById(R.id.recyclerView);\r\n        backButton = findViewById(R.id.backButton);\r\n        firestore = FirebaseFirestore.getInstance();\r\n\r\n\r\n        PostLoading();\r\n\r\n        backButton.setOnClickListener(this);\r\n\r\n    }\r\n\r\n    public void PostLoading(){\r\n\r\n        List = new ArrayList<>();\r\n\r\n        CollectionReference collectionReference = firestore.collection(\"Posts\");\r\n        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {\r\n            @Override\r\n            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {\r\n                if (error!=null){\r\n                    Log.d(\"Exception Failed\", \"onEvent: 0  \" + error);\r\n\r\n                }\r\n                else{\r\n                    for (final QueryDocumentSnapshot snapshot : value){\r\n                        List.add(new ActivityModel(snapshot.getString(\"createdBy\"),\r\n                                snapshot.getString(\"title\"),\r\n                                snapshot.getLong(\"timeStamp\").longValue(),\r\n                                snapshot.getString(\"location\"),\r\n                                snapshot.getLong(\"likes\").intValue(),\r\n                                snapshot.getLong(\"dislikes\").intValue(),\r\n                                snapshot.getId(),snapshot.getLong(\"total comments\").intValue()));\r\n                        postRecyclerAdapter.notifyDataSetChanged();\r\n\r\n                    }\r\n\r\n\r\n                }\r\n            }\r\n        });\r\n\r\n        postRecyclerAdapter = new PostRecyclerAdapter(this,List,\"see more post page\");\r\n        postRecyclerView.setAdapter(postRecyclerAdapter);\r\n\r\n\r\n    }\r\n\r\n    @Override\r\n    public void onClick(View view) {\r\n        if (view.getId()==R.id.backButton){\r\n            finish();\r\n\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/bucketlist/SeemorePosts.java	(revision 9d488c2664ff35fea14adbc51e9a0dc9d18ae324)
++++ app/src/main/java/com/example/bucketlist/SeemorePosts.java	(date 1604945621283)
+@@ -1,24 +1,20 @@
+ package com.example.bucketlist;
+ 
++import androidx.annotation.NonNull;
+ import androidx.annotation.Nullable;
+ import androidx.appcompat.app.AppCompatActivity;
+-import androidx.recyclerview.widget.DefaultItemAnimator;
+ import androidx.recyclerview.widget.LinearLayoutManager;
+ import androidx.recyclerview.widget.RecyclerView;
+ 
+-import android.content.Intent;
+ import android.os.Bundle;
+ import android.util.Log;
+ import android.view.View;
++import android.widget.AbsListView;
+ import android.widget.ImageView;
+ 
+ import com.example.bucketlist.adapters.PostRecyclerAdapter;
+-import com.example.bucketlist.fragments.homePageFragment.CityFragment;
+ import com.example.bucketlist.model.ActivityModel;
+-import com.example.bucketlist.model.CityModel;
+ import com.google.firebase.firestore.CollectionReference;
+-import com.google.firebase.firestore.DocumentReference;
+-import com.google.firebase.firestore.DocumentSnapshot;
+ import com.google.firebase.firestore.EventListener;
+ import com.google.firebase.firestore.FirebaseFirestore;
+ import com.google.firebase.firestore.FirebaseFirestoreException;
+@@ -35,6 +31,10 @@
+     FirebaseFirestore firestore;
+     RecyclerView postRecyclerView;
+     ImageView backButton;
++    private boolean isScrolling = false;
++    int currentitems,totalitems,scrolloutitems;
++    private LinearLayoutManager layoutManager;
++    int i;
+ 
+ 
+     @Override
+@@ -44,7 +44,8 @@
+         postRecyclerView = findViewById(R.id.recyclerView);
+         backButton = findViewById(R.id.backButton);
+         firestore = FirebaseFirestore.getInstance();
+-
++        layoutManager = new LinearLayoutManager(this);
++        postRecyclerView.setLayoutManager(layoutManager);
+ 
+         PostLoading();
+ 
+@@ -53,7 +54,7 @@
+     }
+ 
+     public void PostLoading(){
+-
++        i = 0;
+         List = new ArrayList<>();
+ 
+         CollectionReference collectionReference = firestore.collection("Posts");
+@@ -66,6 +67,7 @@
+                 }
+                 else{
+                     for (final QueryDocumentSnapshot snapshot : value){
++                        i++;
+                         List.add(new ActivityModel(snapshot.getString("createdBy"),
+                                 snapshot.getString("title"),
+                                 snapshot.getLong("timeStamp").longValue(),
+@@ -75,6 +77,10 @@
+                                 snapshot.getId(),snapshot.getLong("total comments").intValue()));
+                         postRecyclerAdapter.notifyDataSetChanged();
+ 
++                        if (i==5){
++                            break;
++                        }
++
+                     }
+ 
+ 
+@@ -85,7 +91,31 @@
+         postRecyclerAdapter = new PostRecyclerAdapter(this,List,"see more post page");
+         postRecyclerView.setAdapter(postRecyclerAdapter);
+ 
++        pagination();
++    }
++
++    private void pagination(){
++        postRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
++            @Override
++            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
++                super.onScrollStateChanged(recyclerView, newState);
++                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL){
++                    isScrolling = true;
++                }
++            }
+ 
++            @Override
++            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
++                super.onScrolled(recyclerView, dx, dy);
++                currentitems = layoutManager.getChildCount();
++                scrolloutitems = layoutManager.findFirstVisibleItemPosition();
++                if (isScrolling && (currentitems+scrolloutitems ==5)){
++                    isScrolling = false;
++                       PostLoading();
++
++                }
++            }
++        });
+     }
+ 
+     @Override
+Index: app/src/main/res/layout/see_more_cities.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:theme=\"@style/AppTheme\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    android:orientation=\"vertical\">\r\n\r\n   <androidx.appcompat.widget.Toolbar\r\n       android:layout_width=\"match_parent\"\r\n       android:layout_height=\"?attr/actionBarSize\"\r\n       android:layout_marginTop=\"24dp\"\r\n       android:background=\"#142327\">\r\n       <ImageView\r\n           android:id=\"@+id/backButton\"\r\n           android:layout_width=\"wrap_content\"\r\n           android:layout_height=\"wrap_content\"\r\n           android:src=\"@drawable/back_icon_black\"\r\n           app:tint=\"@color/white\" />\r\n\r\n      <RelativeLayout\r\n          android:layout_width=\"match_parent\"\r\n          android:layout_height=\"match_parent\"\r\n          android:layout_marginRight=\"16dp\">\r\n\r\n          <TextView\r\n              android:layout_width=\"wrap_content\"\r\n              android:layout_height=\"wrap_content\"\r\n              android:text=\"Cities \"\r\n              android:textSize=\"18dp\"\r\n              android:layout_centerVertical=\"true\"\r\n              android:textColor=\"@color/white\"\r\n              android:fontFamily=\"@font/nunito_bold\"\r\n              android:layout_marginHorizontal=\"16dp\"/>\r\n\r\n\r\n\r\n          <ImageView\r\n              android:layout_width=\"wrap_content\"\r\n              android:layout_height=\"wrap_content\"\r\n              android:src=\"@drawable/ic_round_search_24\"\r\n              app:tint=\"@color/white\"\r\n              android:layout_alignParentRight=\"true\"\r\n              android:layout_centerVertical=\"true\"/>\r\n      </RelativeLayout>\r\n\r\n   </androidx.appcompat.widget.Toolbar>\r\n\r\n    <androidx.recyclerview.widget.RecyclerView\r\n        android:id=\"@+id/recyclerView\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_gravity=\"center\"\r\n        app:layoutManager=\"androidx.recyclerview.widget.LinearLayoutManager\"/>\r\n\r\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/see_more_cities.xml	(revision 9d488c2664ff35fea14adbc51e9a0dc9d18ae324)
++++ app/src/main/res/layout/see_more_cities.xml	(date 1605007742774)
+@@ -53,4 +53,11 @@
+         android:layout_gravity="center"
+         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+ 
++    <ProgressBar
++        android:id="@+id/progressbar"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_gravity="bottom|center"
++        android:visibility="gone"/>
++
+ </LinearLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/bucketlist/SeeMoreCities.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.bucketlist;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.os.PersistableBundle;\r\nimport android.util.Log;\r\nimport android.view.View;\r\nimport android.widget.ImageView;\r\n\r\nimport androidx.annotation.Nullable;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.recyclerview.widget.DefaultItemAnimator;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport com.example.bucketlist.adapters.RecyclerAdapterSeemoreCities;\r\nimport com.example.bucketlist.adapters.RecyclerAdapterTrendingCard;\r\nimport com.example.bucketlist.model.CityModel;\r\nimport com.google.firebase.firestore.CollectionReference;\r\nimport com.google.firebase.firestore.DocumentReference;\r\nimport com.google.firebase.firestore.DocumentSnapshot;\r\nimport com.google.firebase.firestore.EventListener;\r\nimport com.google.firebase.firestore.FirebaseFirestore;\r\nimport com.google.firebase.firestore.FirebaseFirestoreException;\r\nimport com.google.firebase.firestore.QueryDocumentSnapshot;\r\nimport com.google.firebase.firestore.QuerySnapshot;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class SeeMoreCities extends AppCompatActivity implements View.OnClickListener {\r\n    RecyclerAdapterSeemoreCities recyclerAdapterSeemoreCities;\r\n    List<CityModel> arrayList;\r\n    RecyclerView recyclerView;\r\n    FirebaseFirestore firestore;\r\n    ImageView backButton;\r\n    @Override\r\n    public void onCreate(@Nullable Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.see_more_cities);\r\n        recyclerView = findViewById(R.id.recyclerView);\r\n        backButton = findViewById(R.id.backButton);\r\n        firestore = FirebaseFirestore.getInstance();\r\n\r\n        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));\r\n        recyclerView.setItemAnimator(new DefaultItemAnimator());\r\n\r\n        trendingbottomCardDataLoading();\r\n\r\n        backButton.setOnClickListener(this);\r\n\r\n\r\n    }\r\n\r\n    public void trendingbottomCardDataLoading(){\r\n\r\n        arrayList = new ArrayList<>();\r\n\r\n        CollectionReference collectionReference = firestore.collection(\"Cities\");\r\n        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {\r\n            @Override\r\n            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {\r\n                if (error!=null){\r\n                    Log.d(\"Exception Failed\", \"onEvent: 0  \" + error);\r\n\r\n                }\r\n                else{\r\n                    for (final QueryDocumentSnapshot snapshot : value){\r\n                        DocumentReference documentReference = firestore.collection(\"Cities\").document(snapshot.getId());\r\n                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {\r\n                            @Override\r\n                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {\r\n                                if (error!=null){\r\n                                    Log.d(\"Exception Failed\", \"onEvent: 0  \" + error);\r\n\r\n                                }\r\n                                else{\r\n                                    arrayList.add(new CityModel(value.getString(\"City Background Image\"),\r\n                                            value.getString(\"City Name\"),\r\n                                            value.getString(\"Country Name\"),snapshot.getId()));\r\n                                    recyclerAdapterSeemoreCities.notifyDataSetChanged();\r\n                                }\r\n\r\n                            }\r\n                        });\r\n\r\n                    }\r\n                }\r\n            }\r\n        });\r\n\r\n        recyclerAdapterSeemoreCities = new RecyclerAdapterSeemoreCities(this,arrayList);\r\n        recyclerView.setAdapter(recyclerAdapterSeemoreCities);\r\n\r\n\r\n    }\r\n\r\n    @Override\r\n    public void onClick(View view) {\r\n        if (view.getId()==R.id.backButton){\r\n            finish();\r\n\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/bucketlist/SeeMoreCities.java	(revision 9d488c2664ff35fea14adbc51e9a0dc9d18ae324)
++++ app/src/main/java/com/example/bucketlist/SeeMoreCities.java	(date 1605014968902)
+@@ -66,24 +66,10 @@
+                 }
+                 else{
+                     for (final QueryDocumentSnapshot snapshot : value){
+-                        DocumentReference documentReference = firestore.collection("Cities").document(snapshot.getId());
+-                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+-                            @Override
+-                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+-                                if (error!=null){
+-                                    Log.d("Exception Failed", "onEvent: 0  " + error);
+-
+-                                }
+-                                else{
+-                                    arrayList.add(new CityModel(value.getString("City Background Image"),
+-                                            value.getString("City Name"),
+-                                            value.getString("Country Name"),snapshot.getId()));
+-                                    recyclerAdapterSeemoreCities.notifyDataSetChanged();
+-                                }
+-
+-                            }
+-                        });
+-
++                        arrayList.add(new CityModel(snapshot.getString("City Background Image"),
++                                snapshot.getString("City Name"),
++                                snapshot.getString("Country Name"),snapshot.getId()));
++                        recyclerAdapterSeemoreCities.notifyDataSetChanged();
+                     }
+                 }
+             }
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_02-11-2020_16_12_[Default_Changelist]/shelved.patch
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_02-11-2020_16_12_[Default_Changelist]/shelved.patch	(revision 9d488c2664ff35fea14adbc51e9a0dc9d18ae324)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_02-11-2020_16_12_[Default_Changelist]/shelved.patch	(revision 9d488c2664ff35fea14adbc51e9a0dc9d18ae324)
+@@ -1,729 +0,0 @@
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_17_31__Default_Changelist_.xml
+-===================================================================
+---- .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_17_31__Default_Changelist_.xml	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-+++ .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_17_31__Default_Changelist_.xml	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-@@ -1,4 +0,0 @@
+--<changelist name="Uncommitted_changes_before_Update_at_20-10-2020_17_31_[Default_Changelist]" date="1603195274756" recycled="true" deleted="true">
+--  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_17_31_[Default_Changelist]/shelved.patch" />
+--  <option name="DESCRIPTION" value="Uncommitted changes before Update at 20-10-2020 17:31 [Default Changelist]" />
+--</changelist>
+-\ No newline at end of file
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_18_05__Default_Changelist_.xml
+-===================================================================
+---- .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_18_05__Default_Changelist_.xml	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-+++ .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_18_05__Default_Changelist_.xml	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-@@ -1,4 +0,0 @@
+--<changelist name="Uncommitted_changes_before_Update_at_20-10-2020_18_05_[Default_Changelist]" date="1603197354601" recycled="true" deleted="true">
+--  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_18_05_[Default_Changelist]/shelved.patch" />
+--  <option name="DESCRIPTION" value="Uncommitted changes before Update at 20-10-2020 18:05 [Default Changelist]" />
+--</changelist>
+-\ No newline at end of file
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_12_56_[Default_Changelist]/shelved.patch
+-===================================================================
+---- .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_12_56_[Default_Changelist]/shelved.patch	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-+++ .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_12_56_[Default_Changelist]/shelved.patch	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-@@ -1,316 +0,0 @@
+--Index: app/build.gradle
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+>apply plugin: 'com.android.application'\r\napply plugin: 'com.google.gms.google-services'\r\n\r\nandroid {\r\n    compileSdkVersion 29\r\n    buildToolsVersion \"29.0.3\"\r\n\r\n    defaultConfig {\r\n        applicationId \"com.example.bucketlist\"\r\n        minSdkVersion 26\r\n        targetSdkVersion 29\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n\r\n        renderscriptTargetApi 19\r\n        renderscriptSupportModeEnabled true\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n\r\n    packagingOptions {\r\n        exclude \"lib/mips/libRSSupport.so\"\r\n        exclude \"lib/mips/librsjni.so\"\r\n    }\r\n}\r\n\r\ndependencies {\r\n    implementation fileTree(dir: \"libs\", include: [\"*.jar\"])\r\n    implementation 'androidx.appcompat:appcompat:1.2.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'\r\n    implementation 'androidx.cardview:cardview:1.0.0'\r\n    implementation 'com.google.android.material:material:1.2.1'\r\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\r\n    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'\r\n    implementation 'com.google.firebase:firebase-database:19.4.0'\r\n    implementation 'com.google.firebase:firebase-auth:19.4.0'\r\n    implementation 'com.google.firebase:firebase-firestore:21.6.0'\r\n    implementation 'com.google.firebase:firebase-storage:19.2.0'\r\n    testImplementation 'junit:junit:4.12'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.1'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'\r\n    //noinspection GradleCompatible\r\n    implementation 'com.android.support:appcompat-v7:28.0.0'\r\n\r\n\r\n    implementation 'com.ismaeldivita.chipnavigation:chip-navigation-bar:1.3.3'\r\n    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.3.70'\r\n\r\n\r\n    implementation 'de.hdodenhof:circleimageview:3.1.0'\r\n    implementation 'com.ismaeldivita.chipnavigation:chip-navigation-bar:1.3.3'\r\n\r\n    //room\r\n\r\n    def room_version = \"2.2.5\"\r\n\r\n    implementation \"androidx.room:room-runtime:$room_version\"\r\n    annotationProcessor \"androidx.room:room-compiler:$room_version\"\r\n    // For Kotlin use kapt instead of annotation\r\n\r\n    // optional - Kotlin Extensions and Coroutines support for Room\r\n    implementation \"androidx.room:room-ktx:$room_version\"\r\n\r\n    // optional - RxJava support for Room\r\n    implementation \"androidx.room:room-rxjava2:$room_version\"\r\n\r\n    // optional - Guava support for Room, including Optional and ListenableFuture\r\n    implementation \"androidx.room:room-guava:$room_version\"\r\n\r\n    // Test helpers\r\n    testImplementation \"androidx.room:room-testing:$room_version\"\r\n\r\n    implementation 'com.hbb20:ccp:2.4.0'\r\n    api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'\r\n\r\n    implementation 'com.google.android.material:material:1.1.0'\r\n    implementation 'com.eightbitlab:supportrenderscriptblur:1.0.2'\r\n\r\n    //glide\r\n    implementation 'com.github.bumptech.glide:glide:4.11.0'\r\n    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'\r\n\r\n    compile 'jp.wasabeef:glide-transformations:3.0.1'\r\n\r\n    implementation \"androidx.cardview:cardview:1.0.0\"\r\n    implementation 'com.squareup.picasso:picasso:2.71828'\r\n\r\n    compile 'com.github.chrisbanes:PhotoView:2.1.4'\r\n\r\n    implementation 'com.android.support:palette-v7:28.0.0'\r\n\r\n    compile 'com.github.jgabrielfreitas:BlurImageView:1.0.1'\r\n\r\n    compile 'com.github.jrvansuita:GaussianBlur:+'\r\n\r\n\r\n\r\n\r\n}\r\n
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- app/build.gradle	(revision 68b67e9699cfd9a9bf31f896923589a6dce2b2f5)
+--+++ app/build.gradle	(date 1603175861623)
+--@@ -43,6 +43,7 @@
+--     implementation 'com.google.firebase:firebase-auth:19.4.0'
+--     implementation 'com.google.firebase:firebase-firestore:21.6.0'
+--     implementation 'com.google.firebase:firebase-storage:19.2.0'
+--+    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha06'
+--     testImplementation 'junit:junit:4.12'
+--     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+--     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+--@@ -100,6 +101,14 @@
+-- 
+--     compile 'com.github.jrvansuita:GaussianBlur:+'
+-- 
+--+//    implementation 'com.github.smarteist:autoimageslider:1.4.0'
+--+
+--+    implementation 'com.github.denzcoskun:ImageSlideshow:0.0.6'
+--+
+--+    implementation 'androidx.annotation:annotation:1.1.0'
+--+
+--+
+--+
+-- 
+-- 
+-- 
+--Index: app/src/main/java/com/example/bucketlist/fragments/homePageFragment/CityFragment.java
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+>package com.example.bucketlist.fragments.homePageFragment;\r\n\r\nimport android.os.Bundle;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.fragment.app.Fragment;\r\n\r\nimport com.example.bucketlist.R;\r\n\r\npublic class CityFragment extends Fragment {\r\n    @Nullable\r\n    @Override\r\n    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {\r\n        return inflater.inflate(R.layout.fragment_city,container,false);\r\n    }\r\n}\r\n
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- app/src/main/java/com/example/bucketlist/fragments/homePageFragment/CityFragment.java	(revision 68b67e9699cfd9a9bf31f896923589a6dce2b2f5)
+--+++ app/src/main/java/com/example/bucketlist/fragments/homePageFragment/CityFragment.java	(date 1603177360277)
+--@@ -1,20 +1,71 @@
+-- package com.example.bucketlist.fragments.homePageFragment;
+-- 
+--+import android.animation.ArgbEvaluator;
+-- import android.os.Bundle;
+-- import android.view.LayoutInflater;
+-- import android.view.View;
+-- import android.view.ViewGroup;
+--+import android.widget.Adapter;
+-- 
+-- import androidx.annotation.NonNull;
+-- import androidx.annotation.Nullable;
+-- import androidx.fragment.app.Fragment;
+--+import androidx.recyclerview.widget.DefaultItemAnimator;
+--+import androidx.recyclerview.widget.LinearLayoutManager;
+--+import androidx.recyclerview.widget.RecyclerView;
+--+import androidx.viewpager.widget.ViewPager;
+-- 
+--+import com.bumptech.glide.load.model.Model;
+--+import com.denzcoskun.imageslider.ImageSlider;
+--+import com.denzcoskun.imageslider.models.SlideModel;
+-- import com.example.bucketlist.R;
+--+import com.example.bucketlist.adapters.CustomAdapter;
+--+import com.example.bucketlist.model.CityModel;
+--+
+--+import java.util.ArrayList;
+--+import java.util.List;
+--+
+-- 
+-- public class CityFragment extends Fragment {
+---    @Nullable
+---    @Override
+--+
+--+    private View view;
+--+    ArrayList<CityModel> arrayList;
+--+    RecyclerView recyclerView;
+--+    int images[] = {R.drawable.athens,R.drawable.colombo,R.drawable.london,R.drawable.pisa};
+--+    String cityName[] = {"Athens", "Colombo", "London", "Pisa"};
+--+
+--+
+--     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+---        return inflater.inflate(R.layout.fragment_city,container,false);
+--+
+--+       view= inflater.inflate(R.layout.fragment_city,container,false);
+--+
+--+       ImageSlider imageSlider= (ImageSlider)view.findViewById(R.id.slider);
+--+
+--+       List<SlideModel> slideModels=new ArrayList<>();
+--+
+--+       slideModels.add(new SlideModel(R.drawable.sliderbg1));
+--+        slideModels.add(new SlideModel(R.drawable.sliderbg2));
+--+        slideModels.add(new SlideModel(R.drawable.sliderbg3));
+--+        imageSlider.setImageList(slideModels,true);
+--+
+--+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+--+        arrayList = new ArrayList<>();
+--+
+--+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+--+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+--+
+--+        for (int i = 0; i < images.length; i++) {
+--+            CityModel cityModel = new CityModel();
+--+            cityModel.setImage(images[i]);
+--+            cityModel.setCity(cityName[i]);
+--+
+--+            //add in array list
+--+            arrayList.add(cityModel);
+--+        }
+--+
+--+        CustomAdapter adapter = new CustomAdapter(getContext(), arrayList);
+--+        recyclerView.setAdapter(adapter);
+--+
+--+        return  view;
+--     }
+-- }
+--Index: app/src/main/res/layout/fragment_city.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:background=\"@android:color/holo_purple\">\r\n\r\n    <TextView\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"CITY\"\r\n        android:textSize=\"32dp\"\r\n        android:textColor=\"#ffffff\"\r\n        android:layout_centerInParent=\"true\"/>\r\n\r\n</RelativeLayout>
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- app/src/main/res/layout/fragment_city.xml	(revision 68b67e9699cfd9a9bf31f896923589a6dce2b2f5)
+--+++ app/src/main/res/layout/fragment_city.xml	(date 1603175940918)
+--@@ -1,15 +1,49 @@
+-- <?xml version="1.0" encoding="utf-8"?>
+---<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+--+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+--     android:layout_width="match_parent"
+--     android:layout_height="match_parent"
+---    android:background="@android:color/holo_purple">
+--+    android:orientation="vertical"
+--+    xmlns:app="http://schemas.android.com/apk/res-auto">
+--+
+--+    <com.denzcoskun.imageslider.ImageSlider
+--+        android:id="@+id/slider"
+--+        android:layout_width="match_parent"
+--+        android:layout_height="400dp"
+--+        app:auto_cycle="false"
+--+        app:corner_radius="5"
+--+        app:delay="0"
+--+        app:period="1000">
+--+<!--        app:placeholder="@drawable/grey_bg"-->
+--+<!--        app:error_image="@drawable/grey_bg"-->
+--+
+--+
+--+        <EditText
+--+            android:id="@+id/search_city"
+--+            android:layout_width="320dp"
+--+            android:layout_height="40dp"
+--+            android:hint="Search city"
+--+            android:paddingLeft="15dp"
+--+            android:textSize="25dp"
+--+            android:layout_marginLeft="20dp"
+--+            android:layout_marginTop="90dp"
+--+            android:background="@drawable/edittext"/>
+--+
+--+    </com.denzcoskun.imageslider.ImageSlider>
+-- 
+--     <TextView
+--+        android:id="@+id/textTrending"
+--+        android:layout_width="match_parent"
+--+        android:layout_height="40dp"
+--+        android:text="Trending"
+--+        android:textSize="20dp"
+--+        android:paddingLeft="15dp"
+--+        android:paddingTop="5dp"
+--+        android:textColor="@color/blackcolor"/>
+--+
+--+    <androidx.recyclerview.widget.RecyclerView
+--+        android:id="@+id/recycler_view"
+--         android:layout_width="wrap_content"
+--         android:layout_height="wrap_content"
+---        android:text="CITY"
+---        android:textSize="32dp"
+---        android:textColor="#ffffff"
+---        android:layout_centerInParent="true"/>
+--+        android:layout_marginTop="4dp"/>
+-- 
+---</RelativeLayout>
+--\ No newline at end of file
+--+</LinearLayout>
+--\ No newline at end of file
+--Index: .idea/gradle.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"1.8\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- .idea/gradle.xml	(revision 68b67e9699cfd9a9bf31f896923589a6dce2b2f5)
+--+++ .idea/gradle.xml	(date 1603109293107)
+--@@ -15,6 +15,7 @@
+--           </set>
+--         </option>
+--         <option name="resolveModulePerSourceSet" value="false" />
+--+        <option name="useQualifiedModuleNames" value="true" />
+--       </GradleProjectSettings>
+--     </option>
+--   </component>
+--Index: .idea/codeStyles/Project.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+><component name=\"ProjectCodeStyleConfiguration\">\r\n  <code_scheme name=\"Project\" version=\"173\">\r\n    <JetCodeStyleSettings>\r\n      <option name=\"PACKAGES_TO_USE_STAR_IMPORTS\">\r\n        <value>\r\n          <package name=\"java.util\" withSubpackages=\"false\" static=\"false\" />\r\n          <package name=\"kotlinx.android.synthetic\" withSubpackages=\"true\" static=\"false\" />\r\n          <package name=\"io.ktor\" withSubpackages=\"true\" static=\"false\" />\r\n        </value>\r\n      </option>\r\n    </JetCodeStyleSettings>\r\n    <MarkdownNavigatorCodeStyleSettings>\r\n      <option name=\"RIGHT_MARGIN\" value=\"72\" />\r\n    </MarkdownNavigatorCodeStyleSettings>\r\n    <codeStyleSettings language=\"XML\">\r\n      <indentOptions>\r\n        <option name=\"CONTINUATION_INDENT_SIZE\" value=\"4\" />\r\n      </indentOptions>\r\n      <arrangement>\r\n        <rules>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>xmlns:android</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>xmlns:.*</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n              <order>BY_NAME</order>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>.*:id</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>.*:name</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>name</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>style</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>.*</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n              <order>BY_NAME</order>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>.*</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n              <order>ANDROID_ATTRIBUTE_ORDER</order>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>.*</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>.*</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n              <order>BY_NAME</order>\r\n            </rule>\r\n          </section>\r\n        </rules>\r\n      </arrangement>\r\n    </codeStyleSettings>\r\n  </code_scheme>\r\n</component>
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- .idea/codeStyles/Project.xml	(revision 68b67e9699cfd9a9bf31f896923589a6dce2b2f5)
+--+++ .idea/codeStyles/Project.xml	(date 1602140378401)
+--@@ -3,9 +3,18 @@
+--     <JetCodeStyleSettings>
+--       <option name="PACKAGES_TO_USE_STAR_IMPORTS">
+--         <value>
+---          <package name="java.util" withSubpackages="false" static="false" />
+---          <package name="kotlinx.android.synthetic" withSubpackages="true" static="false" />
+---          <package name="io.ktor" withSubpackages="true" static="false" />
+--+          <package name="java.util" alias="false" withSubpackages="false" />
+--+          <package name="kotlinx.android.synthetic" alias="false" withSubpackages="true" />
+--+          <package name="io.ktor" alias="false" withSubpackages="true" />
+--+        </value>
+--+      </option>
+--+      <option name="PACKAGES_IMPORT_LAYOUT">
+--+        <value>
+--+          <package name="" alias="false" withSubpackages="true" />
+--+          <package name="java" alias="false" withSubpackages="true" />
+--+          <package name="javax" alias="false" withSubpackages="true" />
+--+          <package name="kotlin" alias="false" withSubpackages="true" />
+--+          <package name="" alias="true" withSubpackages="true" />
+--         </value>
+--       </option>
+--     </JetCodeStyleSettings>
+--Index: .idea/misc.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_7\" project-jdk-name=\"1.8\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- .idea/misc.xml	(revision 68b67e9699cfd9a9bf31f896923589a6dce2b2f5)
+--+++ .idea/misc.xml	(date 1603109293075)
+--@@ -1,6 +1,6 @@
+-- <?xml version="1.0" encoding="UTF-8"?>
+-- <project version="4">
+---  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+--+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+--     <output url="file://$PROJECT_DIR$/build/classes" />
+--   </component>
+--   <component name="ProjectType">
+--Index: .idea/compiler.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- .idea/compiler.xml	(date 1603109293107)
+--+++ .idea/compiler.xml	(date 1603109293107)
+--@@ -0,0 +1,6 @@
+--+<?xml version="1.0" encoding="UTF-8"?>
+--+<project version="4">
+--+  <component name="CompilerConfiguration">
+--+    <bytecodeTargetLevel target="1.8" />
+--+  </component>
+--+</project>
+--\ No newline at end of file
+--Index: app/src/main/java/com/example/bucketlist/model/CityModel.java
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- app/src/main/java/com/example/bucketlist/model/CityModel.java	(date 1603177360281)
+--+++ app/src/main/java/com/example/bucketlist/model/CityModel.java	(date 1603177360281)
+--@@ -0,0 +1,44 @@
+--+package com.example.bucketlist.model;
+--+
+--+public class CityModel {
+--+    private int image;
+--+    private String city;
+--+    private String country;
+--+
+--+//    public CityModel(int image, String city, String country) {
+--+//        this.image = image;
+--+//        this.city = city;
+--+//        this.country = country;
+--+//    }
+--+
+--+    public CityModel() {
+--+        this.image = image;
+--+    }
+--+
+--+
+--+    public int getImage() {
+--+        return image;
+--+    }
+--+
+--+    public void setImage(int image) {
+--+        this.image = image;
+--+    }
+--+
+--+    public String getCity() {
+--+        return city;
+--+    }
+--+
+--+    public void setCity(String city) {
+--+        this.city = city;
+--+    }
+--+
+--+    public String getCountry() {
+--+        return country;
+--+    }
+--+
+--+    public void setCountry(String country) {
+--+        this.country = country;
+--+    }
+--+}
+--+
+--+
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_22-10-2020_21_17_[Default_Changelist]/shelved.patch
+-===================================================================
+---- .idea/shelf/Uncommitted_changes_before_Update_at_22-10-2020_21_17_[Default_Changelist]/shelved.patch	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-+++ .idea/shelf/Uncommitted_changes_before_Update_at_22-10-2020_21_17_[Default_Changelist]/shelved.patch	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-@@ -1,17 +0,0 @@
+--Index: app/src/main/java/com/example/bucketlist/AddNewCity.java
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+>package com.example.bucketlist;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.fragment.app.FragmentManager;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.text.Editable;\r\nimport android.text.TextWatcher;\r\nimport android.util.Log;\r\nimport android.view.View;\r\nimport android.widget.ArrayAdapter;\r\nimport android.widget.AutoCompleteTextView;\r\nimport android.widget.Button;\r\nimport android.widget.EditText;\r\nimport android.widget.LinearLayout;\r\nimport android.widget.RelativeLayout;\r\nimport android.widget.Toast;\r\n\r\nimport com.android.volley.AuthFailureError;\r\nimport com.android.volley.Request;\r\nimport com.android.volley.RequestQueue;\r\nimport com.android.volley.Response;\r\nimport com.android.volley.VolleyError;\r\nimport com.android.volley.toolbox.JsonArrayRequest;\r\nimport com.android.volley.toolbox.JsonObjectRequest;\r\nimport com.android.volley.toolbox.StringRequest;\r\nimport com.android.volley.toolbox.Volley;\r\nimport com.example.bucketlist.adapters.RecyclerAdapterWallpaper;\r\nimport com.example.bucketlist.fragments.homePageFragment.CityFragment;\r\nimport com.example.bucketlist.fragments.homePageFragment.ProfileFragment;\r\nimport com.example.bucketlist.layout.userLayout.DetailProfile;\r\nimport com.example.bucketlist.model.WallpaperModel;\r\nimport com.example.bucketlist.utils.CityListHelper;\r\nimport com.google.android.material.snackbar.BaseTransientBottomBar;\r\nimport com.google.android.material.snackbar.Snackbar;\r\nimport com.google.gson.JsonArray;\r\nimport com.ismaeldivita.chipnavigation.ChipNavigationBar;\r\n\r\nimport org.json.JSONArray;\r\nimport org.json.JSONException;\r\nimport org.json.JSONObject;\r\n\r\nimport java.io.IOException;\r\nimport java.util.ArrayList;\r\nimport java.util.HashMap;\r\nimport java.util.List;\r\nimport java.util.Map;\r\n\r\nimport okhttp3.OkHttpClient;\r\n\r\npublic class AddNewCity extends AppCompatActivity implements View.OnClickListener {\r\n\r\n    Button cancelButton , createButton;\r\n    AutoCompleteTextView addCityEditText;\r\n    RecyclerView recyclerView;\r\n    String City;\r\n    RecyclerAdapterWallpaper recyclerAdapterWallpaper;\r\n    List<WallpaperModel> wallpaperModelList;\r\n    RelativeLayout smallRelativeLayout;\r\n\r\n    ArrayAdapter<String> arrayAdapter;\r\n\r\n    private static List<String> city= new ArrayList<>();\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.add_new_city);\r\n\r\n        cancelButton = findViewById(R.id.cancelButton);\r\n        createButton = findViewById(R.id.createButton);\r\n        addCityEditText = findViewById(R.id.addCityEditText);\r\n        smallRelativeLayout = findViewById(R.id.smallRelativeLayout);\r\n        recyclerView = findViewById(R.id.recyclerView);\r\n        wallpaperModelList = new ArrayList<>();\r\n        recyclerAdapterWallpaper = new RecyclerAdapterWallpaper(this,wallpaperModelList);\r\n\r\n        recyclerView.setAdapter(recyclerAdapterWallpaper);\r\n        cancelButton.setOnClickListener(this);\r\n        smallRelativeLayout.setOnClickListener(this);\r\n\r\n    }\r\n\r\n    private void loadCityList(String search) {\r\n        CityListHelper cityListHelper = new CityListHelper(this,search) {\r\n\r\n            @Override\r\n            protected void onCompleteListener(List<CityQuery> queryResult) {\r\n                Log.d(\"Listener \", \"onCompleteListener: \" + queryResult.toString());\r\n                List<String> list = new ArrayList<>();\r\n                for (CityQuery query: queryResult\r\n                     ) {\r\n                    list.add(query.getDisplayName());\r\n                }\r\n                city = list;\r\n                arrayAdapter = new ArrayAdapter<>(getApplicationContext(),\r\n                        android.R.layout.simple_list_item_1,city);\r\n                addCityEditText.setAdapter(arrayAdapter);\r\n                arrayAdapter.notifyDataSetChanged();\r\n            }\r\n        };\r\n    }\r\n\r\n    public void  fetchWallpaper(){\r\n\r\n        String url = \"https://api.unsplash.com/search/photos?query=\"+City+\"&client_id=oxQo4AhPw8db0J1kqs9urtDCYtgGm4Kpil2aA8pNyU8&per_page=15\";\r\n\r\n\r\n        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url,\r\n                null, new Response.Listener<JSONObject>() {\r\n            @Override\r\n            public void onResponse(JSONObject response) {\r\n\r\n                try {\r\n                    Log.d(\"response\", response.toString());\r\n\r\n                    JSONArray array = response.getJSONArray(\"results\");\r\n\r\n                    for (int i =0;i<array.length();i++){\r\n                        JSONObject object = array.getJSONObject(i);\r\n                        String id = object.getString(\"id\");\r\n                        Log.d(\"photo id\", id);\r\n\r\n                        JSONObject objectUrls = object.getJSONObject(\"urls\");\r\n                        String rawImageUrl = objectUrls.getString(\"raw\");\r\n\r\n                        WallpaperModel wallpaperModel = new WallpaperModel(id,rawImageUrl);\r\n                        wallpaperModelList.add(wallpaperModel);\r\n\r\n                    }\r\n                    recyclerAdapterWallpaper.notifyDataSetChanged();\r\n\r\n\r\n                }catch (JSONException e){\r\n                    e.printStackTrace();\r\n                    Toast.makeText(AddNewCity.this,\" Error!!\"+e.toString(),Toast.LENGTH_LONG).show();\r\n                    Log.d(\"error\",e.getMessage());\r\n                }\r\n            }\r\n        }, new Response.ErrorListener() {\r\n            @Override\r\n            public void onErrorResponse(VolleyError error) {\r\n                error.printStackTrace();\r\n                Log.d(\"error12\",error.toString());\r\n            }\r\n        });\r\n\r\n        RequestQueue queue = VolleySingleton.getInstance(this).getRequestQueue();\r\n        queue.add(objectRequest);\r\n//        VolleySingleton.getInstance().addToRequestQueue(objectRequest);;\r\n        wallpaperModelList.clear();\r\n\r\n\r\n    }\r\n\r\n    @Override\r\n    public void onClick(View v) {\r\n        if (v.getId() == R.id.cancelButton){\r\n\r\n\r\n        }\r\n        if (v.getId() == R.id.smallRelativeLayout){\r\n            if(!addCityEditText.getText().toString().isEmpty()){\r\n                City = addCityEditText.getText().toString();\r\n                fetchWallpaper();\r\n              recyclerView.setVisibility(View.VISIBLE);\r\n            }\r\n            else{\r\n                recyclerView.setVisibility(View.GONE);\r\n                Snackbar.make(v,\"Field is empty.\",Snackbar.LENGTH_LONG).show();\r\n            }\r\n\r\n        }\r\n\r\n    }\r\n\r\n    @Override\r\n    protected void onStart() {\r\n        super.onStart();\r\n        addCityEditText.addTextChangedListener(tf);\r\n    }\r\n\r\n    TextWatcher tf = new TextWatcher() {\r\n        @Override\r\n        public void beforeTextChanged(CharSequence s, int start, int count, int after) {\r\n        }\r\n\r\n        @Override\r\n        public void onTextChanged(CharSequence s, int start, int before, int count) {\r\n        }\r\n\r\n        @Override\r\n        public void afterTextChanged(Editable s) {\r\n            Log.d(\"Ok\", \"afterTextChanged: \" + s.toString());\r\n            loadCityList(s.toString());\r\n        }\r\n    };\r\n}
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- app/src/main/java/com/example/bucketlist/AddNewCity.java	(revision 7629220d87edbf09bd9c683e59d2eeb7d3751540)
+--+++ app/src/main/java/com/example/bucketlist/AddNewCity.java	(date 1603381642716)
+--@@ -76,7 +76,6 @@
+--         recyclerView = findViewById(R.id.recyclerView);
+--         wallpaperModelList = new ArrayList<>();
+--         recyclerAdapterWallpaper = new RecyclerAdapterWallpaper(this,wallpaperModelList);
+---
+--         recyclerView.setAdapter(recyclerAdapterWallpaper);
+--         cancelButton.setOnClickListener(this);
+--         smallRelativeLayout.setOnClickListener(this);
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_17_31_[Default_Changelist]/shelved.patch
+-===================================================================
+---- .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_17_31_[Default_Changelist]/shelved.patch	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-+++ .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_17_31_[Default_Changelist]/shelved.patch	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-@@ -1,13 +0,0 @@
+--Index: app/src/main/java/com/example/bucketlist/model/ActivityModel.java
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- app/src/main/java/com/example/bucketlist/model/ActivityModel.java	(date 1603174826943)
+--+++ app/src/main/java/com/example/bucketlist/model/ActivityModel.java	(date 1603174826943)
+--@@ -0,0 +1,5 @@
+--+package com.example.bucketlist.model;
+--+
+--+public class ActivityModel {
+--+    String createdByUserID;
+--+}
+-Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_21-10-2020_12_50__Default_Changelist_.xml
+-===================================================================
+---- .idea/shelf/Uncommitted_changes_before_Checkout_at_21-10-2020_12_50__Default_Changelist_.xml	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-+++ .idea/shelf/Uncommitted_changes_before_Checkout_at_21-10-2020_12_50__Default_Changelist_.xml	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-@@ -1,4 +0,0 @@
+--<changelist name="Uncommitted_changes_before_Checkout_at_21-10-2020_12_50_[Default_Changelist]" date="1603264809212" recycled="true" deleted="true">
+--  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_21-10-2020_12_50_[Default_Changelist]/shelved.patch" />
+--  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 21-10-2020 12:50 [Default Changelist]" />
+--</changelist>
+-\ No newline at end of file
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_12_56__Default_Changelist_.xml
+-===================================================================
+---- .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_12_56__Default_Changelist_.xml	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-+++ .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_12_56__Default_Changelist_.xml	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-@@ -1,29 +0,0 @@
+--<changelist name="Uncommitted_changes_before_Update_at_20-10-2020_12_56_[Default_Changelist]" date="1603178834718" recycled="true" deleted="true">
+--  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_12_56_[Default_Changelist]/shelved.patch" />
+--  <option name="DESCRIPTION" value="Uncommitted changes before Update at 20-10-2020 12:56 [Default Changelist]" />
+--  <binary>
+--    <option name="BEFORE_PATH" />
+--    <option name="AFTER_PATH" value="app/src/main/res/drawable-v24/grey_bg.jpg" />
+--    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_12_56_[Default_Changelist]/grey_bg.jpg" />
+--  </binary>
+--  <binary>
+--    <option name="BEFORE_PATH" />
+--    <option name="AFTER_PATH" value="app/src/main/res/drawable-v24/sliderbg3.png" />
+--    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_12_56_[Default_Changelist]/sliderbg3.png" />
+--  </binary>
+--  <binary>
+--    <option name="BEFORE_PATH" />
+--    <option name="AFTER_PATH" value="app/src/main/res/drawable-v24/sliderbg1.png" />
+--    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_12_56_[Default_Changelist]/sliderbg1.png" />
+--  </binary>
+--  <binary>
+--    <option name="BEFORE_PATH" />
+--    <option name="AFTER_PATH" value="app/src/main/res/drawable-v24/pisa.png" />
+--    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_12_56_[Default_Changelist]/pisa.png" />
+--  </binary>
+--  <binary>
+--    <option name="BEFORE_PATH" />
+--    <option name="AFTER_PATH" value="app/src/main/res/drawable-v24/sliderbg2.png" />
+--    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_12_56_[Default_Changelist]/sliderbg2.png" />
+--  </binary>
+--</changelist>
+-\ No newline at end of file
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_19-10-2020_23_40_[Default_Changelist]/shelved.patch
+-===================================================================
+---- .idea/shelf/Uncommitted_changes_before_Update_at_19-10-2020_23_40_[Default_Changelist]/shelved.patch	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-+++ .idea/shelf/Uncommitted_changes_before_Update_at_19-10-2020_23_40_[Default_Changelist]/shelved.patch	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-@@ -1,85 +0,0 @@
+--Index: build.gradle
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+>// Top-level build file where you can add configuration options common to all sub-projects/modules.\r\nbuildscript {\r\n    repositories {\r\n        google()  // Google's Maven repository\r\n        jcenter()\r\n        maven { url \"https://jitpack.io\" }\r\n    }\r\n    dependencies {\r\n        classpath \"com.android.tools.build:gradle:4.0.1\"\r\n        classpath 'com.google.gms:google-services:4.3.3'\r\n\r\n        // NOTE: Do not place your application dependencies here; they belong\r\n        // in the individual module build.gradle files\r\n    }\r\n}\r\n\r\nallprojects {\r\n    repositories {\r\n        google()  // Google's Maven repository\r\n        jcenter()\r\n        maven { url \"https://jitpack.io\" }\r\n\r\n    }\r\n}\r\n\r\ntask clean(type: Delete) {\r\n    delete rootProject.buildDir\r\n}\r\n\r\n
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- build.gradle	(revision 68b67e9699cfd9a9bf31f896923589a6dce2b2f5)
+--+++ build.gradle	(date 1603041326203)
+--@@ -6,7 +6,7 @@
+--         maven { url "https://jitpack.io" }
+--     }
+--     dependencies {
+---        classpath "com.android.tools.build:gradle:4.0.1"
+--+        classpath 'com.android.tools.build:gradle:4.1.0'
+--         classpath 'com.google.gms:google-services:4.3.3'
+-- 
+--         // NOTE: Do not place your application dependencies here; they belong
+--Index: gradle/wrapper/gradle-wrapper.properties
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+>#Thu Sep 03 23:58:17 IST 2020\r\ndistributionBase=GRADLE_USER_HOME\r\ndistributionPath=wrapper/dists\r\nzipStoreBase=GRADLE_USER_HOME\r\nzipStorePath=wrapper/dists\r\ndistributionUrl=https\\://services.gradle.org/distributions/gradle-6.1.1-all.zip\r\n
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>windows-1252
+--===================================================================
+----- gradle/wrapper/gradle-wrapper.properties	(revision 68b67e9699cfd9a9bf31f896923589a6dce2b2f5)
+--+++ gradle/wrapper/gradle-wrapper.properties	(date 1603041326267)
+--@@ -1,6 +1,6 @@
+---#Thu Sep 03 23:58:17 IST 2020
+--+#Sun Oct 18 22:45:26 IST 2020
+-- distributionBase=GRADLE_USER_HOME
+-- distributionPath=wrapper/dists
+-- zipStoreBase=GRADLE_USER_HOME
+-- zipStorePath=wrapper/dists
+---distributionUrl=https\://services.gradle.org/distributions/gradle-6.1.1-all.zip
+--+distributionUrl=https\://services.gradle.org/distributions/gradle-6.5-bin.zip
+--Index: .idea/compiler.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- .idea/compiler.xml	(date 1603041252818)
+--+++ .idea/compiler.xml	(date 1603041252818)
+--@@ -0,0 +1,6 @@
+--+<?xml version="1.0" encoding="UTF-8"?>
+--+<project version="4">
+--+  <component name="CompilerConfiguration">
+--+    <bytecodeTargetLevel target="1.8" />
+--+  </component>
+--+</project>
+--\ No newline at end of file
+--Index: .idea/misc.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_7\" project-jdk-name=\"1.8\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- .idea/misc.xml	(revision 68b67e9699cfd9a9bf31f896923589a6dce2b2f5)
+--+++ .idea/misc.xml	(date 1603041252712)
+--@@ -1,6 +1,6 @@
+-- <?xml version="1.0" encoding="UTF-8"?>
+-- <project version="4">
+---  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+--+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+--     <output url="file://$PROJECT_DIR$/build/classes" />
+--   </component>
+--   <component name="ProjectType">
+--Index: .idea/gradle.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"1.8\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- .idea/gradle.xml	(revision 68b67e9699cfd9a9bf31f896923589a6dce2b2f5)
+--+++ .idea/gradle.xml	(date 1603040878083)
+--@@ -15,6 +15,7 @@
+--           </set>
+--         </option>
+--         <option name="resolveModulePerSourceSet" value="false" />
+--+        <option name="useQualifiedModuleNames" value="true" />
+--       </GradleProjectSettings>
+--     </option>
+--   </component>
+-Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_21-10-2020_12_50_[Default_Changelist]/shelved.patch
+-===================================================================
+---- .idea/shelf/Uncommitted_changes_before_Checkout_at_21-10-2020_12_50_[Default_Changelist]/shelved.patch	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-+++ .idea/shelf/Uncommitted_changes_before_Checkout_at_21-10-2020_12_50_[Default_Changelist]/shelved.patch	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-@@ -1,17 +0,0 @@
+--Index: .idea/gradle.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"1.8\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- .idea/gradle.xml	(revision 69cdd1c14d6a21b00bcdaa3fb778bf91380f09f0)
+--+++ .idea/gradle.xml	(date 1603264560851)
+--@@ -15,6 +15,7 @@
+--           </set>
+--         </option>
+--         <option name="resolveModulePerSourceSet" value="false" />
+--+        <option name="useQualifiedModuleNames" value="true" />
+--       </GradleProjectSettings>
+--     </option>
+--   </component>
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_11_36__Default_Changelist_.xml
+-===================================================================
+---- .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_11_36__Default_Changelist_.xml	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-+++ .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_11_36__Default_Changelist_.xml	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-@@ -1,4 +0,0 @@
+--<changelist name="Uncommitted_changes_before_Update_at_20-10-2020_11_36_[Default_Changelist]" date="1603174003382" recycled="true" deleted="true">
+--  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_11_36_[Default_Changelist]/shelved.patch" />
+--  <option name="DESCRIPTION" value="Uncommitted changes before Update at 20-10-2020 11:36 [Default Changelist]" />
+--</changelist>
+-\ No newline at end of file
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_18_05_[Default_Changelist]/shelved.patch
+-===================================================================
+---- .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_18_05_[Default_Changelist]/shelved.patch	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-+++ .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_18_05_[Default_Changelist]/shelved.patch	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-@@ -1,129 +0,0 @@
+--Index: app/src/main/java/com/example/bucketlist/AddNewCity.java
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+>package com.example.bucketlist;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.fragment.app.FragmentManager;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.util.Log;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\nimport android.widget.EditText;\r\nimport android.widget.LinearLayout;\r\nimport android.widget.RelativeLayout;\r\nimport android.widget.Toast;\r\n\r\nimport com.android.volley.AuthFailureError;\r\nimport com.android.volley.Request;\r\nimport com.android.volley.RequestQueue;\r\nimport com.android.volley.Response;\r\nimport com.android.volley.VolleyError;\r\nimport com.android.volley.toolbox.JsonArrayRequest;\r\nimport com.android.volley.toolbox.JsonObjectRequest;\r\nimport com.android.volley.toolbox.StringRequest;\r\nimport com.android.volley.toolbox.Volley;\r\nimport com.example.bucketlist.adapters.RecyclerAdapterWallpaper;\r\nimport com.example.bucketlist.fragments.homePageFragment.CityFragment;\r\nimport com.example.bucketlist.fragments.homePageFragment.ProfileFragment;\r\nimport com.example.bucketlist.layout.userLayout.DetailProfile;\r\nimport com.example.bucketlist.model.WallpaperModel;\r\nimport com.google.android.material.snackbar.BaseTransientBottomBar;\r\nimport com.google.android.material.snackbar.Snackbar;\r\nimport com.google.gson.JsonArray;\r\nimport com.ismaeldivita.chipnavigation.ChipNavigationBar;\r\n\r\nimport org.json.JSONArray;\r\nimport org.json.JSONException;\r\nimport org.json.JSONObject;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.HashMap;\r\nimport java.util.List;\r\nimport java.util.Map;\r\n\r\npublic class AddNewCity extends AppCompatActivity implements View.OnClickListener {\r\n\r\n    Button cancelButton , createButton;\r\n    EditText addCityEditText;\r\n    RecyclerView recyclerView;\r\n    String City;\r\n    RecyclerAdapterWallpaper recyclerAdapterWallpaper;\r\n    List<WallpaperModel> wallpaperModelList;\r\n    RelativeLayout smallRelativeLayout;\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.add_new_city);\r\n\r\n\r\n\r\n        cancelButton = findViewById(R.id.cancelButton);\r\n        createButton = findViewById(R.id.createButton);\r\n        addCityEditText = findViewById(R.id.addCityEditText);\r\n        smallRelativeLayout = findViewById(R.id.smallRelativeLayout);\r\n        recyclerView = findViewById(R.id.recyclerView);\r\n        wallpaperModelList = new ArrayList<>();\r\n        recyclerAdapterWallpaper = new RecyclerAdapterWallpaper(this,wallpaperModelList);\r\n\r\n        recyclerView.setAdapter(recyclerAdapterWallpaper);\r\n\r\n//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,);\r\n//        recyclerView.setLayoutManager(linearLayoutManager);\r\n\r\n        cancelButton.setOnClickListener(this);\r\n        smallRelativeLayout.setOnClickListener(this);\r\n\r\n\r\n    }\r\n\r\n    public void  fetchWallpaper(){\r\n\r\n        String url = \"https://api.unsplash.com/search/photos?query=\"+City+\"&client_id=oxQo4AhPw8db0J1kqs9urtDCYtgGm4Kpil2aA8pNyU8&per_page=15\";\r\n\r\n\r\n        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url,\r\n                null, new Response.Listener<JSONObject>() {\r\n            @Override\r\n            public void onResponse(JSONObject response) {\r\n\r\n                try {\r\n                    Log.d(\"response\", response.toString());\r\n\r\n                    JSONArray array = response.getJSONArray(\"results\");\r\n\r\n                    for (int i =0;i<array.length();i++){\r\n                        JSONObject object = array.getJSONObject(i);\r\n                        String id = object.getString(\"id\");\r\n                        Log.d(\"photo id\", id);\r\n\r\n                        JSONObject objectUrls = object.getJSONObject(\"urls\");\r\n                        String rawImageUrl = objectUrls.getString(\"raw\");\r\n\r\n                        WallpaperModel wallpaperModel = new WallpaperModel(id,rawImageUrl);\r\n                        wallpaperModelList.add(wallpaperModel);\r\n\r\n                    }\r\n                    recyclerAdapterWallpaper.notifyDataSetChanged();\r\n\r\n\r\n                }catch (JSONException e){\r\n                    e.printStackTrace();\r\n                    Toast.makeText(AddNewCity.this,\" Error!!\"+e.toString(),Toast.LENGTH_LONG).show();\r\n                    Log.d(\"error\",e.getMessage());\r\n                }\r\n            }\r\n        }, new Response.ErrorListener() {\r\n            @Override\r\n            public void onErrorResponse(VolleyError error) {\r\n                error.printStackTrace();\r\n                Log.d(\"error12\",error.toString());\r\n            }\r\n        });\r\n\r\n        RequestQueue queue = VolleySingleton.getInstance(this).getRequestQueue();\r\n        queue.add(objectRequest);\r\n        wallpaperModelList.clear();\r\n\r\n\r\n\r\n\r\n\r\n    }\r\n\r\n    @Override\r\n    public void onClick(View v) {\r\n        if (v.getId() == R.id.cancelButton){\r\n\r\n\r\n\r\n\r\n        }\r\n        if (v.getId() == R.id.smallRelativeLayout){\r\n            if(!addCityEditText.getText().toString().isEmpty()){\r\n                City = addCityEditText.getText().toString();\r\n                fetchWallpaper();\r\n              recyclerView.setVisibility(View.VISIBLE);\r\n            }\r\n            else{\r\n                recyclerView.setVisibility(View.GONE);\r\n                Snackbar.make(v,\"Field is empty.\",Snackbar.LENGTH_LONG).show();\r\n            }\r\n\r\n        }\r\n\r\n    }\r\n}
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- app/src/main/java/com/example/bucketlist/AddNewCity.java	(revision 16bb57fc232df084a46a3de4f01d70c838271c48)
+--+++ app/src/main/java/com/example/bucketlist/AddNewCity.java	(date 1603196657906)
+--@@ -122,8 +122,9 @@
+--             }
+--         });
+-- 
+---        RequestQueue queue = VolleySingleton.getInstance(this).getRequestQueue();
+---        queue.add(objectRequest);
+--+//        RequestQueue queue = VolleySingleton.getInstance(this).getRequestQueue();
+--+//        queue.add(objectRequest);
+--+        VolleySingleton.getInstance().getRequestQueue().add(objectRequest);
+--         wallpaperModelList.clear();
+-- 
+-- 
+--Index: app/src/main/java/com/example/bucketlist/VolleySingleton.java
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+>package com.example.bucketlist;\r\n\r\nimport android.content.Context;\r\n\r\nimport com.android.volley.RequestQueue;\r\nimport com.android.volley.toolbox.Volley;\r\n\r\nimport kotlin.jvm.Synchronized;\r\n\r\npublic class VolleySingleton {\r\n    private static VolleySingleton mInstance;\r\n    private RequestQueue mRequestQueue;\r\n\r\n    private VolleySingleton(Context context){\r\n        mRequestQueue = Volley.newRequestQueue(context.getApplicationContext());\r\n    }\r\n\r\n    public static synchronized VolleySingleton getInstance(Context context){\r\n        if (mInstance == null){\r\n            mInstance = new VolleySingleton(context);\r\n        }\r\n\r\n        return mInstance;\r\n    }\r\n\r\n    public RequestQueue getRequestQueue(){\r\n        return mRequestQueue;\r\n    }\r\n\r\n}\r\n
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- app/src/main/java/com/example/bucketlist/VolleySingleton.java	(revision 16bb57fc232df084a46a3de4f01d70c838271c48)
+--+++ app/src/main/java/com/example/bucketlist/VolleySingleton.java	(date 1603197126493)
+--@@ -1,5 +1,6 @@
+-- package com.example.bucketlist;
+-- 
+--+import android.app.Application;
+-- import android.content.Context;
+-- 
+-- import com.android.volley.RequestQueue;
+--@@ -7,24 +8,49 @@
+-- 
+-- import kotlin.jvm.Synchronized;
+-- 
+---public class VolleySingleton {
+--+public class VolleySingleton extends Application {
+--     private static VolleySingleton mInstance;
+--     private RequestQueue mRequestQueue;
+-- 
+---    private VolleySingleton(Context context){
+---        mRequestQueue = Volley.newRequestQueue(context.getApplicationContext());
+---    }
+--+    public static final String TAG = VolleySingleton.class
+--+            .getSimpleName();
+-- 
+---    public static synchronized VolleySingleton getInstance(Context context){
+---        if (mInstance == null){
+---            mInstance = new VolleySingleton(context);
+---        }
+--+    public static synchronized VolleySingleton getInstance() {
+--+        return mInstance != null ? mInstance:new VolleySingleton();
+--+    }
+-- 
+---        return mInstance;
+---    }
+-- 
+---    public RequestQueue getRequestQueue(){
+--+    public RequestQueue getRequestQueue() {
+--+        if (mRequestQueue == null) {
+--+            mRequestQueue = Volley.newRequestQueue(getApplicationContext());
+--+        }
+--+
+--         return mRequestQueue;
+--     }
+-- 
+--+
+--+    @Override
+--+    public void onCreate() {
+--+        super.onCreate();
+--+        mInstance = this;
+--+    }
+--+
+--+    //    public static synchronized VolleySingleton getInstance(Context context){
+--+//        if (mInstance == null){
+--+//            mInstance = new VolleySingleton(context);
+--+//        }
+--+//
+--+//        return mInstance;
+--+//    }
+--+
+--+//    private VolleySingleton(Context context){
+--+//        mRequestQueue = Volley.newRequestQueue(context.getApplicationContext());
+--+//    }
+--+
+--+//    public RequestQueue getRequestQueue(){
+--+//        return mRequestQueue;
+--+//    }
+--+
+--+
+--+
+-- }
+--Index: app/src/main/java/com/example/bucketlist/model/ActivityModel.java
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- app/src/main/java/com/example/bucketlist/model/ActivityModel.java	(date 1603195274215)
+--+++ app/src/main/java/com/example/bucketlist/model/ActivityModel.java	(date 1603195274215)
+--@@ -0,0 +1,5 @@
+--+package com.example.bucketlist.model;
+--+
+--+public class ActivityModel {
+--+    String createdByUserID;
+--+}
+--Index: .idea/gradle.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"1.8\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- .idea/gradle.xml	(revision 16bb57fc232df084a46a3de4f01d70c838271c48)
+--+++ .idea/gradle.xml	(date 1603195754584)
+--@@ -15,6 +15,7 @@
+--           </set>
+--         </option>
+--         <option name="resolveModulePerSourceSet" value="false" />
+--+        <option name="useQualifiedModuleNames" value="true" />
+--       </GradleProjectSettings>
+--     </option>
+--   </component>
+--diff --git .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_12_56__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_12_56__Default_Changelist_.xml
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_22-10-2020_21_17__Default_Changelist_.xml
+-===================================================================
+---- .idea/shelf/Uncommitted_changes_before_Update_at_22-10-2020_21_17__Default_Changelist_.xml	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-+++ .idea/shelf/Uncommitted_changes_before_Update_at_22-10-2020_21_17__Default_Changelist_.xml	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-@@ -1,4 +0,0 @@
+--<changelist name="Uncommitted_changes_before_Update_at_22-10-2020_21_17_[Default_Changelist]" date="1603381722098" recycled="true" deleted="true">
+--  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22-10-2020_21_17_[Default_Changelist]/shelved.patch" />
+--  <option name="DESCRIPTION" value="Uncommitted changes before Update at 22-10-2020 21:17 [Default Changelist]" />
+--</changelist>
+-\ No newline at end of file
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_11_36_[Default_Changelist]/shelved.patch
+-===================================================================
+---- .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_11_36_[Default_Changelist]/shelved.patch	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-+++ .idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_11_36_[Default_Changelist]/shelved.patch	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-@@ -1,22 +0,0 @@
+--Index: app/src/main/java/com/example/bucketlist/layout/userLayout/DetailProfile.java
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+>package com.example.bucketlist.layout.userLayout;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.appcompat.app.AlertDialog;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport android.content.DialogInterface;\r\nimport android.content.Intent;\r\nimport android.graphics.drawable.Drawable;\r\nimport android.net.Uri;\r\nimport android.os.Bundle;\r\nimport android.util.Log;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\nimport android.widget.EditText;\r\nimport android.widget.ImageView;\r\nimport android.widget.ProgressBar;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport com.bumptech.glide.Glide;\r\nimport com.bumptech.glide.request.target.CustomTarget;\r\nimport com.bumptech.glide.request.transition.Transition;\r\nimport com.example.bucketlist.HomeActivity;\r\nimport com.example.bucketlist.PhotoFullPopupWindow;\r\nimport com.example.bucketlist.R;\r\nimport com.example.bucketlist.layout.loginLayouts.LoginByEmailActivity;\r\nimport com.example.bucketlist.layout.openingScreen.Third_Content;\r\nimport com.google.android.gms.tasks.OnCompleteListener;\r\nimport com.google.android.gms.tasks.OnFailureListener;\r\nimport com.google.android.gms.tasks.OnSuccessListener;\r\nimport com.google.android.gms.tasks.Task;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\nimport com.google.firebase.auth.FirebaseUser;\r\nimport com.google.firebase.firestore.DocumentReference;\r\nimport com.google.firebase.firestore.DocumentSnapshot;\r\nimport com.google.firebase.firestore.EventListener;\r\nimport com.google.firebase.firestore.FirebaseFirestore;\r\nimport com.google.firebase.firestore.FirebaseFirestoreException;\r\nimport com.google.firebase.firestore.QueryDocumentSnapshot;\r\nimport com.google.firebase.firestore.QuerySnapshot;\r\nimport com.google.firebase.storage.FirebaseStorage;\r\nimport com.google.firebase.storage.StorageReference;\r\nimport com.vansuita.gaussianblur.GaussianBlur;\r\n\r\nimport java.net.URL;\r\n\r\npublic class DetailProfile extends AppCompatActivity implements View.OnClickListener {\r\n\r\n    private static final String TAG =\"Detail Profile\" ;\r\n    private Button signoutButton,deleteButton;\r\n    EditText displayName,emailAddress,phoneNumber;\r\n    ImageView profileImage , editButton , backButton,profileBackground ;\r\n    FirebaseFirestore firebaseFirestore;\r\n    FirebaseAuth firebaseAuth;\r\n    FirebaseUser firebaseUser;\r\n    FirebaseStorage firebaseStorage;\r\n    StorageReference storageReference;\r\n    String StringImageUri,name,email,phone;\r\n    ProgressBar progressBar2;\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        firebaseAuth = FirebaseAuth.getInstance();\r\n        firebaseUser = firebaseAuth.getCurrentUser();\r\n        firebaseStorage = FirebaseStorage.getInstance();\r\n        storageReference =firebaseStorage.getReference().child(firebaseUser.getUid());\r\n        setContentView(R.layout.activity_detail_profile);\r\n\r\n        progressBar2=findViewById(R.id.progressBar2);\r\n\r\n        //initializing view\r\n        initialization();\r\n\r\n        signoutButton.setOnClickListener(this);\r\n        editButton.setOnClickListener(this);\r\n        backButton.setOnClickListener(this);\r\n\r\n        profileImage.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                new PhotoFullPopupWindow(getApplicationContext(), R.layout.popup_photo_full, v, StringImageUri, null);\r\n            }\r\n        });\r\n\r\n        deleteButton.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                AlertDialog.Builder dialog = new AlertDialog.Builder(DetailProfile.this,R.style.AlertDialogTheme);\r\n                dialog.setTitle(\"Are you sure?\");\r\n                dialog.setMessage(\"Deleting this account will result in completely removing your account from  the system\");\r\n                dialog.setPositiveButton(\"Delete\", new DialogInterface.OnClickListener() {\r\n                    @Override\r\n                    public void onClick(DialogInterface dialog, int which) {\r\n                        progressBar2.setVisibility(View.VISIBLE);\r\n                        firebaseFirestore = FirebaseFirestore.getInstance();\r\n                        firebaseFirestore.collection(\"Users\").document(firebaseUser.getUid()).collection(\"items\").get()\r\n                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {\r\n                            @Override\r\n                            public void onComplete(@NonNull Task<QuerySnapshot> task) {\r\n                                if (task.isSuccessful()){\r\n                                    for (QueryDocumentSnapshot document : task.getResult()){\r\n                                        Log.d(\"item deleting\",\"first\"+task.getException());\r\n                                        firebaseFirestore.collection(\"Users\").document(firebaseUser.getUid()).collection(\"items\").document(document.getId()).delete();\r\n                                    }\r\n                                    Log.d(\"Message1\", \"Items deleted\");\r\n                                    DocumentReference docReference = firebaseFirestore.collection(\"Users\").document(firebaseUser.getUid());\r\n                                    docReference.delete().addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                                        @Override\r\n                                        public void onComplete(@NonNull Task<Void> task) {\r\n                                            if(task.isSuccessful()){\r\n                                                Log.d(\"Message2\",\"user info delete\"+task.getException());\r\n\r\n                                                final StorageReference photoRef = storageReference.child(\"profileImage.jpeg\");\r\n\r\n                                                photoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {\r\n                                                    @Override\r\n                                                    public void onSuccess(Uri uri) {\r\n                                                        photoRef.delete().addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                                                            @Override\r\n                                                            public void onComplete(@NonNull Task<Void> task) {\r\n                                                                if (task.isSuccessful()){\r\n                                                                    Log.d(\"delete\",\"user profile storage\");\r\n                                                                    firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                                                                        @Override\r\n                                                                        public void onComplete(@NonNull Task<Void> task) {\r\n                                                                            if(task.isSuccessful()){\r\n                                                                                Log.d(\"user account\",\"delete\"+task.getException());\r\n                                                                                progressBar2.setVisibility(View.GONE);\r\n                                                                                Toast.makeText(DetailProfile.this,\"Account Deleted\",Toast.LENGTH_LONG).show();\r\n\r\n                                                                                Intent i = new Intent(DetailProfile.this, LoginByEmailActivity.class);\r\n                                                                                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);\r\n                                                                                startActivity(i);\r\n                                                                            }else{\r\n                                                                                Toast.makeText(DetailProfile.this,\"user account not deleted\"+task.getException().getMessage(),Toast.LENGTH_LONG).show();\r\n                                                                            }\r\n                                                                        }\r\n                                                                    }).addOnFailureListener(new OnFailureListener() {\r\n                                                                        @Override\r\n                                                                        public void onFailure(@NonNull Exception e) {\r\n                                                                            Log.e(TAG,\"Error in deleting account\", e);\r\n                                                                            String error = String.valueOf(e);\r\n                                                                            Intent i = new Intent(DetailProfile.this, LoginByEmailActivity.class);\r\n                                                                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);\r\n                                                                            startActivity(i);\r\n                                                                        }\r\n                                                                    });\r\n                                                                }\r\n                                                                else{\r\n                                                                    Toast.makeText(DetailProfile.this,\"storage \" +task.getException().getMessage(), Toast.LENGTH_SHORT).show();\r\n                                                                }\r\n                                                            }\r\n                                                        });\r\n                                                    }\r\n                                                }).addOnFailureListener(new OnFailureListener() {\r\n                                                    @Override\r\n                                                    public void onFailure(@NonNull Exception e) {\r\n\r\n                                                        firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                                                            @Override\r\n                                                            public void onComplete(@NonNull Task<Void> task) {\r\n                                                                if(task.isSuccessful()){\r\n                                                                    Log.d(\"user account\",\"delete\"+task.getException());\r\n                                                                    progressBar2.setVisibility(View.GONE);\r\n                                                                    Toast.makeText(DetailProfile.this,\"Account Deleted\",Toast.LENGTH_LONG).show();\r\n\r\n                                                                    Intent i = new Intent(DetailProfile.this, LoginByEmailActivity.class);\r\n                                                                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);\r\n                                                                    startActivity(i);\r\n                                                                }else{\r\n                                                                    Toast.makeText(DetailProfile.this,\"user account not deleted\"+task.getException().getMessage(),Toast.LENGTH_LONG).show();\r\n                                                                }\r\n                                                            }\r\n                                                        }).addOnFailureListener(new OnFailureListener() {\r\n                                                            @Override\r\n                                                            public void onFailure(@NonNull Exception e) {\r\n                                                                Log.e(TAG,\"Error in deleting account\", e);\r\n                                                                String error = String.valueOf(e);\r\n                                                                Intent i = new Intent(DetailProfile.this, LoginByEmailActivity.class);\r\n                                                                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);\r\n                                                                startActivity(i);\r\n                                                            }\r\n                                                        });\r\n\r\n                                                    }\r\n                                                });\r\n                                            }else{\r\n                                                Toast.makeText(DetailProfile.this,\"user info not deleted\"+task.getException().getMessage(),Toast.LENGTH_LONG).show();\r\n                                            }\r\n                                        }\r\n                                    });\r\n                                }\r\n                            }\r\n                        });\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n                    }\r\n                });\r\n                dialog.setNegativeButton(\"Dismiss\", new DialogInterface.OnClickListener() {\r\n                    @Override\r\n                    public void onClick(DialogInterface dialog, int which) {\r\n                        dialog.dismiss();\r\n                    }\r\n                });\r\n                AlertDialog alertDialog= dialog.create();\r\n                alertDialog.show();\r\n\r\n            }\r\n        });\r\n    }\r\n\r\n\r\n\r\n\r\n    @Override\r\n    protected void onStart() {\r\n        super.onStart();\r\n\r\n        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();\r\n        firebaseFirestore = FirebaseFirestore.getInstance();\r\n        DocumentReference documentReference = firebaseFirestore.collection(\"Users\").document(firebaseUser.getUid());\r\n\r\n\r\n        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {\r\n            @Override\r\n            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {\r\n\r\n                if (error!=null){\r\n                    Log.d(TAG,\"Error:\"+error.getMessage());\r\n                }\r\n                else {\r\n                    name = value.getString(\"Display Name\");\r\n                    displayName.setText(name);\r\n\r\n                    email =  value.getString(\"Email Address\");\r\n                    emailAddress.setText(email);\r\n\r\n                    phone = value.getString(\"Phone Number\");\r\n                    phoneNumber.setText(phone);\r\n\r\n                    StringImageUri = value.getString(\"Image Uri\");\r\n                    Glide.with(getApplicationContext()).load(StringImageUri).into(profileImage);\r\n                    Glide.with(getApplicationContext())\r\n                            .load(StringImageUri)\r\n                            .into(new CustomTarget<Drawable>() {\r\n                                @Override\r\n                                public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {\r\n                                    GaussianBlur.with(getApplicationContext()).radius(20).put(resource,profileBackground);\r\n                                }\r\n\r\n                                @Override\r\n                                public void onLoadCleared(@Nullable Drawable placeholder) {\r\n\r\n                                }\r\n                            });\r\n                    Log.i(TAG, \"String: \"+StringImageUri);\r\n                }\r\n\r\n            }\r\n        });\r\n    }\r\n   private void initialization(){\r\n        signoutButton = findViewById(R.id.signoutButton);\r\n        displayName = findViewById(R.id.displayName);\r\n        emailAddress = findViewById(R.id.emailAddress);\r\n        profileImage = findViewById(R.id.profileImage);\r\n        phoneNumber = findViewById(R.id.phoneNumber);\r\n        editButton = findViewById(R.id.editButton);\r\n        backButton = findViewById(R.id.backButton);\r\n        deleteButton=findViewById(R.id.deleteButton);\r\n        profileBackground = findViewById(R.id.profileBackground);\r\n\r\n\r\n}\r\n\r\n   public void onClickSignoutButton(){\r\n       if (firebaseAuth != null) {\r\n           firebaseAuth.signOut();\r\n           Intent i = new Intent(DetailProfile.this, LoginByEmailActivity.class);\r\n           i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);\r\n           startActivity(i);\r\n       }\r\n   }\r\n\r\n   public void onClickEditButton(){\r\n        Intent i = new Intent(DetailProfile.this,EditProfileActivity.class);\r\n        startActivity(i);\r\n\r\n    }\r\n\r\n\r\n    public void onClickBackButton(){\r\n        Intent i = new Intent(DetailProfile.this, HomeActivity.class);\r\n        startActivity(i);\r\n\r\n    }\r\n\r\n\r\n    @Override\r\n    public void onClick(View v) {\r\n        if(v.getId() == R.id.signoutButton){\r\n            onClickSignoutButton();\r\n        }\r\n\r\n        else if (v.getId() == R.id.editButton){\r\n            onClickEditButton();\r\n        }\r\n        else if (v.getId() == R.id.backButton){\r\n            onClickBackButton();\r\n        }\r\n    }\r\n\r\n\r\n\r\n\r\n}
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- app/src/main/java/com/example/bucketlist/layout/userLayout/DetailProfile.java	(revision d3af9784b93358ee52c11c6c03bbebd0cab4015b)
+--+++ app/src/main/java/com/example/bucketlist/layout/userLayout/DetailProfile.java	(date 1603173930252)
+--@@ -60,12 +60,6 @@
+--     String StringImageUri,name,email,phone;
+--     ProgressBar progressBar2;
+-- 
+---
+---
+---
+---
+---
+---
+--     @Override
+--     protected void onCreate(Bundle savedInstanceState) {
+--         super.onCreate(savedInstanceState);
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_19-10-2020_23_40__Default_Changelist_.xml
+-===================================================================
+---- .idea/shelf/Uncommitted_changes_before_Update_at_19-10-2020_23_40__Default_Changelist_.xml	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-+++ .idea/shelf/Uncommitted_changes_before_Update_at_19-10-2020_23_40__Default_Changelist_.xml	(revision ced87802e697bd052c2cd736026393f868156e8c)
+-@@ -1,4 +0,0 @@
+--<changelist name="Uncommitted_changes_before_Update_at_19-10-2020_23_40_[Default_Changelist]" date="1603131025330" recycled="true" deleted="true">
+--  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19-10-2020_23_40_[Default_Changelist]/shelved.patch" />
+--  <option name="DESCRIPTION" value="Uncommitted changes before Update at 19-10-2020 23:40 [Default Changelist]" />
+--</changelist>
+-\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_02-11-2020_16_12__Default_Changelist_.xml
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_02-11-2020_16_12__Default_Changelist_.xml	(revision 9d488c2664ff35fea14adbc51e9a0dc9d18ae324)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_02-11-2020_16_12__Default_Changelist_.xml	(revision 9d488c2664ff35fea14adbc51e9a0dc9d18ae324)
+@@ -1,29 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_02-11-2020_16_12_[Default_Changelist]" date="1604313729669" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_02-11-2020_16_12_[Default_Changelist]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 02-11-2020 16:12 [Default Changelist]" />
+-  <binary>
+-    <option name="BEFORE_PATH" value=".idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_12_56_[Default_Changelist]/sliderbg1.png" />
+-    <option name="AFTER_PATH" />
+-    <option name="SHELVED_PATH" />
+-  </binary>
+-  <binary>
+-    <option name="BEFORE_PATH" value=".idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_12_56_[Default_Changelist]/sliderbg3.png" />
+-    <option name="AFTER_PATH" />
+-    <option name="SHELVED_PATH" />
+-  </binary>
+-  <binary>
+-    <option name="BEFORE_PATH" value=".idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_12_56_[Default_Changelist]/pisa.png" />
+-    <option name="AFTER_PATH" />
+-    <option name="SHELVED_PATH" />
+-  </binary>
+-  <binary>
+-    <option name="BEFORE_PATH" value=".idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_12_56_[Default_Changelist]/grey_bg.jpg" />
+-    <option name="AFTER_PATH" />
+-    <option name="SHELVED_PATH" />
+-  </binary>
+-  <binary>
+-    <option name="BEFORE_PATH" value=".idea/shelf/Uncommitted_changes_before_Update_at_20-10-2020_12_56_[Default_Changelist]/sliderbg2.png" />
+-    <option name="AFTER_PATH" />
+-    <option name="SHELVED_PATH" />
+-  </binary>
+-</changelist>
+\ No newline at end of file
