@@ -4,8 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SearchView;
+
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,18 +33,20 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SeeMoreCities extends AppCompatActivity implements View.OnClickListener {
+public class SeeMoreCities extends AppCompatActivity {
     RecyclerAdapterSeemoreCities recyclerAdapterSeemoreCities;
     List<CityModel> arrayList;
     RecyclerView recyclerView;
     FirebaseFirestore firestore;
-    ImageView backButton;
+    Toolbar toolbar;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.see_more_cities);
         recyclerView = findViewById(R.id.recyclerView);
-        backButton = findViewById(R.id.backButton);
+
+        toolbar = findViewById(R.id.toolBar);
+        setSupportActionBar(toolbar);
         firestore = FirebaseFirestore.getInstance();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
@@ -47,7 +54,12 @@ public class SeeMoreCities extends AppCompatActivity implements View.OnClickList
 
         trendingbottomCardDataLoading();
 
-        backButton.setOnClickListener(this);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
 
     }
@@ -96,10 +108,22 @@ public class SeeMoreCities extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void onClick(View view) {
-        if (view.getId()==R.id.backButton){
-            finish();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.see_more_cities_menu,menu);
+        MenuItem menuItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+       searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+           @Override
+           public boolean onQueryTextSubmit(String s) {
+               return false;
+           }
 
-        }
+           @Override
+           public boolean onQueryTextChange(String s) {
+               recyclerAdapterSeemoreCities.getFilter().filter(s);
+               return false;
+           }
+       });
+        return super.onCreateOptionsMenu(menu);
     }
 }

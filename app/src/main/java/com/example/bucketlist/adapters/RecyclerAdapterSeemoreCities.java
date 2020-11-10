@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,13 +18,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.bucketlist.CityInnerPage;
 import com.example.bucketlist.R;
+import com.example.bucketlist.model.ActivityModel;
 import com.example.bucketlist.model.CityModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerAdapterSeemoreCities extends RecyclerView.Adapter<RecyclerAdapterSeemoreCities.viewHolder> {
+public class RecyclerAdapterSeemoreCities extends RecyclerView.Adapter<RecyclerAdapterSeemoreCities.viewHolder>
+implements Filterable {
     Context context;
     List<CityModel> cityModelList;
+    List<CityModel> modelEgList;
 
     public RecyclerAdapterSeemoreCities(Context context, List<CityModel> cityModelList) {
         this.context = context;
@@ -33,6 +39,7 @@ public class RecyclerAdapterSeemoreCities extends RecyclerView.Adapter<RecyclerA
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.see_more_cities_item,parent,false);
+        this.modelEgList= new ArrayList<>( cityModelList );
         return new viewHolder(view);
     }
 
@@ -59,6 +66,45 @@ public class RecyclerAdapterSeemoreCities extends RecyclerView.Adapter<RecyclerA
     public int getItemCount() {
         return cityModelList.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    private  Filter filter = new Filter(){
+
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<CityModel> filterd = new ArrayList<>();
+            if (charSequence == null || charSequence.length() == 0) {
+                filterd.addAll(modelEgList);
+            }else {
+                String patttern = charSequence.toString().toLowerCase().trim();
+
+                for (CityModel item : modelEgList) {
+                    if (item.getCity().toLowerCase().contains(patttern)
+                            || (item.getCountry() != null && item.getCountry()
+                            .toLowerCase().contains(patttern) )
+                            || item.getStringId().toLowerCase().contains(patttern)
+                    ) {
+                        filterd.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values  = filterd;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            cityModelList.clear();
+            cityModelList.addAll((List) filterResults.values);
+
+            notifyDataSetChanged();
+        }
+    };
 
     class viewHolder extends RecyclerView.ViewHolder{
 
