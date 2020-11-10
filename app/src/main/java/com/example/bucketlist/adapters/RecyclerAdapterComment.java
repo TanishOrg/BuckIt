@@ -1,6 +1,8 @@
 package com.example.bucketlist.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +29,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -44,6 +48,8 @@ import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.view.WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+
 public class RecyclerAdapterComment extends RecyclerView.Adapter<RecyclerAdapterComment.CommentViewHolder> implements PopupMenu.OnMenuItemClickListener, View.OnClickListener {
     private static final String TAG = "Likes";
     Context context;
@@ -53,6 +59,7 @@ public class RecyclerAdapterComment extends RecyclerView.Adapter<RecyclerAdapter
     int totalComments;
 
     public BottomSheetDialog bottomSheetDialog;
+    AlertDialog.Builder alertDialog;
 
     private ImageView cancelEditButton;
     private ImageView doneEditButton;
@@ -218,31 +225,6 @@ public class RecyclerAdapterComment extends RecyclerView.Adapter<RecyclerAdapter
     }
 
 
-//    private void deleteComment() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//        builder.setTitle("Delete");
-//        builder.setMessage("Are you sure  to delete this comment?");
-//        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//
-//
-//
-//            }
-//        })
-//        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.dismiss();
-//
-//            }
-//        });
-//        builder.create();
-//        builder.show();
-//
-//    }
-
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -323,26 +305,72 @@ public class RecyclerAdapterComment extends RecyclerView.Adapter<RecyclerAdapter
                 break;
 
             case R.id.delete_comment:
-                if(FirebaseAuth.getInstance().getCurrentUser().getUid().equals(uid)) {
-                    firestore.collection("Posts").document(postid)
-                            .collection("Comments").document(cid).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                totalComments--;
-                                firestore.collection("Posts").document(postid).update("total comments", totalComments)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });
-                            }
+
+                AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                dialog.setTitle("Are You Sure");
+                dialog.setMessage("This items after deletion cannot be retrieved");
+                dialog.setCancelable(true);
+                dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                    }
+                })
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if(FirebaseAuth.getInstance().getCurrentUser().getUid().equals(uid)) {
+                            firestore.collection("Posts").document(postid)
+                                    .collection("Comments").document(cid).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        totalComments--;
+                                        firestore.collection("Posts").document(postid).update("total comments", totalComments)
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                });
+                                    }
+                                }
+                            });
                         }
-                    });
-                }
+
+                            }
+                        })
+                        .setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                dialog.create();
+                dialog.show();
+
+//                        if(FirebaseAuth.getInstance().getCurrentUser().getUid().equals(uid)) {
+//                            firestore.collection("Posts").document(postid)
+//                                    .collection("Comments").document(cid).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                @Override
+//                                public void onComplete(@NonNull Task<Void> task) {
+//                                    if (task.isSuccessful()) {
+//                                        totalComments--;
+//                                        firestore.collection("Posts").document(postid).update("total comments", totalComments)
+//                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                                    @Override
+//                                                    public void onComplete(@NonNull Task<Void> task) {
+//                                                        if (task.isSuccessful()) {
+//                                                            Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+//                                                        }
+//                                                    }
+//                                                });
+//                                    }
+//                                }
+//                            });
+//                        }
+
                 return true;
 
             case R.id.report_comment:
