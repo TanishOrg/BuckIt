@@ -7,10 +7,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SearchView;
 
 import com.example.bucketlist.adapters.PostRecyclerAdapter;
 import com.example.bucketlist.fragments.homePageFragment.CityFragment;
@@ -35,7 +37,7 @@ public class SeemorePosts extends AppCompatActivity implements View.OnClickListe
     FirebaseFirestore firestore;
     RecyclerView postRecyclerView;
     ImageView backButton;
-
+    SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +46,33 @@ public class SeemorePosts extends AppCompatActivity implements View.OnClickListe
         postRecyclerView = findViewById(R.id.recyclerView);
         backButton = findViewById(R.id.backButton);
         firestore = FirebaseFirestore.getInstance();
-
+        searchView = findViewById(R.id.searchView);
 
         PostLoading();
-
+        searchView.getBackground();
         backButton.setOnClickListener(this);
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (searchView.isIconified()) {
+                    searchView.setBackgroundColor(Color.WHITE);
+                }
+
+            }
+        });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                postRecyclerAdapter.getFilter().filter(newText);
+                Log.d("TAG", "onQueryTextChange: ");
+                return false;
+            }
+        });
 
     }
 

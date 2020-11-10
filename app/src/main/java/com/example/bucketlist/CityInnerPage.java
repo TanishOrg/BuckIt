@@ -330,20 +330,16 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
                                     error.printStackTrace();
                                 }
                                 else{
-                                  try {
-                                      activityModelList.add(new ActivityModel(value.getString("createdBy"),
-                                              value.getString("title"),
-                                              value.getLong("timeStamp").longValue(),
-                                              value.getString("location"),
-                                              value.getLong("likes").intValue(),
-                                              value.getLong("dislikes").intValue(),
-                                              value.getId(),value.getLong("total comments").intValue()));
-                                      postRecyclerAdapter.notifyDataSetChanged();
+                                    activityModelList.add(new ActivityModel(value.getString("createdBy"),
+                                            value.getString("title"),
+                                            value.getLong("timeStamp").longValue(),
+                                            value.getString("location"),
+                                            value.getLong("likes").intValue(),
+                                            value.getLong("dislikes").intValue(),
+                                            value.getId(),value.getLong("total comments").intValue()));
+                                    postRecyclerAdapter.notifyDataSetChanged();
 
-                                      Log.d("inflist",value.getString("createdBy")+value.getString("title"));
-                                  }catch (Exception e){
-                                      e.printStackTrace();
-                                  }
+                                    Log.d("inflist",value.getString("createdBy")+value.getString("title"));
 
                                 }
                             }
