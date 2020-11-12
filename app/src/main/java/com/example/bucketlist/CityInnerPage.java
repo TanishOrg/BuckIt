@@ -1,6 +1,10 @@
 package com.example.bucketlist;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +21,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -73,6 +78,7 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
 
     FirebaseAuth auth;
     List<ActivityModel> activityModelList ;
+    private SwipeRefreshLayout refreshLayout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,6 +110,23 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
         cancelButton = findViewById(R.id.cancelbutton);
         toolBar = findViewById(R.id.toolBar);
         setSupportActionBar(toolBar);
+        refreshLayout = findViewById(R.id.refreshLayout);
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.setRefreshing(false);
+                boolean connection=isNetworkAvailable();
+                if(connection){
+                    finish();
+                    startActivity(getIntent());
+                }
+                else{
+                    Toast.makeText(CityInnerPage.this, "Internet connection not available", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        refreshLayout.setColorSchemeColors(Color.RED);
 
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
@@ -142,6 +165,11 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
 
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager=(ConnectivityManager) this.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+        return networkInfo !=null;
+    }
     private void loadData() {
 
         DocumentReference documentReference = firestore.collection("Cities").document(cityId);
@@ -343,14 +371,18 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
 
                                 }
                                 else{
-                                    activityModelList.add(new ActivityModel(value.getString("createdBy"),
-                                            value.getString("title"),
-                                            value.getLong("timeStamp").longValue(),
-                                            value.getString("location"),
-                                            value.getLong("likes").intValue(),
-                                            value.getLong("dislikes").intValue(),
-                                            value.getId(),value.getLong("total comments").intValue()));
-                                    postRecyclerAdapter.notifyDataSetChanged();
+                                    try {
+                                        activityModelList.add(new ActivityModel(value.getString("createdBy"),
+                                                value.getString("title"),
+                                                value.getLong("timeStamp").longValue(),
+                                                value.getString("location"),
+                                                value.getLong("likes").intValue(),
+                                                value.getLong("dislikes").intValue(),
+                                                value.getId(),value.getLong("total comments").intValue()));
+                                        postRecyclerAdapter.notifyDataSetChanged();
+                                    }catch (Exception e){
+                                        e.printStackTrace();
+                                    }
                                     Log.d("inflist",value.getString("createdBy")+value.getString("title"));
 
                                     Log.d("abcde",activityModelList.size()+"  "+activityModelList.toString());

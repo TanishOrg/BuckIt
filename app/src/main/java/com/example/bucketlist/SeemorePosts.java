@@ -6,8 +6,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -18,7 +21,10 @@ import android.app.SearchManager;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.bucketlist.adapters.PostRecyclerAdapter;
 import com.example.bucketlist.fragments.homePageFragment.CityFragment;
@@ -46,6 +52,7 @@ public class SeemorePosts extends AppCompatActivity{
     RecyclerView postRecyclerView;
     TextView title;
     Toolbar toolBar;
+    private SwipeRefreshLayout refreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +72,31 @@ public class SeemorePosts extends AppCompatActivity{
 
         PostLoading();
 
+        refreshLayout = findViewById(R.id.refreshLayout);
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.setRefreshing(false);
+                boolean connection=isNetworkAvailable();
+                if(connection){
+                    finish();
+                    startActivity(getIntent());
+                }
+                else{
+                    Toast.makeText(SeemorePosts.this, "Internet connection not available", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        refreshLayout.setColorSchemeColors(Color.RED);
+
+
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager=(ConnectivityManager) this.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+        return networkInfo !=null;
     }
 
     public void PostLoading(){

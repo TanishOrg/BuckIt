@@ -1,6 +1,10 @@
 package com.example.bucketlist;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
@@ -9,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -17,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.bucketlist.adapters.RecyclerAdapterSeemoreCities;
 import com.example.bucketlist.adapters.RecyclerAdapterTrendingCard;
@@ -39,6 +45,8 @@ public class SeeMoreCities extends AppCompatActivity {
     RecyclerView recyclerView;
     FirebaseFirestore firestore;
     Toolbar toolbar;
+    private SwipeRefreshLayout refreshLayout;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,8 +68,31 @@ public class SeeMoreCities extends AppCompatActivity {
                 finish();
             }
         });
+        refreshLayout = findViewById(R.id.refreshLayout);
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.setRefreshing(false);
+                boolean connection=isNetworkAvailable();
+                if(connection){
+                    finish();
+                    startActivity(getIntent());
+                }
+                else{
+                    Toast.makeText(SeeMoreCities.this, "Internet connection not available", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        refreshLayout.setColorSchemeColors(Color.RED);
 
 
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager=(ConnectivityManager) this.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+        return networkInfo !=null;
     }
 
     public void trendingbottomCardDataLoading(){
