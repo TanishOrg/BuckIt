@@ -4,14 +4,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,16 +30,20 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.bucketlist.adapters.RecyclerAdapterComment;
 import com.example.bucketlist.adapters.RecyclerAdapterTrendingCard;
+import com.example.bucketlist.layout.loginLayouts.OtpActivityRegister;
+import com.example.bucketlist.layout.userLayout.UserDetail;
 import com.example.bucketlist.model.CommentModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -73,6 +83,7 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
     RecyclerView commentRecyclerView;
     List<CommentModel> commentModelList ;
     RecyclerAdapterComment adapterComment;
+    SwipeRefreshLayout refreshLayout;
 
     String toactivity;
     int intpoints = 0;
@@ -125,6 +136,23 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
         dislikeButton = findViewById(R.id.dislikeButton);
         commentRecyclerView = findViewById(R.id.commentRecyclerView);
         toolbartitle = findViewById(R.id.toolbartitle);
+        refreshLayout = findViewById(R.id.refreshLayout);
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.setRefreshing(false);
+                boolean connection=isNetworkAvailable();
+                if(connection){
+                    finish();
+                    startActivity(getIntent());
+                }
+                else{
+                    Toast.makeText(PostInnerPage.this, "Internet connection not available", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        refreshLayout.setColorSchemeColors(Color.RED);
 
         likeButton.setOnClickListener(this);
         dislikeButton.setOnClickListener(this);
@@ -142,6 +170,12 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
         ifBookmarkExists();
 
         toolbar.setOnMenuItemClickListener(this);
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager=(ConnectivityManager) this.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+        return networkInfo !=null;
     }
 
     private void ifDocExists() {
@@ -563,38 +597,62 @@ public class PostInnerPage extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.delete:
 
-                firestore.collection("Posts").document(postId)
-                        .delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        final DocumentReference ref = firestore.collection("Users").document(auth.getCurrentUser().getUid())
-                                .collection("Bookmarks").document(postId);
-                       ref .get()
-                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot  val = task.getResult();
-                                    if(val.exists()) {
-                                        ref.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
+                final AlertDialog.Builder alert;
+                alert = new AlertDialog.Builder(PostInnerPage.this);
+                View view1 = getLayoutInflater().inflate(R.layout.delete_confirmation,null);
 
-                                            }
-                                        });
-                                    }
-                                }
-                            }
-                        });
-                        Toast.makeText(PostInnerPage.this, "succesful", Toast.LENGTH_SHORT).show();
-                      finish();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+                final TextView confirmdeletionButton = view1.findViewById(R.id.confirmDeletionButton);
+                final TextView canceldeletinButton = view1.findViewById(R.id.cancelDeletionButton);
+                alert.setView(view1);
 
+                final AlertDialog alertDialog = alert.create();
+                alertDialog.setCanceledOnTouchOutside(false);
+                canceldeletinButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.dismiss();
                     }
                 });
+                confirmdeletionButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        firestore.collection("Posts").document(postId)
+                                .delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                final DocumentReference ref = firestore.collection("Users").document(auth.getCurrentUser().getUid())
+                                        .collection("Bookmarks").document(postId);
+                                ref .get()
+                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    DocumentSnapshot  val = task.getResult();
+                                                    if(val.exists()) {
+                                                        ref.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                            }
+                                        });
+                                Toast.makeText(PostInnerPage.this, "succesful", Toast.LENGTH_SHORT).show();
+                                finish();
+                                alertDialog.dismiss();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                            }
+                        });
+                    }
+                });
+                alertDialog.show();
+
 
                 break;
 

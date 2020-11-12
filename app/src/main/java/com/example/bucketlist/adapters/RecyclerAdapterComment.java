@@ -23,6 +23,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.bucketlist.PostInnerPage;
 import com.example.bucketlist.R;
 import com.example.bucketlist.model.CommentModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -68,7 +69,7 @@ public class RecyclerAdapterComment extends RecyclerView.Adapter<RecyclerAdapter
     String sComment;
     FirebaseAuth mAuth;
     FirebaseUser mUser;
-
+    private Context rcontext;
 
 
     public RecyclerAdapterComment(Context context, List<CommentModel> commentModelList, String postid,BottomSheetDialog bottomSheetDialog) {
@@ -83,6 +84,7 @@ public class RecyclerAdapterComment extends RecyclerView.Adapter<RecyclerAdapter
     @Override
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.comment_item, parent, false);
+        rcontext = parent.getContext();
         return new CommentViewHolder(view);
     }
 
@@ -306,19 +308,26 @@ public class RecyclerAdapterComment extends RecyclerView.Adapter<RecyclerAdapter
 
             case R.id.delete_comment:
 
-                AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-                dialog.setTitle("Are You Sure");
-                dialog.setMessage("This items after deletion cannot be retrieved");
-                dialog.setCancelable(true);
-                dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                final AlertDialog.Builder alert;
+                alert = new AlertDialog.Builder(rcontext);
+                View view1 = LayoutInflater.from(rcontext).inflate(R.layout.delete_confirmation,null);
+
+                final TextView confirmdeletionButton = view1.findViewById(R.id.confirmDeletionButton);
+                final TextView canceldeletinButton = view1.findViewById(R.id.cancelDeletionButton);
+                alert.setView(view1);
+
+                final AlertDialog alertDialog = alert.create();
+                alertDialog.setCanceledOnTouchOutside(false);
+                canceldeletinButton.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onCancel(DialogInterface dialogInterface) {
+                    public void onClick(View view) {
+                        alertDialog.dismiss();
                     }
-                })
-                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                if(FirebaseAuth.getInstance().getCurrentUser().getUid().equals(uid)) {
+                });
+                confirmdeletionButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(FirebaseAuth.getInstance().getCurrentUser().getUid().equals(uid)) {
                             firestore.collection("Posts").document(postid)
                                     .collection("Comments").document(cid).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -331,6 +340,7 @@ public class RecyclerAdapterComment extends RecyclerView.Adapter<RecyclerAdapter
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if (task.isSuccessful()) {
                                                             Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                                                            alertDialog.dismiss();
                                                         }
                                                     }
                                                 });
@@ -338,38 +348,9 @@ public class RecyclerAdapterComment extends RecyclerView.Adapter<RecyclerAdapter
                                 }
                             });
                         }
-
-                            }
-                        })
-                        .setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        });
-                dialog.create();
-                dialog.show();
-
-//                        if(FirebaseAuth.getInstance().getCurrentUser().getUid().equals(uid)) {
-//                            firestore.collection("Posts").document(postid)
-//                                    .collection("Comments").document(cid).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<Void> task) {
-//                                    if (task.isSuccessful()) {
-//                                        totalComments--;
-//                                        firestore.collection("Posts").document(postid).update("total comments", totalComments)
-//                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                                    @Override
-//                                                    public void onComplete(@NonNull Task<Void> task) {
-//                                                        if (task.isSuccessful()) {
-//                                                            Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
-//                                                        }
-//                                                    }
-//                                                });
-//                                    }
-//                                }
-//                            });
-//                        }
+                    }
+                });
+                alertDialog.show();
 
                 return true;
 

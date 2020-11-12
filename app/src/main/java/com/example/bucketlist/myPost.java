@@ -1,17 +1,23 @@
 package com.example.bucketlist;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.bucketlist.adapters.PostRecyclerAdapter;
 import com.example.bucketlist.model.ActivityModel;
@@ -38,7 +44,7 @@ public class myPost extends AppCompatActivity implements View.OnClickListener {
     RecyclerView myPostRecyclerView;
     PostRecyclerAdapter myPostRecyclerAdapter;
     ImageView backButton;
-
+    private SwipeRefreshLayout refreshLayout;
 
 
     @Override
@@ -62,8 +68,31 @@ public class myPost extends AppCompatActivity implements View.OnClickListener {
         myPostRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         myPostRecyclerView.setItemAnimator(new DefaultItemAnimator());
         PostLoading();
+        refreshLayout = findViewById(R.id.refreshLayout);
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.setRefreshing(false);
+                boolean connection=isNetworkAvailable();
+                if(connection){
+                    finish();
+                    startActivity(getIntent());
+                }
+                else{
+                    Toast.makeText(myPost.this, "Internet connection not available", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        refreshLayout.setColorSchemeColors(Color.RED);
 
 
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager=(ConnectivityManager) this.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+        return networkInfo !=null;
     }
 
     public void PostLoading(){
