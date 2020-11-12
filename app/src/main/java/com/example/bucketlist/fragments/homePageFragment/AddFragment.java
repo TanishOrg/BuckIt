@@ -223,7 +223,22 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
 
                                     @Override
                                     protected void onCompleteButtonClicked() {
-
+                                        item.setAchieved(item.isAchieved() ? false:true);
+                                        FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
+                                        DocumentReference documentReference = fireStore.collection("Users").document(mUser.getUid())
+                                                .collection("items").document(item.getStringID());
+                                        documentReference.update(item.toHashMap()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d(TAG, "onSuccess: Sucess" );
+                                                myDialog.dismiss();
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.d(TAG, "onFailure: " + e.getMessage());
+                                            }
+                                        });
                                     }
 
                                     @Override
@@ -233,6 +248,7 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
 
                                             @Override
                                             protected void onEditComplete() {
+                                              myDialog.dismiss();
 
                                             }
                                         };
@@ -260,6 +276,7 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
         addItemAlertDialog.show();
 
     }
+
 
 
     private void showDatePickerDialog() {
