@@ -49,6 +49,8 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
     EditText titleText, descriptionText;
     AutoCompleteTextView locationText;
     ChipGroup chipGroup;
+    String from;
+    String location;
     List<String> availableLocation = new ArrayList<>();
     private ArrayAdapter<String> arrayAdapter;
 
@@ -63,9 +65,9 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
 
         initialize();
 
-        String from = getIntent().getStringExtra("which activity");
-        String location = getIntent().getStringExtra("location");
-        if (from!=null&& location!=null && from.equals("cityinneractivity")){
+        from = getIntent().getStringExtra("which activity");
+        location = getIntent().getStringExtra("location");
+        if (from!=null && location!=null && from.equals("cityinnerpage")){
             locationText.setText(location);
         }
 
@@ -102,11 +104,19 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.backButton){
-            Toast.makeText(getApplicationContext(), "back", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(getApplicationContext(),HomeActivity.class);
-            finish();
-            i.putExtra("which Activity","from City fragment");
-            startActivity(i);
+            //Toast.makeText(getApplicationContext(), from, Toast.LENGTH_SHORT).show();
+
+
+            if (location!=null){
+             finish();
+            }
+            else{
+                Intent i = new Intent(getApplicationContext(),HomeActivity.class);
+                finish();
+                i.putExtra("which Activity","from Add new city");
+                startActivity(i);
+            }
+
 
         }
         else if (view.getId() == R.id.postButton){

@@ -59,15 +59,17 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
     public  ImageView backgroundImage;
     FirebaseFirestore firestore;
     TextView changebackground;
+    TextView message;
     LinearLayout layout,confirmchangelayout;
     List<WallpaperModel> wallpaperModelList;
     RecyclerView wallpaperRecyclerView;
     CollapsingToolbarLayout collapsingToolBar;
-    ImageView likebutton, doneButton,cancelButton,back_button;
+    ImageView createButton, doneButton,cancelButton,back_button;
     RecyclerViewChangeWallpaper recyclerViewChangeWallpaper;
     RecyclerView postRecyclerVew;
     PostRecyclerAdapter postRecyclerAdapter;
     Toolbar toolBar;
+
 
     FirebaseAuth auth;
     List<ActivityModel> activityModelList ;
@@ -88,12 +90,13 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
         mainLikes = findViewById(R.id.likes);
         mainVisitors = findViewById(R.id.visitors);
         backgroundImage = findViewById(R.id.backgroundImage);
-        likebutton = findViewById(R.id.likebutton);
+        createButton = findViewById(R.id.createButton);
         collapsingToolBar = findViewById(R.id.collapsingToolBar);
         changebackground = findViewById(R.id.changebackground);
         layout = findViewById(R.id.layout1);
         confirmchangelayout = findViewById(R.id.confirmchangelayout);
         wallpaperRecyclerView = findViewById(R.id.wallpaperRecyclerView);
+        message = findViewById(R.id.message);
         wallpaperModelList = new ArrayList<>();
         recyclerViewChangeWallpaper = new RecyclerViewChangeWallpaper(this,wallpaperModelList,CityInnerPage.this);
         wallpaperRecyclerView.setAdapter(recyclerViewChangeWallpaper);
@@ -101,17 +104,17 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
         cancelButton = findViewById(R.id.cancelbutton);
         toolBar = findViewById(R.id.toolBar);
         setSupportActionBar(toolBar);
+
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 if (verticalOffset == 0){
                     changebackground.setVisibility(View.VISIBLE);
-                    likebutton.setVisibility(View.VISIBLE);
+                    createButton.setVisibility(View.VISIBLE);
                 }
                 else {
                     changebackground.setVisibility(View.GONE);
-                    likebutton.setVisibility(View.GONE);
                 }
             }
         });
@@ -122,6 +125,7 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
         doneButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
      back_button.setOnClickListener(this);
+        createButton.setOnClickListener(this);
 
 
 
@@ -134,6 +138,7 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
         postRecyclerVew.setItemAnimator(new DefaultItemAnimator());
 
         PostLoading();
+
 
     }
 
@@ -169,6 +174,7 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
                     Glide.with(getApplicationContext()).load(imageUrl).into(backgroundImage);
 
                     Log.d("info",city+state+country+imageUrl);
+
                 }
 
             }
@@ -228,9 +234,14 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
             case R.id.back_button:
                 Intent i =new Intent(getApplicationContext(),HomeActivity.class);
                 i.putExtra("which Activity","from Add new city");
-                finish();
                 startActivity(i);
-
+                break;
+            case R.id.createButton:
+                Intent in =new Intent(getApplicationContext(),AddNewPost.class);
+                in.putExtra("location",cityId);
+                in.putExtra("which activity","cityinnerpage");
+                startActivity(in);
+                break;
 
         }
     }
@@ -311,9 +322,10 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
     public void PostLoading(){
 
         activityModelList = new ArrayList<>();
-
+        postRecyclerVew.setVisibility(View.GONE);
+        message.setVisibility(View.VISIBLE);
         CollectionReference collectionReference = firestore.collection("Posts");
-        Query locationquery = collectionReference.whereEqualTo("location",cityId);
+        final Query locationquery = collectionReference.whereEqualTo("location",cityId);
         locationquery.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -328,6 +340,7 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
                             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                                 if (error!=null){
                                     error.printStackTrace();
+
                                 }
                                 else{
                                     activityModelList.add(new ActivityModel(value.getString("createdBy"),
@@ -338,13 +351,25 @@ public class CityInnerPage extends AppCompatActivity implements View.OnClickList
                                             value.getLong("dislikes").intValue(),
                                             value.getId(),value.getLong("total comments").intValue()));
                                     postRecyclerAdapter.notifyDataSetChanged();
-
                                     Log.d("inflist",value.getString("createdBy")+value.getString("title"));
 
+                                    Log.d("abcde",activityModelList.size()+"  "+activityModelList.toString());
+                                    if (activityModelList.isEmpty()){
+                                        postRecyclerVew.setVisibility(View.GONE);
+                                        message.setVisibility(View.VISIBLE);
+                                    }
+                                    else{
+                                        postRecyclerVew.setVisibility(View.VISIBLE);
+                                        message.setVisibility(View.GONE);
+                                    }
                                 }
                             }
                         });
+
                     }
+
+
+
                 }
             }
         });
