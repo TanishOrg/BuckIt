@@ -249,9 +249,6 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "onSuccess: Sucess" );
-//                itemsList.remove(position);
-//                itemModify.onItemDeleted();
-//                notifyDataSetChanged();
                 holder.myDialog.dismiss();
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -264,8 +261,6 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
 
     @Override
     protected void bindHolder(final ViewHolder holder, final BucketItems items, final int position) {
-
-     //  holder.onSelectedLayout.setVisibility(View.INVISIBLE);
 
         new PopUpShowItem(context, items, mUser, holder.myDialog,false) {
             @Override
@@ -289,7 +284,6 @@ public class RecyclerAdapterDream extends ItemAdapter<RecyclerAdapterDream.ViewH
         holder.card_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(context, "test click" + String.valueOf(holder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
                 holder.myDialog.show();
 
             }
