@@ -93,7 +93,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logobucketlist" />
+        app:srcCompat="@drawable/buckit" />
 
     <ImageView
         android:id="@+id/slideBar"
