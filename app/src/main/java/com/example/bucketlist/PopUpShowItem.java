@@ -2,12 +2,15 @@ package com.example.bucketlist;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bucketlist.model.BucketItems;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,7 +35,7 @@ public abstract class PopUpShowItem implements View.OnClickListener {
     ImageView categoryImageView;
     TextView privacyTextView;
     ImageView cancelButton2;
-
+    private InterstitialAd mInterstitialAd;
    public PopUpShowItem(Context context , BucketItems item ,FirebaseUser user, Dialog myDialog,Boolean isDialogShow){
 
        firebaseFirestore = FirebaseFirestore.getInstance();
@@ -42,7 +45,9 @@ public abstract class PopUpShowItem implements View.OnClickListener {
        this.item = item;
         initializeUi();
 
-
+       mInterstitialAd = new InterstitialAd(context);
+       mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+       mInterstitialAd.loadAd(new AdRequest.Builder().build());
         if (isDialogShow) myDialog.show();
         myDialog.setCanceledOnTouchOutside(false);
    }
@@ -143,7 +148,13 @@ public abstract class PopUpShowItem implements View.OnClickListener {
 
        switch (v.getId()){
            case R.id.cancelButton2:
+               if (mInterstitialAd.isLoaded()) {
+                   mInterstitialAd.show();
+               } else {
+                   Log.d("TAG", "The interstitial wasn't loaded yet.");
+               }
                myDialog.dismiss();
+
                break;
            case R.id.completeButton:
                onCompleteButtonClicked();

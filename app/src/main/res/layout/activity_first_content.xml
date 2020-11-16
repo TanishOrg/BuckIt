@@ -131,7 +131,7 @@
         android:layout_height="98dp"
         android:layout_marginTop="260dp"
         android:layout_marginRight="22dp"
-        android:fontFamily="sans-serif-medium"
+        android:fontFamily="@font/nunito"
         android:text="Hey there.\nthis is the platform where\nyou can  make your own bucket list."
         android:textAlignment="center"
         android:textColor="@color/white"

@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.example.bucketlist.model.ActivityModel;
 import com.example.bucketlist.model.BucketItems;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
@@ -52,6 +54,8 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
     String from;
     String location;
     List<String> availableLocation = new ArrayList<>();
+    private InterstitialAd mInterstitialAd;
+
     private ArrayAdapter<String> arrayAdapter;
 
     FirebaseFirestore firestore;
@@ -62,7 +66,9 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_new_post);
-
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
         initialize();
 
         from = getIntent().getStringExtra("which activity");
@@ -169,6 +175,11 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onSuccess(Void aVoid) {
                Snackbar.make(v,"Post created", BaseTransientBottomBar.LENGTH_SHORT);
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                } else {
+                    Log.d("TAG", "The interstitial wasn't loaded yet.");
+                }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
