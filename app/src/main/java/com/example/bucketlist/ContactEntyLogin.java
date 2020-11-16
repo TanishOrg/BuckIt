@@ -23,7 +23,6 @@ public class ContactEntyLogin extends AppCompatActivity {
     CountryCodePicker codeNumber;
     TextView errorText;
     Button generateotpButton;
-    ProgressBar generateProgressBar;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +33,6 @@ public class ContactEntyLogin extends AppCompatActivity {
 
         generateotpButton = findViewById(R.id.generateotpButton);
         errorText = findViewById(R.id.errorText);
-        generateProgressBar = findViewById(R.id.generateProgressBar);
         codeNumber.registerCarrierNumberEditText(phoneNumber);
 
         generateotpButton.setOnClickListener(new View.OnClickListener() {
@@ -44,16 +42,15 @@ public class ContactEntyLogin extends AppCompatActivity {
                     errorText.setVisibility(View.VISIBLE);
                     errorText.setText("Please enter your phone number");
                 }
-                else if(phoneNumber.getText().toString().replace(" ","").length()>15 && phoneNumber.getText().toString().replace(" ","").length()<9){
+               else if(phoneNumber.getText().toString().replace(" ","").length()>15 ||
+                        phoneNumber.getText().toString().replace(" ","").length()<9){
                     errorText.setText("Invalid Phone number");
                     errorText.setVisibility(View.VISIBLE);
 
                 }
                 else {
-                    generateProgressBar.setVisibility(View.VISIBLE);
                     Intent i = new Intent(getApplicationContext(), OtpActivityLogin.class);
                     i.putExtra("phone number",codeNumber.getFullNumberWithPlus().replace(" ",""));
-                    finish();
                     startActivity(i);
                 }
             }

@@ -1,22 +1,16 @@
 package com.example.bucketlist.fragments.homePageFragment;
 
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -73,6 +67,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
     FirebaseAuth firebaseAuth;
     private PageAdapterTrendingCard pageAdapterTrendingCard;
     private List<TrendingCardModel> trendingCardModelList;
+    List<TrendingCardModel> trendingCardModelList15;
     TextView createCity;
     EditText activity;
     TextView seemore,postMore;
@@ -98,7 +93,9 @@ public class CityFragment extends Fragment implements View.OnClickListener {
     RecyclerAdapterTrendingCard recyclerAdapterTrendingCard;
     PostRecyclerAdapter postRecyclerAdapter;
     List<CityModel> arrayList;
+    List<CityModel> arrayList15;
     List<ActivityModel> List;
+    List<ActivityModel> List15;
 
     ImageView searchImageView;
 
@@ -178,7 +175,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
         trendingbottomCardDataLoading();
 
-       // autoScroll();
+        autoScroll();
 
         loadData(user_id);
 
@@ -216,7 +213,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
     public void trendingCardDataLoading(){
 
-
+        trendingCardModelList15 = new ArrayList<>();
         trendingCardModelList = new ArrayList<>();
 
         CollectionReference collectionReference = firestore.collection("Cities");
@@ -229,20 +226,32 @@ public class CityFragment extends Fragment implements View.OnClickListener {
                 }
                 else{
                     trendingCardModelList.clear();
+
                     for (final QueryDocumentSnapshot snapshot : value){
                         trendingCardModelList.add(new TrendingCardModel(snapshot.getString("City Name"),
                                             snapshot.getString("Country Name"),
                                             snapshot.getString("City Background Image"),snapshot.getId()));
-                                    pageAdapterTrendingCard.notifyDataSetChanged();
+
+                    }
+
+
+
+                    while(trendingCardModelList15.size()<15){
+                        int randomNum =  (int)(Math.random() * trendingCardModelList.size());
+                        if (!trendingCardModelList15.contains(trendingCardModelList.get(randomNum))){
+                            trendingCardModelList15.add(trendingCardModelList.get(randomNum));
+                            pageAdapterTrendingCard.notifyDataSetChanged();
+                        }
 
                     }
 
                 }
+
             }
         });
 
 
-        pageAdapterTrendingCard = new PageAdapterTrendingCard(getContext(),trendingCardModelList);
+        pageAdapterTrendingCard = new PageAdapterTrendingCard(getContext(), trendingCardModelList15);
         viewPager.setAdapter(pageAdapterTrendingCard);
         viewPager.setPadding(150,0,150,0);
 
@@ -250,6 +259,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
     public void trendingbottomCardDataLoading(){
 
+        arrayList15 = new ArrayList<>();
         arrayList = new ArrayList<>();
 
         CollectionReference collectionReference = firestore.collection("Cities");
@@ -266,7 +276,16 @@ public class CityFragment extends Fragment implements View.OnClickListener {
                         arrayList.add(new CityModel(snapshot.getString("City Background Image"),
                                             snapshot.getString("City Name"),
                                             snapshot.getString("Country Name"),snapshot.getId()));
-                                    recyclerAdapterTrendingCard.notifyDataSetChanged();
+                                //    recyclerAdapterTrendingCard.notifyDataSetChanged();
+
+                    }
+
+                    while(arrayList15.size()<15){
+                        int randomNum =  (int)(Math.random() * arrayList.size());
+                        if (!arrayList15.contains(arrayList.get(randomNum))){
+                            arrayList15.add(arrayList.get(randomNum));
+                            recyclerAdapterTrendingCard.notifyDataSetChanged();
+                        }
 
                     }
 
@@ -275,9 +294,8 @@ public class CityFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        recyclerAdapterTrendingCard = new RecyclerAdapterTrendingCard(getContext(),arrayList);
+        recyclerAdapterTrendingCard = new RecyclerAdapterTrendingCard(getContext(),arrayList15);
         recyclerView.setAdapter(recyclerAdapterTrendingCard);
-//        viewPager.setPadding(50,0,50,0);
 
     }
 
@@ -289,12 +307,12 @@ public class CityFragment extends Fragment implements View.OnClickListener {
         final Runnable Update = new Runnable() {
             public void run() {
 
-                if (viewPager.getCurrentItem() == trendingCardModelList.size()-1) {
+                if (viewPager.getCurrentItem() == trendingCardModelList15.size()-1) {
                     currentPage=0;
                 }
 
-//                viewPager.setCurrentItem(currentPage, true);
-//                currentPage++;
+                viewPager.setCurrentItem(currentPage, true);
+                currentPage++;
             }
         };
 
@@ -310,7 +328,9 @@ public class CityFragment extends Fragment implements View.OnClickListener {
 
     public void PostLoading(){
 
+        List15 = new ArrayList<>();
         List = new ArrayList<>();
+
 
         CollectionReference collectionReference = firestore.collection("Posts");
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -331,7 +351,21 @@ public class CityFragment extends Fragment implements View.OnClickListener {
                                         snapshot.getLong("dislikes").intValue(),
                                            snapshot.getId(),
                                 snapshot.getLong("total comments").intValue()));
-                                    postRecyclerAdapter.notifyDataSetChanged();
+
+
+                    }
+                    int size = 0;
+                    if (List.size()>15)
+                        size = 15;
+                    else
+                        size = List.size();
+
+                    while(List15.size()<size){
+                        int randomNum =  (int)(Math.random() * List.size());
+                        if (!List15.contains(List.get(randomNum))){
+                            List15.add(List.get(randomNum));
+                            postRecyclerAdapter.notifyDataSetChanged();
+                        }
 
                     }
 
@@ -340,7 +374,7 @@ public class CityFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        postRecyclerAdapter = new PostRecyclerAdapter(getContext(),List,"city fragment");
+        postRecyclerAdapter = new PostRecyclerAdapter(getContext(),List15,"city fragment");
         postRecyclerView.setAdapter(postRecyclerAdapter);
 
 

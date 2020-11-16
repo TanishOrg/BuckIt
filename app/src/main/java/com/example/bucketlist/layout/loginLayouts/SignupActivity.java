@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bucketlist.layout.userLayout.ContactEntry;
@@ -36,8 +37,7 @@ import com.google.firebase.storage.UploadTask;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SignupActivity extends AppCompatActivity
-        implements View.OnClickListener {
+public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "SIGN UP ACTIVITY" ;
     private EditText signUpemailEditText;
@@ -50,9 +50,8 @@ public class SignupActivity extends AppCompatActivity
     String from = "A";
     FirebaseAuth mAuth;
     FirebaseUser mUser;
-
+    TextView text_login;
     String stringImageUri;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,21 +60,20 @@ public class SignupActivity extends AppCompatActivity
         from = getIntent().getStringExtra("from activity");
         Toast.makeText(this, from, Toast.LENGTH_SHORT).show();
         initializeUi();
-
-
-
     }
 
     private void initializeUi() {
-            signUpemailEditText = findViewById(R.id.email_text_view);
-            mAuth = FirebaseAuth.getInstance();
-            firestore = FirebaseFirestore.getInstance();
-            progressBar = findViewById(R.id.progressBar);
-            signUpConfirmPasswordEditText = findViewById(R.id.confirm_password_text_view2);
-            signUpPasswordEditText  = findViewById(R.id.password_text_view2);
-            signUpButton = findViewById(R.id.signup_button);
-            signUpButton.setOnClickListener(this);
-            Toast.makeText(this, signUpButton.getText().toString(), Toast.LENGTH_SHORT).show();
+        signUpemailEditText = findViewById(R.id.email_text_view);
+        mAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+        progressBar = findViewById(R.id.progressBar);
+        signUpConfirmPasswordEditText = findViewById(R.id.confirm_password_text_view2);
+        signUpPasswordEditText  = findViewById(R.id.password_text_view2);
+        signUpButton = findViewById(R.id.signup_button);
+        signUpButton.setOnClickListener(this);
+        text_login = findViewById(R.id.text_login);
+        text_login.setOnClickListener(this);
+        Toast.makeText(this, signUpButton.getText().toString(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -88,6 +86,10 @@ public class SignupActivity extends AppCompatActivity
                doSignUp();
            }
             
+        }
+        else if (view.getId() == R.id.text_login){
+            Intent intent = new Intent(SignupActivity.this, LoginByEmailActivity.class);
+            startActivity(intent);
         }
     }
 

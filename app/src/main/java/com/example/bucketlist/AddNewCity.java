@@ -1,6 +1,7 @@
 package com.example.bucketlist;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,13 +39,20 @@ import com.example.bucketlist.layout.userLayout.DetailProfile;
 import com.example.bucketlist.layout.userLayout.UserDetail;
 import com.example.bucketlist.model.WallpaperModel;
 import com.example.bucketlist.utils.CityListHelper;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -76,7 +84,8 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
     StorageReference storageReference;
     FirebaseFirestore firestore;
     FirebaseAuth firebaseAuth;
-
+    private InterstitialAd mInterstitialAd;
+    List<String> existinglocation = new ArrayList<>();
     ArrayAdapter<String> arrayAdapter;
 
     private static List<String> city= new ArrayList<>();
@@ -102,6 +111,9 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
         cancelButton.setOnClickListener(this);
         smallRelativeLayout.setOnClickListener(this);
         createButton.setOnClickListener(this);
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
     }
 
     private void loadCityList(String search) {
@@ -187,15 +199,22 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
 
         }
         if (v.getId() == R.id.smallRelativeLayout){
+            getExistingCity();
             if(!addCityEditText.getText().toString().isEmpty()){
-                City = addCityEditText.getText().toString().split(",")[0];
-                Log.d("searched city",City);
-                fetchWallpaper();
-              recyclerView.setVisibility(View.VISIBLE);
+                if (!existinglocation.contains(addCityEditText.getText().toString())){
+                    City = addCityEditText.getText().toString().split(",")[0];
+                    Log.d("searched city",City);
+                    fetchWallpaper();
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
+                else{
+                    Toast.makeText(this, "City already exists", Toast.LENGTH_SHORT).show();
+                }
+
             }
             else{
                 recyclerView.setVisibility(View.GONE);
-                Snackbar.make(v,"Field is empty.",Snackbar.LENGTH_LONG).show();
+                Toast.makeText(this, "Field is empty", Toast.LENGTH_SHORT).show();
 
             }
         }
@@ -265,11 +284,39 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(AddNewCity.this, "City created", Toast.LENGTH_SHORT).show();
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                } else {
+                    Log.d("TAG", "The interstitial wasn't loaded yet.");
+                }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(AddNewCity.this, "firestore Updated failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void getExistingCity(){
+        final CollectionReference reference = firestore.collection("Cities");
+        reference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.d("Exception Failed", "onEvent: 0  " + error);
+                }
+
+                else{
+                    for (QueryDocumentSnapshot snapshot  :value) {
+                        existinglocation.add(snapshot.getId());
+                    }
+                    Log.d("size", "onEvent: " + existinglocation.size());
+//                    arrayAdapter = new ArrayAdapter<>(getApplicationContext(),
+//                            android.R.layout.simple_list_item_1,existinglocation);
+//                    locationText.setAdapter(arrayAdapter);
+//                    arrayAdapter.notifyDataSetChanged();
+                }
             }
         });
     }
