@@ -27,6 +27,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.bucketlist.adapters.RecyclerAdapterSeemoreCities;
 import com.example.bucketlist.adapters.RecyclerAdapterTrendingCard;
 import com.example.bucketlist.model.CityModel;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -41,11 +44,13 @@ import java.util.List;
 
 public class SeeMoreCities extends AppCompatActivity {
     RecyclerAdapterSeemoreCities recyclerAdapterSeemoreCities;
-    List<CityModel> arrayList;
+    List arrayList;
     RecyclerView recyclerView;
     FirebaseFirestore firestore;
     Toolbar toolbar;
     private SwipeRefreshLayout refreshLayout;
+
+    public static final String BANNER_TEST_ID = "ca-app-pub-3940256099942544/6300978111";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,25 +114,33 @@ public class SeeMoreCities extends AppCompatActivity {
                 }
                 else{
                     for (final QueryDocumentSnapshot snapshot : value){
-                        DocumentReference documentReference = firestore.collection("Cities").document(snapshot.getId());
-                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                            @Override
-                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                if (error!=null){
-                                    Log.d("Exception Failed", "onEvent: 0  " + error);
-
-                                }
-                                else{
-                                    arrayList.add(new CityModel(value.getString("City Background Image"),
-                                            value.getString("City Name"),
-                                            value.getString("Country Name"),snapshot.getId()));
-                                    recyclerAdapterSeemoreCities.notifyDataSetChanged();
-                                }
-
-                            }
-                        });
-
+                        arrayList.add(new CityModel(snapshot.getString("City Background Image"),
+                                snapshot.getString("City Name"),
+                                snapshot.getString("Country Name"),snapshot.getId()));
                     }
+
+
+                    int size = arrayList.size();
+                    for (int i= size-1; i >=0; i -= 4) {
+//                        Log.d("TAG", "onEvent: " + i);
+                        final AdView adView = new AdView(getApplicationContext());
+                        adView.setAdSize(AdSize.BANNER);
+//                                adView.setAdUnitId(BANNER_AD_ID);
+                        adView.setAdUnitId(BANNER_TEST_ID);
+                        arrayList.add(i, adView);
+                    }
+
+                    recyclerAdapterSeemoreCities.notifyDataSetChanged();
+                    for (int i = 0; i < arrayList.size(); i++) {
+                        Object adView = arrayList.get(i);
+
+                        if (adView instanceof AdView) {
+                            final AdView view = (AdView) adView;
+                            view.loadAd(new AdRequest.Builder().build());
+                        }
+                    }
+
+
                 }
             }
         });

@@ -59,8 +59,8 @@ public class SwipeToDeleteCallBack extends ItemTouchHelper.SimpleCallback {
             if (viewHolder instanceof RecyclerAdapterAchieved.ViewHolder) {
                 final View foregroundView = ((RecyclerAdapterAchieved.ViewHolder) viewHolder).viewForeground;
                 getDefaultUIUtil().onSelected(foregroundView);
-            } else if (viewHolder instanceof RecyclerAdapterDream.ViewHolder) {
-                final View foregroundView = ((RecyclerAdapterDream.ViewHolder) viewHolder).viewForeground;
+            } else if (viewHolder instanceof RecyclerAdapterDream.ContentViewHolder) {
+                final View foregroundView = ((RecyclerAdapterDream.ContentViewHolder) viewHolder).viewForeground;
                 getDefaultUIUtil().onSelected(foregroundView);
             }
         }
@@ -74,8 +74,8 @@ public class SwipeToDeleteCallBack extends ItemTouchHelper.SimpleCallback {
             final View foregroundView = ((RecyclerAdapterAchieved.ViewHolder) viewHolder).viewForeground;
             getDefaultUIUtil().onDrawOver(c, recyclerView, foregroundView, dX, dY,
                     actionState, isCurrentlyActive);
-        } else if (viewHolder instanceof RecyclerAdapterDream.ViewHolder) {
-            final View foregroundView = ((RecyclerAdapterDream.ViewHolder) viewHolder).viewForeground;
+        } else if (viewHolder instanceof RecyclerAdapterDream.ContentViewHolder) {
+            final View foregroundView = ((RecyclerAdapterDream.ContentViewHolder) viewHolder).viewForeground;
             getDefaultUIUtil().onDrawOver(c, recyclerView, foregroundView, dX, dY,
                     actionState, isCurrentlyActive);
         }
@@ -86,8 +86,8 @@ public class SwipeToDeleteCallBack extends ItemTouchHelper.SimpleCallback {
         if (viewHolder instanceof RecyclerAdapterAchieved.ViewHolder) {
             final View foregroundView = ((RecyclerAdapterAchieved.ViewHolder) viewHolder).viewForeground;
             getDefaultUIUtil().clearView(foregroundView);
-        } else if (viewHolder instanceof RecyclerAdapterDream.ViewHolder) {
-            final View foregroundView = ((RecyclerAdapterDream.ViewHolder) viewHolder).viewForeground;
+        } else if (viewHolder instanceof RecyclerAdapterDream.ContentViewHolder) {
+            final View foregroundView = ((RecyclerAdapterDream.ContentViewHolder) viewHolder).viewForeground;
             getDefaultUIUtil().clearView(foregroundView);
         }
     }
@@ -104,8 +104,8 @@ public class SwipeToDeleteCallBack extends ItemTouchHelper.SimpleCallback {
                 final View foregroundView = ((RecyclerAdapterAchieved.ViewHolder) viewHolder).viewForeground;
                 getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY,
                         actionState, isCurrentlyActive);
-            } else if (viewHolder instanceof RecyclerAdapterDream.ViewHolder) {
-                final View foregroundView = ((RecyclerAdapterDream.ViewHolder) viewHolder).viewForeground;
+            } else if (viewHolder instanceof RecyclerAdapterDream.ContentViewHolder) {
+                final View foregroundView = ((RecyclerAdapterDream.ContentViewHolder) viewHolder).viewForeground;
                 getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY,
                         actionState, isCurrentlyActive);
             }

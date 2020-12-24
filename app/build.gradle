@@ -113,5 +113,7 @@ dependencies {
     implementation 'com.github.denzcoskun:ImageSlideshow:0.0.6'
     implementation 'com.google.android.gms:play-services-ads:19.5.0'
 
+//    implementation project(':nativetemplates')
+
 
 }

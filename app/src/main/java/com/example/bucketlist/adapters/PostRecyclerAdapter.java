@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bucketlist.PostInnerPage;
 import com.example.bucketlist.R;
 import com.example.bucketlist.model.ActivityModel;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,15 +33,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapter.PostViewHolder>
+import static android.content.ContentValues.TAG;
+
+public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapter.ViewHolder>
 implements Filterable {
 
+    private static final int CONTENT_TYPE = 0;
+    public static final int AD_TYPE = 1;
     Context context;
-    List<ActivityModel> modelList;
+    List modelList;
     String whichActivity;
     List<ActivityModel> modelEgList;
 
-    public PostRecyclerAdapter(Context context, List<ActivityModel> modelList, String whichActivity) {
+    public PostRecyclerAdapter(Context context, List modelList, String whichActivity) {
         this.context = context;
         this.modelList = modelList;
         this.whichActivity = whichActivity;
@@ -49,83 +54,114 @@ implements Filterable {
 
     @NonNull
     @Override
-    public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.activity_row, parent, false);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view;
 
-        this.modelEgList= new ArrayList<>( modelList );
-        Log.d("TAG", "PostRecyclerAdapter: " + modelEgList.size());
+        if (viewType == AD_TYPE){
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.banner_ad_container, parent, false);
+            return new AdviewHolder(view);
+        } else  {
+            view = LayoutInflater.from(context).inflate(R.layout.activity_row, parent, false);
 
-        return new PostViewHolder(view);
+            this.modelEgList = new ArrayList<>(modelList);
+            Log.d("TAG", "PostRecyclerAdapter: " + modelEgList.size());
+
+            return new PostViewHolder(view);
+        }
+
 
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull final PostViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder hold, final int position) {
 
-        FirebaseFirestore.getInstance().collection("Users")
-                .document(modelList.get(position).getCreatedByUserID()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error!=null){
-                    Log.e("error",error.getMessage());
+        Object item = modelList.get(position);
+        Log.d(TAG, "onBindViewHolder: " + modelList.size());
+        if (item instanceof ActivityModel) {
+            final PostViewHolder holder = (PostViewHolder) hold;
+            ActivityModel i = (ActivityModel) item;
+            FirebaseFirestore.getInstance().collection("Users")
+                    .document(i.getCreatedByUserID()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                    if (error != null) {
+                        Log.e("error", error.getMessage());
+                    } else {
+                        holder.postedBy.setText(value.getString("Display Name"));
+                    }
                 }
-                else {
-                    holder.postedBy.setText(value.getString("Display Name"));
+            });
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date());
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+
+            sdf.setTimeZone(TimeZone.getDefault());
+            String dateAsText = sdf.format(new Date(i.getTimeStamp()).getTime());
+
+            Log.d("datecreated", dateAsText);
+
+            String[] arr = i.getLocation().split(", ", 0);
+            String cityFilename = arr[0] + ", " + arr[arr.length - 1];
+            holder.location.setText(cityFilename);
+            holder.timeCreated.setText(dateAsText);
+            holder.title.setText(i.getTitle());
+            holder.noOfLikes.setText(Integer.toString(i.getLikes() - i.getDislikes()));
+            holder.totalComments.setText(Integer.toString(i.getTotalComments()) + " comments");
+
+            holder.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent in = new Intent(context, PostInnerPage.class);
+//                    Log.d("123id", i.getPostId());
+                    in.putExtra("postId",((ActivityModel) modelList.get(position)).getPostId());
+                    switch (whichActivity) {
+                        case "city fragment":
+                            in.putExtra("to activity", "city fragment");
+                            break;
+                        case "city inner page":
+                            in.putExtra("to activity", "city inner page");
+                            break;
+                        case "bookmark page":
+                            in.putExtra("to activity", "bookmark page");
+                            break;
+                        case "my post page":
+                            in.putExtra("to activity", "my post page");
+                            break;
+                        case "see more post page":
+                            in.putExtra("to activity", "see more post page");
+                            break;
+                    }
+                    in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(in);
                 }
+            });
+
+        }else {
+            AdView adView =(AdView) modelList.get(position);
+            AdviewHolder adviewHolder = (AdviewHolder) hold;
+
+            ViewGroup adCardView =(ViewGroup) adviewHolder.itemView;
+            Log.d(TAG, "onBindViewHolder: "  + adView.toString());
+
+            if (adCardView.getChildCount() > 0) {
+                adCardView.removeAllViews();
             }
-        });
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
-
-        sdf.setTimeZone(TimeZone.getDefault());
-
-        Log.d("timestamp",Long.toString(modelList.get(position).getTimeStamp()));
-        Log.d("timezone",TimeZone.getDefault().toString());
-        String dateAsText = sdf.format(new Date(modelList.get(position).getTimeStamp()).getTime());
-
-        Log.d("datecreated",dateAsText);
-
-        String[] arr = modelList.get(position).getLocation().split(", ",0);
-        String cityFilename = arr[0] + ", " + arr[arr.length - 1];
-        holder.location.setText(cityFilename);
-        holder.timeCreated.setText(dateAsText);
-        holder.title.setText(modelList.get(position).getTitle());
-        holder.noOfLikes.setText(Integer.toString( modelList.get(position).getLikes() - modelList.get(position).getDislikes()) );
-        holder.totalComments.setText(Integer.toString(modelList.get(position).getTotalComments()) + " comments");
-
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(context, PostInnerPage.class);
-                Log.d("123id",modelList.get(position).getPostId());
-                i.putExtra("postId",modelList.get(position).getPostId());
-                switch (whichActivity){
-                    case "city fragment":
-                        i.putExtra("to activity","city fragment");
-                        break;
-                    case "city inner page":
-                        i.putExtra("to activity","city inner page");
-                        break;
-                    case "bookmark page":
-                        i.putExtra("to activity","bookmark page");
-                        break;
-                    case "my post page":
-                        i.putExtra("to activity","my post page");
-                        break;
-                    case "see more post page":
-                        i.putExtra("to activity","see more post page");
-                        break;
-                }
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(i);
+            if (adCardView.getParent() != null) {
+                ((ViewGroup) adView.getParent()).removeView(adView);
             }
-        });
 
+            adCardView.addView(adView);
+        }
+    }
 
-
+    @Override
+    public int getItemViewType(int position) {
+        if (modelList.get(position) instanceof AdView)
+                return AD_TYPE;
+        else return CONTENT_TYPE;
     }
 
     @Override
@@ -141,20 +177,23 @@ implements Filterable {
     private  Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<ActivityModel> filterd = new ArrayList<>();
+            List filterd = new ArrayList<>();
 
             if (constraint == null || constraint.length() == 0) {
                 filterd.addAll(modelEgList);
             } else {
                 String patttern = constraint.toString().toLowerCase().trim();
 
-                for (ActivityModel item : modelEgList) {
-                    if (item.getTitle().toLowerCase().contains(patttern)
-                            || (item.getCategory() != null && item.getCategory().toString()
-                            .toLowerCase().contains(patttern) )
-                            || item.getLocation().toLowerCase().contains(patttern)
-                    ) {
-                        filterd.add(item);
+                for (Object i : modelEgList) {
+                    if(i instanceof ActivityModel) {
+                        ActivityModel item = (ActivityModel) i;
+                        if (item.getTitle().toLowerCase().contains(patttern)
+                                || (item.getCategory() != null && item.getCategory().toString()
+                                .toLowerCase().contains(patttern))
+                                || item.getLocation().toLowerCase().contains(patttern)
+                        ) {
+                            filterd.add(item);
+                        }
                     }
                 }
             }
@@ -172,7 +211,20 @@ implements Filterable {
         }
     };
 
-    class PostViewHolder extends RecyclerView.ViewHolder{
+    public abstract class ViewHolder extends RecyclerView.ViewHolder{
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+    }
+
+    private class AdviewHolder extends ViewHolder {
+        public AdviewHolder(@NonNull final View itemView) {
+            super(itemView);
+        }
+    }
+
+    class PostViewHolder extends ViewHolder{
 
         TextView postedBy,location,timeCreated,title,noOfLikes,totalComments;
         ImageView likeButton;
