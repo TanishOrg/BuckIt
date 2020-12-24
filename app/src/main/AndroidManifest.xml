@@ -23,6 +23,7 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-9294609745811905~4321796925"/>
+
         <activity android:name=".EditPostPage"></activity>
         <activity android:name=".fragments.homePageFragment.SearchActivity">
 

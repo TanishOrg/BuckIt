@@ -30,6 +30,9 @@ import com.example.bucketlist.adapters.PostRecyclerAdapter;
 import com.example.bucketlist.fragments.homePageFragment.CityFragment;
 import com.example.bucketlist.model.ActivityModel;
 import com.example.bucketlist.model.CityModel;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -42,17 +45,20 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.bucketlist.R.id.parent;
 import static com.example.bucketlist.R.id.searchView;
 
 public class SeemorePosts extends AppCompatActivity{
 
     PostRecyclerAdapter postRecyclerAdapter;
-    List<ActivityModel> List;
+    List<Object> list;
     FirebaseFirestore firestore;
     RecyclerView postRecyclerView;
     TextView title;
     Toolbar toolBar;
     private SwipeRefreshLayout refreshLayout;
+
+    public static final String BANNER_TEST_ID = "ca-app-pub-3940256099942544/6300978111";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +107,7 @@ public class SeemorePosts extends AppCompatActivity{
 
     public void PostLoading(){
 
-        List = new ArrayList<>();
+        list = new ArrayList<>();
 
         CollectionReference collectionReference = firestore.collection("Posts");
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -113,23 +119,39 @@ public class SeemorePosts extends AppCompatActivity{
                 }
                 else{
                     for (final QueryDocumentSnapshot snapshot : value){
-                        List.add(new ActivityModel(snapshot.getString("createdBy"),
+                        list.add(new ActivityModel(snapshot.getString("createdBy"),
                                 snapshot.getString("title"),
                                 snapshot.getLong("timeStamp").longValue(),
                                 snapshot.getString("location"),
                                 snapshot.getLong("likes").intValue(),
                                 snapshot.getLong("dislikes").intValue(),
                                 snapshot.getId(),snapshot.getLong("total comments").intValue()));
-                        postRecyclerAdapter.notifyDataSetChanged();
 
                     }
 
+                    int size = list.size();
+                    for (int i= size-1; i >=0; i -= 4) {
+                        final AdView adView = new AdView(getApplicationContext());
+                        adView.setAdSize(AdSize.BANNER);
+//                                adView.setAdUnitId(BANNER_AD_ID);
+                        adView.setAdUnitId(BANNER_TEST_ID);
+                        list.add(i, adView);
+                    }
 
+                    for (int i = 0; i < list.size(); i++) {
+                        Object adView = list.get(i);
+
+                        if (adView instanceof AdView) {
+                            final AdView view = (AdView) adView;
+                            view.loadAd(new AdRequest.Builder().build());
+                        }
+                    }
+                    postRecyclerAdapter.notifyDataSetChanged();
                 }
             }
         });
 
-        postRecyclerAdapter = new PostRecyclerAdapter(this,List,"see more post page");
+        postRecyclerAdapter = new PostRecyclerAdapter(this,list,"see more post page");
         postRecyclerView.setAdapter(postRecyclerAdapter);
 
 

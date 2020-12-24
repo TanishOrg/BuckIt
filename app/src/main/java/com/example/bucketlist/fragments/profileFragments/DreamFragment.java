@@ -25,6 +25,10 @@ import com.example.bucketlist.model.BucketItemModify;
 import com.example.bucketlist.model.BucketItems;
 import com.example.bucketlist.model.OnItemDeleteFireBase;
 import com.example.bucketlist.model.ProfileFragmentPart;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -48,7 +52,7 @@ implements ProfileFragmentPart {
 
     private RecyclerView recyclerView;
     private RecyclerAdapterDream recyclerAdapterDream;
-    private List<BucketItems> bucketItems = new ArrayList<>();
+    private List bucketItems = new ArrayList<>();
     private View view;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
@@ -58,14 +62,17 @@ implements ProfileFragmentPart {
     public RelativeLayout floatingOptionLayout;
     public TextView counterTextView;
     private ImageView clearButton;
-    public List<BucketItems> bucketItemsListToRemove = new ArrayList<>();
+    public List bucketItemsListToRemove = new ArrayList<>();
     public int count=0;
     public   int fposition = -1;
+
+    public static final String BANNER_AD_ID = "ca-app-pub-9294609745811905/6910554364";
+    public static final String BANNER_TEST_ID = "ca-app-pub-3940256099942544/6300978111";
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
          view = inflater.inflate(R.layout.fragment_dream,container,false);
-        deleteMultiItem = view.findViewById(R.id.delete_dream);
+         deleteMultiItem = view.findViewById(R.id.delete_dream);
         floatingOptionLayout = view.findViewById(R.id.floatingOptionLayout);
         counterTextView = view.findViewById(R.id.counterTextView);
         clearButton = view.findViewById(R.id.clearButton);
@@ -81,11 +88,6 @@ implements ProfileFragmentPart {
         fireStore = FirebaseFirestore.getInstance();
         getDataFromFireStore(fireStore);
 
-//        DatabaseHandler db = new DatabaseHandler(getContext());
-//        if (db.getItemsCount() >0) items = db.getAllItems();
-//        recyclerView = view.findViewById(R.id.recyclerView);
-//        recyclerAdapterDream =new RecyclerAdapterDream(getContext(),bucketItems);
-//        recyclerView.setAdapter(recyclerAdapterDream);
 
     }
     @Override
@@ -100,6 +102,8 @@ implements ProfileFragmentPart {
         recyclerView = view.findViewById(R.id.recyclerViewDream);
 
         mAuth = FirebaseAuth.getInstance();
+
+        MobileAds.initialize(getContext().getApplicationContext());
 
         recyclerAdapterDream =new RecyclerAdapterDream(getContext(), bucketItems, new BucketItemModify() {
             @Override
@@ -132,20 +136,7 @@ implements ProfileFragmentPart {
     public void getDataFromFireStore(FirebaseFirestore fireStore) {
         CollectionReference collection = fireStore.collection("Users").document(mUser.getUid())
                 .collection("items");
-//        collection.orderBy("dateItemAdded", Query.Direction.DESCENDING).whereEqualTo("achieved", false).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//            @Override
-//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//
-//                for(QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
-//                    BucketItems item = BucketItems.hashToObject( snapshot.getData(),snapshot.getId());
-//                    bucketItems.add(item);
-//                }
-//
-//                recyclerAdapterDream.notifyDataSetChanged();
-//
-//            }
-//        });
-
+        
         Query query = Constants.filterCategory.equals("") ? collection
                 .orderBy("dateItemAdded", Query.Direction.DESCENDING)
                 .whereEqualTo("achieved", false)
@@ -167,24 +158,30 @@ implements ProfileFragmentPart {
                                 BucketItems item = BucketItems.hashToObject( snapshot.getData(),snapshot.getId());
                                 bucketItems.add(item);
                             }
+
+                            //todo - changes has been made to add ads in the recycler view
+                            int size = bucketItems.size();
+                            for (int i= size-1; i >=0; i -= 4) {
+                                final AdView adView = new AdView(getContext());
+                                adView.setAdSize(AdSize.BANNER);
+//                                adView.setAdUnitId(BANNER_AD_ID);
+                                adView.setAdUnitId(BANNER_TEST_ID);
+                                bucketItems.add(i, adView);
+                            }
+
+                            for (int i = 0; i < bucketItems.size(); i++) {
+                                Object adView = bucketItems.get(i);
+
+                                if (adView instanceof AdView) {
+                                    final AdView view = (AdView) adView;
+
+                                    view.loadAd(new AdRequest.Builder().build());
+                                }
+                            }
                             recyclerAdapterDream.notifyDataSetChanged();
-                        }
+                       }
                     }
                });
-
-//               query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                   @Override
-//                   public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                       if (task.isSuccessful()){
-//                           bucketItems.clear();
-//                           for (QueryDocumentSnapshot document : task.getResult()) {
-//                               BucketItems item = BucketItems.hashToObject( document.getData(),document.getId());
-//                               bucketItems.add(item);
-//                           }
-//                           recyclerAdapterDream.notifyDataSetChanged();
-//                       }
-//                   }
-//               });
     }
 
 

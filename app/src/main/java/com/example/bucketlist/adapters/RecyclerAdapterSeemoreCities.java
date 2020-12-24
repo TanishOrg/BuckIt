@@ -20,16 +20,20 @@ import com.example.bucketlist.CityInnerPage;
 import com.example.bucketlist.R;
 import com.example.bucketlist.model.ActivityModel;
 import com.example.bucketlist.model.CityModel;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerAdapterSeemoreCities extends RecyclerView.Adapter<RecyclerAdapterSeemoreCities.viewHolder>
-implements Filterable {
-    Context context;
-    List<CityModel> cityModelList;
-    List<CityModel> modelEgList;
+import static android.content.ContentValues.TAG;
 
+public class RecyclerAdapterSeemoreCities extends RecyclerView.Adapter<RecyclerAdapterSeemoreCities.ViewHolder>
+implements Filterable {
+    private static final int CONTENT_CODE = 0 ;
+    private static final int AD_CODE = 1;
+    Context context;
+    List cityModelList;
+    List modelEgList;
     public RecyclerAdapterSeemoreCities(Context context, List<CityModel> cityModelList) {
         this.context = context;
         this.cityModelList = cityModelList;
@@ -37,34 +41,77 @@ implements Filterable {
 
     @NonNull
     @Override
-    public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.see_more_cities_item,parent,false);
-        this.modelEgList= new ArrayList<>( cityModelList );
-        return new viewHolder(view);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view ;
+
+        if (viewType == CONTENT_CODE) {
+            view = LayoutInflater.from(context).inflate(R.layout.see_more_cities_item,parent,false);
+            this.modelEgList= new ArrayList<>( cityModelList );
+            return new ContentViewHolder(view);
+        } else  {
+            Log.d(TAG, "onCreateViewHolder: ADTYPE");
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.banner_ad_container, parent, false);
+
+
+            return new AdViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerAdapterSeemoreCities.viewHolder viewHolder, final int position) {
-        viewHolder.city_name.setText(cityModelList.get(position).getCity());
-        viewHolder.country_name.setText(cityModelList.get(position).getCountry());
-        Log.d("name",viewHolder.city_name.getText().toString());
-        Glide.with(context).load(cityModelList.get(position).getImage()).into(viewHolder.imageView);
-        Log.d("id",cityModelList.get(position).getStringId());
+    public void onBindViewHolder(@NonNull RecyclerAdapterSeemoreCities.ViewHolder holder, final int position) {
+        Object i = cityModelList.get(position);
 
-        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(view.getContext(), CityInnerPage.class);
-                i.putExtra("cityId",cityModelList.get(position).getStringId());
-                view.getContext().startActivity(i);
+        if (i instanceof CityModel) {
+
+            ContentViewHolder viewHolder = (ContentViewHolder) holder;
+            CityModel item = (CityModel) cityModelList.get(position);
+            viewHolder.city_name.setText(item.getCity());
+            viewHolder.country_name.setText(item.getCountry());
+            Log.d("name",viewHolder.city_name.getText().toString());
+            Glide.with(context).load(item.getImage()).into(viewHolder.imageView);
+            Log.d("id",item.getStringId());
+
+            viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(view.getContext(), CityInnerPage.class);
+                    i.putExtra("cityId",((CityModel) cityModelList.get(position)).getStringId());
+                    view.getContext().startActivity(i);
+                }
+            });
+
+        } else  {
+            AdView adView =(AdView) cityModelList.get(position);
+            AdViewHolder adviewHolder = (AdViewHolder) holder;
+
+            ViewGroup adCardView =(ViewGroup) adviewHolder.itemView;
+            Log.d(TAG, "onBindViewHolder: Hello "  + adView.toString());
+
+            if (adCardView.getChildCount() > 0) {
+                adCardView.removeAllViews();
             }
-        });
 
+            if (adCardView.getParent() != null) {
+                ((ViewGroup) adView.getParent()).removeView(adView);
+            }
+
+            adCardView.addView(adView);
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (cityModelList.get(position) instanceof CityModel){
+            return CONTENT_CODE;
+        } else {
+            Log.d(TAG, "getItemViewType: ADTYPE");
+            return AD_CODE;
+        }
     }
 
     @Override
     public int getItemCount() {
-        return cityModelList.size();
+        return cityModelList != null ? cityModelList.size() : 0;
     }
 
     @Override
@@ -76,19 +123,22 @@ implements Filterable {
 
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
-            List<CityModel> filterd = new ArrayList<>();
+            List filterd = new ArrayList<>();
             if (charSequence == null || charSequence.length() == 0) {
                 filterd.addAll(modelEgList);
             }else {
                 String patttern = charSequence.toString().toLowerCase().trim();
 
-                for (CityModel item : modelEgList) {
-                    if (item.getCity().toLowerCase().contains(patttern)
-                            || (item.getCountry() != null && item.getCountry()
-                            .toLowerCase().contains(patttern) )
-                            || item.getStringId().toLowerCase().contains(patttern)
-                    ) {
-                        filterd.add(item);
+                for (Object i : modelEgList) {
+                    if (i instanceof CityModel){
+                        CityModel item = (CityModel) i;
+                        if (item.getCity().toLowerCase().contains(patttern)
+                                || (item.getCountry() != null && item.getCountry()
+                                .toLowerCase().contains(patttern) )
+                                || item.getStringId().toLowerCase().contains(patttern)
+                        ) {
+                            filterd.add(item);
+                        }
                     }
                 }
             }
@@ -106,12 +156,25 @@ implements Filterable {
         }
     };
 
-    class viewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends  RecyclerView.ViewHolder{
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+    }
+
+    class AdViewHolder extends  ViewHolder{
+
+        public AdViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+    }
+    class ContentViewHolder extends ViewHolder{
 
         ImageView imageView;
         TextView city_name,country_name;
         CardView cardView;
-        public viewHolder(@NonNull View itemView) {
+        public ContentViewHolder(@NonNull View itemView) {
             super(itemView);
 
             imageView = itemView.findViewById(R.id.backgroundImage);
