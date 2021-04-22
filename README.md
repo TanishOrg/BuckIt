@@ -1,6 +1,6 @@
 # BucketList
 
-With the equal contribution from my batchmates Nirbhay Kumar and Taniya Gehlaut, we have been able to build an android application using Firebase service. This is our first personal project namely BuckIt.
+We have been able to build an android application using Firebase service. This is our first personal project namely BuckIt.
 
 BuckIt allow users to share their personal experience of the cities around the world.
 
