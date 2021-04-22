@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddNewCity">
+
+
+    <TextView
+        android:id="@+id/pagetitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Add City"
+        android:textSize="44dp"
+        android:textColor="#191818"
+        android:gravity="left|center"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="30dp"/>
+
+    <RelativeLayout
+        android:id="@+id/addCityLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/pagetitle"
+        android:layout_marginTop="10dp">
+
+        <AutoCompleteTextView
+            android:id="@+id/addCityEditText"
+            android:layout_width="match_parent"
+            android:layout_toStartOf="@id/smallRelativeLayout"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_marginRight="10dp"
+            android:paddingStart="23dp"
+            android:hint="Add cities"
+            android:fontFamily="@font/nunito_bold"
+            android:background="@drawable/searchbackground"
+            android:textSize="16dp"
+            android:layout_centerVertical="true"
+            android:gravity="left"
+            android:singleLine="true"
+            android:elevation="4dp" />
+
+        <RelativeLayout
+            android:id="@+id/smallRelativeLayout"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+
+            android:layout_alignParentRight="true">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/circularbutton"
+                android:backgroundTint="@color/white"
+                />
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/ic_round_add_24"
+                android:backgroundTint="@color/greenishcolor"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:layout_marginLeft="30dp"
+        android:layout_below="@id/addCityLayout"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Choose background" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/text"
+        android:layout_marginTop="3dp"
+        android:layout_above="@id/buttonsLayout"
+        android:layout_marginBottom="70dp"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"/>
+
+
+    <RelativeLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp">
+
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:text="cancel"
+            android:fontFamily="@font/nunito_bold"
+            android:layout_toStartOf="@id/createButton"
+            android:padding="16dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/greenishcolor"
+            android:textSize="16dp"
+            android:backgroundTint="@null"
+            android:background="@drawable/moreroundbutton"/>
+        <Button
+            android:id="@+id/createButton"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Create"
+            android:layout_alignParentRight="true"
+            android:fontFamily="@font/nunito_bold"
+            android:padding="16dp"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:backgroundTint="@color/greenishcolor"
+            android:background="@drawable/moreroundbutton"/>
+
+
+
+
+
+
+    </RelativeLayout>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_centerInParent="true"
+        android:theme="@style/AppTheme.WhiteAccent"
+        android:visibility="gone"
+       />
+
+</RelativeLayout>

@@ -1,15 +1,250 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_purple">
+    android:theme="@style/CustomTheme"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="24dp"
+    android:id="@+id/drawer">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CITY"
-        android:textSize="32dp"
-        android:textColor="#ffffff"
-        android:layout_centerInParent="true"/>
+   <androidx.coordinatorlayout.widget.CoordinatorLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
 
-</RelativeLayout>
+       <com.google.android.material.appbar.AppBarLayout
+           android:id="@+id/appBarLayout"
+           android:background="@null"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           >
+           <com.google.android.material.appbar.CollapsingToolbarLayout
+               android:id="@+id/collapsingToolBar"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               app:contentScrim="@color/colorwhite"
+               android:fitsSystemWindows="true"
+
+               app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+               android:theme="@style/ThemeOverlay.MaterialComponents.Light">
+
+
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   app:layout_collapseMode="parallax">
+
+
+                   <TextView
+                       android:id="@+id/pagetitle"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:text="Share your\nexperience with\nwhole world"
+                       android:textSize="30dp"
+                       android:fontFamily="@font/nunito_bold"
+                       android:layout_marginTop="80dp"
+                       android:textColor="#001030"
+                       android:layout_marginHorizontal="20dp"/>
+
+
+                   <EditText
+                       android:id="@+id/activity"
+                       android:layout_width="match_parent"
+                       android:layout_height="48dp"
+                       android:layout_below="@id/pagetitle"
+                       android:layout_marginTop="20dp"
+                       android:background="@drawable/edit_text_background"
+                       android:backgroundTint="#EAEAEA"
+                       android:layout_marginBottom="20dp"
+                       android:layout_marginRight="170dp"
+                       android:hint="create post"
+                       android:paddingHorizontal="13dp"
+                       android:drawableRight="@drawable/ic_baseline_edit_24"
+                       android:drawableTint="#676767"
+                       android:focusable="false"
+                       android:layout_marginLeft="20dp"/>
+
+
+                   <TextView
+                       android:id="@+id/city"
+                       android:layout_width="wrap_content"
+                       android:layout_height="48dp"
+                       android:layout_below="@id/pagetitle"
+                       android:layout_alignParentRight="true"
+                       android:text="Add city"
+                       android:textSize="18dp"
+                       android:fontFamily="@font/nunito_bold"
+                       android:gravity="center"
+                       android:paddingHorizontal="30dp"
+                       android:layout_marginTop="20dp"
+                       android:layout_marginRight="20dp"
+                       android:background="@drawable/edit_text_background"/>
+
+               </RelativeLayout>
+
+               <androidx.appcompat.widget.Toolbar
+                   android:id="@+id/toolBar"
+                   android:layout_width="match_parent"
+                   android:layout_height="?attr/actionBarSize"
+                   android:background="@color/white"
+                   app:layout_collapseMode="pin"
+                   android:theme="@style/ThemeOverlay.MaterialComponents.Light"
+                   app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light">
+
+                   <RelativeLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent">
+                       <!--                    <ImageView-->
+                       <!--                        android:layout_width="wrap_content"-->
+                       <!--                        android:layout_height="wrap_content"-->
+                       <!--                        android:src="@drawable/ic_round_menu_24"-->
+                       <!--                        app:tint="@color/blackcolor"-->
+                       <!--                        android:layout_centerVertical="true"-->
+                       <!--                        android:padding="4dp" />-->
+
+
+                       <ImageView
+                           android:id="@+id/searchView"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:src="@drawable/ic_baseline_search_24"
+                           android:layout_centerVertical="true"
+                           android:layout_marginRight="16dp"
+                           android:padding="4dp"
+                           android:layout_alignParentRight="true"
+                           android:layout_marginTop="20dp"
+                           />
+
+                   </RelativeLayout>
+
+
+               </androidx.appcompat.widget.Toolbar>
+
+           </com.google.android.material.appbar.CollapsingToolbarLayout>
+       </com.google.android.material.appbar.AppBarLayout>
+
+
+       <androidx.core.widget.NestedScrollView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+           android:clipToPadding="false">
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:orientation="vertical">
+
+               <androidx.viewpager.widget.ViewPager
+                   android:id="@+id/viewPager"
+                   android:layout_width="match_parent"
+                   android:layout_height="360dp"
+
+                   android:layout_weight="1"
+                   android:layout_marginTop="10dp"
+                   android:overScrollMode="ifContentScrolls"
+                   android:clipToPadding="false"
+                   />
+
+
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="35dp"
+                   android:layout_marginHorizontal="16dp"
+                   android:orientation="horizontal">
+                   <TextView
+                       android:id="@+id/textTrending"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="Trending"
+                       android:textSize="20dp"
+                       android:gravity="center|start"
+                       android:paddingTop="5dp"
+                       android:fontFamily="@font/nunito_bold"
+
+
+
+                       android:textColor="#1B1B1B"/>
+
+                   <TextView
+                       android:id="@+id/seemore"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:text="more"
+                       android:textSize="16dp"
+                       android:gravity="end|center"
+
+                       android:fontFamily="@font/nunito_bold"
+                       android:textColor="#009688"/>
+               </LinearLayout>
+
+               <androidx.recyclerview.widget.RecyclerView
+                   android:id="@+id/recycler_view"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="9dp" />
+
+
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="35dp"
+                   android:layout_marginHorizontal="16dp"
+                   android:orientation="horizontal">
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="Posts"
+                       android:textSize="20dp"
+                       android:gravity="center|start"
+                       android:paddingTop="5dp"
+                       android:fontFamily="@font/nunito_bold"
+
+
+
+                       android:textColor="#1B1B1B"/>
+
+                   <TextView
+                        android:id="@+id/postMore"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:text="more"
+                       android:textSize="16dp"
+                       android:gravity="end|center"
+
+                       android:fontFamily="@font/nunito_bold"
+                       android:textColor="#009688"/>
+               </LinearLayout>
+
+
+               <androidx.recyclerview.widget.RecyclerView
+                   android:id="@+id/recycler_view_post"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginBottom="100dp"
+                   app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                   android:orientation="vertical"/>
+
+
+           </LinearLayout>
+
+       </androidx.core.widget.NestedScrollView>
+
+   </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/navigationView"
+        app:menu="@menu/drawer_list"
+        app:itemTextAppearance="@style/customText"
+        app:itemTextColor="#000000"
+        android:layout_gravity="start"
+        app:itemIconTint="#000000"
+        app:headerLayout="@layout/header"
+        android:fitsSystemWindows="true">
+
+    </com.google.android.material.navigation.NavigationView>
+
+
+</androidx.drawerlayout.widget.DrawerLayout>

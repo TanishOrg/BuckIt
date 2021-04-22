@@ -8,21 +8,35 @@
 
 
     <ImageView
+        android:id="@+id/profileBackground"
         android:layout_width="match_parent"
         android:layout_height="170dp"
-        android:background="@color/pink1"/>
+        android:scaleType="centerCrop"
+        android:background="@color/pink1" />
+
+    <ImageView
+
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:background="#750229"
+        android:alpha=".6" />
+
+
+
+
+
 
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileImage"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@drawable/profile_general_image"
-        app:civ_border_width="2dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
         android:contextClickable="true"
+        android:src="@drawable/profile_general_image"
         app:civ_border_color="@color/pink1"
-        android:layout_marginTop="100dp"/>
+        app:civ_border_width="2dp" />
 
 
         <RelativeLayout
@@ -121,9 +135,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="30dp"
         android:padding="10dp"
-        android:src="@drawable/ic_baseline_edit_24" />
+        android:src="@drawable/ic_baseline_edit_24"
+        app:tint="@color/white" />
 
 
     <ImageView
@@ -131,21 +146,53 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_round_arrow_back_24"
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="30dp"
+
         android:padding="10dp"
         />
 
 
-    <Button
-        android:id="@+id/signoutButton"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true">
+
+        <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Account"
+        android:textColor="#5C5C5C"
+        android:background="@null"
         android:padding="16dp"
-        android:text="SigNOUT"
-        android:background="@color/colorwhite"
-        android:textColor="@color/pink1"
-        android:textAlignment="textEnd"
-        android:layout_alignParentBottom="true"/>
+        />
+        <Button
+            android:id="@+id/signoutButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:text="SigNOUT"
+            android:background="@null"
+            android:textColor="@color/pink1"
+            android:textAlignment="center"
+
+            android:layout_alignParentBottom="true"/>
+
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar2"
+        android:layout_marginLeft="180dp"
+        android:layout_marginTop="350dp"
+        android:visibility="gone"/>
+
 
 
 </RelativeLayout>

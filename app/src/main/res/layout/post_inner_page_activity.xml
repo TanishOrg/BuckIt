@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="#FBFBFB"
+    tools:context=".PostInnerPage">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#142327"
+        android:elevation="2dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/back_icon_black"
+                app:tint="@color/white" />
+
+            <TextView
+                android:id="@+id/toolbartitle"
+                android:layout_width="match_parent"
+                android:layout_toStartOf="@id/saveBookmark"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="17dp"
+                android:gravity="center|start"
+                android:fontFamily="@font/nunito_bold"
+                android:layout_toEndOf="@id/backButton"
+                android:layout_centerVertical="true"
+                android:textColor="@color/white"
+                android:layout_marginHorizontal="15dp"
+                app:autoSizeMinTextSize="16sp"
+                android:autoSizeTextType="uniform"
+                app:autoSizeStepGranularity="2sp"/>
+
+
+            <ImageView
+                android:id="@+id/saveBookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_baseline_bookmark_border_24"
+                android:layout_alignParentRight="true"
+                app:tint="@color/white"
+                android:layout_marginHorizontal="10dp"/>
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+  <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+      android:id="@+id/refreshLayout"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_below="@id/toolBar"
+      android:layout_above="@id/layout">
+      <androidx.core.widget.NestedScrollView
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          >
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="10dp"
+              android:background="@color/white"
+              android:orientation="vertical">
+
+              <TextView
+                  android:id="@+id/location"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginHorizontal="10dp"
+                  android:layout_marginTop="10dp"
+                  android:textColor="#142327"
+                  android:textSize="17dp"
+                  android:text=""
+                  android:fontFamily="@font/nunito_bold"/>
+
+              <LinearLayout
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginHorizontal="10dp"
+                  android:orientation="horizontal">
+                  <TextView
+                      android:id="@+id/createdBy"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textColor="#142327"
+                      android:textSize="13dp"
+                      android:text=""
+                      android:fontFamily="@font/nunito"/>
+
+                  <ImageView
+                      android:layout_width="2dp"
+                      android:layout_height="2dp"
+                      android:src="@drawable/dot"
+                      android:layout_marginHorizontal="10dp"
+                      android:layout_marginTop="2dp"
+                      android:layout_gravity="center"/>
+
+                  <TextView
+                      android:id="@+id/timeCreated"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textColor="#142327"
+                      android:textSize="13dp"
+                      android:text=""
+                      android:fontFamily="@font/nunito"/>
+              </LinearLayout>
+
+
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginVertical="10dp"
+                  android:layout_marginHorizontal="10dp"
+                  android:orientation="vertical">
+
+                  <TextView
+                      android:id="@+id/titleView"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:textSize="20dp"
+                      android:fontFamily="@font/nunito_bold"
+                      android:textColor="#142327"
+                      android:text=""/>
+
+                  <TextView
+                      android:id="@+id/descriptionView"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:textSize="16dp"
+                      android:textColor="#202020"
+                      android:fontFamily="sans-serif-light"
+                      android:lineSpacingExtra="2dp"
+                      android:layout_marginHorizontal="3dp"
+                      android:text=""/>
+
+
+              </LinearLayout>
+
+              <RelativeLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="15dp">
+
+                  <TextView
+                      android:id="@+id/points"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textColor="#787777"
+                      android:fontFamily="@font/nunito_bold"
+                      android:layout_marginLeft="10dp"
+                      android:layout_centerVertical="true"
+                      android:gravity="center"
+                      android:textSize="16dp"
+                      android:text=""/>
+
+                  <ImageView
+                      android:id="@+id/a"
+                      android:layout_width="3dp"
+                      android:layout_height="3dp"
+                      android:src="@drawable/dot"
+                      android:layout_toEndOf="@id/points"
+                      android:layout_marginHorizontal="10dp"
+                      android:layout_marginTop="2dp"
+                      android:layout_centerVertical="true"/>
+
+                  <TextView
+                      android:id="@+id/noOfComments"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textColor="#787777"
+                      android:fontFamily="@font/nunito_bold"
+                      android:layout_marginRight="10dp"
+                      android:layout_toEndOf="@id/a"
+                      android:layout_centerVertical="true"
+                      android:gravity="center"
+                      android:textSize="16dp"
+                      android:text=""/>
+                  <LinearLayout
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_alignParentRight="true"
+                      android:layout_marginHorizontal="10dp">
+                      <ImageView
+                          android:id="@+id/likeButton"
+                          android:layout_width="24dp"
+                          android:layout_height="24dp"
+                          android:layout_centerVertical="true"
+                          android:layout_marginRight="10dp"
+                          android:src="@drawable/up_arrow_icon"
+                          app:tint="#142327" />
+
+                      <ImageView
+                          android:id="@+id/dislikeButton"
+                          android:layout_width="24dp"
+                          android:layout_height="24dp"
+                          android:layout_centerVertical="true"
+                          android:src="@drawable/ic_down_arrow_icon"
+                          app:tint="#142327"/>
+                  </LinearLayout>
+
+              </RelativeLayout>
+
+
+              <View
+                  android:layout_width="match_parent"
+                  android:layout_height="1dp"
+                  android:layout_marginTop="10dp"
+                  android:background="#DFDEDE"/>
+
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="Comments"
+                  android:textSize="16dp"
+                  android:fontFamily="@font/nunito_bold"
+                  android:padding="10dp"
+                  android:background="#F8F7F7"/>
+
+              <androidx.recyclerview.widget.RecyclerView
+                  android:id="@+id/commentRecyclerView"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+
+                  app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+          </LinearLayout>
+
+
+
+
+
+
+
+
+      </androidx.core.widget.NestedScrollView>
+  </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+
+       >
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DFDEDE"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userImage"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/default_profile"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"/>
+
+        <EditText
+            android:id="@+id/commentText"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_centerVertical="true"
+
+            android:layout_toEndOf="@id/userImage"
+            android:background="@drawable/edit_text_background"
+            android:backgroundTint="#FFFFFF"
+            android:layout_toStartOf="@id/sendCommentButton"
+            android:layout_marginHorizontal="10dp"
+
+            android:paddingVertical="16dp"
+            android:paddingHorizontal="10dp"
+            android:hint="add comment"
+            android:textSize="16dp"
+            android:fontFamily="@font/nunito"/>
+
+        <ImageView
+            android:id="@+id/sendCommentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_baseline_send_24"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

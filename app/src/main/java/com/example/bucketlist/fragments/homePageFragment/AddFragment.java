@@ -2,16 +2,22 @@ package com.example.bucketlist.fragments.homePageFragment;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,16 +27,20 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import com.example.bucketlist.EditItem;
+import com.example.bucketlist.PopUpShowItem;
 import com.example.bucketlist.R;
 import com.example.bucketlist.data.DatabaseHandler;
 import com.example.bucketlist.model.BucketItems;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
+import com.vansuita.gaussianblur.GaussianBlur;
 
 import java.util.Calendar;
 
@@ -45,12 +55,18 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
     private FirebaseFirestore mFireStore;
     private View view;
 
+
+
+    Dialog myDialog;
+
+
     @Nullable
     @Override
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         mAuth = FirebaseAuth.getInstance();
+
 
         view = inflater.inflate(R.layout.fragment_add, container, false);
         CardView travelCategory = (CardView) view.findViewById(R.id.travelCategory);
@@ -133,13 +149,13 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
 
         alert.setView(view1);
 
-        final AlertDialog alertDialog = alert.create();
-        alertDialog.setCanceledOnTouchOutside(false);
+        final AlertDialog addItemAlertDialog = alert.create();
+        addItemAlertDialog.setCanceledOnTouchOutside(false);
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertDialog.dismiss();
+                addItemAlertDialog.dismiss();
 
             }
         });
@@ -186,23 +202,59 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
                     item.setInfo(description);
                     db.addItem(item);
 
+
                     try {
                         FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
                         DocumentReference documentReference = fireStore.collection("Users").document(mUser.getUid())
                                 .collection("items").document();
 
                         item.setDateItemAdded(Long.toString(System.currentTimeMillis()));
-
+                        item.setStringID(documentReference.getId());
                         documentReference.set(item).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Log.d(TAG, "onSuccess: added successfully");
-                                getParentFragmentManager().
-                                        beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).commit();
-                                Toast.makeText(getContext(), "Added to your bucket list", Toast.LENGTH_SHORT).show();
-                                alertDialog.dismiss();
-                                final ChipNavigationBar bottomNav = getActivity().findViewById(R.id.bottom_nav);
-                                bottomNav.setItemSelected(R.id.profile,true);;
+//                                getParentFragmentManager().
+//                                        beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).commit();
+//                                Toast.makeText(getContext(), "Added to your bucket list", Toast.LENGTH_SHORT).show();
+                                addItemAlertDialog.dismiss();
+                                final Dialog myDialog = new Dialog(getContext(),android.R.style.Theme_Translucent_NoTitleBar);
+                                new PopUpShowItem(getContext(),item,mUser,myDialog,true){
+
+                                    @Override
+                                    protected void onCompleteButtonClicked() {
+                                        item.setAchieved(item.isAchieved() ? false:true);
+                                        FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
+                                        DocumentReference documentReference = fireStore.collection("Users").document(mUser.getUid())
+                                                .collection("items").document(item.getStringID());
+                                        documentReference.update(item.toHashMap()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d(TAG, "onSuccess: Sucess" );
+                                                myDialog.dismiss();
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.d(TAG, "onFailure: " + e.getMessage());
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    protected void onEditButtonClick() {
+                                        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext(),R.style.BottomSheetDialogTheme);
+                                        new EditItem(getContext(),item,mUser,bottomSheetDialog){
+
+                                            @Override
+                                            protected void onEditComplete() {
+                                              myDialog.dismiss();
+
+                                            }
+                                        };
+                                    }
+                                };
+
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -221,9 +273,10 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
             }
         });
 
-        alertDialog.show();
+        addItemAlertDialog.show();
 
     }
+
 
 
     private void showDatePickerDialog() {
@@ -281,7 +334,6 @@ public class AddFragment extends Fragment implements DatePickerDialog.OnDateSetL
         String date = monthName + " " + dayOfMonth + ", " + year;
         targetDateText.setText(date);
         targetDateText.setTextColor(getResources().getColor(R.color.blackcolor));
-
     }
 
 

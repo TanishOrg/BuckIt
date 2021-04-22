@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.bucketlist">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <supports-screens
         android:largeScreens="true"
@@ -13,21 +15,49 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/our_app_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/our_app_logo_round"
         android:supportsRtl="true"
         android:theme="@style/CustomTheme">
-        <activity android:name=".layout.userLayout.EditProfileActivity"></activity>
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-9294609745811905~4321796925"/>
+
+        <activity android:name=".EditPostPage"></activity>
+        <activity android:name=".fragments.homePageFragment.SearchActivity">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity android:name=".BookmarkPage" />
+        <activity android:name=".SeemorePosts" />
+        <activity android:name=".PostInnerPage" />
+        <activity android:name=".AddNewPost" />
+        <activity android:name=".AddNewCity" />
+        <activity android:name=".ContactEntyLogin" />
+        <activity android:name=".OtpActivityLogin" />
+        <activity android:name=".SeeMoreCities" />
+        <activity android:name=".CityInnerPage" />
+        <activity android:name=".layout.userLayout.EditProfileActivity" />
         <activity android:name=".layout.userLayout.DetailProfile" />
+        <activity android:name=".myPost" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Theme.AppCompat" />
-        <activity android:name=".layout.loginLayouts.OtpActivityLogin" />
         <activity android:name=".layout.userLayout.UserDetail" />
         <activity android:name=".layout.loginLayouts.OtpActivityRegister" />
         <activity android:name=".layout.userLayout.ContactEntry" />
-        <activity android:name=".HomeActivity" />
+        <activity
+            android:name=".HomeActivity"
+            android:theme="@style/CustomTheme" />
         <activity
             android:name=".layout.openingScreen.Third_Content"
             android:parentActivityName=".layout.openingScreen.SecondContent" />

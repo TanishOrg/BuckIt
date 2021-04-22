@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -47,7 +48,7 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
     Dialog dialog;
 
     UploadTask uploadTask;
-    StorageReference storageReference;
+    StorageReference storageReference , defaultProfileStorageReference;
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
     String password;
@@ -69,7 +70,15 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         storageReference = FirebaseStorage.getInstance().getReference().child(user_id);
+        defaultProfileStorageReference = FirebaseStorage.getInstance().getReference();
+        StorageReference defaultFileRefernce  = defaultProfileStorageReference.child("default_profile.png");
+        defaultFileRefernce.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                StringImageUri = uri.toString();
 
+            }
+        });
        
 
         displayNameText = findViewById(R.id.displayNameText);
@@ -83,10 +92,6 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
 
         completeButton.setOnClickListener(this);
         profileLayout.setOnClickListener(this);
-
-
-
-
 
 
     }//end of on create
@@ -123,7 +128,9 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
                 });
                 progressDialog.dismiss();
                 Intent intent =new Intent(UserDetail.this, HomeActivity.class);
+                finish();
                 startActivity(intent);
+
 
 
             }
@@ -159,8 +166,6 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
         }
     }//end of onActivityResult
 
-
-
     private void uploadImageToFirebase(Uri imageUri) {
                     //upload image to firebase storage
         final StorageReference fileRef  = storageReference.child("profileImage.jpeg");
@@ -193,8 +198,5 @@ public class UserDetail extends AppCompatActivity implements View.OnClickListene
         });
 
     }//uploadImageToFirebase
-
-
-
 
 }//end of class

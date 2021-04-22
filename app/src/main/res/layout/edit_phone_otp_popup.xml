@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="false"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:layout_centerInParent="true"
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="@color/white">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="35dp"
+                android:text="Enter OTP"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="20dp"
+                android:textColor="#00283E" />
+
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enter the OTP to change the  phone number."
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="70dp"
+                android:textSize="13dp"
+                android:textColor="#00283E"
+                android:fontFamily="@font/montserrat"/>
+
+            <EditText
+                android:id="@+id/otpEntry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:background="@drawable/round_border"
+                android:layout_below="@id/message"
+                android:inputType="number"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:hint="Enter OTP"/>
+            <TextView
+                android:id="@+id/feedbackMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:text="feedback mesage"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/verifyButton"
+                android:layout_marginEnd="20dp"
+                android:textAlignment="textEnd"
+                android:textColor="@color/selectediconcolor"/>
+
+            <Button
+                android:id="@+id/verifyButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginHorizontal="20dp"
+                android:gravity="center" android:layout_below="@id/message"
+                android:layout_marginTop="95dp"
+                android:background="@drawable/otpbuttonbackground"
+                android:text="verify"
+                android:padding="16dp"
+                android:textSize="16dp"
+                android:textColor="@color/white" />
+            <ImageView
+                android:id="@+id/clearButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_clear_black_24dp"
+                android:layout_alignParentRight="true"
+                android:padding="10dp"/>
+
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

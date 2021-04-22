@@ -2,11 +2,13 @@ package com.example.bucketlist.layout.loginLayouts;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +21,8 @@ import com.example.bucketlist.R;
 import com.example.bucketlist.layout.userLayout.UserDetail;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthCredential;
@@ -41,31 +45,21 @@ public class OtpActivityRegister extends AppCompatActivity {
     String phoneNumber, id;
 
     private static final String TAG = "MESSAGE ";
-
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp_register);
-
-
         password = getIntent().getStringExtra("password");
         phoneNumber = getIntent().getStringExtra("phonenumber");
-
         mAuth = FirebaseAuth.getInstance();
-
         otp = findViewById(R.id.otp);
-
         verifyButton = findViewById(R.id.verifyButton);
         resend = findViewById(R.id.resend);
 
-
-
-
-
         sendVerificationCode();
-        //ON CLICK VERIFICATION BUTTON
+
         verifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,24 +86,26 @@ public class OtpActivityRegister extends AppCompatActivity {
                 sendVerificationCode();
             }
         });
+
+
     }
 
     private void sendVerificationCode() {
-        new CountDownTimer(60000,1000){
+            new CountDownTimer(60000,1000){
 
-            @Override
-            public void onTick(long millisUntilFinished) {
-             resend.setText("Regenerate OTP in " + millisUntilFinished/1000 + " seconds");
-             resend.setEnabled(false);
-            }
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    resend.setText("Regenerate OTP in " + millisUntilFinished/1000 + " seconds");
+                    resend.setEnabled(false);
+                }
 
-            @Override
-            public void onFinish() {
-                resend.setText("Resend OTP");
-                resend.setEnabled(true);
+                @Override
+                public void onFinish() {
+                    resend.setText("Resend OTP");
+                    resend.setEnabled(true);
 
-            }
-        }.start();
+                }
+            }.start();
 
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 phoneNumber,        // Phone number to verify
@@ -136,14 +132,13 @@ public class OtpActivityRegister extends AppCompatActivity {
                     public void onVerificationFailed(@NonNull FirebaseException e) {
                         Toast.makeText(OtpActivityRegister.this, "Failed", Toast.LENGTH_SHORT).show();
                         if (e instanceof FirebaseAuthInvalidCredentialsException){
-                            Toast.makeText(OtpActivityRegister.this, "Invalid Number", Toast.LENGTH_SHORT).show();
+                            resend.setText("Invalid number");
 
                         }else if (e instanceof FirebaseTooManyRequestsException){
-                            Toast.makeText(OtpActivityRegister.this, "Too many Request", Toast.LENGTH_SHORT).show();
+                            resend.setText("Too many request");
                             resend.setVisibility(View.INVISIBLE);
                         }
                         verifyButton.setEnabled(false);
-                        resend.setVisibility(View.INVISIBLE);
 
                     }
 
@@ -151,29 +146,7 @@ public class OtpActivityRegister extends AppCompatActivity {
                 });
     }
 
-//    public void signInWithPhoneAuthCredential(final PhoneAuthCredential credential) {
-//        mAuth.signInWithCredential(credential)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()) {
-//
-//                            FirebaseUser user = task.getResult().getUser();
-//                            final AlertDialog.Builder alert;
-//                            alert = new AlertDialog.Builder(OtpActivity.this);
-//                            View view1 = getLayoutInflater().inflate(R.layout.verify_popup_window,null);
-//
-//                            alert.setView(view1);
-//
-//                            final AlertDialog alertDialog = alert.create();
-//                            alertDialog.setCanceledOnTouchOutside(false);
-//
-//                        } else {
-//                            Toast.makeText(OtpActivity.this, "Verification failed", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
-//    }
+
 
     private void linkCredential(final AuthCredential credential) {
         mAuth.getCurrentUser().linkWithCredential(credential)
@@ -182,13 +155,14 @@ public class OtpActivityRegister extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     FirebaseUser user = task.getResult().getUser();
-                    Toast.makeText(OtpActivityRegister.this, "Merged", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(OtpActivityRegister.this, "Merged", Toast.LENGTH_SHORT).show();
                     resend.setVisibility(View.INVISIBLE);
 
 
                     final AlertDialog.Builder alert;
                     alert = new AlertDialog.Builder(OtpActivityRegister.this);
                     View view1 = getLayoutInflater().inflate(R.layout.verify_popup_window,null);
+
                     final Button continueButton = view1.findViewById(R.id.continueButton);
                     alert.setView(view1);
 
@@ -210,7 +184,9 @@ public class OtpActivityRegister extends AppCompatActivity {
 
                 }
                 else{
-                    Toast.makeText(OtpActivityRegister.this, "failed to merge"+ task.getException().toString(), Toast.LENGTH_SHORT).show();
+                   resend.setVisibility(View.INVISIBLE);
+                   verifyButton.setEnabled(false);
+                    Toast.makeText(OtpActivityRegister.this, "This phone number ais already been used by another account", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -231,6 +207,8 @@ public class OtpActivityRegister extends AppCompatActivity {
                 });
         // [END auth_link_and_merge]
     }
+
+
 
 
 }

@@ -116,6 +116,32 @@
 
         </Button>
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_below="@id/password_layout2"
+            android:layout_marginTop="40dp"
+            android:elevation="16dp"
+            android:visibility="invisible"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="46dp"
+            android:background="@drawable/progress"/>
+
+
+        <TextView
+            android:id="@+id/text_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:padding="10sp"
+            android:text="Have an account? Login"
+            android:textColor="#FA0A26"
+            android:textSize="16dp" />
+
+
     </RelativeLayout>
 
 

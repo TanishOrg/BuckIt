@@ -1,2 +1,3 @@
+include ':javaPracticals'
 include ':app'
 rootProject.name = "bucketList"

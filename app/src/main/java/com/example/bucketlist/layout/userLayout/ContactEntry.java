@@ -23,7 +23,6 @@ public class ContactEntry extends AppCompatActivity {
     TextView errorText;
     String password;
     Button generateotpButton;
-    ProgressBar generateProgressBar;
     private  PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +35,6 @@ public class ContactEntry extends AppCompatActivity {
 
         generateotpButton = findViewById(R.id.generateotpButton);
         errorText = findViewById(R.id.errorText);
-        generateProgressBar = findViewById(R.id.generateProgressBar);
         codeNumber.registerCarrierNumberEditText(phoneNumber);
 
 
@@ -47,13 +45,12 @@ public class ContactEntry extends AppCompatActivity {
                     errorText.setVisibility(View.VISIBLE);
                     errorText.setText("Please enter your phone number");
                 }
-                else if(phoneNumber.getText().toString().replace(" ","").length()!=10){
+                else if(phoneNumber.getText().toString().replace(" ","").length()>15 && phoneNumber.getText().toString().replace(" ","").length()<9){
                     errorText.setText("Invalid Phone number");
                     errorText.setVisibility(View.VISIBLE);
 
                 }
                 else {
-                    generateProgressBar.setVisibility(View.VISIBLE);
                     Intent i = new Intent(ContactEntry.this, OtpActivityRegister.class);
                     i.putExtra("phonenumber",codeNumber.getFullNumberWithPlus().replace(" ",""));
                     i.putExtra("password",password);

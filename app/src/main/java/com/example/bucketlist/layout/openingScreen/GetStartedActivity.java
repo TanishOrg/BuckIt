@@ -16,6 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bucketlist.HomeActivity;
 import com.example.bucketlist.R;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class GetStartedActivity extends AppCompatActivity {
@@ -37,6 +40,13 @@ public class GetStartedActivity extends AppCompatActivity {
         ea3 = findViewById(R.id.ea3);
         ea4 = findViewById(R.id.ea4);
         logobucketlist = findViewById(R.id.logobucketlist);
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+
+            }
+        });
     }
     //TO NEXT SLIDE FUNCTION
     public void toNextSlide(View view){

@@ -18,6 +18,8 @@
     <color name="blackcolor">#000000</color>
     <color name="lightgray">#EAE9E9</color>
     <color name="disableColor">#818181</color>
+    <color name="greenishcolor">#218D87</color>
+    <color name="postAction">#202020</color>
 
 
 </resources>

@@ -6,40 +6,37 @@
     android:layout_height="match_parent"
     tools:context=".layout.userLayout.EditProfileActivity">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="170dp"
-        android:background="@color/pink1"/>
+
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/editProfileImage"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:src="@drawable/profile_general_image"
-        app:civ_border_width="2dp"
+
         android:layout_centerHorizontal="true"
         android:contextClickable="true"
-        app:civ_border_color="@color/pink1"
         android:layout_marginTop="100dp"/>
-
-    <ImageView
-        android:id="@+id/doneButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="21dp"
-        android:padding="10dp"
-        android:src="@drawable/done_icon" />
 
 
     <ImageView
         android:id="@+id/clearButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/clear_icon"
-        android:layout_marginTop="21dp"
-        android:padding="10dp"
+        android:src="@drawable/back_icon_black"
+        android:layout_marginTop="28dp"
+        android:padding="16dp"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_marginTop="30dp"
+        android:text="Edit Profile"
+         android:layout_centerHorizontal="true"
+        android:textColor="@color/blackcolor"
+        android:fontFamily="@font/montserrat_bold"
+        android:padding="10dp"/>
 
     <RelativeLayout
         android:id="@+id/displayNameLayout"
@@ -53,6 +50,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/nameDoneButton"
             app:hintTextColor="@color/blackcolor"
             android:hint="Display Name"
             >
@@ -91,6 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:hintTextColor="@color/blackcolor"
+            android:layout_toStartOf="@id/emailDoneButton"
             android:hint="Email Address">
 
             <EditText
@@ -124,23 +123,25 @@
         android:layout_marginTop="15dp">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/phoneInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:hintTextColor="@color/blackcolor"
-            android:hint="Phone Number"
-            >
+            android:layout_toStartOf="@id/phoneDoneButton"
+            app:hintTextColor="@color/blackcolor">
 
-            <EditText
-                android:id="@+id/editPhoneNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:textSize="16dp"
-                android:inputType="phone"
-                android:padding="16dp" />
+                <EditText
+                    android:id="@+id/editPhoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
 
+                    android:background="@null"
+                    android:hint="Phone Number"
+                    android:inputType="phone"
+                    android:padding="16dp"
+                    android:textSize="16dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
         <ImageView
             android:id="@+id/phoneDoneButton"
             android:layout_width="wrap_content"

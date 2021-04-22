@@ -2,47 +2,42 @@
 <com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/AppTheme"
-    android:layout_marginBottom="66dp"
+    android:theme="@style/CustomTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     >
     
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="280dp"
-        android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Light">
-        
+        >
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingToolBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:contentScrim="#FFFFFF"
+            android:layout_height="match_parent"
+            app:contentScrim="@color/colorwhite"
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-            app:title="Add dreams"
+            app:title="ADD DREAMS"
             app:expandedTitleTextAppearance="@style/Toolbar.expandedTitleText"
             app:collapsedTitleTextAppearance="@style/Toolbar.collapseTitleText"
-            app:collapsedTitleGravity="center"
-            app:expandedTitleGravity="bottom"
-            android:theme="@style/ThemeOverlay.MaterialComponents.Light">
+
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/background3" />
+                android:src="@mipmap/addfragmentimage" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolBar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:contentInsetStart="0dp"
                 android:elevation="20dp"
+                android:layout_marginTop="24dp"
                 app:layout_collapseMode="pin"
-                android:fitsSystemWindows="true"
-                app:contentInsetStartWithNavigation="0dp"
                 android:theme="@style/ThemeOverlay.MaterialComponents.Light"
                 app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light">
 
@@ -55,10 +50,11 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center"
-        android:layout_marginBottom="50dp"
+
+
         android:clipToPadding="false"
         android:theme="@style/ThemeOverlay.MaterialComponents"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -71,316 +67,306 @@
             android:columnCount="2"
             android:rowCount="2">
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
+                android:id="@+id/travelCategory"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
-                android:padding="2dp"
-                app:cardElevation="4dp"
-                app:cardMaxElevation="8dp"
-                app:cardCornerRadius="15dp"
                 android:clickable="true"
-                android:id="@+id/travelCategory"
-                app:cardBackgroundColor="@color/colorAccent">
+                android:padding="2dp"
+                app:cardBackgroundColor="@color/colorAccent"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="4dp"
+                app:cardMaxElevation="8dp">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/travelillustration"/>
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/travelbackground" />
+
                 <TextView
                     android:id="@+id/travel_text"
+                    style="@style/categories.Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Travel"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="5dp"
                     android:gravity="center"
-                    android:layout_gravity="bottom"
-                    style="@style/categories.Text"/>
+                    android:text="Travel" />
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
+                android:id="@+id/adventureCategory"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
-                app:cardElevation="4dp"
-                app:cardMaxElevation="8dp"
-                app:cardCornerRadius="15dp"
                 android:clickable="true"
-                android:id="@+id/adventureCategory"
-                app:cardBackgroundColor="@color/colorAccent">
+                app:cardBackgroundColor="@color/colorAccent"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="4dp"
+                app:cardMaxElevation="8dp">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/adventureillustration"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/adventurebackground" />
+
                 <TextView
                     android:id="@+id/adventure_text"
+                    style="@style/categories.Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Adventure"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="5dp"
                     android:gravity="center"
-                    android:layout_gravity="bottom"
-                    style="@style/categories.Text"/>
+                    android:text="Adventure" />
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
+                android:id="@+id/foodCategory"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
-                app:cardElevation="4dp"
-                app:cardMaxElevation="8dp"
-                app:cardCornerRadius="15dp"
                 android:clickable="true"
-                android:id="@+id/foodCategory"
-                app:cardBackgroundColor="@color/colorAccent">
+                app:cardBackgroundColor="@color/colorAccent"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="4dp"
+                app:cardMaxElevation="8dp">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/foodillustration"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/foodbackground" />
+
                 <TextView
                     android:id="@+id/food_text"
+                    style="@style/categories.Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Food"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="5dp"
                     android:gravity="center"
-                    android:layout_gravity="bottom"
-                    style="@style/categories.Text"/>
+                    android:text="Food" />
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
+                android:id="@+id/relationCategory"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
-                app:cardElevation="4dp"
-                app:cardMaxElevation="8dp"
-                app:cardCornerRadius="15dp"
                 android:clickable="true"
-                android:id="@+id/relationCategory"
-                app:cardBackgroundColor="@color/colorAccent">
+                app:cardBackgroundColor="@color/colorAccent"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="4dp"
+                app:cardMaxElevation="8dp">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/relationillustration"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/relationbackground" />
+
                 <TextView
                     android:id="@+id/relation_text"
+                    style="@style/categories.Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Relation"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="5dp"
                     android:gravity="center"
-                    android:layout_gravity="bottom"
-                    style="@style/categories.Text"/>
+                    android:text="Relation" />
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
+                android:id="@+id/careerCategory"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
-                app:cardElevation="4dp"
-                app:cardMaxElevation="8dp"
-                app:cardCornerRadius="15dp"
                 android:clickable="true"
-                android:id="@+id/careerCategory"
-                app:cardBackgroundColor="@color/colorAccent">
+                app:cardBackgroundColor="@color/colorAccent"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="4dp"
+                app:cardMaxElevation="8dp">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/careerillustration"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/careerbackground" />
+
                 <TextView
                     android:id="@+id/career_text"
+                    style="@style/categories.Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Career"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="5dp"
                     android:gravity="center"
-                    android:layout_gravity="bottom"
-                    style="@style/categories.Text"/>
+                    android:text="Career" />
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
+                android:id="@+id/financialCategory"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
-                app:cardElevation="4dp"
-                app:cardMaxElevation="8dp"
-                app:cardCornerRadius="15dp"
                 android:clickable="true"
-                android:id="@+id/financialCategory"
-                app:cardBackgroundColor="@color/colorAccent">
+                app:cardBackgroundColor="@color/colorAccent"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="4dp"
+                app:cardMaxElevation="8dp">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/financialillustration"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/financialbackground" />
+
                 <TextView
                     android:id="@+id/financial_text"
+                    style="@style/categories.Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Financial"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="5dp"
                     android:gravity="center"
-                    android:layout_gravity="bottom"
-                    style="@style/categories.Text"/>
+                    android:text="Financial" />
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
+                android:id="@+id/learningCategory"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
-                app:cardElevation="4dp"
-                app:cardMaxElevation="8dp"
-                app:cardCornerRadius="15dp"
                 android:clickable="true"
-                android:id="@+id/learningCategory"
-                app:cardBackgroundColor="@color/colorAccent">
+                app:cardBackgroundColor="@color/colorAccent"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="4dp"
+                app:cardMaxElevation="8dp">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/learningillustration"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/learningbackground" />
+
                 <TextView
                     android:id="@+id/learning_text"
+                    style="@style/categories.Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Learning"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="5dp"
                     android:gravity="center"
-                    android:layout_gravity="bottom"
-                    style="@style/categories.Text"/>
+                    android:text="Learning" />
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
+                android:id="@+id/healthCategory"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
-                app:cardElevation="4dp"
-                app:cardMaxElevation="8dp"
-                app:cardCornerRadius="15dp"
                 android:clickable="true"
-                android:id="@+id/healthCategory"
-                app:cardBackgroundColor="@color/colorAccent">
+                app:cardBackgroundColor="@color/colorAccent"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="4dp"
+                app:cardMaxElevation="8dp">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/healthillustration"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/healthbackground" />
+
                 <TextView
                     android:id="@+id/health_text"
+                    style="@style/categories.Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Health"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="5dp"
                     android:gravity="center"
-                    android:layout_gravity="bottom"
-                    style="@style/categories.Text"/>
+                    android:text="Health" />
 
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
+                android:id="@+id/otherCategory"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
-                app:cardElevation="4dp"
-                app:cardMaxElevation="8dp"
-                app:cardCornerRadius="15dp"
+                android:layout_marginBottom="150dp"
                 android:clickable="true"
-                android:id="@+id/otherCategory"
-                app:cardBackgroundColor="@color/colorAccent">
+                app:cardBackgroundColor="@color/colorAccent"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="4dp"
+                app:cardMaxElevation="8dp">
 
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/otherillustration"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/otherbackground" />
+
                 <TextView
                     android:id="@+id/other_text"
+                    style="@style/categories.Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Other"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="5dp"
                     android:gravity="center"
-                    android:layout_gravity="bottom"
-                    style="@style/categories.Text"/>
+                    android:text="Other" />
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
-                android:clickable="true"
-                android:id="@+id/addCategory"
-                android:layout_gravity="center">
-
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/floatingActionButton2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:clickable="true"
-                    app:srcCompat="@drawable/ic_round_add_24" />
-            </com.google.android.material.card.MaterialCardView>
 
         </GridLayout>
 

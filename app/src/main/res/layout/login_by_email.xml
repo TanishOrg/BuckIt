@@ -36,10 +36,9 @@
             android:id="@+id/login_email_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@id/imageView"
             android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="255dp"
-            android:layout_marginBottom="370dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/round_border"
             android:maxLines="1"
             android:inputType="textEmailAddress"
@@ -57,16 +56,25 @@
             android:inputType="textPassword"
             android:maxLines="1"
             android:padding="16dp"
+            android:layout_below="@id/login_email_text_view"
             android:textSize="16dp"
             android:textColorHint="@android:color/darker_gray"
-            android:layout_marginTop="255dp"
-            android:layout_alignBottom="@id/login_email_text_view"
+            android:layout_marginTop="15dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="300dp"
-            android:layout_alignParentBottom="true"
             android:background="@drawable/round_border"
             android:hint="Password"
              />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/forgotPassword"
+            android:text="Forgot password?"
+            android:textColor="@color/colorbottomnav"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:layout_below="@id/login_password_text_view"
+            android:layout_marginTop="7dp"/>
 
         <Button
             android:id="@+id/login_button"
@@ -74,13 +82,30 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
             android:padding="10dp"
-            android:layout_marginBottom="230dp"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@id/login_password_text_view"
+            android:layout_marginTop="35dp"
             android:background="@drawable/button_pink"
             android:gravity="center"
             android:text="Login"
             android:textColor="@android:color/white"
-            android:textSize="20dp" />
+            android:textSize="16dp" />
+
+        <Button
+            android:id="@+id/goToPhoneLogin_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:padding="10dp"
+            android:elevation="-2dp"
+            android:layout_below="@id/login_button"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/phoneloginbutton"
+            android:gravity="center"
+            android:text="Login via phone"
+            android:textColor="#D3D2D2"
+            android:textSize="16dp" />
+
+
 
 
         <TextView

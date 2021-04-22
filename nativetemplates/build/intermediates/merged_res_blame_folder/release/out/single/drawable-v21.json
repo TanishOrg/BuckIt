@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "E:\\android studio project\\BucketList\\nativetemplates\\build\\intermediates\\res\\merged\\release\\drawable-v21\\abc_dialog_material_background.xml",
+        "source": "C:\\Users\\aggar\\.gradle\\caches\\transforms-2\\files-2.1\\8c555243c2e2ecd49387e0451a19d48c\\appcompat-1.1.0\\res\\drawable-v21\\abc_dialog_material_background.xml"
+    },
+    {
+        "merged": "E:\\android studio project\\BucketList\\nativetemplates\\build\\intermediates\\res\\merged\\release\\drawable-v21\\notification_action_background.xml",
+        "source": "C:\\Users\\aggar\\.gradle\\caches\\transforms-2\\files-2.1\\00f482bd244d0d4f5747d8261f58e943\\core-1.1.0\\res\\drawable-v21\\notification_action_background.xml"
+    },
+    {
+        "merged": "E:\\android studio project\\BucketList\\nativetemplates\\build\\intermediates\\res\\merged\\release\\drawable-v21\\abc_btn_colored_material.xml",
+        "source": "C:\\Users\\aggar\\.gradle\\caches\\transforms-2\\files-2.1\\8c555243c2e2ecd49387e0451a19d48c\\appcompat-1.1.0\\res\\drawable-v21\\abc_btn_colored_material.xml"
+    },
+    {
+        "merged": "E:\\android studio project\\BucketList\\nativetemplates\\build\\intermediates\\res\\merged\\release\\drawable-v21\\abc_action_bar_item_background_material.xml",
+        "source": "C:\\Users\\aggar\\.gradle\\caches\\transforms-2\\files-2.1\\8c555243c2e2ecd49387e0451a19d48c\\appcompat-1.1.0\\res\\drawable-v21\\abc_action_bar_item_background_material.xml"
+    },
+    {
+        "merged": "E:\\android studio project\\BucketList\\nativetemplates\\build\\intermediates\\res\\merged\\release\\drawable-v21\\abc_list_divider_material.xml",
+        "source": "C:\\Users\\aggar\\.gradle\\caches\\transforms-2\\files-2.1\\8c555243c2e2ecd49387e0451a19d48c\\appcompat-1.1.0\\res\\drawable-v21\\abc_list_divider_material.xml"
+    },
+    {
+        "merged": "E:\\android studio project\\BucketList\\nativetemplates\\build\\intermediates\\res\\merged\\release\\drawable-v21\\abc_edit_text_material.xml",
+        "source": "C:\\Users\\aggar\\.gradle\\caches\\transforms-2\\files-2.1\\8c555243c2e2ecd49387e0451a19d48c\\appcompat-1.1.0\\res\\drawable-v21\\abc_edit_text_material.xml"
+    }
+]
