@@ -16,7 +16,7 @@ User can also create and keep track of their personalized bucket list
 ## City Section
 <img src="https://user-images.githubusercontent.com/60540777/115658172-dec60880-a355-11eb-8c37-5d3393ca769c.jpeg" alt="Dreams" width="250"/>
 
-## Going to some new place? Go to our app and get info of famaous places neat it!!
+## Going to some new place? Go to our app and get info of famous places near it!!
 <img src="https://user-images.githubusercontent.com/60540777/115661267-ce645c80-a35a-11eb-9fb6-dc9837c9114f.gif" alt="Dreams" width="250"/>
 
 
