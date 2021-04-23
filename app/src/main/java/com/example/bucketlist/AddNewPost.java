@@ -114,7 +114,7 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
 
 
             if (location!=null){
-             finish();
+                finish();
             }
             else{
                 Intent i = new Intent(getApplicationContext(),HomeActivity.class);
@@ -174,7 +174,7 @@ public class AddNewPost extends AppCompatActivity implements View.OnClickListene
         activityDocumentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-               Snackbar.make(v,"Post created", BaseTransientBottomBar.LENGTH_SHORT);
+                Snackbar.make(v,"Post created", BaseTransientBottomBar.LENGTH_SHORT);
                 if (mInterstitialAd.isLoaded()) {
                     mInterstitialAd.show();
                 } else {

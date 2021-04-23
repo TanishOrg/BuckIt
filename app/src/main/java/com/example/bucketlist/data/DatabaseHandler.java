@@ -72,7 +72,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         db.insert(Constants.TABLE_NAME,null,values);
         Log.d(TAG, "addItem: "
-        + items.toString());
+                + items.toString());
         Log.d(TAG, "addItem: "  + items.isPrivate());
     }
 

@@ -124,7 +124,7 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
                 Log.d("Listener ", "onCompleteListener: " + queryResult.toString());
                 List<String> list = new ArrayList<>();
                 for (CityQuery query: queryResult
-                     ) {
+                ) {
                     list.add(query.getDisplayName());
                 }
                 city = list;
@@ -269,7 +269,7 @@ public class AddNewCity extends AppCompatActivity implements View.OnClickListene
 
     public void uploadToFireStore(String StringCityImageUri){
         String[] arr = addCityEditText.getText().toString().split(", ",0);
-       String cityFilename = arr[0] + ", " + arr[arr.length - 1];
+        String cityFilename = arr[0] + ", " + arr[arr.length - 1];
         long timeInMilliSeconds = System.currentTimeMillis();
         DocumentReference documentReference = firestore.collection("Cities").document(addCityEditText.getText().toString());
         Map<String,Object> user = new HashMap<>();
