@@ -76,6 +76,7 @@ public class FirebaseManager {
                     Log.d("Exception Failed", "onEvent: 0  " + error);
                 }
 
+
                 bucketItems.clear();
                 for (QueryDocumentSnapshot snapshot  :value) {
                     BucketItems item = BucketItems.hashToObject( snapshot.getData(),snapshot.getId());
